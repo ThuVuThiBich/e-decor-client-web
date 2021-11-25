@@ -2,15 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "redux/store";
+import { ThemeProvider } from "@material-ui/styles";
+import { theme } from "assets/css/Common";
+import { CssBaseline } from "@material-ui/core";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </PersistGate>
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

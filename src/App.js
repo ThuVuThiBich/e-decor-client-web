@@ -1,17 +1,21 @@
-import NotFound from 'components/Common/NotFound';
-import Home from 'pages/Home';
-import Login from 'pages/Login';
-import React from 'react';
-import { Route, Switch } from "react-router-dom";
+import Home from "pages/Home";
+import Login from "pages/Login";
+import NotFound from "pages/NotFound";
+import Register from "pages/Register";
+import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 function App() {
+  const user = false;
   return (
     <Switch>
-      <Route path="/login">
-        <Login />
-      </Route>
       <Route exact path="/">
         <Home />
+      </Route>
+
+      <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+      <Route path="/register">
+        {user ? <Redirect to="/" /> : <Register />}
       </Route>
       <Route path="*">
         <NotFound />
