@@ -8,6 +8,7 @@ const Home = () => {
     <div>
       <SubHeader />
       <Header />
+      <div style={{ height: "1000px" }}></div>
       <Footer />
     </div>
   );

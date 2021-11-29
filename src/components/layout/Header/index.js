@@ -6,14 +6,13 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import logo from "assets/icons/logo.png";
+import Logo from "components/common/Logo";
 import React from "react";
 import { useStyles } from "./styles";
 
@@ -103,13 +102,7 @@ export default function Header() {
     <div className={classes.grow}>
       <AppBar>
         <Toolbar className={classes.toolbar}>
-          <div className={classes.logo}>
-            <img src={logo} alt="logo" width={40} />
-            <Typography className={classes.title} variant="h6" noWrap>
-              E-DECOR
-            </Typography>
-          </div>
-
+          <Logo />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

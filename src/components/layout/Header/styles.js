@@ -4,9 +4,13 @@ export const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: "flex",
     justifyContent: "space-between",
+    maxWidth: 1200,
+    margin: "0 auto",
+    width: "100%",
   },
   logo: {
     display: "flex",
+    alignItems: "center",
   },
   grow: {
     flexGrow: 1,
