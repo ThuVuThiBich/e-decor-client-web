@@ -17,12 +17,12 @@ export const commonStyle = makeStyles(() => ({}));
 /* ----------- customized theme styles -------*/
 export const theme = createTheme({
   palette: {
-    primary: {
-      main: primaryColor,
-    },
-    secondary: {
-      main: secondaryColor,
-    },
+    // primary: {
+    //   main: primaryColor,
+    // },
+    // secondary: {
+    //   main: secondaryColor,
+    // },
   },
   typography: {
     h1: {},
@@ -32,8 +32,8 @@ export const theme = createTheme({
     h6: {},
     h5: {},
     button: {
-      fontSize: '1rem',
-      textTransform: 'capitalize',
+      fontSize: "1rem",
+      textTransform: "capitalize",
     },
   },
   overrides: {},
