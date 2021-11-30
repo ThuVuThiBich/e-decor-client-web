@@ -1,7 +1,7 @@
 import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
-import Register from "pages/Register";
+import Register from "pages/SignUp";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 

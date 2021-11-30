@@ -6,7 +6,6 @@ import React from "react";
 const Home = () => {
   return (
     <div>
-      <SubHeader />
       <Header />
       <div style={{ height: "1000px" }}></div>
       <Footer />

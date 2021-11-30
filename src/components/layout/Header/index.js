@@ -1,10 +1,14 @@
 import {
   AppBar,
   Badge,
+  Box,
+  Divider,
   IconButton,
   InputBase,
   Menu,
   MenuItem,
+  OutlinedInput,
+  Paper,
   Toolbar,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -13,11 +17,15 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
-import React from "react";
+import SearchInput from "components/common/SearchInput";
+import React, { useEffect, useState } from "react";
+import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
 
 export default function Header() {
-  const classes = useStyles();
+  const [isVisible, setIsVisible] = useState(true);
+
+  const classes = useStyles({ isVisible });
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -98,24 +106,30 @@ export default function Header() {
     </Menu>
   );
 
+  useEffect(() => {
+    window.addEventListener("scroll", listenToScroll);
+    return () => window.removeEventListener("scroll", listenToScroll);
+  }, []);
+
+  const listenToScroll = () => {
+    let heightToHideFrom = 100;
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+
+    if (winScroll > heightToHideFrom) {
+      isVisible && // to limit setting state only the first time
+        setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  };
   return (
     <div className={classes.grow}>
-      <AppBar>
+      {isVisible && <SubHeader />}
+      <AppBar className={classes.appBar} elevation={0}>
         <Toolbar className={classes.toolbar}>
           <Logo />
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
+          <SearchInput />
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
               <Badge badgeContent={0} color="secondary">
