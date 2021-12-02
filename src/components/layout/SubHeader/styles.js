@@ -30,7 +30,8 @@ export const useStyles = makeStyles((theme) => ({
   box: {
     display: "flex",
     alignItems: "center",
-    marginRight: -8,
+    marginRight: -16,
+    marginLeft: -16,
   },
   divider: {
     backgroundColor: "white",

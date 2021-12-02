@@ -125,7 +125,8 @@ export default function Header() {
   };
   return (
     <div className={classes.grow}>
-      {isVisible && <SubHeader />}
+      {<SubHeader style={{ display: isVisible ? "block" : "none" }} />}
+      {/* {isVisible && <SubHeader />} */}
       <AppBar className={classes.appBar} elevation={0}>
         <Toolbar className={classes.toolbar}>
           <Logo />

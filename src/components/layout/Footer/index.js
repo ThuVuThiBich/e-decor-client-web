@@ -13,7 +13,7 @@ import Logo from "components/common/Logo";
 import React from "react";
 import { useStyles } from "./styles";
 
-export const Footer = () => {
+export default function Footer() {
   const classes = useStyles();
   return (
     <footer>
@@ -232,4 +232,4 @@ export const Footer = () => {
       </Box>
     </footer>
   );
-};
+}

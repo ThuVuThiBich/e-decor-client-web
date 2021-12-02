@@ -11,6 +11,10 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: 1200,
     margin: "0 auto",
     width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: "1rem",
+      paddingRight: "1rem",
+    },
   },
   logo: {
     display: "flex",
