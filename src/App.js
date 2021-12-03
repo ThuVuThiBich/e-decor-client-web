@@ -1,3 +1,5 @@
+import { withAuthLayout } from "hocs";
+import withoutAuth from "hocs/withoutAuth";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
@@ -6,15 +8,12 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 function App() {
-  const user = false;
   return (
     <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
+      <Route path="/" component={withAuthLayout(Home)} exact />
 
-      <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-      <Route path="/register">{user ? <Redirect to="/" /> : <SignUp />}</Route>
+      <Route path={"/login"} component={withoutAuth(Login)} exact />
+      <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
       <Route path="*">
         <NotFound />
       </Route>

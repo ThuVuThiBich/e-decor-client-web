@@ -1,3 +1,5 @@
+import { Container } from "@material-ui/core";
+import Header from "components/auth/Header";
 import LoginForm from "components/auth/LoginForm";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +16,18 @@ const Login = () => {
   };
   return (
     <>
-      <LoginForm />
+      <Header />
+      <Container
+        style={{
+          margin: "auto",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <LoginForm />
+      </Container>
     </>
   );
 };

@@ -9,13 +9,13 @@ import React from "react";
 const Home = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Container style={{ paddingTop: 150 }}>
         <TopPicks />
         <FeaturedCategories />
         <IdeasBlog />
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
