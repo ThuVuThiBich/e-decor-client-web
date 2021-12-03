@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <Container style={{ height: "1000px", paddingTop: 150 }}>
+      <Container style={{ paddingTop: 150 }}>
         <TopPicks />
         <FeaturedCategories />
       </Container>
