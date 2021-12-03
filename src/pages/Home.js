@@ -1,5 +1,6 @@
 import { Container } from "@material-ui/core";
 import FeaturedCategories from "components/home/featuredCategories";
+import IdeasBlog from "components/home/ideasBlog";
 import TopPicks from "components/home/topPicks";
 import Footer from "components/layout/Footer";
 import Header from "components/layout/Header";
@@ -12,6 +13,7 @@ const Home = () => {
       <Container style={{ paddingTop: 150 }}>
         <TopPicks />
         <FeaturedCategories />
+        <IdeasBlog />
       </Container>
       <Footer />
     </div>
