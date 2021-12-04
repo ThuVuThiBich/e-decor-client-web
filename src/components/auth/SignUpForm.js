@@ -1,8 +1,9 @@
 import {
   Box,
   Button,
-  Divider,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = (props) => {
+const SignUpForm = (props) => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
@@ -91,6 +92,7 @@ const LoginForm = (props) => {
     showPassword: false,
   });
 
+  const [check, setCheck] = useState(false);
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -102,7 +104,9 @@ const LoginForm = (props) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const handleChangeCheck = () => {
+    setCheck(!check);
+  };
   const handleFormSubmit = () => {};
   return (
     <Paper className={classes.root} elevation={2}>
@@ -110,11 +114,24 @@ const LoginForm = (props) => {
         <form className={classes.form} onSubmit={handleFormSubmit}>
           <Box mb={2} display="flex" alignItems="center" flexDirection="column">
             <Typography variant="h5" className={classes.welcome}>
-              Welcome To E-Decor
+              Create Your Account
             </Typography>
-            <Typography>Log in with email & password</Typography>
+            <Typography>Please fill all fields to continue</Typography>
           </Box>
 
+          <FormControl
+            className={clsx(classes.margin, classes.textField)}
+            variant="outlined"
+          >
+            <InputLabel htmlFor="outlined-full-name">Full Name *</InputLabel>
+            <OutlinedInput
+              id="outlined-full-name"
+              type={"text"}
+              value={values.fullName}
+              onChange={handleChange("fullName")}
+              labelWidth={60}
+            />
+          </FormControl>
           <FormControl
             className={clsx(classes.margin, classes.textField)}
             variant="outlined"
@@ -153,7 +170,47 @@ const LoginForm = (props) => {
               labelWidth={80}
             />
           </FormControl>
-
+          <FormControl
+            className={clsx(classes.margin, classes.textField)}
+            variant="outlined"
+          >
+            <InputLabel htmlFor="outlined-retype-password">
+              Retype Password *
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-retype-password"
+              type={values.showPassword ? "text" : "password"}
+              value={values.retypePassword}
+              onChange={handleChange("retype-password")}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={80}
+            />
+          </FormControl>
+          <Box style={{ width: "100%" }}>
+            <FormControlLabel
+              fullWidth
+              control={
+                <Checkbox
+                  checked={check}
+                  onChange={handleChangeCheck}
+                  name="check"
+                  color="primary"
+                />
+              }
+              label="By signing up, you agree to Terms & Condition"
+            />
+          </Box>
           <Button
             variant="contained"
             color="primary"
@@ -162,40 +219,13 @@ const LoginForm = (props) => {
             fullWidth
             className={classes.loginBtn}
           >
-            Login
+            Create Account
           </Button>
-          <Box display="flex" justifyContent="center" alignItems="center">
-            <Divider className={classes.divider} />
-            <Box>
-              <Typography component="span" className={classes.dividerText}>
-                or
-              </Typography>
-            </Box>
-            <Divider className={classes.divider} />
-          </Box>
 
-          <Button
-            variant="contained"
-            size="large"
-            type="submit"
-            fullWidth
-            className={classes.fbBtn}
-          >
-            Login with Facebook
-          </Button>
-          <Button
-            variant="contained"
-            size="large"
-            type="submit"
-            fullWidth
-            className={classes.ggBtn}
-          >
-            Login with Google
-          </Button>
           <Box mt={2}>
-            Don’t have account?
-            <Link to="/sign-up" className={classes.link}>
-              Sign Up
+            Already have an account?
+            <Link to="/login" className={classes.link}>
+              Login
             </Link>
           </Box>
         </form>
@@ -219,4 +249,4 @@ const LoginForm = (props) => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

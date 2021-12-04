@@ -20,7 +20,8 @@ const Login = () => {
       <Container
         style={{
           margin: "auto",
-          height: "100vh",
+          marginTop: 80,
+          height: "calc(100vh - 80px)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",

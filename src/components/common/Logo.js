@@ -1,6 +1,8 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import logo from "assets/icons/logo.png";
 import React from "react";
+import { Link } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: "flex",
@@ -14,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Logo() {
   const classes = useStyles();
   return (
-    <a href="/" className={classes.wrapper}>
+    <Link to="/" className={classes.wrapper}>
       <img src={logo} alt="logo" width={40} />
       <Typography variant="h6" className={classes.text} noWrap>
         E-DECOR
       </Typography>
-    </a>
+    </Link>
   );
 }
