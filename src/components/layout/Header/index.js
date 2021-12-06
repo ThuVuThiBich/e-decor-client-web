@@ -1,24 +1,19 @@
 import {
   AppBar,
   Badge,
-  Box,
-  Divider,
   IconButton,
-  InputBase,
   Menu,
   MenuItem,
-  OutlinedInput,
-  Paper,
   Toolbar,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
 import SearchInput from "components/common/SearchInput";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
 
@@ -49,6 +44,7 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {};
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -59,9 +55,23 @@ export default function Header() {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      style={{ marginTop: 50, marginRight: 40 }}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to={"/profile"} className={classes.link}>
+          My Profile
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to={"/orders"} className={classes.link}>
+          My Orders
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <Link to={"/login"} className={classes.link}>
+          Log out
+        </Link>
+      </MenuItem>
     </Menu>
   );
 

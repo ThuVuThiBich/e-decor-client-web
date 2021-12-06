@@ -45,4 +45,8 @@ export const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+
+  link: {
+    color: "#2B3445",
+  },
 }));

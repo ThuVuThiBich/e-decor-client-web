@@ -1,22 +1,25 @@
-import { Button, Divider, InputBase, Paper } from "@material-ui/core";
+import {
+  Divider,
+  FormControl,
+  InputBase,
+  MenuItem,
+  Paper,
+  Select,
+} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import React from "react";
+import React, { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxHeight: 40,
-    padding: "2px 4px",
     display: "flex",
     alignItems: "center",
     width: 550,
     margin: theme.spacing(0, 3),
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.9),
-    },
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -26,14 +29,44 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
   },
   divider: {
-    height: 28,
-    margin: 4,
+    height: 40,
+  },
+  selectInput: {
+    height: 26,
+    padding: "8px 15px",
+    display: "flex",
+    alignItems: "center",
+    fontSize: 14,
+    width: "100%",
+  },
+  select: {
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
   },
 }));
 
+const MenuProps = {
+  PaperProps: {
+    style: {
+      marginTop: 40,
+      width: 200,
+    },
+  },
+};
 export default function SearchInput() {
+  const categories = [
+    "All categories",
+    "Lighting",
+    "Candles",
+    "Stationary",
+    "Storage",
+    "Clocks",
+    "Plants",
+  ];
   const classes = useStyles();
-
+  const [searchValue, setSearchValue] = useState("All categories");
+  const handleChangeDropdown = (e) => {
+    setSearchValue(e.target.value);
+  };
   return (
     <Paper component="form" className={classes.root}>
       <IconButton className={classes.iconButton} aria-label="menu">
@@ -46,13 +79,30 @@ export default function SearchInput() {
       />
 
       <Divider className={classes.divider} orientation="vertical" />
-      <Button
+      {/* <Button
         color="primary"
         className={classes.iconButton}
         aria-label="directions"
       >
         All categories
-      </Button>
+        <ExpandMoreIcon />
+      </Button> */}
+      <FormControl variant="outlined" className={classes.select}>
+        <Select
+          value={searchValue}
+          name={"category"}
+          displayEmpty
+          MenuProps={MenuProps}
+          input={<InputBase classes={{ input: classes.selectInput }} />}
+          onChange={handleChangeDropdown}
+        >
+          {categories.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Paper>
   );
 }

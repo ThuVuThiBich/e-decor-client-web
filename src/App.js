@@ -4,6 +4,9 @@ import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import SignUp from "pages/SignUp";
+import withUser from "pages/user";
+import Orders from "pages/user/orders";
+import Profile from "pages/user/profile";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
@@ -14,6 +17,8 @@ function App() {
 
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
+      <Route path={"/profile"} component={withUser(Profile)} exact />
+      <Route path={"/orders"} component={withUser(Orders)} exact />
       <Route path="*">
         <NotFound />
       </Route>
