@@ -1,18 +1,27 @@
 import { Container } from "@material-ui/core";
+import { unwrapResult } from "@reduxjs/toolkit";
 import Header from "components/auth/Header";
 import LoginForm from "components/auth/LoginForm";
-import { useState } from "react";
+import { Progress } from "components/common/Progress";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { login } from "redux/userRedux";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const history = useHistory();
+  const { isLoading, error } = useSelector((state) => state.user);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    // login(dispatch, { username, password });
+  const handleLogin = async (user) => {
+    try {
+      const actionResult = await dispatch(login(user));
+      const currentUser = unwrapResult(actionResult);
+      console.log("login - currentUser: ", currentUser);
+      history.push("/");
+    } catch (error) {
+      console.log("Failed to login ", error.message);
+      // show toast error
+    }
   };
   return (
     <>
@@ -27,8 +36,9 @@ const Login = () => {
           alignItems: "center",
         }}
       >
-        <LoginForm />
+        <LoginForm handleLogin={handleLogin} />
       </Container>
+      <Progress isOpen={isLoading} />
     </>
   );
 };

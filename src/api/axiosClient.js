@@ -1,7 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
-
-const getToken = async () => {};
+import { getToken } from "utils/helpers";
 
 // Set up default config for http requests here
 const axiosClient = axios.create({

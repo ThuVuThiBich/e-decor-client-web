@@ -14,7 +14,7 @@ function App() {
   return (
     <Switch>
       <Route path="/" component={withAuthLayout(Home)} exact />
-
+      <Redirect from={"/home"} to={"/"} />
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
       <Route path={"/profile"} component={withUser(Profile)} exact />

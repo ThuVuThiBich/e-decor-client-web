@@ -7,11 +7,11 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStyles } from "./styles";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 export default function Post(props) {
   const classes = useStyles();
   return (
@@ -56,7 +56,9 @@ export default function Post(props) {
             venenatis dignissim diam in auctor.
           </Typography>
         </CardContent>
-        <Link className={classes.link}>CONTINUE READING</Link>
+        <Link className={classes.link} to="">
+          CONTINUE READING
+        </Link>
       </CardActionArea>
     </Card>
   );

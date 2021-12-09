@@ -1,9 +1,13 @@
 import { Container } from "@material-ui/core";
 import Header from "components/auth/Header";
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { getToken } from "utils/helpers";
 
 const withoutAuth = (Component) => (props) => {
-  return (
+  return getToken() ? (
+    <Redirect to={"/"} />
+  ) : (
     <>
       <Header />
       <Container

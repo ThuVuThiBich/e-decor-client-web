@@ -21,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
     width: 500,
     borderRadius: 8,
   },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   welcome: {
     fontSize: 25,
     fontWeight: "bold",
@@ -103,100 +97,120 @@ const LoginForm = (props) => {
     event.preventDefault();
   };
 
-  const handleFormSubmit = () => {};
+  const handleFormSubmit = (e) => {
+    const user = {
+      email: values.email,
+      password: values.password,
+    };
+    e.preventDefault();
+    props.handleLogin(user);
+  };
+
   return (
     <Paper className={classes.root} elevation={2}>
       <Box px={8} py={4}>
-        <form className={classes.form} onSubmit={handleFormSubmit}>
-          <Box mb={2} display="flex" alignItems="center" flexDirection="column">
-            <Typography variant="h5" className={classes.welcome}>
-              Welcome To E-Decor
-            </Typography>
-            <Typography>Log in with email & password</Typography>
-          </Box>
-
-          <FormControl
-            className={clsx(classes.margin, classes.textField)}
-            variant="outlined"
+        <form onSubmit={handleFormSubmit}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            alignItems="center"
           >
-            <InputLabel htmlFor="outlined-email">Email *</InputLabel>
-            <OutlinedInput
-              id="outlined-email"
-              type={"text"}
-              value={values.email}
-              onChange={handleChange("email")}
-              labelWidth={60}
-            />
-          </FormControl>
-          <FormControl
-            className={clsx(classes.margin, classes.textField)}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-password">Password *</InputLabel>
-            <OutlinedInput
-              id="outlined-password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={80}
-            />
-          </FormControl>
-
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            type="submit"
-            fullWidth
-            className={classes.loginBtn}
-          >
-            Login
-          </Button>
-          <Box display="flex" justifyContent="center" alignItems="center">
-            <Divider className={classes.divider} />
-            <Box>
-              <Typography component="span" className={classes.dividerText}>
-                or
+            <Box
+              mb={2}
+              display="flex"
+              alignItems="center"
+              flexDirection="column"
+            >
+              <Typography variant="h5" className={classes.welcome}>
+                Welcome To E-Decor
               </Typography>
+              <Typography>Log in with email & password</Typography>
             </Box>
-            <Divider className={classes.divider} />
-          </Box>
 
-          <Button
-            variant="contained"
-            size="large"
-            type="submit"
-            fullWidth
-            className={classes.fbBtn}
-          >
-            Login with Facebook
-          </Button>
-          <Button
-            variant="contained"
-            size="large"
-            type="submit"
-            fullWidth
-            className={classes.ggBtn}
-          >
-            Login with Google
-          </Button>
-          <Box mt={2}>
-            Don’t have account?
-            <Link to="/sign-up" className={classes.link}>
-              Sign Up
-            </Link>
+            <FormControl
+              className={clsx(classes.margin, classes.textField)}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="outlined-email">Email *</InputLabel>
+              <OutlinedInput
+                id="outlined-email"
+                type={"text"}
+                value={values.email}
+                onChange={handleChange("email")}
+                labelWidth={60}
+              />
+            </FormControl>
+            <FormControl
+              className={clsx(classes.margin, classes.textField)}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="outlined-password">Password *</InputLabel>
+              <OutlinedInput
+                id="outlined-password"
+                type={values.showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={handleChange("password")}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={80}
+              />
+            </FormControl>
+
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+              fullWidth
+              className={classes.loginBtn}
+            >
+              Login
+            </Button>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Divider className={classes.divider} />
+              <Box>
+                <Typography component="span" className={classes.dividerText}>
+                  or
+                </Typography>
+              </Box>
+              <Divider className={classes.divider} />
+            </Box>
+
+            <Button
+              variant="contained"
+              size="large"
+              type="submit"
+              fullWidth
+              className={classes.fbBtn}
+            >
+              Login with Facebook
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              type="submit"
+              fullWidth
+              className={classes.ggBtn}
+            >
+              Login with Google
+            </Button>
+            <Box mt={2}>
+              Don't have account?
+              <Link to="/sign-up" className={classes.link}>
+                Sign Up
+              </Link>
+            </Box>
           </Box>
         </form>
       </Box>

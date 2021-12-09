@@ -3,17 +3,16 @@ import {
   Container,
   Divider,
   FormControl,
-  Input,
+  InputBase,
   MenuItem,
   Select,
-  Typography,
-  InputBase,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import React from "react";
-import { useStyles } from "./styles";
-import LanguageIcon from "@material-ui/icons/Language";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import LanguageIcon from "@material-ui/icons/Language";
+import React from "react";
+import { Link } from "react-router-dom";
+import { getToken } from "utils/helpers";
+import { useStyles } from "./styles";
 
 export default function SubHeader() {
   const classes = useStyles();
@@ -57,7 +56,7 @@ export default function SubHeader() {
                 <InputBase
                   startAdornment={<LanguageIcon className={classes.icon} />}
                   classes={{ input: classes.input }}
-                  disableUnderline={true}
+                  disableunderline="true"
                 />
               }
             >
@@ -69,17 +68,27 @@ export default function SubHeader() {
             </Select>
           </FormControl>
 
-          <Link className={classes.link} to="/sign-up">
-            Sign Up
-          </Link>
-          <Divider
-            orientation="vertical"
-            flexItem
-            className={classes.divider}
-          />
-          <Link className={classes.link} to="/login">
-            Login
-          </Link>
+          {getToken() ? (
+            <>
+              <Link className={classes.link} to="/about-us">
+                About Us
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link className={classes.link} to="/sign-up">
+                Sign Up
+              </Link>
+              <Divider
+                orientation="vertical"
+                flexItem
+                className={classes.divider}
+              />
+              <Link className={classes.link} to="/login">
+                Login
+              </Link>
+            </>
+          )}
         </Box>
       </Container>
       SubHeader

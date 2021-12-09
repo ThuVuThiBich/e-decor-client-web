@@ -13,11 +13,14 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
 import SearchInput from "components/common/SearchInput";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { getToken } from "utils/helpers";
 import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
 
 export default function Header() {
+  const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
 
   const classes = useStyles({ isVisible });
@@ -44,7 +47,9 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    localStorage.clear();
+  };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -68,7 +73,7 @@ export default function Header() {
         </Link>
       </MenuItem>
       <MenuItem onClick={handleLogout}>
-        <Link to={"/login"} className={classes.link}>
+        <Link to={"/home"} className={classes.link}>
           Log out
         </Link>
       </MenuItem>
@@ -152,16 +157,31 @@ export default function Header() {
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {getToken() ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={() => {
+                  history.push("/login");
+                }}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

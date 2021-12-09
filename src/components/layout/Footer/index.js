@@ -24,7 +24,7 @@ export default function Footer() {
               <Grid item xs={12} sm={6} md={6} lg={4}>
                 <Logo />
                 <Typography
-                  variant="body"
+                  // variant="body"
                   component="p"
                   color="inherit"
                   className={classes.description}
@@ -42,7 +42,7 @@ export default function Footer() {
                   >
                     <Box className={classes.downloadItem}>
                       <svg
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
+                        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
                         focusable="false"
                         viewBox="0 0 24 24"
                         aria-hidden="true"
@@ -95,7 +95,7 @@ export default function Footer() {
                   >
                     <Box className={classes.downloadItem}>
                       <svg
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
+                        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
                         focusable="false"
                         viewBox="0 0 24 24"
                         aria-hidden="true"

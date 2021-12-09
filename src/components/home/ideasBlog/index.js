@@ -1,9 +1,4 @@
-import { Box, Grid, Paper, Typography } from "@material-ui/core";
-import calendar from "assets/images/categories/calendar.png";
-import candle from "assets/images/categories/candle.png";
-import clock from "assets/images/categories/clock.png";
-import lamp from "assets/images/categories/lamp.png";
-import pinBoard from "assets/images/categories/pin-board.png";
+import { Box, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import Post from "./Post";
 import { useStyles } from "./styles";

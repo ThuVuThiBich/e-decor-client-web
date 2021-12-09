@@ -1,15 +1,8 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Paper,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
-import React from "react";
-import { useStyles } from "./styles";
+import { Box, withStyles } from "@material-ui/core";
 import Rating from "material-ui-rating";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useStyles } from "./styles";
 
 export default function Pick(props) {
   const classes = useStyles();

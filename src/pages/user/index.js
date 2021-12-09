@@ -1,7 +1,6 @@
 import { Container, Grid } from "@material-ui/core";
 import Footer from "components/layout/Footer";
 import Header from "components/layout/Header";
-import { withAuthLayout } from "hocs";
 import React from "react";
 
 const withUser = (Component) => (props) => {

@@ -1,20 +1,19 @@
 import {
   Box,
-  Button,
   Card,
   Grid,
   IconButton,
   Paper,
   Typography,
 } from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import React, { useState } from "react";
+import ItemsCarousel from "react-items-carousel";
 import Carousel from "react-material-ui-carousel";
 import FeaturedEvents from "./FeaturedEvents";
 import Pick from "./Pick";
 import { useStyles } from "./styles";
-import ItemsCarousel from "react-items-carousel";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 export default function TopPicks() {
   const classes = useStyles();
   const events = [
@@ -151,8 +150,8 @@ export default function TopPicks() {
                   item
                   md={6}
                   display="flex"
-                  justifyContent="center"
-                  alignItems="center"
+                  // justifyContent="center"
+                  // alignItems="center"
                 >
                   <img
                     src="https://media.designcafe.com/wp-content/uploads/2020/09/12125557/study-table-decoration.jpg"
@@ -169,7 +168,7 @@ export default function TopPicks() {
                     Get inspirations
                   </Typography>
                   <Typography
-                    variant="body"
+                    // variant="body"
                     className={classes.subBlog}
                     gutterBottom
                   >
