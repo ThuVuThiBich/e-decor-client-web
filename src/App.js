@@ -19,6 +19,8 @@ function App() {
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
       <Route path={"/profile"} component={withUser(Profile)} exact />
       <Route path={"/orders"} component={withUser(Orders)} exact />
+      <Route path={"/wishlist"} component={withUser(Orders)} exact />
+      <Route path={"/support"} component={withUser(Orders)} exact />
       <Route path="*">
         <NotFound />
       </Route>
