@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
-import { useDispatch } from "react-redux";
 import { setAuth, setToken } from "utils/helpers";
 
 // async action

@@ -1,5 +1,4 @@
 import { Container } from "@material-ui/core";
-import { unwrapResult } from "@reduxjs/toolkit";
 import Header from "components/auth/Header";
 import SignUpForm from "components/auth/SignUpForm";
 import { useDispatch } from "react-redux";
