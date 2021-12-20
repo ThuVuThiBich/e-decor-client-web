@@ -14,7 +14,7 @@ export default function Sidebar() {
 
   return (
     <Paper>
-      <Box>
+      <Box pb={2}>
         <Box>
           <Typography className={classes.headText}>DASHBOARD</Typography>
           <Box display="flex" flexDirection="column">
