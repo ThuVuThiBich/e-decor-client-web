@@ -53,10 +53,10 @@ export default function OrdersTable() {
   const classes = useStyles();
   const isLoading = false;
   const [orders, setOrders] = useState(mockOrders);
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
   const [params, setParams] = useState(DEFAULT_PARAMS);
   const storeOrders = useSelector((state) => state.orders);
 
@@ -124,21 +124,22 @@ export default function OrdersTable() {
                   />
                 ))}
 
-                <EmptyRows
-                  isEmptyTable={orders.length === 0}
-                  rowHeight={classes.emptyRows}
-                />
+                <EmptyRows isEmptyTable={orders.length === 0} />
               </>
             )}
           </TableBody>
         </Table>
       </TableContainer>
-      <TableFooter
-        page={params.page}
-        rowsPerPage={5}
-        pageSize={storeOrders?.pageSize | 1}
-        handleChangePage={handleChangePage}
-      />
+      {orders.length === 0 ? (
+        <></>
+      ) : (
+        <TableFooter
+          page={params.page}
+          rowsPerPage={5}
+          pageSize={storeOrders?.pageSize | 1}
+          handleChangePage={handleChangePage}
+        />
+      )}
     </Paper>
   );
 }

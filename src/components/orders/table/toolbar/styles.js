@@ -4,8 +4,8 @@ export const useToolbarStyles = makeStyles({
   root: {
     borderBottom: `1px solid #E0E0E0`,
     borderRadius: "5px 5px 0px 0px",
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
     justifyContent: "space-between",
   },
   leftToolbar: {

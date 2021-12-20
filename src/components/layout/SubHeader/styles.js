@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
+    zIndex: 1000,
     background: "#0c0e30",
     color: "#fff",
     height: 40,

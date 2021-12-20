@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from "@material-ui/core";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
-  icon: { color: "rgba(0, 0, 0, 0.54)" },
+  height: { height: 350 },
 });
 
 export const StyledTableRow = withStyles((theme) => ({

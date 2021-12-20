@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableSortLabel } from "@material-ui/core";
 import React from "react";
-import { StyledTableRow } from "../row/styles";
+import { StyledTableRow } from "../common/styles";
 import { useStyles } from "./styles";
 
 export default function EnhancedTableHead(props) {

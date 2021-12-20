@@ -1,8 +1,10 @@
 import { IconButton, Tooltip } from "@material-ui/core";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import * as _ from "underscore";
-import { StyledTableCell, StyledTableRow, useStyles } from "./styles";
+import { StyledTableCell, StyledTableRow } from "../common/styles";
+import { useStyles } from "./styles";
 
 export default function EnhancedTableRow(props) {
   const { row } = props;
@@ -16,9 +18,11 @@ export default function EnhancedTableRow(props) {
       <StyledTableCell>${_.get(row, "total")}</StyledTableCell>
       <StyledTableCell>
         <Tooltip title="View detail" arrow>
-          <IconButton>
-            <ArrowForwardIcon className={classes.icon} />
-          </IconButton>
+          <Link to={`orders/${row.id}`}>
+            <IconButton>
+              <ArrowForwardIcon className={classes.icon} />
+            </IconButton>
+          </Link>
         </Tooltip>
       </StyledTableCell>
     </StyledTableRow>

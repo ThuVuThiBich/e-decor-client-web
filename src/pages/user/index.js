@@ -1,7 +1,7 @@
 import { Container, Grid } from "@material-ui/core";
 import Footer from "components/layout/Footer";
 import Header from "components/layout/Header";
-import Sidebar from "components/user/orders/sidebar";
+import Sidebar from "components/user/sidebar";
 import React from "react";
 import { useStyles } from "./styles";
 const withUser = (Component) => (props) => {
