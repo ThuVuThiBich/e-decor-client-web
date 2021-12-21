@@ -11,6 +11,7 @@ import Products from "pages/seller/products";
 import NewProduct from "pages/seller/products/newProduct";
 import Settings from "pages/seller/settings";
 import Shops from "pages/shops";
+import ShopDetail from "pages/shops/shop";
 import SignUp from "pages/SignUp";
 import withUser from "pages/user";
 import OrderDetail from "pages/user/orderDetail";
@@ -27,6 +28,7 @@ function App() {
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
       <Route path={"/shops"} component={withAuthLayout(Shops)} exact />
+      <Route path={"/shops/:id"} component={withAuthLayout(ShopDetail)} exact />
       <Route path={"/profile"} component={withUser(Profile)} exact />
       <Route path={"/orders"} component={withUser(Orders)} exact />
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
