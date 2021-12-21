@@ -19,5 +19,6 @@ export const useStyles = makeStyles((theme) => ({
       width: 24,
       height: 24,
     },
+    
   },
 }));
