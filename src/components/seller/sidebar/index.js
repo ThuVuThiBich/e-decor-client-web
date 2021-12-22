@@ -1,18 +1,12 @@
-import { Box, Paper, Typography } from "@material-ui/core";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
-import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
-import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
+import { Box, Paper } from "@material-ui/core";
+import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
+import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
+import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
+import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useStyles } from "./styles";
-import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
-import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
-import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
-import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 export default function Sidebar() {
   const classes = useStyles();
 

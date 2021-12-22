@@ -10,4 +10,11 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     padding: "18px 27px",
   },
+  rating: {
+    marginTop: 8,
+  },
+  headText: {
+    fontSize: 16,
+    fontWeight: 600,
+  },
 }));

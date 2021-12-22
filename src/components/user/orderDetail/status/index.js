@@ -11,7 +11,6 @@ import {
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import clsx from "clsx";
 import React, { useState } from "react";
-import { useStyles } from "./styles";
 function getSteps() {
   return ["Process", "Deliver", "Receive"];
 }

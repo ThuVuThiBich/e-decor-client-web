@@ -1,9 +1,8 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import OrdersTable from "components/orders/table";
 import React from "react";
 import { useStyles } from "./styles";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 export default function Orders() {
   const classes = useStyles();

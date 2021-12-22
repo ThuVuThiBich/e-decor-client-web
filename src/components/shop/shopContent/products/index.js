@@ -1,16 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  Grid,
-  Paper,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
-import CallIcon from "@material-ui/icons/Call";
-import PlaceIcon from "@material-ui/icons/Place";
-import Rating from "material-ui-rating/lib/components/Rating/Rating";
+import { Grid } from "@material-ui/core";
 import Product from "./product";
 import { useStyles } from "./styles";
 const mockProducts = [
@@ -23,21 +11,6 @@ const mockProducts = [
 ];
 export default function Products(props) {
   const classes = useStyles();
-  const smallStyles = {
-    iconButton: {
-      width: 32,
-      height: 32,
-      padding: 16,
-    },
-    icon: {
-      width: 16,
-      height: 16,
-    },
-  };
-  const MyRating = ({ classes }) => (
-    <Rating value={3} max={5} classes={classes} readOnly={true} />
-  );
-  const SmallRating = withStyles(smallStyles)(MyRating);
   return (
     <Grid container spacing={3}>
       {mockProducts.map((product) => (
