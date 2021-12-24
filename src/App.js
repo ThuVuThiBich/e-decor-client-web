@@ -3,6 +3,7 @@ import withoutAuth from "hocs/withoutAuth";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
+import Product from "pages/product";
 import withSeller from "pages/seller";
 import Dashboard from "pages/seller/dashboard";
 import SellerOrderDetail from "pages/seller/orderDetail";
@@ -29,6 +30,7 @@ function App() {
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
       <Route path={"/shops"} component={withAuthLayout(Shops)} exact />
       <Route path={"/shops/:id"} component={withAuthLayout(ShopDetail)} exact />
+      <Route path={"/product/:id"} component={withAuthLayout(Product)} exact />
       <Route path={"/profile"} component={withUser(Profile)} exact />
       <Route path={"/orders"} component={withUser(Orders)} exact />
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />

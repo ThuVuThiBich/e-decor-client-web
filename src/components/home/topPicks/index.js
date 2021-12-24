@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-} from "@material-ui/core";
+import { Box, Grid, IconButton, Paper, Typography } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import React, { useState } from "react";
@@ -81,28 +74,9 @@ export default function TopPicks() {
       description: "description 1",
     },
   ];
-  const sliderItems = mockItems.length > 1 ? 1 : mockItems.length;
-  const items = [];
 
-  for (let i = 0; i < mockItems.length; i += sliderItems) {
-    if (i % sliderItems === 0) {
-      items.push(
-        <Card
-          raised
-          className="Banner"
-          key={i.toString()}
-          style={{ display: "flex" }}
-        >
-          <Grid container spacing={0} style={{ display: "flex" }}>
-            {mockItems.slice(i, i + sliderItems).map((da, index) => {
-              return <Pick key={index.toString()} item={da} />;
-            })}
-          </Grid>
-        </Card>
-      );
-    }
-  }
   const [active, setActive] = useState(0);
+
   return (
     <section className={classes.root}>
       <Grid container spacing={6}>

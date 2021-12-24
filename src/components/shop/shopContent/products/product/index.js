@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Rating from "material-ui-rating/lib/components/Rating/Rating";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useStyles } from "./styles";
 export default function Product(props) {
   const { product } = props;
@@ -30,8 +31,15 @@ export default function Product(props) {
   );
 
   const SmallRating = withStyles(smallStyles)(MyRating);
+
+  const history = useHistory();
   return (
-    <Card>
+    <Card
+      onClick={() => {
+        history.push(`/product/${product.id}`);
+      }}
+      style={{ cursor: "pointer" }}
+    >
       <Box>
         <img
           src="https://cf.shopee.com.my/file/c15a6382557e79cb23db5f01d4c2481b"
