@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from "@material-ui/core";
+import NewProductForm from "components/seller/products/newProduct";
 import React from "react";
 import { useStyles } from "./styles";
 
@@ -28,7 +29,9 @@ export default function NewProduct() {
         </Box>
         <Button color="primary">View</Button>
       </Box>
-      <Box style={{ border: "1px solid black", height: 500 }}></Box>
+      <Box>
+        <NewProductForm />
+      </Box>
     </Box>
   );
 }

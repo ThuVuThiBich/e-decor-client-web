@@ -16,7 +16,7 @@ export default function Sidebar() {
         <Box display="flex" flexDirection="column">
           <NavLink
             className={classes.navLink}
-            to="/seller/dashboard"
+            to="/shop/dashboard"
             activeClassName={classes.active}
           >
             <DashboardOutlinedIcon className={classes.icon} />
@@ -24,7 +24,7 @@ export default function Sidebar() {
           </NavLink>
           <NavLink
             className={classes.navLink}
-            to="/seller/products"
+            to="/shop/products"
             activeClassName={classes.active}
           >
             <AssignmentOutlinedIcon className={classes.icon} />
@@ -32,7 +32,7 @@ export default function Sidebar() {
           </NavLink>
           <NavLink
             className={classes.navLink}
-            to="/seller/add-product"
+            to="/shop/add-product"
             activeClassName={classes.active}
           >
             <NoteAddOutlinedIcon className={classes.icon} />
@@ -40,7 +40,7 @@ export default function Sidebar() {
           </NavLink>
           <NavLink
             className={classes.navLink}
-            to="/seller/orders"
+            to="/shop/orders"
             activeClassName={classes.active}
           >
             <ShoppingCartOutlinedIcon className={classes.icon} />
@@ -48,7 +48,7 @@ export default function Sidebar() {
           </NavLink>
           <NavLink
             className={classes.navLink}
-            to="/seller/settings"
+            to="/shop/settings"
             activeClassName={classes.active}
           >
             <SettingsOutlinedIcon className={classes.icon} />

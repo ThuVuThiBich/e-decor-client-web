@@ -28,7 +28,7 @@ export default function SubHeader() {
             flexItem
             className={classes.divider}
           />
-          <Link className={classes.link} to="/shop/login">
+          <Link className={classes.link} to="/shop/settings">
             Join as Seller
           </Link>
           <Divider

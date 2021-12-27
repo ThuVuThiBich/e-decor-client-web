@@ -72,6 +72,11 @@ export default function Header() {
           My Orders
         </Link>
       </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to={"/shop/dashboard"} className={classes.link}>
+          My Shop
+        </Link>
+      </MenuItem>
       <MenuItem onClick={handleLogout}>
         <Link to={"/home"} className={classes.link}>
           Log out

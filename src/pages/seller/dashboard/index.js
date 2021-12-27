@@ -22,9 +22,7 @@ export default function Dashboard() {
           Get more
         </Button>
       </Box>
-      <Box>
-        <OrdersTable />
-      </Box>
+      <Box>Dashboard</Box>
     </div>
   );
 }

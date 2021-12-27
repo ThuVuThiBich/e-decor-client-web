@@ -37,25 +37,17 @@ function App() {
       <Route path={"/wishlist"} component={withUser(Orders)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />
 
+      <Route path={"/shop/dashboard"} component={withSeller(Dashboard)} exact />
+      <Route path={"/shop/settings"} component={withSeller(Settings)} exact />
+      <Route path={"/shop/products"} component={withSeller(Products)} exact />
       <Route
-        path={"/seller/dashboard"}
-        component={withSeller(Dashboard)}
-        exact
-      />
-      <Route path={"/seller/settings"} component={withSeller(Settings)} exact />
-      <Route path={"/seller/products"} component={withSeller(Products)} exact />
-      <Route
-        path={"/seller/add-product"}
+        path={"/shop/add-product"}
         component={withSeller(NewProduct)}
         exact
       />
+      <Route path={"/shop/orders"} component={withSeller(SellerOrders)} exact />
       <Route
-        path={"/seller/orders"}
-        component={withSeller(SellerOrders)}
-        exact
-      />
-      <Route
-        path={"/seller/orders/:id"}
+        path={"/shop/orders/:id"}
         component={withSeller(SellerOrderDetail)}
         exact
       />
