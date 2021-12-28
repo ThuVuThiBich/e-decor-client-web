@@ -41,6 +41,21 @@ export const useStyles = makeStyles((theme) => ({
     border: `1px solid ${grey[100]}`,
     padding: 5,
     boxShadow: `0 0 1px 0 ${grey[500]} inset, 0 0 1px 0 ${grey[500]}`,
-    marginBottom: 8
+    marginBottom: 8,
+  },
+
+  editorToolbar: {
+    backgroundColor: `rgb(250, 250, 250)`,
+  },
+  editor: {
+    border: `1px solid #cccccc`,
+    padding: 8,
+    borderRadius: 4,
+  },
+  editorWrapper: {
+    // width: "100% !important",
+    // display: "block !important",
+    // marginBottom: "25px !important",
+    // height: "400px !important",
   },
 }));
