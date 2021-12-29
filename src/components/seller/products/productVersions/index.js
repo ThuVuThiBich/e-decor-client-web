@@ -6,7 +6,8 @@ import ProductVersionForm from "../productVersion";
 import { useStyles } from "./styles";
 const initialProductVersion = {};
 
-export default function ProductVersionsForm() {
+export default function ProductVersionsForm(props) {
+  const { isEdit } = props;
   const classes = useStyles();
   const [productVersions, setProductVersions] = useState([]);
   return (
@@ -14,6 +15,7 @@ export default function ProductVersionsForm() {
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography className={classes.headText}>Product Versions</Typography>
         <Button
+          disabled={isEdit}
           color="primary"
           variant="outlined"
           onClick={() =>

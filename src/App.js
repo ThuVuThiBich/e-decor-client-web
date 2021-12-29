@@ -11,6 +11,7 @@ import SellerOrders from "pages/seller/orders";
 import Products from "pages/seller/products";
 import CategoryProducts from "pages/seller/products/categoryProducts";
 import NewProduct from "pages/seller/products/newProduct";
+import ViewProduct from "pages/seller/products/viewProduct";
 import Settings from "pages/seller/settings";
 import Shops from "pages/shops";
 import ShopDetail from "pages/shops/shop";
@@ -44,6 +45,11 @@ function App() {
       <Route
         path={"/shop/products/:categoryName"}
         component={withSeller(CategoryProducts)}
+        exact
+      />
+      <Route
+        path={"/shop/products/:categoryName/:productId"}
+        component={withSeller(ViewProduct)}
         exact
       />
       <Route
