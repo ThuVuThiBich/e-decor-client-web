@@ -1,6 +1,6 @@
 import {
   Box,
-  Button as MuiButton,
+  Button,
   Divider,
   FormControl,
   Grid,
@@ -11,20 +11,13 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
-import {
-  CloudUpload as MuiCloudUpload,
-  Delete as MuiDelete,
-} from "@material-ui/icons";
-import { spacing } from "@material-ui/system";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import React, { createRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 //
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
-import styled from "styled-components";
-import ProductVersionForm from "../productVersion";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
@@ -116,41 +109,6 @@ export default function NewProductForm() {
 
   // edit
 
-  const Button = styled(MuiButton)(spacing);
-
-  //
-  const [image, setImage] = useState("");
-  const inputFileRef = createRef(null);
-
-  const cleanup = () => {
-    URL.revokeObjectURL(image);
-    inputFileRef.current.value = null;
-  };
-
-  const setImageUrl = (newImage) => {
-    if (image) {
-      cleanup();
-    }
-    setImage(newImage);
-  };
-
-  const handleOnChange = (event) => {
-    const newImage = event.target?.files?.[0];
-    //  setAvatarFile(newImage);
-    if (newImage) {
-      setImageUrl(URL.createObjectURL(newImage));
-    }
-  };
-
-  const handleClick = (event) => {
-    if (image) {
-      event.preventDefault();
-      setImageUrl(null);
-      //  setAvatarFile(null);
-      //  setResource({ ...resource, avatar: "" });
-    }
-  };
-
   //
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -158,16 +116,7 @@ export default function NewProductForm() {
     setEditorState(editorState);
     console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
-  //  const contentBlock = htmlToDraft(html);
-  //  if (contentBlock) {
-  //    const contentState = ContentState.createFromBlockArray(
-  //      contentBlock.contentBlocks
-  //    );
-  //    const editorState = EditorState.createWithContent(contentState);
-  //    this.state = {
-  //      editorState,
-  //    };
-  //  }
+
   return (
     <Paper>
       <Box p={2} my={2}>
@@ -214,7 +163,7 @@ export default function NewProductForm() {
                     getContentAnchorEl: null,
                   }}
                 >
-                  {["EN", "VI"].map((option) => (
+                  {["Category1", "Category2"].map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
@@ -253,7 +202,7 @@ export default function NewProductForm() {
             </Grid>
 
             <Grid item xs={12} md={12}>
-              <Box className={classes.editorWrapper}>
+              <Box>
                 <Editor
                   rows={5}
                   placeholder="Description ..."

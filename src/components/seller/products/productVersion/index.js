@@ -6,13 +6,11 @@ import {
   Grid,
   IconButton,
   InputLabel,
-  OutlinedInput,
-  Paper,
-  Tooltip,
+  OutlinedInput, Tooltip
 } from "@material-ui/core";
 import {
   CloudUpload as MuiCloudUpload,
-  Delete as MuiDelete,
+  Delete as MuiDelete
 } from "@material-ui/icons";
 import { spacing } from "@material-ui/system";
 import React, { createRef, useEffect, useState } from "react";

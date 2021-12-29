@@ -9,6 +9,7 @@ import Dashboard from "pages/seller/dashboard";
 import SellerOrderDetail from "pages/seller/orderDetail";
 import SellerOrders from "pages/seller/orders";
 import Products from "pages/seller/products";
+import CategoryProducts from "pages/seller/products/categoryProducts";
 import NewProduct from "pages/seller/products/newProduct";
 import Settings from "pages/seller/settings";
 import Shops from "pages/shops";
@@ -40,6 +41,11 @@ function App() {
       <Route path={"/shop/dashboard"} component={withSeller(Dashboard)} exact />
       <Route path={"/shop/settings"} component={withSeller(Settings)} exact />
       <Route path={"/shop/products"} component={withSeller(Products)} exact />
+      <Route
+        path={"/shop/products/:categoryName"}
+        component={withSeller(CategoryProducts)}
+        exact
+      />
       <Route
         path={"/shop/add-product"}
         component={withSeller(NewProduct)}

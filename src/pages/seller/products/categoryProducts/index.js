@@ -1,11 +1,12 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import Categories from "components/seller/products/categories";
+import ProductsTable from "components/seller/products/table";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
 
-export default function Products() {
+export default function CategoryProducts() {
   const classes = useStyles();
-
+  const history = useHistory();
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -27,10 +28,16 @@ export default function Products() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button color="primary">View</Button>
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => history.push("/shop/products")}
+        >
+          View all categories
+        </Button>
       </Box>
       <Box>
-        <Categories />
+        <ProductsTable />
       </Box>
     </Box>
   );
