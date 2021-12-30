@@ -1,5 +1,6 @@
 import { withAuthLayout } from "hocs";
 import withoutAuth from "hocs/withoutAuth";
+import Cart from "pages/cart";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
@@ -38,6 +39,8 @@ function App() {
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
       <Route path={"/wishlist"} component={withUser(Orders)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />
+
+      <Route path={"/cart"} component={withAuthLayout(Cart)} exact />
 
       <Route path={"/shop/dashboard"} component={withSeller(Dashboard)} exact />
       <Route path={"/shop/settings"} component={withSeller(Settings)} exact />

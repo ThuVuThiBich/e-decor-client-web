@@ -1,13 +1,15 @@
 import {
   AppBar,
   Badge,
+  Box,
+  Button,
   IconButton,
   Menu,
   MenuItem,
   Toolbar,
+  Typography,
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
@@ -24,32 +26,34 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
 
   const classes = useStyles({ isVisible });
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [cardAnchorEl, setCardAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isCardMenuOpen = Boolean(cardAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+    setCardAnchorEl(null);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const handleCardMenuClose = () => {
+    setCardAnchorEl(null);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+  const handleCardMenuOpen = (event) => {
+    setCardAnchorEl(event.currentTarget);
+    setAnchorEl(null);
   };
 
   const handleLogout = () => {
     localStorage.clear();
   };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -61,6 +65,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
       style={{ marginTop: 50, marginRight: 40 }}
+      MenuListProps={{ onMouseLeave: handleMenuClose }}
     >
       <MenuItem onClick={handleMenuClose}>
         <Link to={"/profile"} className={classes.link}>
@@ -85,44 +90,66 @@ export default function Header() {
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
+  const cardMenuId = "card-menu";
+  const renderCardMenu = (
     <Menu
-      anchorEl={mobileMoreAnchorEl}
+      anchorEl={cardAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
+      id={cardMenuId}
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      open={isCardMenuOpen}
+      onClose={handleCardMenuClose}
+      style={{
+        marginTop: 50,
+        marginRight: 40,
+        cursor: "pointer",
+        minWidth: 400,
+      }}
+      MenuListProps={{ onMouseLeave: handleCardMenuClose }}
+      onClick={() => {
+        history.push("/cart");
+      }}
     >
-      <MenuItem>
-        <IconButton color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Cart</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
+      <Box p={2}>
+        <Typography style={{ color: "#7d879c" }}>
+          Recently Added Products
+        </Typography>
+      </Box>
+      <MenuItem style={{ minWidth: 400 }}>
+        <Box
+          display={"flex"}
+          justifyContent="space-between"
+          alignItems="center"
+          style={{ minWidth: 400 }}
         >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+          <Box display={"flex"} alignItems="center">
+            <img
+              width={50}
+              height={50}
+              src={
+                "https://cf.shopee.com.my/file/c15a6382557e79cb23db5f01d4c2481b"
+              }
+              alt=""
+            />
+            <Typography style={{ marginLeft: 8 }}>Clock</Typography>
+          </Box>
+          <Box style={{ color: "#D23F57" }}>$5</Box>
+        </Box>
       </MenuItem>
+
+      <Box p={2} display="flex" justifyContent="center">
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => {
+            handleCardMenuClose();
+            history.push("/cart");
+          }}
+        >
+          View Cart
+        </Button>
+      </Box>
     </Menu>
   );
 
@@ -157,7 +184,16 @@ export default function Header() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                handleCardMenuOpen();
+                history.push("/cart");
+              }}
+              // onClick={handleCardMenuOpen}
+              onMouseOver={handleCardMenuOpen}
+              style={{ cursor: "pointer" }}
+            >
               <Badge badgeContent={0} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
@@ -170,6 +206,7 @@ export default function Header() {
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
                 color="inherit"
+                onMouseOver={handleProfileMenuOpen}
               >
                 <AccountCircle />
               </IconButton>
@@ -188,21 +225,21 @@ export default function Header() {
               </IconButton>
             )}
           </div>
-          <div className={classes.sectionMobile}>
+          {/* <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
-              aria-controls={mobileMenuId}
+              aria-controls={cardMenuId}
               aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              onClick={handleCardMenuOpen}
               color="inherit"
             >
               <MoreIcon />
             </IconButton>
-          </div>
+          </div> */}
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
       {renderMenu}
+      {renderCardMenu}
     </div>
   );
 }
