@@ -22,34 +22,15 @@ import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
 const thumbsContainer = {
-  display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
   marginTop: 16,
-};
-
-const thumb = {
-  display: "inline-flex",
-  borderRadius: 2,
-  border: "1px solid #eaeaea",
-  marginBottom: 8,
-  marginRight: 8,
-  width: 200,
-  height: 200,
-  padding: 4,
-  boxSizing: "border-box",
-};
-
-const thumbInner = {
-  display: "flex",
-  minWidth: 0,
-  overflow: "hidden",
 };
 
 const img = {
   display: "block",
   width: "auto",
   height: "100%",
+  borderRadius: 8,
+  border: "1px solid #ccc",
 };
 
 const style = {
@@ -92,11 +73,18 @@ export default function ViewProductForm() {
   });
   console.log(files);
   const thumbs = files.map((file) => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
+    <Grid item xs={12} md={3}>
+      <Box
+        style={{
+          borderRadius: 8,
+          width: 200,
+          height: 200,
+          boxSizing: "border-box",
+        }}
+      >
         <img src={file.preview} style={img} alt="" />
-      </div>
-    </div>
+      </Box>
+    </Grid>
   ));
 
   useEffect(
@@ -117,22 +105,25 @@ export default function ViewProductForm() {
     console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
-  const mockData = {
-    name: "",
-    category: "Category1",
-    images: [],
-    productVersions: [],
-  };
-
   const [isEdit, setIsEdit] = useState(true);
 
+  const images = [
+    "https://cf.shopee.vn/file/bbc95d311285ebab19a6a115cd6360a6",
+    "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
+    "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
+  ];
   return (
     <Paper>
       <Box p={2} my={2}>
         <form>
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <FormControl variant="outlined" margin="dense" fullWidth>
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                className={classes.leftFormControl}
+              >
                 <InputLabel htmlFor="component-outlined">Name</InputLabel>
                 <OutlinedInput
                   disabled={isEdit}
@@ -182,35 +173,71 @@ export default function ViewProductForm() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={12}>
-              <Box>
-                <div {...getRootProps({ style })}>
-                  <input {...getInputProps()} />
-                  <p>Drag & drop product images here</p>
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    p={1}
-                  >
-                    <Divider className={classes.divider} />
-                    <Box>
-                      <Typography
-                        component="span"
-                        className={classes.dividerText}
-                      >
-                        or
-                      </Typography>
+            {isEdit ? (
+              <fieldset
+                style={{
+                  border: "1px solid #cccccc",
+                  borderRadius: 4,
+                  padding: "8px 16px 16px",
+                  margin: 8,
+                }}
+              >
+                <legend
+                  style={{
+                    margin: "0px 8px opx -4px",
+                    padding: "0px 4px",
+                    color: "#777d82",
+                  }}
+                >
+                  Images
+                </legend>
+                <Grid container item xs={12} md={12} spacing={2}>
+                  {images.map((image) => (
+                    <Grid item xs={12} md={3}>
+                      <img
+                        src={image}
+                        alt=""
+                        style={{ borderRadius: 4, border: "1px solid #cccccc" }}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </fieldset>
+            ) : (
+              <Grid item xs={12} md={12}>
+                <Box>
+                  <div {...getRootProps({ style })}>
+                    <input {...getInputProps()} />
+                    <p>Drag & drop product images here</p>
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      p={1}
+                    >
+                      <Divider className={classes.divider} />
+                      <Box>
+                        <Typography
+                          component="span"
+                          className={classes.dividerText}
+                        >
+                          or
+                        </Typography>
+                      </Box>
+                      <Divider className={classes.divider} />
                     </Box>
-                    <Divider className={classes.divider} />
-                  </Box>
-                  <Button color="primary" variant="contained">
-                    Select Files
-                  </Button>
-                </div>
-                <aside style={thumbsContainer}>{thumbs}</aside>
-              </Box>
-            </Grid>
+                    <Button color="primary" variant="contained">
+                      Select Files
+                    </Button>
+                  </div>
+                  <aside style={thumbsContainer}>
+                    <Grid container spacing={2}>
+                      {thumbs}
+                    </Grid>
+                  </aside>
+                </Box>
+              </Grid>
+            )}
 
             <Grid item xs={12} md={12}>
               <Box>

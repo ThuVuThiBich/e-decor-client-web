@@ -18,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
+import { useParams } from "react-router-dom";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
@@ -117,6 +118,8 @@ export default function NewProductForm() {
     console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
+  const { categoryName } = useParams();
+  console.log(categoryName);
   return (
     <Paper>
       <Box p={2} my={2}>

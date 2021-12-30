@@ -57,6 +57,11 @@ function App() {
         component={withSeller(NewProduct)}
         exact
       />
+      <Route
+        path={"/shop/add-product/:categoryName"}
+        component={withSeller(NewProduct)}
+        exact
+      />
       <Route path={"/shop/orders"} component={withSeller(SellerOrders)} exact />
       <Route
         path={"/shop/orders/:id"}

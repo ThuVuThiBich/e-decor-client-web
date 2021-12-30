@@ -12,6 +12,8 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { STATUS, STATUSES } from "constants/index";
 import SearchBar from "material-ui-search-bar";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { MenuProps, useToolbarStyles } from "./styles";
 
 export default function TableToolbar(props) {
@@ -22,7 +24,6 @@ export default function TableToolbar(props) {
     keyUp,
     cancelSearch,
     handleChangeDropdown,
-    handleOpenDialog,
     handleExportResources,
     handleSettingsDialog,
   } = props;
@@ -38,6 +39,9 @@ export default function TableToolbar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const history = useHistory();
+  const { categoryName } = useParams();
 
   return (
     <Toolbar className={classes.root}>
@@ -106,9 +110,9 @@ export default function TableToolbar(props) {
           variant="contained"
           color="primary"
           disableElevation
-          onClick={() => handleOpenDialog()}
+          onClick={() => history.push(`/shop/add-product/${categoryName}`)}
         >
-          Budget
+          New Product
         </Button>
       </Box>
     </Toolbar>

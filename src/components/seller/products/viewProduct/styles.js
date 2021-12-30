@@ -7,7 +7,12 @@ export const useStyles = makeStyles((theme) => ({
   },
   selectInput: { margin: "0 5px" },
   formControl: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
+    // paddingRight: 8
+  },
+  leftFormControl: {
+    // margin: theme.spacing(1),
+    // marginRight: -8
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -45,10 +50,12 @@ export const useStyles = makeStyles((theme) => ({
 
   editorToolbar: {
     backgroundColor: `rgb(250, 250, 250)`,
+    // width: "100%",
   },
   editor: {
     border: `1px solid #cccccc`,
     padding: 8,
     borderRadius: 4,
+    width: "100% !important",
   },
 }));
