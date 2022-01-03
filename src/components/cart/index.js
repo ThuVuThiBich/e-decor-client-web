@@ -1,8 +1,8 @@
-import { Box } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { alpha, lighten, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,28 +12,32 @@ import TableRow from "@material-ui/core/TableRow";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
+import RemoveIcon from "@material-ui/icons/Remove";
+import StorefrontIcon from "@material-ui/icons/Storefront";
 import clsx from "clsx";
 import React from "react";
-import StorefrontIcon from "@material-ui/icons/Storefront";
+import { useHistory } from "react-router-dom";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, version, price, carbs, total) {
+  return { name, version, price, carbs, total };
 }
 
 const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Donut", 452, 25.0, 51, 4.9),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Cupcake", "blue", 3.5, 67, 4.3),
+  createData("Donut", "red", 25.0, 51, 4.9),
+  createData("Eclair", "blue", 16.0, 24, 6.0),
+  createData("Frozen yoghurt", "fruit", 6.0, 24, 4.0),
+  createData("Gingerbread", "blue", 16.0, 49, 3.9),
 ];
 
 const headCells = [
-  { id: "calories", numeric: true, disablePadding: false, label: "" },
-  { id: "fat", numeric: true, disablePadding: false, label: "" },
+  { id: "version", numeric: true, disablePadding: false, label: "" },
+  { id: "price", numeric: true, disablePadding: false, label: "" },
   { id: "carbs", numeric: true, disablePadding: false, label: "" },
-  { id: "protein", numeric: true, disablePadding: false, label: "" },
+  { id: "total", numeric: true, disablePadding: false, label: "" },
+  { id: "total", numeric: true, disablePadding: false, label: "" },
 ];
 
 function EnhancedTableHead(props) {
@@ -42,8 +46,9 @@ function EnhancedTableHead(props) {
   return (
     <TableHead className={classes.row}>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell align="center">
           <Checkbox
+            color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
@@ -67,10 +72,7 @@ function EnhancedTableHead(props) {
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    "& .MuiTableCell-root": {
-      padding: "8px 0px",
-    },
+    paddingRight: theme.spacing(2),
   },
   highlight:
     theme.palette.type === "light"
@@ -83,13 +85,16 @@ const useToolbarStyles = makeStyles((theme) => ({
           backgroundColor: theme.palette.primary.dark,
         },
   title: {
-    flex: "1 1 100%",
+    marginRight: 16,
+    marginLeft: 16,
+    color: "rgb(210, 63, 87)",
   },
 }));
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
+  const history = useHistory();
 
   return (
     <Toolbar
@@ -98,24 +103,37 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          style={{ width: "100%" }}
         >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <></>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+          <Box display="flex" alignItems="center">
+            <Typography color="inherit" variant="subtitle1">
+              Total {numSelected} items:
+            </Typography>
+            <Typography
+              className={classes.title}
+              color="inherit"
+              variant="subtitle1"
+            >
+              $ 0
+            </Typography>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => history.push("/checkout")}
+            >
+              Check Out
+            </Button>
+          </Box>
+          <Tooltip title="Delete">
+            <IconButton aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
       ) : (
         <></>
       )}
@@ -139,6 +157,29 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiTableCell-root": {
       padding: "8px 0px",
     },
+  },
+  tableRowRoot: {
+    "&$tableRowSelected, &$tableRowSelected:hover": {
+      backgroundColor: alpha(
+        theme.palette.primary.main,
+        theme.palette.action.selectedOpacity
+      ),
+    },
+  },
+  tableRowSelected: {
+    backgroundColor: alpha(
+      theme.palette.primary.main,
+      theme.palette.action.selectedOpacity
+    ),
+  },
+
+  qtyBtn: {
+    minWidth: 20,
+    padding: 5,
+  },
+
+  price: {
+    color: "rgb(210, 63, 87)",
   },
 }));
 
@@ -205,18 +246,23 @@ export default function EnhancedTable() {
                 return (
                   <TableRow
                     className={classes.row}
+                    classes={{
+                      root: classes.tableRowRoot,
+                      selected: classes.tableRowSelected,
+                    }}
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.name}
                     selected={isItemSelected}
                   >
-                    <TableCell padding="checkbox">
+                    <TableCell align="center" width="5%">
                       <Checkbox
+                        color="primary"
                         checked={isItemSelected}
                         inputProps={{ "aria-labelledby": labelId }}
+                        onClick={(event) => handleClick(event, row.name)}
                       />
                     </TableCell>
 
@@ -224,7 +270,7 @@ export default function EnhancedTable() {
                       component="th"
                       id={labelId}
                       scope="row"
-                      padding="none"
+                      width="35%"
                     >
                       <Box display="flex" alignItems="center">
                         <img
@@ -239,17 +285,38 @@ export default function EnhancedTable() {
                         {row.name}
                       </Box>
                     </TableCell>
-                    <TableCell align="right" padding="none">
-                      {row.calories}
+                    <TableCell width="15%">{row.version}</TableCell>
+                    <TableCell width="10%">${row.price}</TableCell>
+                    <TableCell width="20%">
+                      <Box className={classes.test} mx={2}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          className={classes.qtyBtn}
+                        >
+                          <RemoveIcon />
+                        </Button>
+                        <Box component={"span"} px={2}>
+                          1
+                        </Box>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          className={classes.qtyBtn}
+                        >
+                          <AddIcon />
+                        </Button>
+                      </Box>
                     </TableCell>
-                    <TableCell align="right" padding="none">
-                      {row.fat}
+                    <TableCell width="10%" className={classes.price}>
+                      ${row.total}
                     </TableCell>
-                    <TableCell align="right" padding="none">
-                      {row.carbs}
-                    </TableCell>
-                    <TableCell align="right" padding="none">
-                      {row.protein}
+                    <TableCell width="5%">
+                      <Tooltip title="Delete">
+                        <IconButton aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 );
