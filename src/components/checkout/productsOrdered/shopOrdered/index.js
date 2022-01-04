@@ -42,12 +42,7 @@ export default function ShopOrdered() {
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
-        <Box
-          display="flex"
-          alignItems="center"
-          // style={{ color: "rgb(210, 63, 87)" }}
-          my={1}
-        >
+        <Box display="flex" alignItems="center" my={1}>
           <StorefrontIcon style={{ marginRight: 8 }} />
           <Typography className={classes.text} style={{ fontSize: 18 }}>
             Good Mood Decor
@@ -70,8 +65,13 @@ export default function ShopOrdered() {
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.name}>
-                  <TableCell component="th" scope="row" width="30%">
-                    <Box display="flex" alignItems="center">
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    width="30%"
+                    size="small"
+                  >
+                    <Box ml={2} display="flex" alignItems="center">
                       <img
                         style={{ marginRight: 16 }}
                         width={50}
@@ -96,6 +96,7 @@ export default function ShopOrdered() {
           </Table>
         </TableContainer>
         <Box
+          mt={2}
           display="flex"
           justifyContent="space-between"
           py={1}
@@ -185,22 +186,33 @@ export default function ShopOrdered() {
           alignItems="center"
           style={{ borderTop: "1px solid #ccc", borderTopStyle: "dashed" }}
         >
-          <Typography
-            className={classes.text}
-            style={{ fontSize: 20, fontWeight: "bold" }}
+          <Box
+            mr={10}
+            width="25%"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            Order Total ( 5 items):
-          </Typography>
-          <Typography
-            style={{
-              marginLeft: 16,
-              marginRight: 88,
-              color: "rgb(210, 63, 87)",
-              fontSize: 18,
-            }}
-          >
-            $25
-          </Typography>
+            <Typography
+              className={classes.text}
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+                color: "rgba(0,0,0,.54)",
+              }}
+            >
+              Order Total ( 5 items):
+            </Typography>
+            <Typography
+              style={{
+                marginLeft: 32,
+                color: "rgb(210, 63, 87)",
+                fontSize: 18,
+              }}
+            >
+              $25
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Paper>
