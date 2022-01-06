@@ -1,8 +1,9 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ShopInfo from "components/seller/products/newProduct";
+import ShopInfo from "components/seller/settings";
 import React from "react";
 import { useStyles } from "./styles";
+
 export default function Settings() {
   const classes = useStyles();
 
