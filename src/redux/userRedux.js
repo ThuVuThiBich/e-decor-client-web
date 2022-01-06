@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
+import { useDispatch } from "react-redux";
 import { setAuth, setToken } from "utils/helpers";
+import { getMyShop, setMyShop } from "./shopRedux";
 
 // async action
 // await async action tren component
@@ -17,6 +19,12 @@ export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
     const res = unwrapResult(actionResult);
     console.log("res - unwrapResult", res);
     setAuth(res);
+
+    const actionResult1 = await thunkAPI.dispatch(getMyShop());
+    console.log(" await thunkAPI.dispatch(getMyShop())", actionResult1);
+    const res1 = unwrapResult(actionResult1);
+    console.log("getMyShop", res1);
+    thunkAPI.dispatch(setMyShop(res1.result));
   }
   return response;
 });
