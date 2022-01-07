@@ -17,16 +17,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCities, getDistricts, getWards, reset } from "redux/addressRedux";
 import { addressSelector } from "redux/selectors";
 import { useStyles } from "./styles";
+import defaultWall from "../../../assets/images/wall.svg";
+import defaultAva from "../../../assets/images/profile_pic.svg";
+import { useState } from "react";
+import axios from "axios";
 
 export default function ShopInfo() {
   const classes = useStyles();
 
-  const [name, setName] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [address, setAddress] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [district, setDistrict] = React.useState("");
-  const [ward, setWard] = React.useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [district, setDistrict] = useState("");
+  const [ward, setWard] = useState("");
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -65,7 +69,30 @@ export default function ShopInfo() {
   useEffect(() => {
     console.log("getWards");
     district && dispatch(getWards(district));
-  }, [city, dispatch, district]);
+  }, [dispatch, district]);
+
+  // const [file, setFile] = useState(null);
+
+  const [avaUrl, setAvaUrl] = useState(defaultAva);
+  const [wallUrl, setWallUrl] = useState(defaultWall);
+
+  // upload
+  const getUploadedUrl = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "uploads");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+        data
+      );
+      const { url } = uploadRes.data;
+      console.log(url);
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Paper>
@@ -73,7 +100,10 @@ export default function ShopInfo() {
         <Box
           mb={3}
           style={{
-            background: `url(https://bazar-react.vercel.app/assets/images/banners/banner-10.png) center center / cover`,
+            border: "1px solid #ccc",
+            background: `url(${wallUrl}) center center / cover`,
+            backgroundSize: 150,
+            backgroundRepeat: "no-repeat",
             borderRadius: 10,
             overflow: "hidden",
             height: 173,
@@ -85,17 +115,22 @@ export default function ShopInfo() {
             alignItems="flex-end"
             style={{ position: "absolute", bottom: 20, left: 24 }}
           >
-            <Avatar alt="" src="" className={classes.avatar} />
+            <Avatar alt="" src={avaUrl} className={classes.avatar} />
             <Box>
               <input
                 accept="image/*"
                 className={classes.uploadInput}
-                id="icon-button-file"
+                id="ava-file"
                 type="file"
+                onChange={(e) => {
+                  getUploadedUrl(e.target.files[0]).then((result) =>
+                    setAvaUrl(result)
+                  );
+                }}
               />
               <label
                 className={classes.label}
-                htmlFor="icon-button-file"
+                htmlFor="ava-file"
                 style={{ marginLeft: -24 }}
               >
                 <IconButton
@@ -113,12 +148,17 @@ export default function ShopInfo() {
             <input
               accept="image/*"
               className={classes.wallInput}
-              id="icon-button-file"
+              id="wall-file"
               type="file"
+              onChange={(e) => {
+                getUploadedUrl(e.target.files[0]).then((result) =>
+                  setWallUrl(result)
+                );
+              }}
             />
             <label
               className={classes.wallLabel}
-              htmlFor="icon-button-file"
+              htmlFor="wall-file"
               style={{ marginLeft: -24 }}
             >
               <IconButton
@@ -300,7 +340,11 @@ export default function ShopInfo() {
             </Grid>
           </Box>
           <Box>
-            <Button color="primary" variant="contained">
+            <Button
+              color="primary"
+              variant="contained"
+              // onClick={handleCreate}
+            >
               Save
             </Button>
           </Box>

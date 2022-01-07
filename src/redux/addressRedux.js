@@ -1,20 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import addressApi from "api/addressApi";
 
-export const getCities = createAsyncThunk(
-  "address/getCities",
-  async (data, thunkAPI) => {
-    // thunkAPI.dispatch(...)
-    const response = await addressApi.getCities();
-    console.log("address/getCities", response);
-    return response.result;
-  }
-);
+export const getCities = createAsyncThunk("address/getCities", async () => {
+  const response = await addressApi.getCities();
+  console.log("address/getCities", response);
+  return response.result;
+});
 
 export const getDistricts = createAsyncThunk(
   "address/getDistricts",
   async (params, thunkAPI) => {
-    // thunkAPI.dispatch(...)
     const response = await addressApi.getDistricts({ cityId: params });
     console.log("address/getDistricts", response);
     return response.result;
@@ -24,7 +19,6 @@ export const getDistricts = createAsyncThunk(
 export const getWards = createAsyncThunk(
   "address/getWards",
   async (params, thunkAPI) => {
-    // thunkAPI.dispatch(...)
     const response = await addressApi.getWards({ districtId: params });
     console.log("address/getWards", response);
     return response.result;
