@@ -5,12 +5,13 @@ import LoginForm from "components/auth/LoginForm";
 import { Progress } from "components/common/Progress";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { userSelector } from "redux/selectors";
 import { login } from "redux/userRedux";
 
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isLoading, error } = useSelector((state) => state.user);
+  const { isLoading, error } = useSelector(userSelector);
 
   const handleLogin = async (user) => {
     try {

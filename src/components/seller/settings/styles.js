@@ -31,13 +31,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
 
-  phone: {
-    //     input::-webkit-outer-spin-button,
-    // input::-webkit-inner-spin-button {
-    //   -webkit-appearance: none;
-    //   margin: 0;
-  },
-
   input: {
     height: 37.65,
   },
@@ -47,5 +40,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+
+  menuPaper: {
+    maxHeight: 300,
   },
 }));

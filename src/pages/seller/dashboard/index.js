@@ -3,6 +3,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { shopSelector } from "redux/selectors";
 import noShop from "../../../assets/images/no-shop.svg";
 import { useStyles } from "./styles";
 
@@ -10,7 +11,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const history = useHistory();
 
-  const storeShop = useSelector((state) => state.shop);
+  const storeShop = useSelector(shopSelector);
 
   return (
     <Box>

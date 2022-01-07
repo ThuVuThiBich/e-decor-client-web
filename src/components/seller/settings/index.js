@@ -11,9 +11,12 @@ import {
   Paper,
   Select,
 } from "@material-ui/core";
-import React from "react";
-import { useStyles } from "./styles";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCities, getDistricts, getWards, reset } from "redux/addressRedux";
+import { addressSelector } from "redux/selectors";
+import { useStyles } from "./styles";
 
 export default function ShopInfo() {
   const classes = useStyles();
@@ -35,6 +38,7 @@ export default function ShopInfo() {
     setAddress(event.target.value);
   };
   const handleChangeCity = (event) => {
+    dispatch(reset());
     setCity(event.target.value);
   };
   const handleChangeDistrict = (event) => {
@@ -43,6 +47,26 @@ export default function ShopInfo() {
   const handleChangeWard = (event) => {
     setWard(event.target.value);
   };
+
+  const storeAddress = useSelector(addressSelector);
+  console.log(storeAddress);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("getCities");
+    dispatch(getCities());
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("getDistricts");
+    city && dispatch(getDistricts(city));
+  }, [city, dispatch]);
+
+  useEffect(() => {
+    console.log("getWards");
+    district && dispatch(getWards(district));
+  }, [city, dispatch, district]);
+
   return (
     <Paper>
       <Box p={3}>
@@ -168,11 +192,12 @@ export default function ShopInfo() {
                   <Select
                     labelId="select-outlined-label"
                     id="select-outlined"
-                    value={""}
+                    value={city}
                     onChange={handleChangeCity}
                     label="Select City"
                     className={classes.input}
                     MenuProps={{
+                      classes: { paper: classes.menuPaper },
                       anchorOrigin: {
                         vertical: "bottom",
                         horizontal: "left",
@@ -184,9 +209,9 @@ export default function ShopInfo() {
                       getContentAnchorEl: null,
                     }}
                   >
-                    {["Category1", "Category2"].map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
+                    {storeAddress.cities?.map((city) => (
+                      <MenuItem key={city.id} value={city.id}>
+                        {city.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -206,11 +231,13 @@ export default function ShopInfo() {
                   <Select
                     labelId="select-outlined-label"
                     id="select-outlined"
-                    value={""}
+                    value={district}
                     onChange={handleChangeDistrict}
                     label="Select District"
                     className={classes.input}
                     MenuProps={{
+                      classes: { paper: classes.menuPaper },
+
                       anchorOrigin: {
                         vertical: "bottom",
                         horizontal: "left",
@@ -222,9 +249,9 @@ export default function ShopInfo() {
                       getContentAnchorEl: null,
                     }}
                   >
-                    {["Category1", "Category2"].map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
+                    {storeAddress.districts?.map((district) => (
+                      <MenuItem key={district.id} value={district.id}>
+                        {district.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -244,11 +271,13 @@ export default function ShopInfo() {
                   <Select
                     labelId="select-outlined-label"
                     id="select-outlined"
-                    value={""}
+                    value={ward}
                     onChange={handleChangeWard}
                     label="Select Ward"
                     className={classes.input}
                     MenuProps={{
+                      classes: { paper: classes.menuPaper },
+
                       anchorOrigin: {
                         vertical: "bottom",
                         horizontal: "left",
@@ -260,9 +289,9 @@ export default function ShopInfo() {
                       getContentAnchorEl: null,
                     }}
                   >
-                    {["Category1", "Category2"].map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
+                    {storeAddress.wards?.map((ward) => (
+                      <MenuItem key={ward.id} value={ward.id}>
+                        {ward.name}
                       </MenuItem>
                     ))}
                   </Select>

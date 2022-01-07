@@ -4,9 +4,10 @@ import IdeasBlog from "components/home/ideasBlog";
 import TopPicks from "components/home/topPicks";
 import React from "react";
 import { useSelector } from "react-redux";
+import { userSelector } from "redux/selectors";
 
 const Home = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector(userSelector);
   console.log("user", user);
   return (
     <div>
