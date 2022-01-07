@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const shopApi = {
-  create: (data) => {
-    const url = "/shops/login";
+  createShop: (data) => {
+    const url = "/shops";
     return axiosClient.post(url, data);
   },
 

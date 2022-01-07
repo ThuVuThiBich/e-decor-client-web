@@ -119,7 +119,7 @@ export default function NewProductForm() {
   };
 
   const { categoryName } = useParams();
-  console.log(categoryName);
+
   return (
     <Paper>
       <Box p={2} my={2}>

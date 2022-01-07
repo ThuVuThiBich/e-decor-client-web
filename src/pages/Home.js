@@ -8,7 +8,6 @@ import { userSelector } from "redux/selectors";
 
 const Home = () => {
   const user = useSelector(userSelector);
-  console.log("user", user);
   return (
     <div>
       <Container style={{ paddingTop: 150 }}>

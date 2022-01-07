@@ -21,6 +21,7 @@ import defaultWall from "../../../assets/images/wall.svg";
 import defaultAva from "../../../assets/images/profile_pic.svg";
 import { useState } from "react";
 import axios from "axios";
+import { createShop } from "redux/shopRedux";
 
 export default function ShopInfo() {
   const classes = useStyles();
@@ -28,9 +29,9 @@ export default function ShopInfo() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [district, setDistrict] = useState("");
-  const [ward, setWard] = useState("");
+  const [cityId, setCityId] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [wardId, setWardId] = useState("");
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -43,35 +44,29 @@ export default function ShopInfo() {
   };
   const handleChangeCity = (event) => {
     dispatch(reset());
-    setCity(event.target.value);
+    setCityId(event.target.value);
   };
   const handleChangeDistrict = (event) => {
-    setDistrict(event.target.value);
+    setDistrictId(event.target.value);
   };
   const handleChangeWard = (event) => {
-    setWard(event.target.value);
+    setWardId(event.target.value);
   };
 
   const storeAddress = useSelector(addressSelector);
-  console.log(storeAddress);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("getCities");
     dispatch(getCities());
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("getDistricts");
-    city && dispatch(getDistricts(city));
-  }, [city, dispatch]);
+    cityId && dispatch(getDistricts(cityId));
+  }, [cityId, dispatch]);
 
   useEffect(() => {
-    console.log("getWards");
-    district && dispatch(getWards(district));
-  }, [dispatch, district]);
-
-  // const [file, setFile] = useState(null);
+    districtId && dispatch(getWards(districtId));
+  }, [dispatch, districtId]);
 
   const [avaUrl, setAvaUrl] = useState(defaultAva);
   const [wallUrl, setWallUrl] = useState(defaultWall);
@@ -87,11 +82,22 @@ export default function ShopInfo() {
         data
       );
       const { url } = uploadRes.data;
-      console.log(url);
       return url;
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleCreateShop = () => {
+    const data = {
+      name,
+      phone,
+      cityId,
+      districtId,
+      wardId,
+      description: "description",
+    };
+    dispatch(createShop(data));
   };
 
   return (
@@ -232,7 +238,7 @@ export default function ShopInfo() {
                   <Select
                     labelId="select-outlined-label"
                     id="select-outlined"
-                    value={city}
+                    value={cityId}
                     onChange={handleChangeCity}
                     label="Select City"
                     className={classes.input}
@@ -263,7 +269,7 @@ export default function ShopInfo() {
                   margin="dense"
                   variant="outlined"
                   className={classes.formControl}
-                  disabled={!city}
+                  disabled={!cityId}
                 >
                   <InputLabel id="select-outlined-label">
                     Select District
@@ -271,7 +277,7 @@ export default function ShopInfo() {
                   <Select
                     labelId="select-outlined-label"
                     id="select-outlined"
-                    value={district}
+                    value={districtId}
                     onChange={handleChangeDistrict}
                     label="Select District"
                     className={classes.input}
@@ -303,7 +309,7 @@ export default function ShopInfo() {
                   margin="dense"
                   variant="outlined"
                   className={classes.formControl}
-                  disabled={!district}
+                  disabled={!districtId}
                 >
                   <InputLabel id="select-outlined-label">
                     Select Ward
@@ -311,7 +317,7 @@ export default function ShopInfo() {
                   <Select
                     labelId="select-outlined-label"
                     id="select-outlined"
-                    value={ward}
+                    value={wardId}
                     onChange={handleChangeWard}
                     label="Select Ward"
                     className={classes.input}
@@ -343,7 +349,7 @@ export default function ShopInfo() {
             <Button
               color="primary"
               variant="contained"
-              // onClick={handleCreate}
+              onClick={handleCreateShop}
             >
               Save
             </Button>

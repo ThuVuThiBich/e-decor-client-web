@@ -4,7 +4,6 @@ export const getAuth = () => {
 };
 
 export const setAuth = (auth) => {
-  console.log("setAuth", auth);
   localStorage.setItem("auth", JSON.stringify(auth.result));
 };
 

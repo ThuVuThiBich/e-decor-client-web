@@ -17,7 +17,6 @@ const Login = () => {
     try {
       const actionResult = await dispatch(login(user));
       const currentUser = unwrapResult(actionResult);
-      console.log("login - currentUser: ", currentUser);
       history.push("/");
     } catch (error) {
       console.log("Failed to login ", error.message);

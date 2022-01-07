@@ -71,7 +71,6 @@ export default function ViewProductForm() {
       );
     },
   });
-  console.log(files);
   const thumbs = files.map((file) => (
     <Grid item xs={12} md={3}>
       <Box

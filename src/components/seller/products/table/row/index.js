@@ -12,8 +12,7 @@ export default function EnhancedTableRow(props) {
   const classes = useStyles();
   const { categoryName } = useParams();
   const history = useHistory();
-  console.log(history);
-  console.log(categoryName);
+
   return (
     <StyledTableRow key={row.id}>
       <StyledTableCell>{_.get(row, "id")}</StyledTableCell>

@@ -86,7 +86,6 @@ const SignUpForm = (props) => {
       email: values.email,
       password: values.password,
     };
-    console.log(user);
     e.preventDefault();
     props.handleSignUp(user);
   };

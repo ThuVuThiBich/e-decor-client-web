@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
 import shopApi from "api/shopApi";
-import { setAuth, setToken } from "utils/helpers";
 
 export const getMyShop = createAsyncThunk(
   "shop/getMyShop",
   async (data, thunkAPI) => {
-    // thunkAPI.dispatch(...)
     const response = await shopApi.getMyShop();
-    console.log("shop/getMyShop", response);
     return response;
+  }
+);
+
+export const createShop = createAsyncThunk(
+  "shop/createShop",
+  async (data, thunkAPI) => {
+    const response = await shopApi.createShop(data);
+    return data;
   }
 );
 
@@ -21,7 +26,6 @@ const shopSlice = createSlice({
   },
   reducers: {
     setMyShop: (state, action) => {
-      console.log(action)
       state.currentShop = action.payload;
     },
   },
@@ -35,6 +39,17 @@ const shopSlice = createSlice({
     },
     [getMyShop.fulfilled]: (state, action) => {
       state.isLoading = false;
+    },
+    [createShop.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [createShop.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [createShop.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.currentShop = action.payload;
     },
   },
 });
