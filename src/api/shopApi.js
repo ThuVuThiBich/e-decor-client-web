@@ -5,6 +5,10 @@ const shopApi = {
     const url = "/shops";
     return axiosClient.post(url, data);
   },
+  updateShop: (data) => {
+    const url = `/shops/${data.id}`;
+    return axiosClient.put(url, data);
+  },
 
   getShops: (params) => {
     const url = "/shops";

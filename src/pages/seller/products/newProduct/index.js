@@ -14,7 +14,7 @@ export default function NewProduct() {
             <svg
               width="24px"
               height="24px"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8cqusc"
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8cqusc"
               focusable="false"
               viewBox="0 0 32 32"
               aria-hidden="true"

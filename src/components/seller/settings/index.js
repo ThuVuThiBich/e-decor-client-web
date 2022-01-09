@@ -12,26 +12,38 @@ import {
   Select,
 } from "@material-ui/core";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCities, getDistricts, getWards, reset } from "redux/addressRedux";
-import { addressSelector } from "redux/selectors";
-import { useStyles } from "./styles";
-import defaultWall from "../../../assets/images/wall.svg";
+import { addressSelector, shopSelector } from "redux/selectors";
+import { createShop, updateShop } from "redux/shopRedux";
 import defaultAva from "../../../assets/images/profile_pic.svg";
-import { useState } from "react";
-import axios from "axios";
-import { createShop } from "redux/shopRedux";
+import defaultWall from "../../../assets/images/picture.png";
+import { useStyles } from "./styles";
 
 export default function ShopInfo() {
   const classes = useStyles();
-
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [cityId, setCityId] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [wardId, setWardId] = useState("");
+  const storeShop = useSelector(shopSelector);
+  const [uploadCover, setUploadCover] = useState(false);
+  const [name, setName] = useState(
+    storeShop.currentShop ? storeShop.currentShop.name : ""
+  );
+  const [phone, setPhone] = useState(
+    storeShop.currentShop ? storeShop.currentShop?.owner?.phone : ""
+  );
+  const [address, setAddress] = useState(
+    storeShop.currentShop ? storeShop.currentShop.addressDetail : ""
+  );
+  const [cityId, setCityId] = useState(
+    storeShop.currentShop ? storeShop.currentShop.city?.id : ""
+  );
+  const [districtId, setDistrictId] = useState(
+    storeShop.currentShop ? storeShop.currentShop.district?.id : ""
+  );
+  const [wardId, setWardId] = useState(
+    storeShop.currentShop ? storeShop.currentShop.ward?.id : ""
+  );
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -68,11 +80,16 @@ export default function ShopInfo() {
     districtId && dispatch(getWards(districtId));
   }, [dispatch, districtId]);
 
-  const [avaUrl, setAvaUrl] = useState(defaultAva);
-  const [wallUrl, setWallUrl] = useState(defaultWall);
+  const [avaUrl, setAvaUrl] = useState(
+    storeShop.currentShop ? storeShop.currentShop?.owner?.avatar : defaultAva
+  );
+  const [wallUrl, setWallUrl] = useState(
+    storeShop.currentShop ? storeShop.currentShop?.coverImage : defaultWall
+  );
 
   // upload
   const getUploadedUrl = async (file) => {
+    setUploadCover(true);
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "uploads");
@@ -88,16 +105,19 @@ export default function ShopInfo() {
     }
   };
 
-  const handleCreateShop = () => {
+  const handleSubmitShop = () => {
     const data = {
       name,
-      phone,
+      // phone,
       cityId,
       districtId,
       wardId,
+      coverImage: wallUrl,
       description: "description",
     };
-    dispatch(createShop(data));
+    storeShop.currentShop
+      ? dispatch(updateShop({ ...data, id: storeShop.currentShop.id }))
+      : dispatch(createShop(data));
   };
 
   return (
@@ -107,9 +127,11 @@ export default function ShopInfo() {
           mb={3}
           style={{
             border: "1px solid #ccc",
-            background: `url(${wallUrl}) center center / cover`,
-            backgroundSize: 150,
-            backgroundRepeat: "no-repeat",
+            backgroundImage: `url(${wallUrl})`,
+            backgroundPositionX: `center`,
+            backgroundPositionY: `center`,
+            backgroundSize: uploadCover ? "cover" : 150,
+            backgroundRepeat: uploadCover ? "none" : "no-repeat",
             borderRadius: 10,
             overflow: "hidden",
             height: 173,
@@ -242,6 +264,7 @@ export default function ShopInfo() {
                     onChange={handleChangeCity}
                     label="Select City"
                     className={classes.input}
+                    defaultValue=""
                     MenuProps={{
                       classes: { paper: classes.menuPaper },
                       anchorOrigin: {
@@ -281,6 +304,7 @@ export default function ShopInfo() {
                     onChange={handleChangeDistrict}
                     label="Select District"
                     className={classes.input}
+                    defaultValue=""
                     MenuProps={{
                       classes: { paper: classes.menuPaper },
 
@@ -321,6 +345,7 @@ export default function ShopInfo() {
                     onChange={handleChangeWard}
                     label="Select Ward"
                     className={classes.input}
+                    defaultValue=""
                     MenuProps={{
                       classes: { paper: classes.menuPaper },
 
@@ -349,9 +374,9 @@ export default function ShopInfo() {
             <Button
               color="primary"
               variant="contained"
-              onClick={handleCreateShop}
+              onClick={handleSubmitShop}
             >
-              Save
+              {storeShop.currentShop ? "Save Changes" : "Create your shop"}
             </Button>
           </Box>
         </Box>

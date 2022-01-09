@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from "@material-ui/core";
-import NewProductForm from "components/seller/products/newProduct";
 import ViewProductForm from "components/seller/products/viewProduct";
 import React from "react";
 import { useStyles } from "./styles";
@@ -15,7 +14,7 @@ export default function ViewProduct() {
             <svg
               width="24px"
               height="24px"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8cqusc"
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8cqusc"
               focusable="false"
               viewBox="0 0 32 32"
               aria-hidden="true"
@@ -28,7 +27,9 @@ export default function ViewProduct() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button color="primary" variant="outlined">Back To Product List</Button>
+        <Button color="primary" variant="outlined">
+          Back To Product List
+        </Button>
       </Box>
       <Box>
         <ViewProductForm />

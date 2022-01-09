@@ -7,13 +7,6 @@ import { shopSelector } from "redux/selectors";
 import { getShops } from "redux/shopRedux";
 import { useStyles } from "./styles";
 
-const mockShops = [
-  { id: 1, name: "Handmade Decor" },
-  { id: 2, name: "Handmade Decor" },
-  { id: 3, name: "Handmade Decor" },
-  { id: 4, name: "Handmade Decor" },
-  { id: 5, name: "Handmade Decor" },
-];
 export default function Shops() {
   const classes = useStyles();
   const [page, setPage] = useState(1);
@@ -46,7 +39,6 @@ export default function Shops() {
       }
     }
   }, [limit, page, storeShops.shops.length]);
-  console.log("shops", storeShops);
 
   return (
     <Container className={classes.container}>

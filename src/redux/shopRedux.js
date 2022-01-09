@@ -13,7 +13,25 @@ export const createShop = createAsyncThunk(
   "shop/createShop",
   async (data, thunkAPI) => {
     const response = await shopApi.createShop(data);
-    return data;
+    if (response.result) {
+      const actionResult = await thunkAPI.dispatch(getMyShop());
+      const res = unwrapResult(actionResult);
+      return res.result;
+    }
+    return null;
+  }
+);
+
+export const updateShop = createAsyncThunk(
+  "shop/updateShop",
+  async (data, thunkAPI) => {
+    const response = await shopApi.updateShop(data);
+    if (response.result.success) {
+      const actionResult = await thunkAPI.dispatch(getMyShop());
+      const res = unwrapResult(actionResult);
+      return res.result;
+    }
+    return null;
   }
 );
 
@@ -74,6 +92,18 @@ const shopSlice = createSlice({
       state.shops = action.payload.shops;
       state.totalShops = action.payload.totalShops;
       state.currentPage = action.payload.currentPage;
+    },
+
+    [updateShop.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateShop.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [updateShop.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.currentShop = action.payload;
     },
   },
 });

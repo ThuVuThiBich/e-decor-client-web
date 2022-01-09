@@ -61,6 +61,12 @@ export const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "center",
+    "& .MuiRating-icon": {
+      fontSize: 20,
+    },
+    "& .MuiRating-root": {
+      marginLeft: 10,
+    },
   },
 
   name: {

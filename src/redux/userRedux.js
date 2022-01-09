@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
-import { useDispatch } from "react-redux";
 import { setAuth, setToken } from "utils/helpers";
 import { getMyShop, setMyShop } from "./shopRedux";
 
@@ -9,21 +8,15 @@ import { getMyShop, setMyShop } from "./shopRedux";
 // unwrapResult => get payload and catch error
 export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
   // thunkAPI.dispatch(...)
-  console.log("data to login", data);
   const response = await authApi.login(data);
-  console.log("response - await authApi.login(data)", response);
   if (response.success) {
     setToken(response.token);
     const actionResult = await thunkAPI.dispatch(getInfo());
-    console.log(" await thunkAPI.dispatch(getInfo())", actionResult);
     const res = unwrapResult(actionResult);
-    console.log("res - unwrapResult", res);
     setAuth(res);
 
     const actionResult1 = await thunkAPI.dispatch(getMyShop());
-    console.log(" await thunkAPI.dispatch(getMyShop())", actionResult1);
     const res1 = unwrapResult(actionResult1);
-    console.log("getMyShop", res1);
     thunkAPI.dispatch(setMyShop(res1.result));
   }
   return response;
@@ -43,7 +36,6 @@ export const getInfo = createAsyncThunk(
   async (data, thunkAPI) => {
     // thunkAPI.dispatch(...)
     const response = await authApi.getInfo();
-    console.log("response - await authApi.getInfo()", response);
     return response;
   }
 );
@@ -56,7 +48,6 @@ const userSlice = createSlice({
   },
   reducers: {
     setInfo: (state, action) => {
-      console.log("action - setInfo", action);
       state.currentUser = action.payload;
     },
   },
@@ -85,8 +76,6 @@ const userSlice = createSlice({
     },
 
     [getInfo.fulfilled]: (state, action) => {
-      console.log("action - getInfo", action);
-
       state.isLoading = false;
       state.currentUser = action.payload.result;
     },

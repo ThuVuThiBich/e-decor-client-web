@@ -15,7 +15,7 @@ export default function CategoryProducts() {
             <svg
               width={24}
               height={24}
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8cqusc"
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-8cqusc"
               focusable="false"
               viewBox="0 0 32 32"
               aria-hidden="true"

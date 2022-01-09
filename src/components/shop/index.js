@@ -34,8 +34,8 @@ export default function Shop(props) {
   );
   const SmallRating = withStyles(smallStyles)(MyRating);
   return (
-    <Card className={classes.root}>
-      <Box className={classes.top}>
+    <Card className={classes.root} style={{ minHeight: 260 }}>
+      <Box className={classes.top} style={{ minHeight: 206 }}>
         <Typography className={classes.text}>{shop.name}</Typography>
         <SmallRating />
         <Box className={classes.info} display={"flex"}>

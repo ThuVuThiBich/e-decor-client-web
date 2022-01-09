@@ -1,21 +1,18 @@
 import {
   Avatar,
   Box,
-  Button as MuiButton,
+  Button,
   FormControl,
   Grid,
   IconButton,
   InputLabel,
-  OutlinedInput, Tooltip
+  OutlinedInput,
+  Tooltip,
 } from "@material-ui/core";
-import {
-  CloudUpload as MuiCloudUpload,
-  Delete as MuiDelete
-} from "@material-ui/icons";
-import { spacing } from "@material-ui/system";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import DeleteIcon from "@material-ui/icons/Delete";
 import React, { createRef, useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import styled from "styled-components";
 import { useStyles } from "./styles";
 
 export default function ProductVersionForm() {
@@ -34,9 +31,9 @@ export default function ProductVersionForm() {
 
   // edit
 
-  const Button = styled(MuiButton)(spacing);
-  const UploadIcon = styled(MuiCloudUpload)(spacing);
-  const DeleteIcon = styled(MuiDelete)(spacing);
+  // const Button = styled(MuiButton)(spacing);
+  // const UploadIcon = styled(MuiCloudUpload)(spacing);
+  // const DeleteIcon = styled(MuiDelete)(spacing);
 
   //
   const [image, setImage] = useState("");
@@ -303,7 +300,7 @@ export default function ProductVersionForm() {
                     </Tooltip>
                   ) : (
                     <Tooltip title="Upload">
-                      <UploadIcon />
+                      <CloudUploadIcon />
                     </Tooltip>
                   )}
                 </IconButton>
