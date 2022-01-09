@@ -8,7 +8,7 @@ const shopApi = {
 
   getShops: (params) => {
     const url = "/shops";
-    return axiosClient.get(url);
+    return axiosClient.get(url, { params });
   },
 
   getMyShop: () => {

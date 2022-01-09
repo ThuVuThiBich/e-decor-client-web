@@ -17,7 +17,7 @@ import { useStyles } from "./styles";
 
 export default function Shop(props) {
   const { shop } = props;
-  const classes = useStyles();
+  const classes = useStyles({ coverImageUrl: shop.coverImage });
   const smallStyles = {
     iconButton: {
       width: 32,
@@ -36,18 +36,18 @@ export default function Shop(props) {
   return (
     <Card className={classes.root}>
       <Box className={classes.top}>
-        <Typography className={classes.text}>Scarlett Beauty</Typography>
+        <Typography className={classes.text}>{shop.name}</Typography>
         <SmallRating />
         <Box className={classes.info} display={"flex"}>
           <PlaceIcon className={classes.icon} />
           <Typography className={classes.detail} component={"span"}>
-            845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark
+            {shop.ward.name}, {shop.district.name}, {shop.city.name}
           </Typography>
         </Box>
         <Box className={classes.info} display={"flex"}>
           <CallIcon className={classes.icon} />
           <Typography className={classes.detail} component={"span"}>
-            (613) 343-9004
+            {shop.owner.phone || "N/A"}
           </Typography>
         </Box>
       </Box>
@@ -59,7 +59,7 @@ export default function Shop(props) {
         display={"flex"}
         justifyContent={"space-between"}
       >
-        <Avatar alt="" src="" className={classes.avatar} />
+        <Avatar alt="" src={shop.owner.avatar} className={classes.avatar} />
         <Tooltip title="View detail" arrow>
           <Link to={`shops/${shop.id}`}>
             <IconButton>

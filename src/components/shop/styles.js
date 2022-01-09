@@ -9,8 +9,8 @@ export const useStyles = makeStyles((theme) => ({
     color: "white",
     backgroundSize: "cover",
     backgroundPosition: "center center",
-    backgroundImage:
-      "linear-gradient(rgba(43, 52, 69, 0.8), rgba(43, 52, 69, 0.8)), url(https://bazar-react.vercel.app/assets/images/banners/banner-7.png)",
+    backgroundImage: ({ coverImageUrl }) =>
+      `linear-gradient(rgba(43, 52, 69, 0.8), rgba(43, 52, 69, 0.8)), url(${coverImageUrl})`,
   },
   text: {
     marginBottom: 8,
