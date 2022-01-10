@@ -1,36 +1,14 @@
-import {
-  Box,
-  Card,
-  IconButton,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
+import { Box, Card, IconButton, Typography } from "@material-ui/core";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import Rating from "material-ui-rating/lib/components/Rating/Rating";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Rating from "@material-ui/lab/Rating";
+import noImage from "assets/images/no-image.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useStyles } from "./styles";
+
 export default function Product(props) {
   const { product } = props;
   const classes = useStyles();
-  const smallStyles = {
-    root: {
-      marginLeft: -10,
-    },
-    iconButton: {
-      width: 32,
-      height: 32,
-      padding: 16,
-    },
-    icon: {
-      width: 16,
-      height: 16,
-    },
-  };
-  const MyRating = ({ classes }) => (
-    <Rating value={3} max={5} classes={classes} readOnly={true} />
-  );
-
-  const SmallRating = withStyles(smallStyles)(MyRating);
 
   const history = useHistory();
   return (
@@ -40,17 +18,27 @@ export default function Product(props) {
       }}
       style={{ cursor: "pointer" }}
     >
-      <Box>
-        <img
-          src="https://cf.shopee.com.my/file/c15a6382557e79cb23db5f01d4c2481b"
-          alt=""
-        />
+      <Box
+        style={{ minHeight: 275, borderBottom: "1px solid #eee" }}
+        display="flex"
+        justifyContent="center"
+      >
+        <img src={product.image[0]?.image || noImage} alt="" />
       </Box>
       <Box display="flex" p={2} justifyContent="space-between">
         <Box>
-          <Typography className={classes.name}>{product.name}</Typography>
-          <SmallRating />
-          <Typography className={classes.price}>${product.price}</Typography>
+          <Typography gutterBottom className={classes.name}>
+            {product.name}
+          </Typography>
+          <Rating
+            value={Number(product.avgRating)}
+            precision={0.5}
+            emptyIcon={<StarBorderIcon fontSize="inherit" />}
+            readOnly
+          />
+          <Typography className={classes.price}>
+            {product.minPrice} - {product.minPrice} VND
+          </Typography>
         </Box>
         <Box display="flex" alignItems="flex-end">
           <IconButton>

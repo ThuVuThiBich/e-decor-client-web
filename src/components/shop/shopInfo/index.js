@@ -25,8 +25,7 @@ export default function ShopInfo(props) {
                 rel="noreferrer noopener"
               >
                 <svg
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-yoec1g"
-                  className={classes.linkIcon}
+                  className={`MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-yoec1g ${classes.linkIcon}`}
                   focusable="false"
                   viewBox="0 0 30 30"
                   aria-hidden="true"
@@ -44,7 +43,6 @@ export default function ShopInfo(props) {
                 rel="noreferrer noopener"
               >
                 <svg
-                  // class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-yoec1g"
                   className={`MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-yoec1g ${classes.linkIcon}`}
                   focusable="false"
                   viewBox="0 0 30 30"
@@ -65,7 +63,6 @@ export default function ShopInfo(props) {
                 rel="noreferrer noopener"
               >
                 <svg
-                  // class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-yoec1g"
                   className={`MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-yoec1g ${classes.linkIcon}`}
                   focusable="false"
                   viewBox="0 0 30 30"
@@ -86,7 +83,6 @@ export default function ShopInfo(props) {
                 rel="noreferrer noopener"
               >
                 <svg
-                  // class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lzy523"
                   className={`MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-lzy523 ${classes.linkIcon}`}
                   focusable="false"
                   viewBox="0 0 30 30"
@@ -114,7 +110,7 @@ export default function ShopInfo(props) {
             </Box>
           </Box>
           <Box className={classes.bottom}>
-            <Box >
+            <Box>
               <Rating
                 value={4.5}
                 precision={0.5}

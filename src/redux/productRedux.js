@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import productApi from "api/productApi";
 
 export const getProducts = createAsyncThunk(
@@ -62,7 +62,7 @@ const productSlice = createSlice({
   initialState: {
     currentProduct: null,
     products: [],
-    totalProducts: 0,
+    totalproducts: 0,
     currentPage: 1,
     isLoading: false,
     error: "",
@@ -83,7 +83,7 @@ const productSlice = createSlice({
     [getProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.products = action.payload.products;
-      state.totalProducts = action.payload.totalProducts;
+      state.totalproducts = action.payload.totalproducts;
       state.currentPage = action.payload.currentPage;
     },
     [createProduct.pending]: (state) => {
