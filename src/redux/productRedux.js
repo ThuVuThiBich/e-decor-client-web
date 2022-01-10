@@ -4,9 +4,7 @@ import productApi from "api/productApi";
 export const getProducts = createAsyncThunk(
   "product/getAll",
   async (data, thunkAPI) => {
-    console.log(data);
     const response = await productApi.getAll(data.id, data.params);
-    console.log(response.result);
     return response.result;
   }
 );

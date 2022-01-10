@@ -19,6 +19,11 @@ const shopApi = {
     const url = "/shops/my-shop";
     return axiosClient.get(url);
   },
+
+  getShop: (id) => {
+    const url = `/shops/${id}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default shopApi;

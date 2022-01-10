@@ -28,8 +28,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   wallpaper: {
     height: 202,
-    background:
-      "url(https://bazar-react.vercel.app/assets/images/banners/shop-cover.png) center center / cover",
+    background: ({ coverImage }) => `url(${coverImage}) center center / cover`,
   },
   main: {
     display: "flex",

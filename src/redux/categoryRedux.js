@@ -1,11 +1,10 @@
-import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import categoryApi from "api/categoryApi";
 
 export const getCategories = createAsyncThunk(
   "category/getCategories",
   async (data, thunkAPI) => {
     const response = await categoryApi.getCategories();
-    console.log(response);
     return response;
   }
 );
@@ -14,7 +13,6 @@ export const getShopCategories = createAsyncThunk(
   "category/getShopCategories",
   async (id, thunkAPI) => {
     const response = await categoryApi.getShopCategories(id);
-    console.log(response);
     return response.result;
   }
 );

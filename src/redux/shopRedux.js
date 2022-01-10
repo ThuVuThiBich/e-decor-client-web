@@ -43,10 +43,18 @@ export const getShops = createAsyncThunk(
   }
 );
 
+export const getShop = createAsyncThunk(
+  "shop/getShop",
+  async (id, thunkAPI) => {
+    const response = await shopApi.getShop(id);
+    return response.result;
+  }
+);
 const shopSlice = createSlice({
   name: "shop",
   initialState: {
     currentShop: null,
+    shop: null,
     shops: [],
     totalShops: 0,
     currentPage: 1,
@@ -104,6 +112,18 @@ const shopSlice = createSlice({
     [updateShop.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.currentShop = action.payload;
+    },
+
+    [getShop.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getShop.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getShop.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.shop = action.payload;
     },
   },
 });

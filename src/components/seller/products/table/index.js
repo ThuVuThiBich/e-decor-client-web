@@ -52,8 +52,6 @@ export default function ProductsTable() {
   const dispatch = useDispatch();
 
   const storeProduct = useSelector(productSelector);
-  console.log(storeProduct);
-  console.log(history.location.state.categoryId);
   const id = history.location.state.categoryId;
   useEffect(() => {
     dispatch(

@@ -9,7 +9,6 @@ import { useStyles } from "./styles";
 
 export default function EnhancedTableRow(props) {
   const { row } = props;
-  console.log(row);
   const classes = useStyles();
   const { categoryName } = useParams();
   const history = useHistory();

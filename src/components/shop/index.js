@@ -47,7 +47,7 @@ export default function Shop(props) {
         <Box className={classes.info} display={"flex"}>
           <CallIcon className={classes.icon} />
           <Typography className={classes.detail} component={"span"}>
-            {shop.owner.phone || "N/A"}
+            {shop.phone || "N/A"}
           </Typography>
         </Box>
       </Box>

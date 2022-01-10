@@ -3,20 +3,30 @@ import CallIcon from "@material-ui/icons/Call";
 import PlaceIcon from "@material-ui/icons/Place";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { shopSelector } from "redux/selectors";
+import { getShop } from "redux/shopRedux";
 import { useStyles } from "./styles";
 
 export default function ShopInfo(props) {
-  const classes = useStyles();
-
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const shop = useSelector(shopSelector).shop;
+  const classes = useStyles({ coverImage: shop.coverImage });
+  useEffect(() => {
+    dispatch(getShop(id));
+  }, [dispatch, id]);
   return (
     <Card className={classes.root}>
       <Box className={classes.wallpaper}></Box>
       <Box className={classes.main}>
-        <Avatar alt="" src="" className={classes.avatar} />
+        <Avatar alt={shop.avatar} src="" className={classes.avatar} />
         <Box className={classes.info}>
           <Box className={classes.top}>
             <Box className={classes.name}>
-              <Typography className={classes.text}>Scarlett Beauty</Typography>
+              <Typography className={classes.text}>{shop.name}</Typography>
             </Box>
             <Box className={classes.link}>
               <a
@@ -112,7 +122,7 @@ export default function ShopInfo(props) {
           <Box className={classes.bottom}>
             <Box>
               <Rating
-                value={4.5}
+                value={Number(shop.avgRating)}
                 precision={0.5}
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}
                 readOnly
@@ -120,13 +130,14 @@ export default function ShopInfo(props) {
               <Box mt={1} className={classes.subText} display={"flex"}>
                 <PlaceIcon className={classes.icon} />
                 <Typography className={classes.detail} component={"span"}>
-                  845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark
+                  {shop.addressDetail ? `${shop.addressDetail}, ` : ""}
+                  {shop.ward.name}, {shop.district.name}, {shop.city.name}
                 </Typography>
               </Box>
               <Box mt={1} className={classes.subText} display={"flex"}>
                 <CallIcon className={classes.icon} />
                 <Typography className={classes.detail} component={"span"}>
-                  (613) 343-9004
+                  {shop.phone || "N/A"}
                 </Typography>
               </Box>
             </Box>
