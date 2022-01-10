@@ -9,6 +9,7 @@ import { useStyles } from "./styles";
 
 export default function EnhancedTableRow(props) {
   const { row } = props;
+  console.log(row);
   const classes = useStyles();
   const { categoryName } = useParams();
   const history = useHistory();
@@ -16,8 +17,11 @@ export default function EnhancedTableRow(props) {
   return (
     <StyledTableRow key={row.id}>
       <StyledTableCell>{_.get(row, "id")}</StyledTableCell>
+      <StyledTableCell>{_.get(row, "name")}</StyledTableCell>
       <StyledTableCell>{_.get(row, "stock")}</StyledTableCell>
-      <StyledTableCell>{_.get(row, "price")}</StyledTableCell>
+      <StyledTableCell>
+        {_.get(row, "minPrice")} - {_.get(row, "maxPrice")} VND
+      </StyledTableCell>
       <StyledTableCell>
         <Tooltip title="View detail" arrow>
           <Link to={`${history.location.pathname}/${row.id}`}>

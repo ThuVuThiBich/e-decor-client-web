@@ -28,7 +28,14 @@ export default function Category(props) {
       onMouseOut={() => setState({ raised: false, shadow: 1 })}
       raised={state.raised}
       zdepth={state.shadow}
-      onClick={() => history.push(`/shop/products/${category.label}`)}
+      onClick={() =>
+        history.push({
+          pathname: `/shop/products/${category.category.name}`,
+          state: {
+            categoryId: category.categoryId,
+          },
+        })
+      }
     >
       <CardActionArea>
         <CardMedia

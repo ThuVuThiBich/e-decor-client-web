@@ -4,8 +4,10 @@ import productApi from "api/productApi";
 export const getProducts = createAsyncThunk(
   "product/getAll",
   async (data, thunkAPI) => {
-    const response = await productApi.getAll();
-    return response;
+    console.log(data);
+    const response = await productApi.getAll(data.id, data.params);
+    console.log(response.result);
+    return response.result;
   }
 );
 
@@ -58,9 +60,9 @@ export const getProduct = createAsyncThunk(
 const productSlice = createSlice({
   name: "product",
   initialState: {
-    currentShop: null,
-    shops: [],
-    totalShops: 0,
+    currentProduct: null,
+    products: [],
+    totalProducts: 0,
     currentPage: 1,
     isLoading: false,
     error: "",
@@ -80,6 +82,9 @@ const productSlice = createSlice({
     },
     [getProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.products = action.payload.products;
+      state.totalProducts = action.payload.totalProducts;
+      state.currentPage = action.payload.currentPage;
     },
     [createProduct.pending]: (state) => {
       state.isLoading = true;

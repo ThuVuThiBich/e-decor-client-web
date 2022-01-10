@@ -11,6 +11,7 @@ export default function EnhancedTableHead(props) {
   };
   const headCells = [
     { id: "productId", label: "Product ID #" },
+    { id: "name", label: "Name" },
     { id: "stock", label: "Stock" },
     { id: "price", label: "Price Range" },
   ];

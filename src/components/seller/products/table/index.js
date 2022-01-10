@@ -1,7 +1,10 @@
 import { Paper, Table, TableBody, TableContainer } from "@material-ui/core";
 import { INITIAL_PAGE, INITIAL_ROWS_PER_PAGE } from "constants/index";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getProducts } from "redux/productRedux";
+import { productSelector } from "redux/selectors";
 import { EmptyRows } from "./common/EmptyData";
 import { LoadingTable } from "./common/LoadingTable";
 import TableFooter from "./footer";
@@ -45,6 +48,19 @@ const mockOrders = [
   },
 ];
 export default function ProductsTable() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const storeProduct = useSelector(productSelector);
+  console.log(storeProduct);
+  console.log(history.location.state.categoryId);
+  const id = history.location.state.categoryId;
+  useEffect(() => {
+    dispatch(
+      getProducts({ id, params: { categories: id, limit: 5, page: 1 } })
+    );
+  }, [dispatch, id]);
+
   const classes = useStyles();
   const isLoading = false;
   const [orders, setOrders] = useState(mockOrders);
@@ -109,7 +125,7 @@ export default function ProductsTable() {
               <LoadingTable />
             ) : (
               <>
-                {orders.map((row) => (
+                {storeProduct.products.map((row) => (
                   <EnhancedTableRow
                     key={row.id}
                     row={row}

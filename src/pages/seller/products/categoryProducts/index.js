@@ -1,15 +1,24 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ProductsTable from "components/seller/products/table";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { getProducts } from "redux/productRedux";
+import { productSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function CategoryProducts() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  console.log(history.location.state.categoryId);
+
+
+
   return (
     <Box>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
         <Box display="flex" alignItems="center">
           <Box className={classes.icon}>
             <svg
@@ -37,7 +46,7 @@ export default function CategoryProducts() {
         </Button>
       </Box>
       <Box>
-        <ProductsTable />
+        <ProductsTable  />
       </Box>
     </Box>
   );
