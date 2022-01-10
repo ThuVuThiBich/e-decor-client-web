@@ -32,7 +32,7 @@ export default function ShopInfo() {
   const [phone, setPhone] = useState(
     storeShop.currentShop ? storeShop.currentShop?.owner?.phone : ""
   );
-  const [address, setAddress] = useState(
+  const [addressDetail, setAddressDetail] = useState(
     storeShop.currentShop ? storeShop.currentShop.addressDetail : ""
   );
   const [cityId, setCityId] = useState(
@@ -52,7 +52,7 @@ export default function ShopInfo() {
     setPhone(event.target.value);
   };
   const handleChangeAddress = (event) => {
-    setAddress(event.target.value);
+    setAddressDetail(event.target.value);
   };
   const handleChangeCity = (event) => {
     dispatch(reset());
@@ -108,11 +108,13 @@ export default function ShopInfo() {
   const handleSubmitShop = () => {
     const data = {
       name,
-      // phone,
+      phone,
+      addressDetail,
       cityId,
       districtId,
       wardId,
       coverImage: wallUrl,
+      avatar: avaUrl,
       description: "description",
     };
     storeShop.currentShop
@@ -240,7 +242,7 @@ export default function ShopInfo() {
                   <InputLabel htmlFor="component-outlined">Address</InputLabel>
                   <OutlinedInput
                     id="component-outlined"
-                    value={address}
+                    value={addressDetail}
                     onChange={handleChangeAddress}
                     label="Address"
                     placeholder="Address"

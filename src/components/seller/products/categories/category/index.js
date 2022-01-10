@@ -35,15 +35,15 @@ export default function Category(props) {
           component="img"
           alt=""
           height="140"
-          image="https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/33I74NXII4I6RBCJD7ZGGYE2GE.jpg&w=916"
+          image={category.category.image}
           title=""
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Candles
+            {category.category.name}
           </Typography>
           <Typography variant="body1" color="textSecondary">
-            20 Products
+            {category.countProducts} Products
           </Typography>
         </CardContent>
       </CardActionArea>
