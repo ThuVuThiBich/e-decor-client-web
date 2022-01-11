@@ -18,14 +18,16 @@ export const setToken = (data) => {
 };
 
 export const getPriceText = (products) => {
-  const prices = products.map((product) => product.price);
-  const min = Math.min(...prices);
-  const max = Math.max(...prices);
-  if (min === max) return min;
-  else return `${min} - ${max}`;
+  const prices = products?.map((product) => product.price);
+  if (prices?.length > 0) {
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    if (min === max) return min;
+    else return `${min} - ${max}`;
+  } else return "";
 };
 export const getImagesFromProductVersion = (products) => {
-  const images = products.map((product) => {
+  const images = products?.map((product) => {
     return { id: uuidv4(), image: product.image };
   });
   return images;

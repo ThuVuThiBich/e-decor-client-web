@@ -29,7 +29,7 @@ export default function Top(props) {
   const classes = useStyles();
   const [showedImage, setShowedImage] = useState(product?.image[0]?.image);
   const [showedPrice, setShowedPrice] = useState(
-    getPriceText(product.productVersion)
+    getPriceText(product?.productVersion)
   );
 
   const [value, setValue] = useState("");
@@ -37,7 +37,7 @@ export default function Top(props) {
   const handleChange = (event) => {
     setValue(event.target.value);
 
-    const item = product.productVersion.find(
+    const item = product?.productVersion.find(
       (item) => +item.id === +event.target.value
     );
     setShowedImage(item.image);
@@ -90,8 +90,10 @@ export default function Top(props) {
                     </IconButton>
                   }
                 >
-                  {product.image
-                    .concat(getImagesFromProductVersion(product.productVersion))
+                  {product?.image
+                    .concat(
+                      getImagesFromProductVersion(product?.productVersion)
+                    )
                     .map((item, index) => (
                       <Box
                         mx={1}
@@ -116,12 +118,12 @@ export default function Top(props) {
             <Box py={4}>
               <Box py={2}>
                 <Typography className={classes.headText}>
-                  {product.name}
+                  {product?.name}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center">
                 <Rating
-                  value={Number(product.avgRating)}
+                  value={Number(product?.avgRating)}
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   readOnly
@@ -131,13 +133,13 @@ export default function Top(props) {
                   flexItem
                   className={classes.divider}
                 />
-                <Box>{product.totalRating} Ratings</Box>
+                <Box>{product?.totalRating} Ratings</Box>
                 <Divider
                   orientation="vertical"
                   flexItem
                   className={classes.divider}
                 />
-                <Box>{product.soldQuantity} Sold</Box>
+                <Box>{product?.soldQuantity} Sold</Box>
               </Box>
               <Box py={1}>
                 <Typography className={classes.price}>
@@ -155,12 +157,12 @@ export default function Top(props) {
                   value={value}
                   onChange={handleChange}
                 >
-                  {product.productVersion.map((product) => (
+                  {product?.productVersion.map((product) => (
                     <FormControlLabel
-                      key={product.id}
-                      value={product.id.toString()}
+                      key={product?.id}
+                      value={product?.id.toString()}
                       control={<Radio />}
-                      label={product.name}
+                      label={product?.name}
                     />
                   ))}
                 </RadioGroup>
