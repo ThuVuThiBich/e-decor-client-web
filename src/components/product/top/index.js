@@ -2,9 +2,12 @@ import {
   Box,
   Button,
   Divider,
+  FormControlLabel,
   Grid,
   IconButton,
   Paper,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -16,69 +19,53 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import React, { useState } from "react";
 import ItemsCarousel from "react-items-carousel";
+import { getImagesFromProductVersion, getPriceText } from "utils/helpers";
 import { useStyles } from "./styles";
 
-export default function Top() {
-  const mockItems = [
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event2",
-      description: "description 1",
-    },
-    {
-      name: "Event3",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
-    },
-  ];
+export default function Top(props) {
+  const { product } = props;
 
   const [active, setActive] = useState(0);
   const classes = useStyles();
+  const [showedImage, setShowedImage] = useState(product?.image[0]?.image);
+  const [showedPrice, setShowedPrice] = useState(
+    getPriceText(product.productVersion)
+  );
+
+  const [value, setValue] = useState("");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+
+    const item = product.productVersion.find(
+      (item) => +item.id === +event.target.value
+    );
+    setShowedImage(item.image);
+    setShowedPrice(item.price);
+  };
+
   return (
     <Paper>
       <Box my={4} pb={4}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Box px={2}>
-              <Box display="flex" justifyContent="center">
+              <Box
+                display="flex"
+                justifyContent="center"
+                mb={2}
+                style={{ border: "1px solid #ddd" }}
+              >
                 <img
                   width={400}
                   height={400}
-                  src="https://cf.shopee.vn/file/235f683b7101d774ae570cd8289fa2a1"
+                  src={showedImage}
                   alt=""
+                  style={{ padding: 4 }}
                 />
               </Box>
-              <Box>
+
+              <Box mx={-1}>
                 <ItemsCarousel
                   infiniteLoop={true}
                   alwaysShowChevrons={true}
@@ -89,26 +76,38 @@ export default function Top() {
                   activeItemIndex={active}
                   requestToChangeActive={(value) => setActive(value)}
                   rightChevron={
-                    <IconButton style={{ color: "white" }}>
+                    <IconButton
+                    // style={{ color: "white" }}
+                    >
                       <ArrowForwardIosIcon />
                     </IconButton>
                   }
                   leftChevron={
-                    <IconButton style={{ color: "white" }}>
+                    <IconButton
+                    // style={{ color: "white" }}
+                    >
                       <ArrowBackIosIcon />
                     </IconButton>
                   }
                 >
-                  {mockItems.map((item, index) => (
-                    <Box px={1} className={classes.img}>
-                      <img
-                        width={100}
-                        height={100}
-                        src="https://cf.shopee.vn/file/50a6f0f021bf5172d4a33748d7e33f57_tn"
-                        alt=""
-                      />
-                    </Box>
-                  ))}
+                  {product.image
+                    .concat(getImagesFromProductVersion(product.productVersion))
+                    .map((item, index) => (
+                      <Box
+                        mx={1}
+                        className={classes.img}
+                        key={index}
+                        style={{ border: "1px solid #ddd" }}
+                      >
+                        <img
+                          width={100}
+                          height={100}
+                          src={item.image}
+                          alt=""
+                          style={{ padding: 4 }}
+                        />
+                      </Box>
+                    ))}
                 </ItemsCarousel>
               </Box>
             </Box>
@@ -117,12 +116,12 @@ export default function Top() {
             <Box py={4}>
               <Box py={2}>
                 <Typography className={classes.headText}>
-                  Đồng hồ để bàn led Hình chữ nhật mini
+                  {product.name}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center">
                 <Rating
-                  value={4.5}
+                  value={Number(product.avgRating)}
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   readOnly
@@ -132,16 +131,39 @@ export default function Top() {
                   flexItem
                   className={classes.divider}
                 />
-                <Box>217 Ratings</Box>
+                <Box>{product.totalRating} Ratings</Box>
                 <Divider
                   orientation="vertical"
                   flexItem
                   className={classes.divider}
                 />
-                <Box>566 Sold</Box>
+                <Box>{product.soldQuantity} Sold</Box>
               </Box>
               <Box py={1}>
-                <Typography className={classes.price}>$ 10 </Typography>
+                <Typography className={classes.price}>
+                  {showedPrice} VND
+                </Typography>
+              </Box>
+              <Box display="flex" pb={1}>
+                <Box mr={5} mt={1}>
+                  Type
+                </Box>
+                <RadioGroup
+                  aria-label="gender"
+                  name="type"
+                  // defaultValue={""}
+                  value={value}
+                  onChange={handleChange}
+                >
+                  {product.productVersion.map((product) => (
+                    <FormControlLabel
+                      key={product.id}
+                      value={product.id.toString()}
+                      control={<Radio />}
+                      label={product.name}
+                    />
+                  ))}
+                </RadioGroup>
               </Box>
               <Box display="flex" alignItems="center" pb={1}>
                 <Box>Quantity</Box>

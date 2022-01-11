@@ -48,9 +48,9 @@ export const deleteProduct = createAsyncThunk(
 );
 
 export const getProduct = createAsyncThunk(
-  "product/get",
-  async (params, thunkAPI) => {
-    const response = await productApi.get(params);
+  "product/getProduct",
+  async (id, thunkAPI) => {
+    const response = await productApi.get(id);
     return response.result;
   }
 );
@@ -60,16 +60,13 @@ const productSlice = createSlice({
   initialState: {
     currentProduct: null,
     products: [],
+    product: null,
     totalproducts: 0,
     currentPage: 1,
     isLoading: false,
     error: "",
   },
-  reducers: {
-    setMyShop: (state, action) => {
-      state.currentShop = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [getProducts.pending]: (state) => {
       state.isLoading = true;
@@ -93,7 +90,7 @@ const productSlice = createSlice({
     },
     [createProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.currentShop = action.payload;
+      state.currentProduct = action.payload;
     },
     [getProduct.pending]: (state) => {
       state.isLoading = true;
@@ -104,9 +101,7 @@ const productSlice = createSlice({
     },
     [getProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.shops = action.payload.shops;
-      state.totalShops = action.payload.totalShops;
-      state.currentPage = action.payload.currentPage;
+      state.product = action.payload;
     },
 
     [updateProduct.pending]: (state) => {
@@ -118,10 +113,10 @@ const productSlice = createSlice({
     },
     [updateProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.currentShop = action.payload;
+      state.currentProduct = action.payload;
     },
   },
 });
 
-export const { setMyShop } = productSlice.actions;
+// export const {} = productSlice.actions;
 export default productSlice.reducer;

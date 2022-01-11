@@ -17,7 +17,7 @@ import { useStyles } from "./styles";
 
 export default function Shop(props) {
   const { shop } = props;
-  const classes = useStyles({ coverImageUrl: shop.coverImage });
+  const classes = useStyles({ coverImageUrl: shop?.coverImage });
   const smallStyles = {
     iconButton: {
       width: 32,

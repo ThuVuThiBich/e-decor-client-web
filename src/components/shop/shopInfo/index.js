@@ -14,7 +14,7 @@ export default function ShopInfo(props) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const shop = useSelector(shopSelector).shop;
-  const classes = useStyles({ coverImage: shop.coverImage });
+  const classes = useStyles({ coverImage: shop?.coverImage });
   useEffect(() => {
     dispatch(getShop(id));
   }, [dispatch, id]);

@@ -5,49 +5,13 @@ import Product from "components/shop/shopContent/products/product";
 import React, { useState } from "react";
 import ItemsCarousel from "react-items-carousel";
 import { useStyles } from "./styles";
-const mockProducts = [
-  {
-    id: "1",
-    name: "Nến thơm",
-    url: "https://cf.shopee.vn/file/2b95a7a9ebf3b7b4410ddf3e1aa62ef4",
-    price: 5,
-    amount: 2,
-    description: "Không khói thư giãn cao cấp Aroma Menahem Sena Beauty",
-    total: 10,
-  },
-  {
-    id: "2",
-    name: "Lịch để bàn lật 2022 ",
-    url: "https://cf.shopee.vn/file/381fdfbf11931e04595d1e16d017e5ca",
-    price: 12,
-    amount: 1,
-    description: "Phong cách Vintage DECOSA",
-    total: 12,
-  },
-  {
-    id: "3",
-    name: "Bình Hoa Thủy Tinh",
-    url: "https://cf.shopee.vn/file/9d8fd8ddb577758fffa9cc638818837e",
-    price: 8,
-    amount: 3,
-    description:
-      " Phong Cách Bắc Âu/Cành Hoa Tulip Giả Dùng Để Trang Trí Nhà Cửa",
-    total: 24,
-  },
-  {
-    id: "3",
-    name: "Bình Hoa Thủy Tinh",
-    url: "https://cf.shopee.vn/file/9d8fd8ddb577758fffa9cc638818837e",
-    price: 8,
-    amount: 3,
-    description:
-      " Phong Cách Bắc Âu/Cành Hoa Tulip Giả Dùng Để Trang Trí Nhà Cửa",
-    total: 24,
-  },
-];
+import { useSelector } from "react-redux";
+import { productSelector } from "redux/selectors";
+
 export default function Bottom() {
   const classes = useStyles();
   const [active, setActive] = useState(0);
+  const storeProduct = useSelector(productSelector);
 
   return (
     <Box py={4}>
@@ -76,8 +40,8 @@ export default function Bottom() {
             </IconButton>
           }
         >
-          {mockProducts.map((product) => (
-            <Box pb={2}>
+          {storeProduct.products.map((product, index) => (
+            <Box pb={2} key={index}>
               <Product product={product} />
             </Box>
           ))}

@@ -19,11 +19,15 @@ export default function Product(props) {
       style={{ cursor: "pointer" }}
     >
       <Box
-        style={{ minHeight: 275, borderBottom: "1px solid #eee" }}
+        style={{
+          minHeight: 275,
+          maxHeight: 275,
+          borderBottom: "1px solid #eee",
+        }}
         display="flex"
         justifyContent="center"
       >
-        <img src={product.image[0]?.image || noImage} alt="" />
+        <img src={product?.image[0]?.image || noImage} alt="" />
       </Box>
       <Box display="flex" p={2} justifyContent="space-between">
         <Box>
