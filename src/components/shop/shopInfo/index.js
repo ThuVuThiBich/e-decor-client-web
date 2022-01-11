@@ -11,7 +11,8 @@ import { getShop } from "redux/shopRedux";
 import { useStyles } from "./styles";
 
 export default function ShopInfo(props) {
-  const dispatch = useDispatch();
+console.log("ShopInfo"); 
+ const dispatch = useDispatch();
   const { id } = useParams();
   const shop = useSelector(shopSelector).shop;
   const classes = useStyles({ coverImage: shop?.coverImage });
@@ -22,11 +23,11 @@ export default function ShopInfo(props) {
     <Card className={classes.root}>
       <Box className={classes.wallpaper}></Box>
       <Box className={classes.main}>
-        <Avatar alt={shop.avatar} src="" className={classes.avatar} />
+        <Avatar alt={shop?.avatar} src="" className={classes.avatar} />
         <Box className={classes.info}>
           <Box className={classes.top}>
             <Box className={classes.name}>
-              <Typography className={classes.text}>{shop.name}</Typography>
+              <Typography className={classes.text}>{shop?.name}</Typography>
             </Box>
             <Box className={classes.link}>
               <a
@@ -122,7 +123,7 @@ export default function ShopInfo(props) {
           <Box className={classes.bottom}>
             <Box>
               <Rating
-                value={Number(shop.avgRating)}
+                value={Number(shop?.avgRating)}
                 precision={0.5}
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}
                 readOnly
@@ -130,14 +131,14 @@ export default function ShopInfo(props) {
               <Box mt={1} className={classes.subText} display={"flex"}>
                 <PlaceIcon className={classes.icon} />
                 <Typography className={classes.detail} component={"span"}>
-                  {shop.addressDetail ? `${shop.addressDetail}, ` : ""}
-                  {shop.ward.name}, {shop.district.name}, {shop.city.name}
+                  {shop?.addressDetail ? `${shop?.addressDetail}, ` : ""}
+                  {shop?.ward.name}, {shop?.district.name}, {shop?.city.name}
                 </Typography>
               </Box>
               <Box mt={1} className={classes.subText} display={"flex"}>
                 <CallIcon className={classes.icon} />
                 <Typography className={classes.detail} component={"span"}>
-                  {shop.phone || "N/A"}
+                  {shop?.phone || "N/A"}
                 </Typography>
               </Box>
             </Box>
