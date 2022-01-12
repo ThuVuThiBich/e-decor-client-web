@@ -9,13 +9,21 @@ import {
   OutlinedInput,
   Tooltip,
 } from "@material-ui/core";
+import axios from "axios";
+
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { createRef, useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useStyles } from "./styles";
+import { useDispatch } from "react-redux";
+import {
+  removeProductVersion,
+  updateProductVersion,
+} from "redux/productVersionsRedux";
 
-export default function ProductVersionForm() {
+export default function ProductVersionForm(props) {
+  const { productVersion } = props;
   const classes = useStyles();
 
   // images
@@ -28,12 +36,6 @@ export default function ProductVersionForm() {
     },
     [files]
   );
-
-  // edit
-
-  // const Button = styled(MuiButton)(spacing);
-  // const UploadIcon = styled(MuiCloudUpload)(spacing);
-  // const DeleteIcon = styled(MuiDelete)(spacing);
 
   //
   const [image, setImage] = useState("");
@@ -57,6 +59,9 @@ export default function ProductVersionForm() {
     if (newImage) {
       setImageUrl(URL.createObjectURL(newImage));
     }
+    getUploadedUrl(event.target.files[0]).then((result) => {
+      dispatch(updateProductVersion({ ...productVersion, image: result }));
+    });
   };
 
   const handleClick = (event) => {
@@ -69,10 +74,45 @@ export default function ProductVersionForm() {
   };
 
   const [showedBtn, setShowedBtn] = useState(false);
-  const [name, setName] = React.useState("");
-
-  const handleChange = (event) => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  // const [image, setImage] = useState("");
+  const dispatch = useDispatch();
+  const handleChangeName = (event) => {
     setName(event.target.value);
+    dispatch(
+      updateProductVersion({ ...productVersion, name: event.target.value })
+    );
+  };
+  const handleChangePrice = (event) => {
+    setPrice(event.target.value);
+    dispatch(
+      updateProductVersion({ ...productVersion, price: event.target.value })
+    );
+  };
+  const handleChangeQuantity = (event) => {
+    setQuantity(event.target.value);
+    dispatch(
+      updateProductVersion({ ...productVersion, quantity: event.target.value })
+    );
+  };
+
+  const getUploadedUrl = async (file) => {
+    //  setUploadCover(true);
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "uploads");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+        data
+      );
+      const { url } = uploadRes.data;
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Box my={2}>
@@ -278,11 +318,11 @@ export default function ProductVersionForm() {
                 ref={inputFileRef}
                 accept="image/*"
                 hidden
-                id="avatar-image-upload"
+                id={`avatar-image-upload-${productVersion.id}`}
                 type="file"
                 onChange={handleOnChange}
               />
-              <label htmlFor="avatar-image-upload">
+              <label htmlFor={`avatar-image-upload-${productVersion.id}`}>
                 <IconButton
                   variant="outlined"
                   color="primary"
@@ -315,8 +355,8 @@ export default function ProductVersionForm() {
                 <InputLabel htmlFor="component-outlined">Price</InputLabel>
                 <OutlinedInput
                   id="component-outlined"
-                  value={name}
-                  onChange={handleChange}
+                  value={price}
+                  onChange={handleChangePrice}
                   label="Price"
                   placeholder="Price"
                 />
@@ -327,8 +367,8 @@ export default function ProductVersionForm() {
                 <InputLabel htmlFor="component-outlined">Stock</InputLabel>
                 <OutlinedInput
                   id="component-outlined"
-                  value={name}
-                  onChange={handleChange}
+                  value={quantity}
+                  onChange={handleChangeQuantity}
                   label="Stock"
                   placeholder="Stock"
                 />
@@ -342,7 +382,7 @@ export default function ProductVersionForm() {
                 <OutlinedInput
                   id="component-outlined"
                   value={name}
-                  onChange={handleChange}
+                  onChange={handleChangeName}
                   label="Description"
                   placeholder="Description"
                   multiline
@@ -355,10 +395,16 @@ export default function ProductVersionForm() {
               xs={12}
               md={12}
               display="flex"
-              alignItems="center"
-              justifyContent="center"
+              // alignItems="center"
+              // justifyContent="center"
             >
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={() =>
+                  dispatch(removeProductVersion(productVersion.id))
+                }
+              >
                 Remove
               </Button>
             </Grid>

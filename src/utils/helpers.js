@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { categorySelector } from "redux/selectors";
 import { v4 as uuidv4 } from "uuid";
 
 export const getAuth = () => {
@@ -31,4 +33,9 @@ export const getImagesFromProductVersion = (products) => {
     return { id: uuidv4(), image: product.image };
   });
   return images;
+};
+
+export const getCategoryNameFromId = (id, categories) => {
+  const category = categories?.find((item) => +item.categoryId === +id);
+  return category?.category?.name;
 };

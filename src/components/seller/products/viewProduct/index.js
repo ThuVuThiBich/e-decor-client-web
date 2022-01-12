@@ -71,8 +71,8 @@ export default function ViewProductForm() {
       );
     },
   });
-  const thumbs = files.map((file) => (
-    <Grid item xs={12} md={3}>
+  const thumbs = files.map((file, index) => (
+    <Grid item xs={12} md={3} key={index}>
       <Box
         style={{
           borderRadius: 8,
@@ -191,8 +191,8 @@ export default function ViewProductForm() {
                   Images
                 </legend>
                 <Grid container item xs={12} md={12} spacing={2}>
-                  {images.map((image) => (
-                    <Grid item xs={12} md={3}>
+                  {images.map((image, index) => (
+                    <Grid item xs={12} md={3} key={index}>
                       <img
                         src={image}
                         alt=""

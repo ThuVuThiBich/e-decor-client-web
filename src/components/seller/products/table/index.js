@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getProducts } from "redux/productRedux";
-import { productSelector } from "redux/selectors";
+import { productSelector, shopSelector } from "redux/selectors";
 import { EmptyRows } from "./common/EmptyData";
 import { LoadingTable } from "./common/LoadingTable";
 import TableFooter from "./footer";
@@ -52,12 +52,14 @@ export default function ProductsTable() {
   const dispatch = useDispatch();
 
   const storeProduct = useSelector(productSelector);
+  const storeShop = useSelector(shopSelector);
   const id = history.location.state.categoryId;
+  const shopId = storeShop.currentShop.id;
   useEffect(() => {
     dispatch(
-      getProducts({ id, params: { categories: id, limit: 5, page: 1 } })
+      getProducts({ id: shopId, params: { categories: id, limit: 5, page: 1 } })
     );
-  }, [dispatch, id]);
+  }, [dispatch, id, shopId]);
 
   const classes = useStyles();
   const isLoading = false;

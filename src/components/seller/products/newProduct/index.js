@@ -18,9 +18,22 @@ import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { getShopCategories } from "redux/categoryRedux";
+import { createProduct } from "redux/productRedux";
+import {
+  categorySelector,
+  productVersionsSelector,
+  shopSelector,
+} from "redux/selectors";
+import { getCategoryNameFromId } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
+//
+import axios from "axios";
+import { resetProductVersion } from "redux/productVersionsRedux";
 
 const thumbsContainer = {
   display: "flex",
@@ -70,11 +83,29 @@ const style = {
 };
 
 export default function NewProductForm() {
+  const storeProductVersions = useSelector(productVersionsSelector);
+  const { productVersions } = storeProductVersions;
   const classes = useStyles();
-  const [name, setName] = React.useState("");
+  const storeCategory = useSelector(categorySelector);
+  const storeShop = useSelector(shopSelector);
+  const { id } = storeShop.currentShop;
+  const [name, setName] = useState("");
+  const [images, setImages] = useState();
+  const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getShopCategories(id));
+  }, [dispatch, id]);
 
-  const handleChange = (event) => {
+  const handleChangeName = (event) => {
     setName(event.target.value);
+  };
+  const handleChangeDescription = (event) => {
+    setDescription(event.target.value);
+  };
+  const handleChangeCategory = (event) => {
+    setCategoryId(event.target.value);
   };
 
   // images
@@ -82,6 +113,35 @@ export default function NewProductForm() {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
+      // Push all the axios request promise into a single array
+      const uploaders = acceptedFiles.map((file) => {
+        // Initial FormData
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "uploads"); // Replace the preset name with your own
+        formData.append("api_key", "824454275614915"); // Replace API key with your own Cloudinary key
+        formData.append("timestamp", (Date.now() / 1000) | 0);
+
+        // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+        return axios
+          .post(
+            "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+            formData,
+            {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            }
+          )
+          .then((response) => {
+            return response.data.secure_url;
+          });
+      });
+      //
+      // Once all the files are uploaded
+      axios.all(uploaders).then((response) => {
+        // ... perform after upload is successful operation
+        setImages(response);
+      });
+      //
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -116,10 +176,42 @@ export default function NewProductForm() {
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
     console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+    setDescription(draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
 
   const { categoryName } = useParams();
+  const history = useHistory();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      name,
+      categoryId,
+      description,
+      material: "",
+      origin: "",
+      size: "",
+      weight: 1,
+      images,
+      versions: storeProductVersions.productVersions.map((item) => ({
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+    };
+    dispatch(createProduct(data));
+    history.push({
+      pathname: `/shop/products/${getCategoryNameFromId(
+        categoryId,
+        storeCategory.shopCategories
+      )}`,
+      state: {
+        categoryId,
+      },
+    });
+    dispatch(resetProductVersion());
+  };
   return (
     <Paper>
       <Box p={2} my={2}>
@@ -131,7 +223,7 @@ export default function NewProductForm() {
                 <OutlinedInput
                   id="component-outlined"
                   value={name}
-                  onChange={handleChange}
+                  onChange={handleChangeName}
                   label="Name"
                   placeholder="Name"
                 />
@@ -150,8 +242,8 @@ export default function NewProductForm() {
                 <Select
                   labelId="select-outlined-label"
                   id="select-outlined"
-                  value={""}
-                  onChange={handleChange}
+                  value={categoryId}
+                  onChange={handleChangeCategory}
                   label="Select Category"
                   className={classes.input}
                   MenuProps={{
@@ -166,9 +258,9 @@ export default function NewProductForm() {
                     getContentAnchorEl: null,
                   }}
                 >
-                  {["Category1", "Category2"].map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
+                  {storeCategory.shopCategories?.map((option) => (
+                    <MenuItem key={option.categoryId} value={option.categoryId}>
+                      {option.category.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -222,7 +314,11 @@ export default function NewProductForm() {
         </form>
 
         <Box>
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={(e) => handleSubmit(e)}
+          >
             Save Product
           </Button>
         </Box>

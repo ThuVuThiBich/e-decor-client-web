@@ -9,7 +9,6 @@ import Products from "./products";
 import { useStyles } from "./styles";
 export default function ShopContent(props) {
   const classes = useStyles();
-  console.log("ShopContent");
 
   const { id } = useParams();
   const dispatch = useDispatch();

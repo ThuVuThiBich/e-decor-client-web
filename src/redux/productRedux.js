@@ -14,6 +14,7 @@ export const createProduct = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await productApi.create(data);
     if (response.result) {
+      console.log(response.result);
       // const actionResult = await thunkAPI.dispatch(getAll());
       // const res = unwrapResult(actionResult);
       // return res.result;
@@ -90,7 +91,7 @@ const productSlice = createSlice({
     },
     [createProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.currentProduct = action.payload;
+      // state.currentProduct = action.payload;
     },
     [getProduct.pending]: (state) => {
       state.isLoading = true;

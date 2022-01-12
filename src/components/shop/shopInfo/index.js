@@ -11,7 +11,6 @@ import { getShop } from "redux/shopRedux";
 import { useStyles } from "./styles";
 
 export default function ShopInfo(props) {
-console.log("ShopInfo"); 
  const dispatch = useDispatch();
   const { id } = useParams();
   const shop = useSelector(shopSelector).shop;
