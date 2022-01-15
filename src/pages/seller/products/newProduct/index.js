@@ -1,11 +1,16 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import NewProductForm from "components/seller/products/newProduct";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { resetProductVersion } from "redux/productRedux";
 import { useStyles } from "./styles";
 
 export default function NewProduct() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(resetProductVersion());
+  }, [dispatch]);
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">

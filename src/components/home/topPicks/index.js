@@ -82,7 +82,7 @@ export default function TopPicks() {
       <Grid container spacing={6}>
         <Grid item xs={12} md={5}>
           <Carousel animation="slide" duration="5000" interval={5000}>
-            {events.map((event, i) => (
+            {events?.map((event, i) => (
               <FeaturedEvents key={i} event={event} />
             ))}
           </Carousel>
@@ -113,7 +113,7 @@ export default function TopPicks() {
               </IconButton>
             }
           >
-            {mockItems.map((item, index) => (
+            {mockItems?.map((item, index) => (
               <Pick key={index} item={item} />
             ))}
           </ItemsCarousel>

@@ -17,7 +17,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveIcon from "@material-ui/icons/Remove";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 function createData(name, version, price, carbs, total) {
@@ -61,7 +61,7 @@ function EnhancedTableHead(props) {
             Decor shop Name
           </Box>
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells?.map((headCell) => (
           <TableCell key={headCell.id}>{headCell.label}</TableCell>
         ))}
       </TableRow>
@@ -185,11 +185,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable() {
   const classes = useStyles();
-  const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = useState([]);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -239,7 +239,7 @@ export default function EnhancedTable() {
             />
 
             <TableBody className={classes.row}>
-              {rows.map((row, index) => {
+              {rows?.map((row, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 

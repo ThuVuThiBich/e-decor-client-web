@@ -79,7 +79,7 @@ export default function ProductsTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = orders.map((n) => n.name);
+      const newSelecteds = orders?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -125,7 +125,7 @@ export default function ProductsTable() {
               <LoadingTable />
             ) : (
               <>
-                {storeProduct.products.map((row) => (
+                {storeProduct.products?.map((row) => (
                   <EnhancedTableRow
                     key={row.id}
                     row={row}

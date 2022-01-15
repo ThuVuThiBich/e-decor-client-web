@@ -46,7 +46,7 @@ export default function Shops() {
         <Typography className={classes.headText}>All Shops</Typography>
       </Box>
       <Grid container spacing={3}>
-        {storeShops.shops.map((shop) => (
+        {storeShops.shops?.map((shop) => (
           <Grid key={shop.id} item xs={12} sm={6} lg={4}>
             <Shop shop={shop} />
           </Grid>

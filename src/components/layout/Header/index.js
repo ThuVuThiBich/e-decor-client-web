@@ -15,13 +15,16 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
 import SearchInput from "components/common/SearchInput";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { cartSelector } from "redux/selectors";
 import { getToken } from "utils/helpers";
 import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
 
 export default function Header() {
+  const cartStore = useSelector(cartSelector);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
 
@@ -195,7 +198,7 @@ export default function Header() {
               onMouseOver={handleCardMenuOpen}
               style={{ cursor: "pointer" }}
             >
-              <Badge badgeContent={0} color="secondary">
+              <Badge badgeContent={cartStore.quantity} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

@@ -17,15 +17,12 @@ import React, { createRef, useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useStyles } from "./styles";
 import { useDispatch } from "react-redux";
-import {
-  removeProductVersion,
-  updateProductVersion,
-} from "redux/productVersionsRedux";
+import { removeProductVersion, updateProductVersion } from "redux/productRedux";
 
 export default function ProductVersionForm(props) {
-  const { productVersion } = props;
+  const { productVersion, isEdit } = props;
   const classes = useStyles();
-
+  console.log("ProductVersionForm", productVersion);
   // images
   const [files, setFiles] = useState([]);
 
@@ -38,7 +35,7 @@ export default function ProductVersionForm(props) {
   );
 
   //
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(productVersion?.image);
   const inputFileRef = createRef(null);
 
   const cleanup = () => {
@@ -74,9 +71,9 @@ export default function ProductVersionForm(props) {
   };
 
   const [showedBtn, setShowedBtn] = useState(false);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [name, setName] = useState(productVersion?.name);
+  const [price, setPrice] = useState(productVersion?.price);
+  const [quantity, setQuantity] = useState(productVersion?.quantity);
   // const [image, setImage] = useState("");
   const dispatch = useDispatch();
   const handleChangeName = (event) => {
@@ -351,7 +348,12 @@ export default function ProductVersionForm(props) {
         <Grid item xs={12} md={8}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <FormControl variant="outlined" margin="dense" fullWidth>
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                disabled={isEdit}
+              >
                 <InputLabel htmlFor="component-outlined">Price</InputLabel>
                 <OutlinedInput
                   id="component-outlined"
@@ -363,7 +365,12 @@ export default function ProductVersionForm(props) {
               </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-              <FormControl variant="outlined" margin="dense" fullWidth>
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                disabled={isEdit}
+              >
                 <InputLabel htmlFor="component-outlined">Stock</InputLabel>
                 <OutlinedInput
                   id="component-outlined"
@@ -375,7 +382,12 @@ export default function ProductVersionForm(props) {
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12}>
-              <FormControl variant="outlined" margin="dense" fullWidth>
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                disabled={isEdit}
+              >
                 <InputLabel htmlFor="component-outlined">
                   Description
                 </InputLabel>

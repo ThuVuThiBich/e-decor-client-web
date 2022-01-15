@@ -58,7 +58,7 @@ export default function TableToolbar(props) {
             input={<InputBase classes={{ input: classes.input }} />}
             onChange={handleChangeDropdown}
           >
-            {STATUSES.map((option) => (
+            {STATUSES?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.name}
               </MenuItem>

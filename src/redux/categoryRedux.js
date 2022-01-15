@@ -5,7 +5,7 @@ export const getCategories = createAsyncThunk(
   "category/getCategories",
   async (data, thunkAPI) => {
     const response = await categoryApi.getCategories();
-    return response;
+    return response.result;
   }
 );
 
@@ -24,7 +24,7 @@ const categorySlice = createSlice({
     categories: [],
 
     isLoading: false,
-    error: "",
+    error: false,
   },
   reducers: {},
   extraReducers: {
@@ -37,6 +37,7 @@ const categorySlice = createSlice({
     },
     [getCategories.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.categories = action.payload;
     },
 
     [getShopCategories.pending]: (state) => {

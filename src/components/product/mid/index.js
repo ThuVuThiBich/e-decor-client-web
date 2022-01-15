@@ -7,7 +7,7 @@ import {
   Tabs,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import Description from "./description";
 import Review from "./review";
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Mid() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

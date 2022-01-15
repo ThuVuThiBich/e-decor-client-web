@@ -9,7 +9,10 @@ import {
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "redux/categoryRedux";
+import { categorySelector } from "redux/selectors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,17 +56,14 @@ const MenuProps = {
   },
 };
 export default function SearchInput() {
-  const categories = [
-    "All categories",
-    "Lighting",
-    "Candles",
-    "Stationary",
-    "Storage",
-    "Clocks",
-    "Plants",
-  ];
+  const dispatch = useDispatch();
+
+  const storeCategory = useSelector(categorySelector);
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
   const classes = useStyles();
-  const [searchValue, setSearchValue] = useState("All categories");
+  const [searchValue, setSearchValue] = useState("");
   const handleChangeDropdown = (e) => {
     setSearchValue(e.target.value);
   };
@@ -79,14 +79,7 @@ export default function SearchInput() {
       />
 
       <Divider className={classes.divider} orientation="vertical" />
-      {/* <Button
-        color="primary"
-        className={classes.iconButton}
-        aria-label="directions"
-      >
-        All categories
-        <ExpandMoreIcon />
-      </Button> */}
+
       <FormControl variant="outlined" className={classes.select}>
         <Select
           value={searchValue}
@@ -96,9 +89,12 @@ export default function SearchInput() {
           input={<InputBase classes={{ input: classes.selectInput }} />}
           onChange={handleChangeDropdown}
         >
-          {categories.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
+          <MenuItem key={"all-categories"} value={""}>
+            All categories
+          </MenuItem>
+          {storeCategory?.categories?.map((option) => (
+            <MenuItem key={option} value={option.id}>
+              {option.name}
             </MenuItem>
           ))}
         </Select>

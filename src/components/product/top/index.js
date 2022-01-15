@@ -17,19 +17,31 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import RemoveIcon from "@material-ui/icons/Remove";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemsCarousel from "react-items-carousel";
 import { getImagesFromProductVersion, getPriceText } from "utils/helpers";
 import { useStyles } from "./styles";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "redux/cartRedux";
+import { productSelector } from "redux/selectors";
 export default function Top(props) {
-  const { product } = props;
+  const dispatch = useDispatch();
+  const { product } = useSelector(productSelector);
+
+  const [showedImage, setShowedImage] = useState("");
+  useEffect(() => {
+    setShowedImage(
+      product?.images?.concat(
+        getImagesFromProductVersion(product?.productVersions)
+      )[0]?.image
+    );
+  }, [product]);
 
   const [active, setActive] = useState(0);
   const classes = useStyles();
-  const [showedImage, setShowedImage] = useState(product?.image[0]?.image);
+
   const [showedPrice, setShowedPrice] = useState(
-    getPriceText(product?.productVersion)
+    getPriceText(product?.productVersions)
   );
 
   const [value, setValue] = useState("");
@@ -37,13 +49,16 @@ export default function Top(props) {
   const handleChange = (event) => {
     setValue(event.target.value);
 
-    const item = product?.productVersion.find(
+    const item = product?.productVersions.find(
       (item) => +item.id === +event.target.value
     );
     setShowedImage(item.image);
     setShowedPrice(item.price);
   };
 
+  const addToCart = (e) => {
+    dispatch(addProduct({}));
+  };
   return (
     <Paper>
       <Box my={4} pb={4}>
@@ -90,11 +105,11 @@ export default function Top(props) {
                     </IconButton>
                   }
                 >
-                  {product?.image
-                    .concat(
-                      getImagesFromProductVersion(product?.productVersion)
+                  {product?.images
+                    ?.concat(
+                      getImagesFromProductVersion(product?.productVersions)
                     )
-                    .map((item, index) => (
+                    ?.map((item, index) => (
                       <Box
                         mx={1}
                         className={classes.img}
@@ -157,7 +172,7 @@ export default function Top(props) {
                   value={value}
                   onChange={handleChange}
                 >
-                  {product?.productVersion.map((product) => (
+                  {product?.productVersions?.map((product) => (
                     <FormControlLabel
                       key={product?.id}
                       value={product?.id.toString()}
@@ -194,6 +209,7 @@ export default function Top(props) {
                   color="primary"
                   variant="outlined"
                   className={classes.actionBtn}
+                  onClick={addToCart}
                 >
                   <AddShoppingCartIcon />
                   Add To Cart

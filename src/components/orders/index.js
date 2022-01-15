@@ -68,7 +68,7 @@ export default function OrderDtail() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = orders.map((n) => n.name);
+      const newSelecteds = orders?.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -114,7 +114,7 @@ export default function OrderDtail() {
               <LoadingTable />
             ) : (
               <>
-                {orders.map((row) => (
+                {orders?.map((row) => (
                   <EnhancedTableRow
                     key={row.id}
                     row={row}

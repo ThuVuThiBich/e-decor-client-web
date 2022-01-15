@@ -1,11 +1,24 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ViewProductForm from "components/seller/products/viewProduct";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getProduct } from "redux/productRedux";
+import { productSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function ViewProduct() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  const { product } = useSelector(productSelector);
+  const { productId } = useParams();
+  const { isLoading } = useSelector(productSelector);
+  useEffect(() => {
+    console.log("useEffect");
+    dispatch(getProduct(productId));
+  }, [dispatch, productId]);
+  console.log("ViewProduct", productId);
+  console.log("ViewProduct", isLoading);
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -31,9 +44,7 @@ export default function ViewProduct() {
           Back To Product List
         </Button>
       </Box>
-      <Box>
-        <ViewProductForm />
-      </Box>
+      <Box>{+productId === +product?.id && <ViewProductForm />}</Box>
     </Box>
   );
 }

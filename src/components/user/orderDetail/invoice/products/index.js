@@ -50,7 +50,7 @@ export default function Products() {
           </Box>
         </Box>
         <Box p={2}>
-          {mockProducts.map((product) => (
+          {mockProducts?.map((product) => (
             <Product product={product} key={product.id} />
           ))}
         </Box>

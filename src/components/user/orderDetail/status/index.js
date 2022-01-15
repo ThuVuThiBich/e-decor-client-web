@@ -121,7 +121,7 @@ export default function Status() {
           activeStep={activeStep}
           connector={<ColorlibConnector />}
         >
-          {steps.map((label) => (
+          {steps?.map((label) => (
             <Step key={label}>
               <StepLabel StepIconComponent={ColorlibStepIcon}>
                 {label}

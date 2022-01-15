@@ -18,7 +18,7 @@ export default function EnhancedTableHead(props) {
   return (
     <TableHead>
       <StyledTableRow>
-        {headCells.map((headCell) => (
+        {headCells?.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={"left"}

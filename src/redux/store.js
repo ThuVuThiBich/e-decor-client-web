@@ -5,7 +5,6 @@ import shopReducer from "./shopRedux";
 import productReducer from "./productRedux";
 import categoryReducer from "./categoryRedux";
 import addressReducer from "./addressRedux";
-import productVersionsReducer from "./productVersionsRedux";
 import {
   persistStore,
   persistReducer,
@@ -31,7 +30,6 @@ const rootReducer = combineReducers({
   address: addressReducer,
   product: productReducer,
   category: categoryReducer,
-  productVersions: productVersionsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

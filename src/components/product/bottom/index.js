@@ -40,7 +40,7 @@ export default function Bottom() {
             </IconButton>
           }
         >
-          {storeProduct.products.map((product, index) => (
+          {storeProduct.products?.map((product, index) => (
             <Box pb={2} key={index}>
               <Product product={product} />
             </Box>

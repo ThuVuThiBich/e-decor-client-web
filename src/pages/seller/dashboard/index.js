@@ -1,18 +1,22 @@
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { shopSelector } from "redux/selectors";
+import { getMyShop } from "redux/shopRedux";
 import noShop from "../../../assets/images/no-shop.svg";
 import { useStyles } from "./styles";
 
 export default function Dashboard() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const storeShop = useSelector(shopSelector);
-
+  useEffect(() => {
+    dispatch(getMyShop());
+  }, [dispatch]);
   return (
     <Box>
       <Box

@@ -18,6 +18,10 @@ import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getProduct } from "redux/productRedux";
+import { categorySelector, productSelector } from "redux/selectors";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
@@ -49,10 +53,19 @@ const style = {
   transition: "border .24s ease-in-out",
 };
 
-export default function ViewProductForm() {
+export default function ViewProductForm(props) {
   const classes = useStyles();
-  const [name, setName] = React.useState("");
-
+  const storeCategory = useSelector(categorySelector);
+  const { product } = useSelector(productSelector);
+  console.log(product);
+  const [name, setName] = useState(product && product?.name);
+  const [images, setImages] = useState(
+    product?.images?.map((item) => item.image)
+  );
+  const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState(
+    product && product?.category?.id
+  );
   const handleChange = (event) => {
     setName(event.target.value);
   };
@@ -63,7 +76,7 @@ export default function ViewProductForm() {
     accept: "image/*",
     onDrop: (acceptedFiles) => {
       setFiles(
-        acceptedFiles.map((file) =>
+        acceptedFiles?.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -71,7 +84,7 @@ export default function ViewProductForm() {
       );
     },
   });
-  const thumbs = files.map((file, index) => (
+  const thumbs = files?.map((file, index) => (
     <Grid item xs={12} md={3} key={index}>
       <Box
         style={{
@@ -106,11 +119,11 @@ export default function ViewProductForm() {
 
   const [isEdit, setIsEdit] = useState(true);
 
-  const images = [
-    "https://cf.shopee.vn/file/bbc95d311285ebab19a6a115cd6360a6",
-    "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
-    "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
-  ];
+  // const images = [
+  //   "https://cf.shopee.vn/file/bbc95d311285ebab19a6a115cd6360a6",
+  //   "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
+  //   "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
+  // ];
   return (
     <Paper>
       <Box p={2} my={2}>
@@ -127,7 +140,7 @@ export default function ViewProductForm() {
                 <OutlinedInput
                   disabled={isEdit}
                   id="component-outlined"
-                  value={"name"}
+                  value={name}
                   onChange={handleChange}
                   label="Name"
                   placeholder="Name"
@@ -148,7 +161,7 @@ export default function ViewProductForm() {
                   disabled={isEdit}
                   labelId="select-outlined-label"
                   id="select-outlined"
-                  value={""}
+                  value={categoryId}
                   onChange={handleChange}
                   label="Select Category"
                   className={classes.input}
@@ -164,9 +177,9 @@ export default function ViewProductForm() {
                     getContentAnchorEl: null,
                   }}
                 >
-                  {["Category1", "Category2"].map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
+                  {storeCategory.shopCategories?.map((option) => (
+                    <MenuItem key={option.categoryId} value={option.categoryId}>
+                      {option.category.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -191,12 +204,17 @@ export default function ViewProductForm() {
                   Images
                 </legend>
                 <Grid container item xs={12} md={12} spacing={2}>
-                  {images.map((image, index) => (
+                  {images?.map((image, index) => (
                     <Grid item xs={12} md={3} key={index}>
                       <img
                         src={image}
                         alt=""
-                        style={{ borderRadius: 4, border: "1px solid #cccccc" }}
+                        style={{
+                          borderRadius: 4,
+                          border: "1px solid #cccccc",
+                          minHeight: 186.5,
+                          minWidth: 186.5,
+                        }}
                       />
                     </Grid>
                   ))}

@@ -9,7 +9,7 @@ export default function CategoryProducts() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  console.log("ProductsTable");
   return (
     <Box>
       <Box

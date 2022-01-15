@@ -29,7 +29,7 @@ const addressSlice = createSlice({
     districts: [],
     wards: [],
     isLoading: false,
-    error: "",
+    error: false,
   },
   reducers: {
     reset: (state, action) => {

@@ -13,7 +13,7 @@ export default function ShopContent(props) {
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProducts({ id, params: { limit: 5, page: 1 } }));
+    dispatch(getProducts({ id, params: { limit: 9, page: 1 } }));
   }, [dispatch, id]);
   const storeProduct = useSelector(productSelector);
   return (
@@ -22,7 +22,7 @@ export default function ShopContent(props) {
         <Filter />
       </Grid>
       <Grid item xs={12} md={9} className={classes.list}>
-        <Products products={storeProduct.products} />
+        <Products products={storeProduct?.products} />
       </Grid>
     </Grid>
   );

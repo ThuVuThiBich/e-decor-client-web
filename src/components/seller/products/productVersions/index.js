@@ -3,11 +3,11 @@ import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductVersion } from "redux/productVersionsRedux";
-import { productVersionsSelector } from "redux/selectors";
+import { addProductVersion } from "redux/productRedux";
 import ProductVersionForm from "../productVersion";
 import { useStyles } from "./styles";
 import { v4 as uuidv4 } from "uuid";
+import { productSelector } from "redux/selectors";
 
 const initialProductVersion = {
   id: uuidv4(),
@@ -21,9 +21,9 @@ export default function ProductVersionsForm(props) {
   const { isEdit } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const [productVersions, setProductVersions] = useState([]);
-  const storeProductVersions = useSelector(productVersionsSelector);
-  const { productVersions } = storeProductVersions;
+  const storeProduct = useSelector(productSelector);
+  const { productVersions } = storeProduct;
+  console.log("ProductVersionsForm", productVersions);
   return (
     <Box my={2}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -48,10 +48,13 @@ export default function ProductVersionsForm(props) {
         </Button>
       </Box>
       <Grid container spacing={3}>
-        {productVersions.length > 0 ? (
-          productVersions.map((productVersion, index) => (
+        {productVersions?.length > 0 ? (
+          productVersions?.map((productVersion, index) => (
             <Grid item xs={12} md={12} key={index}>
-              <ProductVersionForm productVersion={productVersion} />
+              <ProductVersionForm
+                productVersion={productVersion}
+                isEdit={isEdit}
+              />
               <Divider />
             </Grid>
           ))

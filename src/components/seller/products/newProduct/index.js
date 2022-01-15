@@ -25,7 +25,7 @@ import { getShopCategories } from "redux/categoryRedux";
 import { createProduct } from "redux/productRedux";
 import {
   categorySelector,
-  productVersionsSelector,
+  productSelector,
   shopSelector,
 } from "redux/selectors";
 import { getCategoryNameFromId } from "utils/helpers";
@@ -33,7 +33,7 @@ import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 //
 import axios from "axios";
-import { resetProductVersion } from "redux/productVersionsRedux";
+import { resetProductVersion } from "redux/productRedux";
 
 const thumbsContainer = {
   display: "flex",
@@ -83,11 +83,10 @@ const style = {
 };
 
 export default function NewProductForm() {
-  const storeProductVersions = useSelector(productVersionsSelector);
-  const { productVersions } = storeProductVersions;
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const storeShop = useSelector(shopSelector);
+  const storeProduct = useSelector(productSelector);
   const { id } = storeShop.currentShop;
   const [name, setName] = useState("");
   const [images, setImages] = useState();
@@ -114,7 +113,7 @@ export default function NewProductForm() {
     accept: "image/*",
     onDrop: (acceptedFiles) => {
       // Push all the axios request promise into a single array
-      const uploaders = acceptedFiles.map((file) => {
+      const uploaders = acceptedFiles?.map((file) => {
         // Initial FormData
         const formData = new FormData();
         formData.append("file", file);
@@ -143,7 +142,7 @@ export default function NewProductForm() {
       });
       //
       setFiles(
-        acceptedFiles.map((file) =>
+        acceptedFiles?.map((file) =>
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -152,7 +151,7 @@ export default function NewProductForm() {
     },
   });
 
-  const thumbs = files.map((file) => (
+  const thumbs = files?.map((file) => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
         <img src={file.preview} style={img} alt="" />
@@ -193,7 +192,7 @@ export default function NewProductForm() {
       size: "",
       weight: 1,
       images,
-      versions: storeProductVersions.productVersions.map((item) => ({
+      versions: storeProduct.productVersions?.map((item) => ({
         name: item.name,
         image: item.image,
         price: item.price,
@@ -201,15 +200,18 @@ export default function NewProductForm() {
       })),
     };
     dispatch(createProduct(data));
-    history.push({
-      pathname: `/shop/products/${getCategoryNameFromId(
-        categoryId,
-        storeCategory.shopCategories
-      )}`,
-      state: {
-        categoryId,
-      },
-    });
+    setTimeout(() => {
+      history.push({
+        pathname: `/shop/products/${getCategoryNameFromId(
+          categoryId,
+          storeCategory.shopCategories
+        )}`,
+        state: {
+          categoryId,
+        },
+      });
+    }, 2000);
+
     dispatch(resetProductVersion());
   };
   return (

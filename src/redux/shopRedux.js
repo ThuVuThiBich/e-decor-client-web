@@ -5,7 +5,7 @@ export const getMyShop = createAsyncThunk(
   "shop/getMyShop",
   async (data, thunkAPI) => {
     const response = await shopApi.getMyShop();
-    return response;
+    return response.result;
   }
 );
 
@@ -61,11 +61,7 @@ const shopSlice = createSlice({
     isLoading: false,
     error: "",
   },
-  reducers: {
-    setMyShop: (state, action) => {
-      state.currentShop = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [getMyShop.pending]: (state) => {
       state.isLoading = true;
@@ -75,7 +71,8 @@ const shopSlice = createSlice({
       state.error = action.error;
     },
     [getMyShop.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.currentShop = action.payload;
+      state.error = false;
     },
     [createShop.pending]: (state) => {
       state.isLoading = true;
@@ -128,5 +125,5 @@ const shopSlice = createSlice({
   },
 });
 
-export const { setMyShop } = shopSlice.actions;
+// export const {} = shopSlice.actions;
 export default shopSlice.reducer;

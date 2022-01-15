@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
 import { setAuth, setToken } from "utils/helpers";
-import { getMyShop, setMyShop } from "./shopRedux";
 
 // async action
 // await async action tren component
@@ -9,23 +8,15 @@ import { getMyShop, setMyShop } from "./shopRedux";
 export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
   // thunkAPI.dispatch(...)
   const response = await authApi.login(data);
-  if (response.success) {
-    setToken(response.token);
-    const actionResult = await thunkAPI.dispatch(getInfo());
-    const res = unwrapResult(actionResult);
-    setAuth(res);
-
-    const actionResult1 = await thunkAPI.dispatch(getMyShop());
-    const res1 = unwrapResult(actionResult1);
-    thunkAPI.dispatch(setMyShop(res1.result));
+  if (response.data.success) {
+    setToken(response.data.token);
+    await thunkAPI.dispatch(getInfo());
   }
-  return response;
 });
 
 export const signUp = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
-    // thunkAPI.dispatch(...)
     const response = await authApi.signUp(data);
     return response;
   }
@@ -34,9 +25,8 @@ export const signUp = createAsyncThunk(
 export const getInfo = createAsyncThunk(
   "user/getInfo",
   async (data, thunkAPI) => {
-    // thunkAPI.dispatch(...)
     const response = await authApi.getInfo();
-    return response;
+    return response.result;
   }
 );
 const userSlice = createSlice({
@@ -46,11 +36,7 @@ const userSlice = createSlice({
     isLoading: false,
     error: "",
   },
-  reducers: {
-    setInfo: (state, action) => {
-      state.currentUser = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [login.pending]: (state) => {
       state.isLoading = true;
@@ -61,7 +47,7 @@ const userSlice = createSlice({
     },
     [login.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // state.currentUser = action.payload;
+      state.error = false;
     },
 
     [signUp.pending]: (state) => {
@@ -76,11 +62,12 @@ const userSlice = createSlice({
     },
 
     [getInfo.fulfilled]: (state, action) => {
+      setAuth(action.payload);
       state.isLoading = false;
-      state.currentUser = action.payload.result;
+      state.currentUser = action.payload;
     },
   },
 });
 
-export const { setInfo } = userSlice.actions;
+// export const {} = userSlice.actions;
 export default userSlice.reducer;

@@ -14,10 +14,7 @@ export const createProduct = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await productApi.create(data);
     if (response.result) {
-      console.log(response.result);
-      // const actionResult = await thunkAPI.dispatch(getAll());
-      // const res = unwrapResult(actionResult);
-      // return res.result;
+      return response.result;
     }
     return null;
   }
@@ -36,9 +33,9 @@ export const updateProduct = createAsyncThunk(
   }
 );
 export const deleteProduct = createAsyncThunk(
-  "product/update",
+  "product/delete",
   async (data, thunkAPI) => {
-    const response = await productApi.update(data);
+    const response = await productApi.delete(data);
     if (response.result.success) {
       // const actionResult = await thunkAPI.dispatch(getAll());
       // const res = unwrapResult(actionResult);
@@ -59,15 +56,36 @@ export const getProduct = createAsyncThunk(
 const productSlice = createSlice({
   name: "product",
   initialState: {
-    currentProduct: null,
-    products: [],
     product: null,
-    totalproducts: 0,
+    products: [],
+    productVersions: [],
+    totalProducts: 0,
     currentPage: 1,
     isLoading: false,
-    error: "",
+    error: false,
   },
-  reducers: {},
+  reducers: {
+    getProductVersions: (state, action) => {
+      console.log(action.payload);
+      state.productVersions = action.payload;
+    },
+    addProductVersion: (state, action) => {
+      state.productVersions.push(action.payload);
+    },
+    updateProductVersion: (state, action) => {
+      state.productVersions = state.productVersions?.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
+    },
+    removeProductVersion: (state, action) => {
+      state.productVersions = state.productVersions.filter(
+        (item) => item.id !== action.payload
+      );
+    },
+    resetProductVersion: (state, action) => {
+      state.productVersions = [];
+    },
+  },
   extraReducers: {
     [getProducts.pending]: (state) => {
       state.isLoading = true;
@@ -79,7 +97,7 @@ const productSlice = createSlice({
     [getProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.products = action.payload.products;
-      state.totalproducts = action.payload.totalproducts;
+      state.totalProducts = action.payload.totalProducts;
       state.currentPage = action.payload.currentPage;
     },
     [createProduct.pending]: (state) => {
@@ -91,7 +109,8 @@ const productSlice = createSlice({
     },
     [createProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // state.currentProduct = action.payload;
+      state.error = false;
+      state.product = action.payload;
     },
     [getProduct.pending]: (state) => {
       state.isLoading = true;
@@ -102,7 +121,9 @@ const productSlice = createSlice({
     },
     [getProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.error = false;
       state.product = action.payload;
+      state.productVersions = action.payload.productVersions;
     },
 
     [updateProduct.pending]: (state) => {
@@ -114,10 +135,31 @@ const productSlice = createSlice({
     },
     [updateProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.currentProduct = action.payload;
+      state.product = action.payload;
+    },
+
+    [deleteProduct.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteProduct.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [deleteProduct.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.products.splice(
+        state.products.findIndex((item) => item._id === action.payload.id),
+        1
+      );
     },
   },
 });
 
-// export const {} = productSlice.actions;
+export const {
+  getProductVersions,
+  addProductVersion,
+  updateProductVersion,
+  removeProductVersion,
+  resetProductVersion,
+} = productSlice.actions;
 export default productSlice.reducer;

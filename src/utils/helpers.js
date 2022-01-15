@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { categorySelector } from "redux/selectors";
 import { v4 as uuidv4 } from "uuid";
 
 export const getAuth = () => {
@@ -8,7 +6,7 @@ export const getAuth = () => {
 };
 
 export const setAuth = (auth) => {
-  localStorage.setItem("auth", JSON.stringify(auth.result));
+  localStorage.setItem("auth", JSON.stringify(auth));
 };
 
 export const getToken = () => {
@@ -38,4 +36,9 @@ export const getImagesFromProductVersion = (products) => {
 export const getCategoryNameFromId = (id, categories) => {
   const category = categories?.find((item) => +item.categoryId === +id);
   return category?.category?.name;
+};
+
+export const getPrice = (min, max) => {
+  if (min === max) return min;
+  else return `${min} - ${max}`;
 };
