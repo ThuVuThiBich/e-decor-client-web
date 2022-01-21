@@ -14,11 +14,8 @@ export default function ViewProduct() {
   const { productId } = useParams();
   const { isLoading } = useSelector(productSelector);
   useEffect(() => {
-    console.log("useEffect");
     dispatch(getProduct(productId));
   }, [dispatch, productId]);
-  console.log("ViewProduct", productId);
-  console.log("ViewProduct", isLoading);
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">

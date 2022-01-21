@@ -22,7 +22,6 @@ import { removeProductVersion, updateProductVersion } from "redux/productRedux";
 export default function ProductVersionForm(props) {
   const { productVersion, isEdit } = props;
   const classes = useStyles();
-  console.log("ProductVersionForm", productVersion);
   // images
   const [files, setFiles] = useState([]);
 

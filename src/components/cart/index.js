@@ -19,6 +19,7 @@ import StorefrontIcon from "@material-ui/icons/Storefront";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getCartItemsShop } from "utils/helpers";
 
 function createData(name, version, price, carbs, total) {
   return { name, version, price, carbs, total };
@@ -37,11 +38,11 @@ const headCells = [
   { id: "price", numeric: true, disablePadding: false, label: "" },
   { id: "carbs", numeric: true, disablePadding: false, label: "" },
   { id: "total", numeric: true, disablePadding: false, label: "" },
-  { id: "total", numeric: true, disablePadding: false, label: "" },
+  { id: "total1", numeric: true, disablePadding: false, label: "" },
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, numSelected, rowCount } = props;
+  const { name, classes, onSelectAllClick, numSelected, rowCount } = props;
 
   return (
     <TableHead className={classes.row}>
@@ -58,7 +59,7 @@ function EnhancedTableHead(props) {
         <TableCell key={"1"} align={"left"} padding={"none"} width={"20%"}>
           <Box display="flex" alignItems="center">
             <StorefrontIcon style={{ marginRight: 16 }} />
-            Decor shop Name
+            {name}
           </Box>
         </TableCell>
         {headCells?.map((headCell) => (
@@ -118,7 +119,7 @@ const EnhancedTableToolbar = (props) => {
               color="inherit"
               variant="subtitle1"
             >
-              $ 0
+              0 VND
             </Typography>
             <Button
               color="primary"
@@ -183,7 +184,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
+  const { item } = props;
+  const [data, setData] = useState(getCartItemsShop(item.products));
+
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
 
@@ -232,6 +236,7 @@ export default function EnhancedTable() {
             aria-label="enhanced table"
           >
             <EnhancedTableHead
+              name={item?.name}
               classes={classes}
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
@@ -239,12 +244,13 @@ export default function EnhancedTable() {
             />
 
             <TableBody className={classes.row}>
-              {rows?.map((row, index) => {
+              {data?.map((row, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
+                    key={index}
                     className={classes.row}
                     classes={{
                       root: classes.tableRowRoot,
@@ -254,7 +260,6 @@ export default function EnhancedTable() {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
                     selected={isItemSelected}
                   >
                     <TableCell align="center" width="5%">
@@ -277,16 +282,14 @@ export default function EnhancedTable() {
                           style={{ marginRight: 16 }}
                           width={80}
                           height={80}
-                          src={
-                            "https://cf.shopee.vn/file/0fe6b6974d2a05c251336fd150944fea_tn"
-                          }
+                          src={row.version.image}
                           alt=""
                         />
                         {row.name}
                       </Box>
                     </TableCell>
-                    <TableCell width="15%">{row.version}</TableCell>
-                    <TableCell width="10%">${row.price}</TableCell>
+                    <TableCell width="15%">{row.version.name}</TableCell>
+                    <TableCell width="10%">{row.version.price} VND</TableCell>
                     <TableCell width="20%">
                       <Box className={classes.test} mx={2}>
                         <Button
@@ -297,7 +300,7 @@ export default function EnhancedTable() {
                           <RemoveIcon />
                         </Button>
                         <Box component={"span"} px={2}>
-                          1
+                          {row.version.cartItems[0].quantity}
                         </Box>
                         <Button
                           variant="outlined"
@@ -309,7 +312,8 @@ export default function EnhancedTable() {
                       </Box>
                     </TableCell>
                     <TableCell width="10%" className={classes.price}>
-                      ${row.total}
+                      {row.version.price * row.version.cartItems[0].quantity}{" "}
+                      VND
                     </TableCell>
                     <TableCell width="5%">
                       <Tooltip title="Delete">

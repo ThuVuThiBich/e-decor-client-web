@@ -23,7 +23,6 @@ export default function ProductVersionsForm(props) {
   const dispatch = useDispatch();
   const storeProduct = useSelector(productSelector);
   const { productVersions } = storeProduct;
-  console.log("ProductVersionsForm", productVersions);
   return (
     <Box my={2}>
       <Box display="flex" alignItems="center" justifyContent="space-between">

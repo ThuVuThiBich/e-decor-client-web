@@ -49,17 +49,14 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     products: [],
+    cart: [],
     isNew: false,
     quantity: 0,
     isLoading: false,
     error: false,
   },
   reducers: {
-    // addProduct: (state, action) => {
-    //   console.log(action.payload);
-    //   state.quantity += 1;
-    //   state.products.push(action.payload);
-    // },
+  
   },
   extraReducers: {
     [addCartItem.pending]: (state) => {
@@ -72,9 +69,46 @@ const cartSlice = createSlice({
     [addCartItem.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = false;
-      console.log(action.payload);
       state.isNew = action.payload.new;
       state.quantity += 1;
+    },
+    [getCartItems.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getCartItems.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getCartItems.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.products = action.payload;
+     
+    },
+    [updateQuantity.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateQuantity.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [updateQuantity.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.product = action.payload;
+    },
+
+    [deleteCartItem.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteCartItem.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [deleteCartItem.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.products.splice(
+        state.products.findIndex((item) => item._id === action.payload.id),
+        1
+      );
     },
   },
 });

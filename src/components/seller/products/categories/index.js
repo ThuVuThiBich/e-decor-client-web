@@ -8,14 +8,12 @@ import Category from "./category";
 import { useStyles } from "./styles";
 
 export default function Categories() {
-  console.log("Categories");
   const dispatch = useDispatch();
 
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const { id } = useSelector(shopSelector).currentShop;
   useEffect(() => {
-    console.log("useEffect Categories");
     dispatch(getShopCategories(id));
   }, [dispatch, id]);
   return (

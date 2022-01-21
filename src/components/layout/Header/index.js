@@ -15,15 +15,24 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
 import SearchInput from "components/common/SearchInput";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { cartSelector } from "redux/selectors";
+import { getCartItems } from "redux/cartRedux";
+import { cartSelector, userSelector } from "redux/selectors";
+import { logOut } from "redux/userRedux";
 import { getToken } from "utils/helpers";
 import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(userSelector);
+
+  useEffect(() => {
+    currentUser && dispatch(getCartItems());
+  }, [currentUser, dispatch]);
+  const { products } = useSelector(cartSelector);
   const cartStore = useSelector(cartSelector);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
@@ -55,6 +64,7 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.clear();
+    dispatch(logOut());
   };
 
   const menuId = "primary-search-account-menu";
@@ -174,6 +184,7 @@ export default function Header() {
       setIsVisible(true);
     }
   };
+
   return (
     <div className={classes.grow}>
       {<SubHeader style={{ display: isVisible ? "block" : "none" }} />}

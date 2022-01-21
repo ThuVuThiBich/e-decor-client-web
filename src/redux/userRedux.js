@@ -36,7 +36,11 @@ const userSlice = createSlice({
     isLoading: false,
     error: "",
   },
-  reducers: {},
+  reducers: {
+    logOut: (state) => {
+      state.currentUser = null;
+    },
+  },
   extraReducers: {
     [login.pending]: (state) => {
       state.isLoading = true;
@@ -69,5 +73,5 @@ const userSlice = createSlice({
   },
 });
 
-// export const {} = userSlice.actions;
+export const { logOut } = userSlice.actions;
 export default userSlice.reducer;

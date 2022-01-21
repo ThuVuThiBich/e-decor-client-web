@@ -57,7 +57,6 @@ export default function ViewProductForm(props) {
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const { product } = useSelector(productSelector);
-  console.log(product);
   const [name, setName] = useState(product && product?.name);
   const [images, setImages] = useState(
     product?.images?.map((item) => item.image)

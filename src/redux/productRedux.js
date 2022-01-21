@@ -66,7 +66,6 @@ const productSlice = createSlice({
   },
   reducers: {
     getProductVersions: (state, action) => {
-      console.log(action.payload);
       state.productVersions = action.payload;
     },
     addProductVersion: (state, action) => {

@@ -28,7 +28,6 @@ import { addCartItem } from "redux/cartRedux";
 export default function Top(props) {
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
-  console.log(product);
   const [showedImage, setShowedImage] = useState("");
   useEffect(() => {
     setShowedImage(
