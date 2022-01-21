@@ -22,12 +22,13 @@ import ItemsCarousel from "react-items-carousel";
 import { getImagesFromProductVersion, getPriceText } from "utils/helpers";
 import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "redux/cartRedux";
+// import { addProduct } from "redux/cartRedux";
 import { productSelector } from "redux/selectors";
+import { addCartItem } from "redux/cartRedux";
 export default function Top(props) {
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
-
+  console.log(product);
   const [showedImage, setShowedImage] = useState("");
   useEffect(() => {
     setShowedImage(
@@ -57,8 +58,14 @@ export default function Top(props) {
   };
 
   const addToCart = (e) => {
-    dispatch(addProduct({}));
+    if (value) dispatch(addCartItem({ quantity, productVersionId: value }));
+    else {
+      console.error("Please select product variation first");
+    }
   };
+
+  const [quantity, setQuantity] = useState(1);
+
   return (
     <Paper>
       <Box my={4} pb={4}>
@@ -80,53 +87,88 @@ export default function Top(props) {
                 />
               </Box>
 
-              <Box mx={-1}>
-                <ItemsCarousel
-                  infiniteLoop={true}
-                  alwaysShowChevrons={true}
-                  chevronWidth={50}
-                  numberOfCards={5}
-                  slidesToScroll={1}
-                  outsideChevron={false}
-                  activeItemIndex={active}
-                  requestToChangeActive={(value) => setActive(value)}
-                  rightChevron={
-                    <IconButton
-                    // style={{ color: "white" }}
-                    >
-                      <ArrowForwardIosIcon />
-                    </IconButton>
-                  }
-                  leftChevron={
-                    <IconButton
-                    // style={{ color: "white" }}
-                    >
-                      <ArrowBackIosIcon />
-                    </IconButton>
-                  }
-                >
-                  {product?.images
-                    ?.concat(
-                      getImagesFromProductVersion(product?.productVersions)
-                    )
-                    ?.map((item, index) => (
-                      <Box
-                        mx={1}
-                        className={classes.img}
-                        key={index}
-                        style={{ border: "1px solid #ddd" }}
+              {product?.images?.concat(
+                getImagesFromProductVersion(product?.productVersions)
+              ).length > 5 ? (
+                <Box mx={-1}>
+                  <ItemsCarousel
+                    infiniteLoop={true}
+                    alwaysShowChevrons={true}
+                    chevronWidth={50}
+                    numberOfCards={5}
+                    slidesToScroll={1}
+                    outsideChevron={false}
+                    activeItemIndex={active}
+                    requestToChangeActive={(value) => setActive(value)}
+                    rightChevron={
+                      <IconButton
+                      // style={{ color: "white" }}
                       >
-                        <img
-                          width={100}
-                          height={100}
-                          src={item.image}
-                          alt=""
-                          style={{ padding: 4 }}
-                        />
-                      </Box>
-                    ))}
-                </ItemsCarousel>
-              </Box>
+                        <ArrowForwardIosIcon />
+                      </IconButton>
+                    }
+                    leftChevron={
+                      <IconButton
+                      // style={{ color: "white" }}
+                      >
+                        <ArrowBackIosIcon />
+                      </IconButton>
+                    }
+                  >
+                    {product?.images
+                      ?.concat(
+                        getImagesFromProductVersion(product?.productVersions)
+                      )
+                      ?.map((item, index) => (
+                        <Box
+                          mx={1}
+                          className={classes.img}
+                          key={index}
+                          style={{ border: "1px solid #ddd" }}
+                          onClick={() => setShowedImage(item.image)}
+                        >
+                          <img
+                            width={100}
+                            height={100}
+                            src={item.image}
+                            alt=""
+                            style={{ padding: 4 }}
+                          />
+                        </Box>
+                      ))}
+                  </ItemsCarousel>
+                </Box>
+              ) : (
+                <>
+                  <Box
+                    display="flex"
+                    alignItems="centers"
+                    justifyContent="center"
+                  >
+                    {product?.images
+                      ?.concat(
+                        getImagesFromProductVersion(product?.productVersions)
+                      )
+                      ?.map((item, index) => (
+                        <Box
+                          mx={1}
+                          className={classes.img}
+                          key={index}
+                          style={{ border: "1px solid #ddd" }}
+                          onClick={() => setShowedImage(item.image)}
+                        >
+                          <img
+                            width={100}
+                            height={100}
+                            src={item.image}
+                            alt=""
+                            style={{ padding: 4 }}
+                          />
+                        </Box>
+                      ))}
+                  </Box>
+                </>
+              )}
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -138,7 +180,11 @@ export default function Top(props) {
               </Box>
               <Box display="flex" alignItems="center">
                 <Rating
-                  value={Number(product?.avgRating)}
+                  value={
+                    Number(product?.avgRatings) === 0
+                      ? 5
+                      : Number(product?.avgRatings)
+                  }
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}
                   readOnly
@@ -148,13 +194,15 @@ export default function Top(props) {
                   flexItem
                   className={classes.divider}
                 />
-                <Box>{product?.totalRating} Ratings</Box>
+                <Box>{product?.totalRatings} Ratings</Box>
                 <Divider
                   orientation="vertical"
                   flexItem
                   className={classes.divider}
                 />
-                <Box>{product?.soldQuantity} Sold</Box>
+                <Box>
+                  {product?.soldQuantity ? product?.soldQuantity : 0} Sold
+                </Box>
               </Box>
               <Box py={1}>
                 <Typography className={classes.price}>
@@ -189,16 +237,20 @@ export default function Top(props) {
                     variant="outlined"
                     color="primary"
                     className={classes.qtyBtn}
+                    onClick={() => {
+                      if (quantity > 1) setQuantity(quantity - 1);
+                    }}
                   >
                     <RemoveIcon />
                   </Button>
                   <Box component={"span"} px={2}>
-                    1
+                    {quantity}
                   </Box>
                   <Button
                     variant="outlined"
                     color="primary"
                     className={classes.qtyBtn}
+                    onClick={() => setQuantity(quantity + 1)}
                   >
                     <AddIcon />
                   </Button>

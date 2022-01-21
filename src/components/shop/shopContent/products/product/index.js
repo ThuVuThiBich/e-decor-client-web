@@ -45,7 +45,11 @@ export default function Product(props) {
           width="100%"
         >
           <Rating
-            value={Number(product?.avgRating)}
+            value={
+              Number(product?.avgRatings) === 0
+                ? 5
+                : Number(product?.avgRatings)
+            }
             precision={0.5}
             emptyIcon={<StarBorderIcon fontSize="inherit" />}
             readOnly

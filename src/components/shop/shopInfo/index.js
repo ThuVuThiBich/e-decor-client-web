@@ -122,7 +122,11 @@ export default function ShopInfo(props) {
           <Box className={classes.bottom}>
             <Box>
               <Rating
-                value={Number(shop?.avgRating)}
+                value={
+                  Number(shop?.avgRatings) === 0
+                    ? 5
+                    : Number(shop?.avgRatings)
+                }
                 precision={0.5}
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}
                 readOnly
