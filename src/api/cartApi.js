@@ -13,7 +13,7 @@ const cartApi = {
 
   update: (id, data) => {
     const url = `/cart-items/${id}`;
-    return axiosClient.put(url, data);
+    return axiosClient.patch(url, data);
   },
 
   delete: (id) => {

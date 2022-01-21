@@ -1,17 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import cartApi from "api/cartApi";
 
-export const getCartItems = createAsyncThunk(
-  "cart/getCartItems",
-  async (data, thunkAPI) => {
-    const response = await cartApi.get();
-    return response.result;
-  }
-);
+export const getCartItems = createAsyncThunk("cart/getCartItems", async () => {
+  const response = await cartApi.get();
+  return response.result;
+});
 
 export const addCartItem = createAsyncThunk(
   "cart/addCartItem",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await cartApi.add(data);
     if (response.result) {
       return response.result;
@@ -22,24 +19,20 @@ export const addCartItem = createAsyncThunk(
 
 export const updateQuantity = createAsyncThunk(
   "cart/updateQuantity",
-  async (data, thunkAPI) => {
-    const response = await cartApi.update(data);
+  async (data) => {
+    const response = await cartApi.update(data.id, data.body);
     if (response.result.success) {
-      // const actionResult = await thunkAPI.dispatch(getAll());
-      // const res = unwrapResult(actionResult);
-      // return res.result;
+      return response.result.success;
     }
     return null;
   }
 );
 export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await cartApi.delete(data);
     if (response.result.success) {
-      // const actionResult = await thunkAPI.dispatch(getAll());
-      // const res = unwrapResult(actionResult);
-      // return res.result;
+      return response.result.success;
     }
     return null;
   }
@@ -55,9 +48,7 @@ const cartSlice = createSlice({
     isLoading: false,
     error: false,
   },
-  reducers: {
-  
-  },
+  reducers: {},
   extraReducers: {
     [addCartItem.pending]: (state) => {
       state.isLoading = true;
@@ -82,7 +73,6 @@ const cartSlice = createSlice({
     [getCartItems.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.products = action.payload;
-     
     },
     [updateQuantity.pending]: (state) => {
       state.isLoading = true;
@@ -93,7 +83,6 @@ const cartSlice = createSlice({
     },
     [updateQuantity.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.product = action.payload;
     },
 
     [deleteCartItem.pending]: (state) => {
@@ -101,17 +90,17 @@ const cartSlice = createSlice({
     },
     [deleteCartItem.rejected]: (state, action) => {
       state.isLoading = false;
-      state.error = action.error;
+      state.error = true;
     },
     [deleteCartItem.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.products.splice(
-        state.products.findIndex((item) => item._id === action.payload.id),
-        1
-      );
+      // state.products.splice(
+      //   state.products.findIndex((item) => item._id === action.payload.id),
+      //   1
+      // );
     },
   },
 });
 
-// export const { addProduct } = cartSlice.actions;
+// export const {  } = cartSlice.actions;
 export default cartSlice.reducer;

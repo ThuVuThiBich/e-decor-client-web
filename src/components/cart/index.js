@@ -1,37 +1,29 @@
-import { Box, Button } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Paper from "@material-ui/core/Paper";
+import {
+  Box,
+  Button,
+  Checkbox,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
+
 import { alpha, lighten, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Toolbar from "@material-ui/core/Toolbar";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
-import AddIcon from "@material-ui/icons/Add";
+
 import DeleteIcon from "@material-ui/icons/Delete";
-import RemoveIcon from "@material-ui/icons/Remove";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getCartItemsShop } from "utils/helpers";
-
-function createData(name, version, price, carbs, total) {
-  return { name, version, price, carbs, total };
-}
-
-const rows = [
-  createData("Cupcake", "blue", 3.5, 67, 4.3),
-  createData("Donut", "red", 25.0, 51, 4.9),
-  createData("Eclair", "blue", 16.0, 24, 6.0),
-  createData("Frozen yoghurt", "fruit", 6.0, 24, 4.0),
-  createData("Gingerbread", "blue", 16.0, 49, 3.9),
-];
+import CartItem from "./cartItem";
 
 const headCells = [
   { id: "version", numeric: true, disablePadding: false, label: "" },
@@ -187,13 +179,13 @@ const useStyles = makeStyles((theme) => ({
 export default function EnhancedTable(props) {
   const { item } = props;
   const [data, setData] = useState(getCartItemsShop(item.products));
-
+  console.log(data);
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows?.map((n) => n.name);
+      const newSelecteds = data?.map((n) => n.version.id);
       setSelected(newSelecteds);
       return;
     }
@@ -240,89 +232,23 @@ export default function EnhancedTable(props) {
               classes={classes}
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
-              rowCount={rows.length}
+              rowCount={data.length}
             />
 
             <TableBody className={classes.row}>
               {data?.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+                const isItemSelected = isSelected(row.version.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
+                  <CartItem
                     key={index}
-                    className={classes.row}
-                    classes={{
-                      root: classes.tableRowRoot,
-                      selected: classes.tableRowSelected,
-                    }}
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    selected={isItemSelected}
-                  >
-                    <TableCell align="center" width="5%">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                        onClick={(event) => handleClick(event, row.name)}
-                      />
-                    </TableCell>
-
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      width="35%"
-                    >
-                      <Box display="flex" alignItems="center">
-                        <img
-                          style={{ marginRight: 16 }}
-                          width={80}
-                          height={80}
-                          src={row.version.image}
-                          alt=""
-                        />
-                        {row.name}
-                      </Box>
-                    </TableCell>
-                    <TableCell width="15%">{row.version.name}</TableCell>
-                    <TableCell width="10%">{row.version.price} VND</TableCell>
-                    <TableCell width="20%">
-                      <Box className={classes.test} mx={2}>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          className={classes.qtyBtn}
-                        >
-                          <RemoveIcon />
-                        </Button>
-                        <Box component={"span"} px={2}>
-                          {row.version.cartItems[0].quantity}
-                        </Box>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          className={classes.qtyBtn}
-                        >
-                          <AddIcon />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                    <TableCell width="10%" className={classes.price}>
-                      {row.version.price * row.version.cartItems[0].quantity}{" "}
-                      VND
-                    </TableCell>
-                    <TableCell width="5%">
-                      <Tooltip title="Delete">
-                        <IconButton aria-label="delete">
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
+                    isItemSelected={isItemSelected}
+                    labelId={labelId}
+                    classes={classes}
+                    handleClick={handleClick}
+                    row={row}
+                  />
                 );
               })}
             </TableBody>
