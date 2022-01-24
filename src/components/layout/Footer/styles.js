@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   footer: {
     position: "absolute",
     minWidth: "100vw",
-    bottom: 0,
+    // bottom: 0,
   },
   root: {
     backgroundColor: "#0c0e30",
