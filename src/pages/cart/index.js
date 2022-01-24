@@ -11,10 +11,9 @@ export default function Cart() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
 
-  // useEffect(() => {
-  //   console.log("Cart");
-  //   currentUser && dispatch(getCartItems());
-  // }, [currentUser, dispatch]);
+  useEffect(() => {
+    currentUser && dispatch(getCartItems());
+  }, [currentUser, dispatch]);
   const { products } = useSelector(cartSelector);
   return (
     <Container className={classes.container}>

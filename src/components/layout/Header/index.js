@@ -18,7 +18,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { getCartItems } from "redux/cartRedux";
+import { getCartItems, getRecentCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
 import { logOut } from "redux/userRedux";
 import { getToken } from "utils/helpers";
@@ -30,9 +30,9 @@ export default function Header() {
   const { currentUser } = useSelector(userSelector);
 
   useEffect(() => {
-    currentUser && dispatch(getCartItems());
+    currentUser && dispatch(getRecentCartItems());
   }, [currentUser, dispatch]);
-  const { products } = useSelector(cartSelector);
+  const { recentProducts } = useSelector(cartSelector);
   const cartStore = useSelector(cartSelector);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
@@ -129,27 +129,36 @@ export default function Header() {
           Recently Added Products
         </Typography>
       </Box>
-      <MenuItem style={{ minWidth: 400 }}>
-        <Box
-          display={"flex"}
-          justifyContent="space-between"
-          alignItems="center"
-          style={{ minWidth: 400 }}
-        >
-          <Box display={"flex"} alignItems="center">
-            <img
-              width={50}
-              height={50}
-              src={
-                "https://cf.shopee.com.my/file/c15a6382557e79cb23db5f01d4c2481b"
-              }
-              alt=""
-            />
-            <Typography style={{ marginLeft: 8 }}>Clock</Typography>
+      {recentProducts?.map((item, index) => (
+        <MenuItem style={{ minWidth: 400 }} key={index}>
+          <Box
+            display={"flex"}
+            justifyContent="space-between"
+            alignItems="center"
+            style={{ minWidth: 400 }}
+          >
+            <Box display={"flex"} alignItems="center">
+              <img
+                width={50}
+                height={50}
+                src={item?.productVersion?.image}
+                alt=""
+              />
+              <Box>
+                <Typography style={{ marginLeft: 8 }}>Clock</Typography>
+                <Typography
+                  style={{ marginLeft: 8, fontSize: 12, color: "#757575" }}
+                >
+                  {item?.productVersion?.name}
+                </Typography>
+              </Box>
+            </Box>
+            <Box style={{ color: "#D23F57" }}>
+              {item?.productVersion?.price} VND
+            </Box>
           </Box>
-          <Box style={{ color: "#D23F57" }}>$5</Box>
-        </Box>
-      </MenuItem>
+        </MenuItem>
+      ))}
 
       <Box p={2} display="flex" justifyContent="center">
         <Button
@@ -160,7 +169,7 @@ export default function Header() {
             history.push("/cart");
           }}
         >
-          View Cart
+          View My Shopping Cart
         </Button>
       </Box>
     </Menu>
@@ -202,10 +211,8 @@ export default function Header() {
             <IconButton
               color="inherit"
               onClick={() => {
-                handleCardMenuOpen();
-                history.push("/cart");
+                currentUser ? history.push("/cart") : history.push("/login");
               }}
-              // onClick={handleCardMenuOpen}
               onMouseOver={handleCardMenuOpen}
               style={{ cursor: "pointer" }}
             >
@@ -240,21 +247,10 @@ export default function Header() {
               </IconButton>
             )}
           </div>
-          {/* <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={cardMenuId}
-              aria-haspopup="true"
-              onClick={handleCardMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div> */}
         </Toolbar>
       </AppBar>
       {renderMenu}
-      {renderCardMenu}
+      {currentUser && renderCardMenu}
     </div>
   );
 }

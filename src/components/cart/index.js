@@ -179,7 +179,6 @@ const useStyles = makeStyles((theme) => ({
 export default function EnhancedTable(props) {
   const { item } = props;
   const [data, setData] = useState(getCartItemsShop(item.products));
-  console.log(data);
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
 

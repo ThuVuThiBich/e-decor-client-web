@@ -2,9 +2,17 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import cartApi from "api/cartApi";
 
 export const getCartItems = createAsyncThunk("cart/getCartItems", async () => {
-  const response = await cartApi.get();
+  const response = await cartApi.getAll();
   return response.result;
 });
+
+export const getRecentCartItems = createAsyncThunk(
+  "cart/getRecentCartItems",
+  async () => {
+    const response = await cartApi.get();
+    return response.result;
+  }
+);
 
 export const addCartItem = createAsyncThunk(
   "cart/addCartItem",
@@ -42,6 +50,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     products: [],
+    recentProducts: [],
     cart: [],
     isNew: false,
     quantity: 0,
@@ -98,6 +107,18 @@ const cartSlice = createSlice({
       //   state.products.findIndex((item) => item._id === action.payload.id),
       //   1
       // );
+    },
+    [getRecentCartItems.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getRecentCartItems.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getRecentCartItems.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.recentProducts = action.payload.recentItems;
+      state.quantity = action.payload.totalItem;
     },
   },
 });

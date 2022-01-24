@@ -43,26 +43,14 @@ export const getPrice = (min, max) => {
   else return `${min} - ${max}`;
 };
 
-function createData(name, version, price, carbs, total) {
-  return { name, version, price, carbs, total };
-}
-
-const rows = [
-  createData("Cupcake", "blue", 3.5, 67, 4.3),
-  createData("Donut", "red", 25.0, 51, 4.9),
-  createData("Eclair", "blue", 16.0, 24, 6.0),
-  createData("Frozen yoghurt", "fruit", 6.0, 24, 4.0),
-  createData("Gingerbread", "blue", 16.0, 49, 3.9),
-];
-
 export const getCartItemsShop = (products) => {
   let array = [];
   for (let i = 0; i < products.length; i++) {
-    let arr = { name: "", version: {} };
-    arr.name = products[i].name;
     for (let j = 0; j < products[i].productVersions.length; j++) {
-      arr.version = products[i].productVersions[j];
-      array.push(arr)
+      array.push({
+        name: products[i].name,
+        version: products[i].productVersions[j],
+      });
     }
   }
   return array;

@@ -1,8 +1,13 @@
 import axiosClient from "./axiosClient";
 
 const cartApi = {
-  get: () => {
+  getAll: () => {
     const url = `/cart-items`;
+    return axiosClient.get(url);
+  },
+
+  get: () => {
+    const url = `/cart-items/recent?limit=5`;
     return axiosClient.get(url);
   },
 

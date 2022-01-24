@@ -16,7 +16,7 @@ import { useStyles } from "./styles";
 export default function Footer() {
   const classes = useStyles();
   return (
-    <footer>
+    <footer className={classes.footer}>
       <Box className={classes.root}>
         <Container maxWidth="lg" className={classes.container}>
           <Box className={classes.wrapper}>
