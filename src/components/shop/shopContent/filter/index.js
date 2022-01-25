@@ -6,6 +6,8 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -13,21 +15,16 @@ import Rating from "@material-ui/lab/Rating";
 import { useState } from "react";
 import { useStyles } from "./styles";
 export default function Filter(props) {
+  const {
+    shopCategories,
+    setCategories,
+    setMin,
+    setMax,
+    setRatingValue,
+    ratingValue,
+  } = props;
   const classes = useStyles();
-  const [state, setState] = useState({
-    one: false,
-    two: false,
-    three: false,
-    four: false,
-    five: false,
-  });
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  const { one, two, three, four, five } = state;
-  const error = [one, two, three].filter((v) => v).length !== 2;
+  const stars = [5, 4, 3, 2, 1];
 
   const [status, setStatus] = useState({
     sale: false,
@@ -35,8 +32,26 @@ export default function Filter(props) {
     featured: false,
   });
 
+  const handleChangeRating = (event) => {
+    setRatingValue(event.target.value);
+  };
   const handleChangeStatus = (event) => {
-    setStatus({ ...state, [event.target.name]: event.target.checked });
+  };
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const handleChangeCategory = (event) => {
+    if (selectedCategories.includes(+event.target.name)) {
+      setCategories(
+        selectedCategories
+          .filter((item) => +item !== +event.target.name)
+          .toString()
+      );
+      setSelectedCategories(
+        selectedCategories.filter((item) => +item !== +event.target.name)
+      );
+    } else {
+      setCategories([...selectedCategories, +event.target.name].toString());
+      setSelectedCategories([...selectedCategories, +event.target.name]);
+    }
   };
 
   const { sale, stock, featured } = status;
@@ -49,83 +64,24 @@ export default function Filter(props) {
         <Box>
           <FormControl component="fieldset" className={classes.formControl}>
             <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={sale}
-                    onChange={handleChangeStatus}
-                    name="sale"
-                  />
-                }
-                label="Candles"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={stock}
-                    onChange={handleChangeStatus}
-                    name="stock"
-                  />
-                }
-                label="Plant decorations"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={featured}
-                    onChange={handleChangeStatus}
-                    name="featured"
-                  />
-                }
-                label="Art and prints"
-              />
+              {shopCategories?.map((item, index) => (
+                <FormControlLabel
+                  key={index}
+                  control={
+                    <Checkbox
+                      checked={selectedCategories.includes(item.categoryId)}
+                      onChange={handleChangeCategory}
+                      name={item.categoryId.toString()}
+                    />
+                  }
+                  label={item.category.name}
+                />
+              ))}
             </FormGroup>
           </FormControl>
         </Box>
       </Box>
-      <Divider />
 
-      <Box my={1}>
-        <Box>
-          <Typography className={classes.headText}>Styles</Typography>
-        </Box>
-        <Box>
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={sale}
-                    onChange={handleChangeStatus}
-                    name="sale"
-                  />
-                }
-                label="Modern"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={stock}
-                    onChange={handleChangeStatus}
-                    name="stock"
-                  />
-                }
-                label="Minimalist"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={featured}
-                    onChange={handleChangeStatus}
-                    name="featured"
-                  />
-                }
-                label="Classic"
-              />
-            </FormGroup>
-          </FormControl>
-        </Box>
-      </Box>
       <Divider />
 
       <Box my={1}>
@@ -145,7 +101,10 @@ export default function Filter(props) {
               variant="outlined"
               placeholder="0"
               size="small"
-              InputProps={{ inputProps: { min: 0, max: 10 } }}
+              InputProps={{ inputProps: { min: 0, step: 10 } }}
+              onChange={(event) => {
+                setMin(event.target.value);
+              }}
             />
           </FormControl>
           <Box mx={1} className={classes.headText}>
@@ -156,9 +115,12 @@ export default function Filter(props) {
               id="outlined-number"
               type="number"
               variant="outlined"
-              placeholder="100"
+              placeholder="100000"
               size="small"
-              InputProps={{ inputProps: { min: 0, max: 10 } }}
+              InputProps={{ inputProps: { min: 0, step: 10 } }}
+              onChange={(event) => {
+                setMax(event.target.value);
+              }}
             />
           </FormControl>
         </Box>
@@ -213,85 +175,29 @@ export default function Filter(props) {
         </Box>
         <Box>
           <FormControl component="fieldset" className={classes.formControl}>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={five}
-                    onChange={handleChange}
-                    name="five"
-                  />
-                }
-                label={
-                  <Rating
-                    name="size-medium"
-                    value={5}
-                    readOnly
-                    className={classes.rating}
-                  />
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={four}
-                    onChange={handleChange}
-                    name="four"
-                  />
-                }
-                label={
-                  <Rating
-                    name="size-medium"
-                    value={4}
-                    readOnly
-                    className={classes.rating}
-                  />
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={three}
-                    onChange={handleChange}
-                    name="three"
-                  />
-                }
-                label={
-                  <Rating
-                    name="size-medium"
-                    value={3}
-                    readOnly
-                    className={classes.rating}
-                  />
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox checked={two} onChange={handleChange} name="two" />
-                }
-                label={
-                  <Rating
-                    name="size-medium"
-                    value={2}
-                    readOnly
-                    className={classes.rating}
-                  />
-                }
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox checked={one} onChange={handleChange} name="one" />
-                }
-                label={
-                  <Rating
-                    name="size-medium"
-                    value={1}
-                    readOnly
-                    className={classes.rating}
-                  />
-                }
-              />
-            </FormGroup>
+            <RadioGroup
+              name="type"
+              // defaultValue={""}
+              value={+ratingValue}
+              onChange={handleChangeRating}
+            >
+              {stars.map((item) => (
+                <FormControlLabel
+                  // onChange={handleChangeRating}
+                  key={item}
+                  value={+item}
+                  control={<Radio />}
+                  label={
+                    <Rating
+                      name="size-medium"
+                      value={item}
+                      readOnly
+                      className={classes.rating}
+                    />
+                  }
+                />
+              ))}
+            </RadioGroup>
           </FormControl>
         </Box>
       </Box>
