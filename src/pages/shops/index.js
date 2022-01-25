@@ -10,7 +10,7 @@ import { useStyles } from "./styles";
 export default function Shops() {
   const classes = useStyles();
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(9);
+  const limit = 9;
   const [pageText, setPageText] = useState("");
 
   const handleChange = (event, value) => {
