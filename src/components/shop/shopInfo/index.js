@@ -127,7 +127,7 @@ export default function ShopInfo(props) {
                     ? 5
                     : Number(shop?.avgRatings)
                 }
-                precision={0.5}
+                precision={0.1}
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}
                 readOnly
               />

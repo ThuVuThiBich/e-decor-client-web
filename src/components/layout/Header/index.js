@@ -18,7 +18,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { getCartItems, getRecentCartItems } from "redux/cartRedux";
+import { getRecentCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
 import { logOut } from "redux/userRedux";
 import { getToken } from "utils/helpers";
@@ -28,11 +28,12 @@ import { useStyles } from "./styles";
 export default function Header() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
+  const { isUpdated } = useSelector(cartSelector);
 
   useEffect(() => {
     currentUser && dispatch(getRecentCartItems());
-  }, [currentUser, dispatch]);
-  const { recentProducts } = useSelector(cartSelector);
+  }, [currentUser, dispatch, isUpdated]);
+  const { recentProducts, quantity } = useSelector(cartSelector);
   const cartStore = useSelector(cartSelector);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
@@ -160,7 +161,16 @@ export default function Header() {
         </MenuItem>
       ))}
 
-      <Box p={2} display="flex" justifyContent="center">
+      <Box
+        p={2}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography style={{ fontSize: 12, color: "#757575" }}>
+          {quantity > 5 &&
+            `${quantity - recentProducts?.length} More Products In Cart`}
+        </Typography>
         <Button
           color="primary"
           variant="outlined"

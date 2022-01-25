@@ -19,4 +19,12 @@ export const useStyles = makeStyles((theme) => ({
   rating: {
     marginLeft: -8,
   },
+  //
+  root: {
+    maxWidth: 345,
+    transition: "transform 0.15s ease-in-out",
+  },
+  cardHovered: {
+    transform: "scale3d(1.05, 1.05, 1)",
+  },
 }));

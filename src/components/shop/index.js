@@ -5,12 +5,13 @@ import {
   IconButton,
   Tooltip,
   Typography,
-  withStyles,
 } from "@material-ui/core";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import CallIcon from "@material-ui/icons/Call";
 import PlaceIcon from "@material-ui/icons/Place";
-import Rating from "material-ui-rating/lib/components/Rating/Rating";
+import Rating from "@material-ui/lab/Rating";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStyles } from "./styles";
@@ -18,26 +19,18 @@ import { useStyles } from "./styles";
 export default function Shop(props) {
   const { shop } = props;
   const classes = useStyles({ coverImageUrl: shop?.coverImage });
-  const smallStyles = {
-    iconButton: {
-      width: 32,
-      height: 32,
-      padding: 16,
-    },
-    icon: {
-      width: 16,
-      height: 16,
-    },
-  };
-  const MyRating = ({ classes }) => (
-    <Rating value={3} max={5} classes={classes} readOnly={true} />
-  );
-  const SmallRating = withStyles(smallStyles)(MyRating);
+
   return (
     <Card className={classes.root} style={{ minHeight: 260 }}>
       <Box className={classes.top} style={{ minHeight: 206 }}>
         <Typography className={classes.text}>{shop.name}</Typography>
-        <SmallRating />
+        <Rating
+          value={Number(shop?.avgRatings) === 0 ? 5 : Number(shop?.avgRatings)}
+          precision={0.1}
+          emptyIcon={<StarBorderIcon fontSize="inherit" />}
+          readOnly
+          className={classes.rating}
+        />
         <Box className={classes.info} display={"flex"}>
           <PlaceIcon className={classes.icon} />
           <Typography className={classes.detail} component={"span"}>

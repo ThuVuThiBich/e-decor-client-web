@@ -3,6 +3,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import noImage from "assets/images/no-image.png";
+import { useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getPrice } from "utils/helpers";
 import { useStyles } from "./styles";
@@ -10,10 +11,21 @@ import { useStyles } from "./styles";
 export default function Product(props) {
   const { product } = props;
   const classes = useStyles();
+  const [state, setState] = useState({
+    raised: false,
+    shadow: 1,
+  });
 
   const history = useHistory();
+
   return (
     <Card
+      className={classes.root}
+      classes={{ root: state.raised ? classes.cardHovered : "" }}
+      onMouseOver={() => setState({ raised: true, shadow: 3 })}
+      onMouseOut={() => setState({ raised: false, shadow: 1 })}
+      raised={state.raised}
+      zdepth={state.shadow}
       onClick={() => {
         history.push(`/product/${product?.id}`);
       }}

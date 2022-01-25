@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
       `linear-gradient(rgba(43, 52, 69, 0.8), rgba(43, 52, 69, 0.8)), url(${coverImageUrl})`,
   },
   text: {
-    marginBottom: 8,
+    marginBottom: 4,
     marginTop: 0,
     fontSize: 20,
     fontWeight: 600,
@@ -30,5 +30,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: 8,
+  },
+  rating: {
+    "& .MuiRating-root": { marginBottom: 8, marginLeft: -4 },
+    "& .MuiSvgIcon-root": { width: 18, height: 18 },
+    "& .MuiRating-decimal": { padding: 4 },
+    "& .MuiRating-iconEmpty": { color: "rgb(255 255 255 / 72%) !important" },
   },
 }));
