@@ -45,11 +45,12 @@ export const getPrice = (min, max) => {
 
 export const getCartItemsShop = (products) => {
   let array = [];
-  for (let i = 0; i < products.length; i++) {
-    for (let j = 0; j < products[i].productVersions.length; j++) {
+  for (let i = 0; i < products?.length; i++) {
+    for (let j = 0; j < products[i]?.productVersions?.length; j++) {
       array.push({
-        name: products[i].name,
-        version: products[i].productVersions[j],
+        name: products[i]?.name,
+        version: products[i]?.productVersions[j],
+        cartItemId: products[i]?.productVersions[j]?.cartItems[0]?.id
       });
     }
   }

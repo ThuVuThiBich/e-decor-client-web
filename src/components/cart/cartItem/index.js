@@ -12,12 +12,16 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveIcon from "@material-ui/icons/Remove";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { deleteCartItem, updateQuantity } from "redux/cartRedux";
 export default function CartItem(props) {
   const { isItemSelected, labelId, classes, handleClick, row } = props;
-  const [quantity, setQuantity] = useState(row.version.cartItems[0].quantity);
+  const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
+  useEffect(() => {
+    setQuantity(row.version.cartItems[0].quantity);
+  }, [row]);
   return (
     <TableRow
       className={classes.row}
@@ -65,7 +69,7 @@ export default function CartItem(props) {
                 setQuantity(quantity - 1);
                 dispatch(
                   updateQuantity({
-                    id: row.version.id,
+                    id: row.cartItemId,
                     body: { quantity: quantity - 1 },
                   })
                 );
@@ -85,7 +89,7 @@ export default function CartItem(props) {
               setQuantity(quantity + 1);
               dispatch(
                 updateQuantity({
-                  id: row.version.id,
+                  id: row.cartItemId,
                   body: { quantity: quantity + 1 },
                 })
               );
@@ -100,7 +104,10 @@ export default function CartItem(props) {
       </TableCell>
       <TableCell width="5%">
         <Tooltip title="Delete">
-          <IconButton aria-label="delete" onClick={()=> dispatch(deleteCartItem(row.version.id))}>
+          <IconButton
+            aria-label="delete"
+            onClick={() => dispatch(deleteCartItem(row.cartItemId))}
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>

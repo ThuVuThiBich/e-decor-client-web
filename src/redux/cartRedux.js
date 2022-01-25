@@ -51,7 +51,7 @@ const cartSlice = createSlice({
   initialState: {
     products: [],
     recentProducts: [],
-    cart: [],
+    isUpdated: 0,
     isNew: false,
     quantity: 0,
     isLoading: false,
@@ -92,6 +92,7 @@ const cartSlice = createSlice({
     },
     [updateQuantity.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.isUpdated = state.isUpdated + 1;
     },
 
     [deleteCartItem.pending]: (state) => {
@@ -103,6 +104,8 @@ const cartSlice = createSlice({
     },
     [deleteCartItem.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.isUpdated = state.isUpdated + 1;
+
       // state.products.splice(
       //   state.products.findIndex((item) => item._id === action.payload.id),
       //   1

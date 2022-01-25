@@ -10,11 +10,11 @@ export default function Cart() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
+  const { products, isUpdated } = useSelector(cartSelector);
 
   useEffect(() => {
     currentUser && dispatch(getCartItems());
-  }, [currentUser, dispatch]);
-  const { products } = useSelector(cartSelector);
+  }, [currentUser, dispatch, isUpdated]);
   return (
     <Container className={classes.container}>
       {products?.map((item, index) => (

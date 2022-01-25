@@ -20,7 +20,7 @@ import { alpha, lighten, makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getCartItemsShop } from "utils/helpers";
 import CartItem from "./cartItem";
@@ -178,7 +178,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable(props) {
   const { item } = props;
-  const [data, setData] = useState(getCartItemsShop(item.products));
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    setData(getCartItemsShop(item.products));
+  }, [item]);
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
 
