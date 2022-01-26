@@ -56,3 +56,14 @@ export const getCartItemsShop = (products) => {
   }
   return array;
 };
+
+export const getOrderPrice = (data, selectItems) => {
+  let price = 0;
+  for (let index = 0; index < data?.length; index++) {
+    const element = data?.[index]?.version?.id;
+    if (selectItems?.includes(element))
+      price +=
+        data?.[index]?.version?.price * data?.[index]?.version?.cartItems?.[0]?.quantity;
+  }
+  return price;
+};

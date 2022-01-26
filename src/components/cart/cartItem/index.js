@@ -40,7 +40,7 @@ export default function CartItem(props) {
           color="primary"
           checked={isItemSelected}
           inputProps={{ "aria-labelledby": labelId }}
-          onClick={(event) => handleClick(event, row.name)}
+          onClick={(event) => handleClick(event, row.version.id)}
         />
       </TableCell>
 

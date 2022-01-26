@@ -22,7 +22,7 @@ import StorefrontIcon from "@material-ui/icons/Storefront";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getCartItemsShop } from "utils/helpers";
+import { getCartItemsShop, getOrderPrice } from "utils/helpers";
 import CartItem from "./cartItem";
 
 const headCells = [
@@ -86,9 +86,8 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, data, selected } = props;
   const history = useHistory();
-
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -111,7 +110,7 @@ const EnhancedTableToolbar = (props) => {
               color="inherit"
               variant="subtitle1"
             >
-              0 VND
+              {getOrderPrice(data, selected)} VND
             </Typography>
             <Button
               color="primary"
@@ -220,7 +219,11 @@ export default function EnhancedTable(props) {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         {selected.length > 0 && (
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar
+            numSelected={selected.length}
+            data={data}
+            selected={selected}
+          />
         )}
         <TableContainer>
           <Table
