@@ -28,13 +28,11 @@ import { useStyles } from "./styles";
 export default function Header() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
-  const { isUpdated } = useSelector(cartSelector);
+  const { recentProducts, quantity, isUpdated } = useSelector(cartSelector);
 
   useEffect(() => {
     currentUser && dispatch(getRecentCartItems());
   }, [currentUser, dispatch, isUpdated]);
-  const { recentProducts, quantity } = useSelector(cartSelector);
-  const cartStore = useSelector(cartSelector);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
 
@@ -226,7 +224,7 @@ export default function Header() {
               onMouseOver={handleCardMenuOpen}
               style={{ cursor: "pointer" }}
             >
-              <Badge badgeContent={cartStore.quantity} color="secondary">
+              <Badge badgeContent={quantity} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

@@ -123,7 +123,10 @@ export default function Top(props) {
                           mx={1}
                           className={classes.img}
                           key={index}
-                          style={{ border: "1px solid #ddd" }}
+                          style={{
+                            border: "1px solid #ddd",
+                            cursor: "pointer",
+                          }}
                           onClick={() => setShowedImage(item.image)}
                         >
                           <img
@@ -153,7 +156,10 @@ export default function Top(props) {
                           mx={1}
                           className={classes.img}
                           key={index}
-                          style={{ border: "1px solid #ddd" }}
+                          style={{
+                            border: "1px solid #ddd",
+                            cursor: "pointer",
+                          }}
                           onClick={() => setShowedImage(item.image)}
                         >
                           <img

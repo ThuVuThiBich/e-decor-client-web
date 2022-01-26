@@ -71,6 +71,7 @@ const cartSlice = createSlice({
       state.error = false;
       state.isNew = action.payload.new;
       state.quantity += 1;
+      state.isUpdated = state.isUpdated + 1;
     },
     [getCartItems.pending]: (state) => {
       state.isLoading = true;

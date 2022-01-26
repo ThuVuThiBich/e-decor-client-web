@@ -5,11 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getShopCategories } from "redux/categoryRedux";
 import { getProducts } from "redux/productRedux";
-import { categorySelector, productSelector } from "redux/selectors";
+import {
+  categorySelector,
+  productSelector,
+  wishlistSelector,
+} from "redux/selectors";
 import Filter from "./filter";
 import Products from "./products";
 import { useStyles } from "./styles";
 export default function ShopContent(props) {
+  const { isLoading } = useSelector(wishlistSelector);
   const classes = useStyles();
   const limit = 9;
 
@@ -51,12 +56,13 @@ export default function ShopContent(props) {
         params: { limit, page, categories, min, max, ratings: ratingValue },
       })
     );
-  }, [categories, dispatch, id, max, min, page, ratingValue]);
+  }, [categories, dispatch, id, max, min, page, ratingValue, isLoading]);
 
   const storeCategory = useSelector(categorySelector);
   useEffect(() => {
     dispatch(getShopCategories(id));
   }, [dispatch, id]);
+
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>

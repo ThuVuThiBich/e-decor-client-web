@@ -4,9 +4,12 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import noImage from "assets/images/no-image.png";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getPrice } from "utils/helpers";
 import { useStyles } from "./styles";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import { createWishlist, deleteWishlist } from "redux/wishlistRedux";
 
 export default function Product(props) {
   const { product } = props;
@@ -17,7 +20,7 @@ export default function Product(props) {
   });
 
   const history = useHistory();
-
+  const dispatch = useDispatch();
   return (
     <Card
       className={classes.root}
@@ -26,9 +29,6 @@ export default function Product(props) {
       onMouseOut={() => setState({ raised: false, shadow: 1 })}
       raised={state.raised}
       zdepth={state.shadow}
-      onClick={() => {
-        history.push(`/product/${product?.id}`);
-      }}
       style={{ cursor: "pointer" }}
     >
       <Box
@@ -39,6 +39,9 @@ export default function Product(props) {
         }}
         display="flex"
         justifyContent="center"
+        onClick={() => {
+          history.push(`/product/${product?.id}`);
+        }}
       >
         <img src={product?.images[0]?.image || noImage} alt="" />
       </Box>
@@ -66,8 +69,19 @@ export default function Product(props) {
             emptyIcon={<StarBorderIcon fontSize="inherit" />}
             readOnly
           />
-          <IconButton>
-            <FavoriteBorderIcon />
+          <IconButton
+            onClick={(e) => {
+              e.preventDefault();
+              product?.inWishlist
+                ? dispatch(deleteWishlist(product?.wishlistId))
+                : dispatch(createWishlist({ productId: product?.id }));
+            }}
+          >
+            {product?.inWishlist ? (
+              <FavoriteIcon style={{ color: "#D23F57" }} />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
           </IconButton>
         </Box>
       </Box>
