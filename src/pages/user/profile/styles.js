@@ -15,4 +15,8 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 24,
     color: "#D23F57",
   },
+  avatar: {
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+  },
 }));

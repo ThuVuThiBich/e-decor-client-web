@@ -59,16 +59,21 @@ export default function Product(props) {
           alignItems="center"
           width="100%"
         >
-          <Rating
-            value={
-              Number(product?.avgRatings) === 0
-                ? 5
-                : Number(product?.avgRatings)
-            }
-            precision={0.5}
-            emptyIcon={<StarBorderIcon fontSize="inherit" />}
-            readOnly
-          />
+          <Box display="flex" alignItems="center">
+            <Rating
+              value={
+                Number(product?.avgRatings) === 0
+                  ? 5
+                  : Number(product?.avgRatings)
+              }
+              precision={0.5}
+              emptyIcon={<StarBorderIcon fontSize="inherit" />}
+              readOnly
+            />
+            <Typography style={{ marginLeft: 4, color: "#757575" }}>
+              {product?.totalRatings === 0 ? "" : `(${product?.totalRatings})`}
+            </Typography>
+          </Box>
           <IconButton
             onClick={(e) => {
               e.preventDefault();

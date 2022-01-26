@@ -27,7 +27,7 @@ export default function Products() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button color="primary">View</Button>
+        <Button color="primary" variant="outlined">View</Button>
       </Box>
       <Box>
         <Categories />
