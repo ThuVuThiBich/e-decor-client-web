@@ -20,7 +20,7 @@ export default function CartItem(props) {
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
   useEffect(() => {
-    setQuantity(row.version.cartItems[0].quantity);
+    setQuantity(row.version.cartItems?.[0].quantity);
   }, [row]);
   return (
     <TableRow

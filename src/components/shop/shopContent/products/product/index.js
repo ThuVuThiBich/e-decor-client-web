@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getPrice } from "utils/helpers";
 import { useStyles } from "./styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { createWishlist, deleteWishlist } from "redux/wishlistRedux";
+import { createWishlist, removeWishlist } from "redux/wishlistRedux";
 
 export default function Product(props) {
   const { product } = props;
@@ -43,7 +43,7 @@ export default function Product(props) {
           history.push(`/product/${product?.id}`);
         }}
       >
-        <img src={product?.images[0]?.image || noImage} alt="" />
+        <img src={product?.images?.[0]?.image || noImage} alt="" />
       </Box>
       <Box display="flex" p={2} flexDirection="column">
         <Typography gutterBottom className={classes.name} component="div">
@@ -73,7 +73,7 @@ export default function Product(props) {
             onClick={(e) => {
               e.preventDefault();
               product?.inWishlist
-                ? dispatch(deleteWishlist(product?.wishlistId))
+                ? dispatch(removeWishlist(product?.wishlistId))
                 : dispatch(createWishlist({ productId: product?.id }));
             }}
           >

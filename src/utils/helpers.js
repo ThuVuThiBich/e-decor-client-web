@@ -50,7 +50,7 @@ export const getCartItemsShop = (products) => {
       array.push({
         name: products[i]?.name,
         version: products[i]?.productVersions[j],
-        cartItemId: products[i]?.productVersions[j]?.cartItems[0]?.id
+        cartItemId: products[i]?.productVersions[j]?.cartItems?.[0]?.id,
       });
     }
   }

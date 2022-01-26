@@ -55,7 +55,7 @@ export default function ProductVersionForm(props) {
     if (newImage) {
       setImageUrl(URL.createObjectURL(newImage));
     }
-    getUploadedUrl(event.target.files[0]).then((result) => {
+    getUploadedUrl(event.target.files?.[0]).then((result) => {
       dispatch(updateProductVersion({ ...productVersion, image: result }));
     });
   };

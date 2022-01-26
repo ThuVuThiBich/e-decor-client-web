@@ -20,6 +20,17 @@ export const createWishlist = createAsyncThunk(
   }
 );
 
+export const removeWishlist = createAsyncThunk(
+  "wishlist/remove",
+  async (data, thunkAPI) => {
+    const response = await wishlistApi.delete(data);
+    if (response.result.success) {
+      return data;
+    }
+    return null;
+  }
+);
+
 export const deleteWishlist = createAsyncThunk(
   "wishlist/delete",
   async (data, thunkAPI) => {
@@ -67,6 +78,18 @@ const wishlistSlice = createSlice({
       state.error = false;
     },
 
+    [removeWishlist.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [removeWishlist.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [removeWishlist.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+    },
+
     [deleteWishlist.pending]: (state) => {
       state.isLoading = true;
     },
@@ -77,6 +100,10 @@ const wishlistSlice = createSlice({
     [deleteWishlist.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = false;
+      state.wishlists.splice(
+        state.wishlists.findIndex((item) => item.id === action.payload),
+        1
+      );
     },
   },
 });

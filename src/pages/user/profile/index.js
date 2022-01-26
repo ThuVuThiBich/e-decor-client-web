@@ -13,7 +13,9 @@ export default function Profile() {
           <PersonIcon className={classes.icon} />
           <Typography className={classes.title}>My Profile</Typography>
         </Box>
-        <Button color="primary">Edit Profile</Button>
+        <Button color="primary" variant="outlined">
+          Edit Profile
+        </Button>
       </Box>
       <Box style={{ border: "1px solid black", height: 500 }}></Box>
     </div>

@@ -33,7 +33,7 @@ export default function Top(props) {
     setShowedImage(
       product?.images?.concat(
         getImagesFromProductVersion(product?.productVersions)
-      )[0]?.image
+      )?.[0]?.image
     );
   }, [product]);
 

@@ -22,6 +22,7 @@ import withUser from "pages/user";
 import OrderDetail from "pages/user/orderDetail";
 import Orders from "pages/user/orders";
 import Profile from "pages/user/profile";
+import Wishlist from "pages/user/wishlist/Wishlist";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
@@ -38,7 +39,7 @@ function App() {
       <Route path={"/profile"} component={withUser(Profile)} exact />
       <Route path={"/orders"} component={withUser(Orders)} exact />
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
-      <Route path={"/wishlist"} component={withUser(Orders)} exact />
+      <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />
 
       <Route path={"/cart"} component={withAuthLayout(Cart)} exact />

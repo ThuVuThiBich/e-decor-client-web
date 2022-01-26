@@ -153,7 +153,7 @@ export default function ShopInfo() {
                 id="ava-file"
                 type="file"
                 onChange={(e) => {
-                  getUploadedUrl(e.target.files[0]).then((result) =>
+                  getUploadedUrl(e.target.files?.[0]).then((result) =>
                     setAvaUrl(result)
                   );
                 }}
@@ -181,7 +181,7 @@ export default function ShopInfo() {
               id="wall-file"
               type="file"
               onChange={(e) => {
-                getUploadedUrl(e.target.files[0]).then((result) =>
+                getUploadedUrl(e.target.files?.[0]).then((result) =>
                   setWallUrl(result)
                 );
               }}
