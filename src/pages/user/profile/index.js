@@ -14,15 +14,79 @@ import {
   Typography,
 } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/Person";
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import { useStyles } from "./styles";
-
+import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "redux/selectors";
+import { CloudUpload, Delete } from "@material-ui/icons";
+import axios from "axios";
+import { updateInfo } from "redux/userRedux";
 export default function Profile() {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(userSelector);
+  const [name, setName] = useState(currentUser?.name);
+  const [phone, setPhone] = useState(currentUser?.phone);
+  const [email, setEmail] = useState(currentUser?.email);
+  const [avatar, setAvatar] = useState(currentUser?.avatar);
   const classes = useStyles();
-  const [value, setValue] = useState("female");
+  const [gender, setGender] = useState(currentUser?.gender);
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setGender(event.target.value);
+  };
+  //
+  //
+
+  const [image, setImage] = useState(avatar);
+  const inputFileRef = createRef(null);
+
+  const cleanup = () => {
+    URL.revokeObjectURL(image);
+    inputFileRef.current.value = null;
+  };
+
+  const setImageUrl = (newImage) => {
+    if (image) {
+      cleanup();
+    }
+    setImage(newImage);
+  };
+  const getUploadedUrl = async (file) => {
+    //  setUploadCover(true);
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "uploads");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+        data
+      );
+      const { url } = uploadRes.data;
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleOnChange = (event) => {
+    const newImage = event.target?.files?.[0];
+    if (newImage) {
+      setImageUrl(URL.createObjectURL(newImage));
+    }
+    getUploadedUrl(event.target.files?.[0]).then((result) => {
+      setAvatar(result);
+    });
+  };
+
+  const handleClick = (event) => {
+    if (image) {
+      event.preventDefault();
+      setImageUrl(null);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    const data = { name, email, avatar, phone, gender };
+    dispatch(updateInfo(data));
   };
   return (
     <div>
@@ -32,7 +96,7 @@ export default function Profile() {
           <Typography className={classes.title}>My Profile</Typography>
         </Box>
         <Button color="primary" variant="outlined">
-          Edit Profile
+          More
         </Button>
       </Box>
       <Box my={4} mb={10}>
@@ -42,7 +106,7 @@ export default function Profile() {
               <Box p={2} style={{ fontSize: 16, fontWeight: "bold" }}>
                 Profile Picture
               </Box>
-              <Divider />
+              <Divider style={{ height: 0.5 }} />
               <CardContent>
                 <Box
                   display="flex"
@@ -50,12 +114,36 @@ export default function Profile() {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  <Avatar alt="" src={""} className={classes.avatar} />
+                  <Avatar alt="" src={image} className={classes.avatar} />
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
-                  <Button color="primary" variant="contained">
-                    Upload Avatar
-                  </Button>
+                  <input
+                    ref={inputFileRef}
+                    accept="image/*"
+                    hidden
+                    id="avatar-image-upload"
+                    type="file"
+                    onChange={handleOnChange}
+                  />
+                  <label htmlFor="avatar-image-upload">
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      component="span"
+                      mb={1}
+                      onClick={handleClick}
+                    >
+                      {image ? (
+                        <>
+                          <Delete style={{ marginRight: 4 }} /> Remove
+                        </>
+                      ) : (
+                        <>
+                          <CloudUpload style={{ marginRight: 4 }} /> Upload
+                        </>
+                      )}
+                    </Button>
+                  </label>
                 </Box>
               </CardContent>
             </Card>
@@ -65,7 +153,7 @@ export default function Profile() {
               <Box p={2} pl={4} style={{ fontSize: 16, fontWeight: "bold" }}>
                 Account Details
               </Box>
-              <Divider />
+              <Divider style={{ height: 0.5 }} />
               <CardContent px={4}>
                 <Box p={2} px={2}>
                   <Grid container spacing={2}>
@@ -87,8 +175,9 @@ export default function Profile() {
                             size="small"
                             required
                             id="name"
-                            defaultValue="Name"
+                            value={name}
                             variant="outlined"
+                            onChange={(e) => setName(e.target.value)}
                           />
                         </FormControl>
                       </Grid>
@@ -105,17 +194,17 @@ export default function Profile() {
                         <RadioGroup
                           row
                           aria-label="gender"
-                          name="gender1"
-                          value={value}
+                          name="gender"
+                          value={gender}
                           onChange={handleChange}
                         >
                           <FormControlLabel
-                            value="female"
+                            value="0"
                             control={<Radio />}
                             label="Female"
                           />
                           <FormControlLabel
-                            value="male"
+                            value="1"
                             control={<Radio />}
                             label="Male"
                           />
@@ -143,12 +232,13 @@ export default function Profile() {
                           fullWidth
                         >
                           <TextField
-                            type="number"
+                            type="text"
                             size="small"
                             required
                             id="phone-number"
-                            defaultValue="Phone Number"
+                            value={phone}
                             variant="outlined"
+                            onChange={(e) => setPhone(e.target.value)}
                           />
                         </FormControl>
                       </Grid>
@@ -173,8 +263,9 @@ export default function Profile() {
                             size="small"
                             required
                             id="name"
-                            defaultValue="Email"
+                            value={email}
                             variant="outlined"
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </FormControl>
                       </Grid>
@@ -182,7 +273,11 @@ export default function Profile() {
                   </Grid>
                 </Box>
                 <Box display="flex" alignItems="center" pl={2} mt={2}>
-                  <Button color="primary" variant="contained">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={handleSubmit}
+                  >
                     Save Changes
                   </Button>
                 </Box>

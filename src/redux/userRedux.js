@@ -29,6 +29,13 @@ export const getInfo = createAsyncThunk(
     return response.result;
   }
 );
+export const updateInfo = createAsyncThunk(
+  "user/updateInfo",
+  async (data, thunkAPI) => {
+    const response = await authApi.updateInfo(data);
+    if (response.result.success) return data;
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -64,11 +71,35 @@ const userSlice = createSlice({
     [signUp.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-
+    [getInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getInfo.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
     [getInfo.fulfilled]: (state, action) => {
       setAuth(action.payload);
       state.isLoading = false;
       state.currentUser = action.payload;
+    },
+    [updateInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateInfo.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [updateInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.currentUser = {
+        ...state.currentUser,
+        name: action.payload.name,
+        email: action.payload.email,
+        avatar: action.payload.avatar,
+        phone: action.payload.phone,
+        gender: action.payload.gender,
+      };
     },
   },
 });

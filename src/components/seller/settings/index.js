@@ -233,7 +233,7 @@ export default function ShopInfo() {
                     onChange={handleChangePhone}
                     label="Phone"
                     placeholder="Phone"
-                    inputProps={{ type: "number" }}
+                    inputProps={{ type: "text" }}
                   />
                 </FormControl>
               </Grid>

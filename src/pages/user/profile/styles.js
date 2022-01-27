@@ -1,3 +1,4 @@
+import { grey } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
@@ -18,5 +19,7 @@ export const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(12),
     height: theme.spacing(12),
+    border: `1px solid ${grey[500]}`,
+    boxShadow: `0 0 1px 0 ${grey[500]} inset, 0 0 1px 0 ${grey[500]}`,
   },
 }));

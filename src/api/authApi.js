@@ -13,6 +13,10 @@ const authApi = {
     const url = "/users";
     return axiosClient.get(url);
   },
+  updateInfo: (data) => {
+    const url = "/users";
+    return axiosClient.put(url, data);
+  },
 };
 
 export default authApi;
