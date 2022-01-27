@@ -19,6 +19,7 @@ import Shops from "pages/shops";
 import ShopDetail from "pages/shops/shop";
 import SignUp from "pages/SignUp";
 import withUser from "pages/user";
+import Address from "pages/user/address";
 import OrderDetail from "pages/user/orderDetail";
 import Orders from "pages/user/orders";
 import Profile from "pages/user/profile";
@@ -41,6 +42,8 @@ function App() {
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
       <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />
+      <Route path={"/address"} component={withUser(Address)} exact />
+      <Route path={"/address/:id"} component={withUser(Address)} exact />
 
       <Route path={"/cart"} component={withAuthLayout(Cart)} exact />
       <Route path={"/checkout"} component={withAuthLayout(Checkout)} exact />
