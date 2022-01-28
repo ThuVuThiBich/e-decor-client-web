@@ -18,7 +18,6 @@ import { useStyles } from "./styles";
 
 export default function AddressForm(props) {
   const { id } = useParams();
-  const { setIsEdit } = props;
   const storeAddress = useSelector(addressSelector);
   const history = useHistory();
   const dispatch = useDispatch();

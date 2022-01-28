@@ -22,12 +22,50 @@ export const getWards = createAsyncThunk(
   }
 );
 
+//
+export const getAddresses = createAsyncThunk("address/getAll", async () => {
+  const response = await addressApi.getAll();
+  return response.result;
+});
+
+export const addAddress = createAsyncThunk(
+  "address/add",
+  async (data, thunkAPI) => {
+    const response = await addressApi.create(data);
+    if (response.result) {
+      return response.result;
+    }
+    return null;
+  }
+);
+
+export const updateAddress = createAsyncThunk(
+  "address/update",
+  async (data, thunkAPI) => {
+    const response = await addressApi.update(data);
+    if (response.result.success) {
+      return response.result.success;
+    }
+    return null;
+  }
+);
+export const deleteAddress = createAsyncThunk(
+  "address/delete",
+  async (data, thunkAPI) => {
+    const response = await addressApi.delete(data);
+    if (response.result.success) {
+      return data;
+    }
+    return null;
+  }
+);
 const addressSlice = createSlice({
   name: "address",
   initialState: {
     cities: [],
     districts: [],
     wards: [],
+    addresses: [],
     isLoading: false,
     error: false,
   },
@@ -70,6 +108,55 @@ const addressSlice = createSlice({
     [getWards.fulfilled]: (state, action) => {
       state.wards = action.payload;
       state.isLoading = false;
+    },
+    //
+    [getAddresses.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getAddresses.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getAddresses.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.addresses = action.payload;
+    },
+
+    [addAddress.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [addAddress.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [addAddress.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+
+    [updateAddress.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateAddress.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [updateAddress.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+
+    [deleteAddress.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteAddress.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [deleteAddress.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.addresses.splice(
+        state.addresses.findIndex((item) => item.id === action.payload),
+        1
+      );
     },
   },
 });

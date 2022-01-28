@@ -1,14 +1,8 @@
 import {
   Box,
   Button,
-  FormControl,
-  Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -18,76 +12,30 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { useStyles } from "./styles";
-import RoomIcon from "@material-ui/icons/Room";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addressSelector } from "redux/selectors";
-import { getCities, getDistricts, getWards } from "redux/addressRedux";
+import RoomIcon from "@material-ui/icons/Room";
 import AddressForm from "components/user/addressForm";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { deleteAddress, getAddresses } from "redux/addressRedux";
+import { addressSelector } from "redux/selectors";
+import { useStyles } from "./styles";
 
-function createData(name, calories, fat, carbs) {
-  return { name, calories, fat, carbs };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24),
-  createData("Ice cream sandwich", 237, 9.0, 37),
-  createData("Eclair", 262, 16.0, 24),
-  createData("Cupcake", 305, 3.7, 67),
-  createData("Gingerbread", 356, 16.0, 49),
-];
 export default function Address() {
   const history = useHistory();
-  const storeAddress = useSelector(addressSelector);
+  const { addresses } = useSelector(addressSelector);
+  console.log(addresses);
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [isEdit, setIsEdit] = useState(false);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [addressDetail, setAddressDetail] = useState("");
-  const [cityId, setCityId] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [wardId, setWardId] = useState("");
-
-  const handleChangeName = (event) => {
-    setName(event.target.value);
-  };
-  const handleChangePhone = (event) => {
-    setPhone(event.target.value);
-  };
-  const handleChangeAddress = (event) => {
-    setAddressDetail(event.target.value);
-  };
-  const handleChangeCity = (event) => {
-    setCityId(event.target.value);
-  };
-  const handleChangeDistrict = (event) => {
-    setDistrictId(event.target.value);
-  };
-  const handleChangeWard = (event) => {
-    setWardId(event.target.value);
-  };
+  const { id } = useParams();
   //
 
   useEffect(() => {
-    dispatch(getCities());
+    dispatch(getAddresses());
   }, [dispatch]);
 
-  useEffect(() => {
-    cityId && dispatch(getDistricts(cityId));
-  }, [cityId, dispatch]);
-
-  useEffect(() => {
-    districtId && dispatch(getWards(districtId));
-  }, [dispatch, districtId]);
-
-  const { id } = useParams();
   return (
     <div>
       <Box
@@ -104,47 +52,56 @@ export default function Address() {
           color="primary"
           variant="outlined"
           onClick={() => {
-            history.push("/address/add");
+            id ? history.push("/address") : history.push("/address/add");
           }}
         >
-          {isEdit ? "Back To Address" : "Add New Address"}
+          {id ? "Back To Address" : "Add New Address"}
         </Button>
       </Box>
       <Box my={2} mb={4}>
         {id ? (
-          <AddressForm setIsEdit={setIsEdit} />
+          <AddressForm />
         ) : (
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Receiver's Name</TableCell>
-                  <TableCell align="center">Address Detail</TableCell>
+                  <TableCell>Address Detail</TableCell>
                   <TableCell align="center">Phone Number</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
+                {addresses.map((row, index) => (
+                  <TableRow key={index}>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {row?.name ? row?.name : "Vu Thu"}
                     </TableCell>
-                    <TableCell align="center">{row.calories}</TableCell>
-                    <TableCell align="center">{row.fat}</TableCell>
+                    <TableCell>
+                      {`${row?.detail}, ${row?.ward?.name}, ${row?.district?.name}, ${row?.city?.name}`}
+                    </TableCell>
+                    <TableCell align="center">
+                      {row?.name ? row?.name : "0123456789"}
+                    </TableCell>
                     <TableCell align="center">
                       <Tooltip title="Edit">
                         <IconButton
                           aria-label="edit"
                           onClick={() => {
-                            history.push("address/id");
+                            history.push(`address/${row?.id}`);
                           }}
                         >
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete">
-                        <IconButton aria-label="delete" onClick={() => {}}>
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => {
+                            dispatch(deleteAddress(row?.id));
+                          }}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
