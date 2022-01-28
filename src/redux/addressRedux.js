@@ -31,7 +31,7 @@ export const getAddresses = createAsyncThunk("address/getAll", async () => {
 export const addAddress = createAsyncThunk(
   "address/add",
   async (data, thunkAPI) => {
-    const response = await addressApi.create(data);
+    const response = await addressApi.add(data);
     if (response.result) {
       return response.result;
     }
@@ -42,7 +42,7 @@ export const addAddress = createAsyncThunk(
 export const updateAddress = createAsyncThunk(
   "address/update",
   async (data, thunkAPI) => {
-    const response = await addressApi.update(data);
+    const response = await addressApi.update(data.id, data.address);
     if (response.result.success) {
       return response.result.success;
     }
@@ -67,6 +67,7 @@ const addressSlice = createSlice({
     wards: [],
     addresses: [],
     isLoading: false,
+    isUpdating: false,
     error: false,
   },
   reducers: {
@@ -124,6 +125,7 @@ const addressSlice = createSlice({
 
     [addAddress.pending]: (state) => {
       state.isLoading = true;
+      state.isUpdating = true;
     },
     [addAddress.rejected]: (state, action) => {
       state.isLoading = false;
@@ -131,10 +133,12 @@ const addressSlice = createSlice({
     },
     [addAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.isUpdating = false;
     },
 
     [updateAddress.pending]: (state) => {
       state.isLoading = true;
+      state.isUpdating = true;
     },
     [updateAddress.rejected]: (state, action) => {
       state.isLoading = false;
@@ -142,6 +146,7 @@ const addressSlice = createSlice({
     },
     [updateAddress.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.isUpdating = false;
     },
 
     [deleteAddress.pending]: (state) => {

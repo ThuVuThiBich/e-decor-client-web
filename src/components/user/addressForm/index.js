@@ -12,23 +12,58 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { getCities, getDistricts, getWards } from "redux/addressRedux";
+import {
+  addAddress,
+  getCities,
+  getDistricts,
+  getWards,
+  updateAddress,
+} from "redux/addressRedux";
 import { addressSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function AddressForm(props) {
   const { id } = useParams();
+  const { addresses } = useSelector(addressSelector);
+
+  const [address, setAddress] = useState({
+    name: "",
+    phone: "",
+    detail: "",
+    cityId: "",
+    districtId: "",
+    wardId: "",
+  });
+
   const storeAddress = useSelector(addressSelector);
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [addressDetail, setAddressDetail] = useState("");
-  const [cityId, setCityId] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [wardId, setWardId] = useState("");
+  const [detail, setDetail] = useState(address?.detail);
+  const [cityId, setCityId] = useState(address?.cityId);
+  const [districtId, setDistrictId] = useState(address?.districtId);
+  const [wardId, setWardId] = useState(address?.wardId);
 
+  useEffect(() => {
+    id !== "add" &&
+      setAddress(addresses?.filter((address) => +address.id === +id)?.[0]);
+  }, [addresses, id]);
+  useEffect(() => {
+    if (id !== "add") {
+      setDetail(address?.detail);
+      setCityId(address?.cityId);
+      setDistrictId(address?.districtId);
+      setWardId(address?.wardId);
+    }
+  }, [
+    address?.cityId,
+    address?.detail,
+    address?.districtId,
+    address?.wardId,
+    id,
+  ]);
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
@@ -36,7 +71,7 @@ export default function AddressForm(props) {
     setPhone(event.target.value);
   };
   const handleChangeAddress = (event) => {
-    setAddressDetail(event.target.value);
+    setDetail(event.target.value);
   };
   const handleChangeCity = (event) => {
     setCityId(event.target.value);
@@ -61,6 +96,15 @@ export default function AddressForm(props) {
     districtId && dispatch(getWards(districtId));
   }, [dispatch, districtId]);
 
+  const handleSubmit = () => {
+    const address = { detail, cityId, districtId, wardId };
+    if (id === "add") {
+      dispatch(addAddress(address));
+    } else {
+      dispatch(updateAddress({ id, address }));
+    }
+    history.push("/address");
+  };
   return (
     <Paper>
       <Box p={4}>
@@ -103,7 +147,7 @@ export default function AddressForm(props) {
                 <InputLabel htmlFor="component-outlined">Address</InputLabel>
                 <OutlinedInput
                   id="component-outlined"
-                  value={addressDetail}
+                  value={detail}
                   onChange={handleChangeAddress}
                   label="Address"
                   placeholder="Address"
@@ -230,11 +274,7 @@ export default function AddressForm(props) {
           </Grid>
         </Box>
         <Box>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => history.push("/address")}
-          >
+          <Button color="primary" variant="contained" onClick={handleSubmit}>
             {id === "add" ? "Add New" : "Save Changes"}
           </Button>
         </Box>

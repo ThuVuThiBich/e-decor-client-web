@@ -25,8 +25,7 @@ import { useStyles } from "./styles";
 
 export default function Address() {
   const history = useHistory();
-  const { addresses } = useSelector(addressSelector);
-  console.log(addresses);
+  const { addresses, isUpdating } = useSelector(addressSelector);
   const dispatch = useDispatch();
   const classes = useStyles();
   const { id } = useParams();
@@ -34,7 +33,7 @@ export default function Address() {
 
   useEffect(() => {
     dispatch(getAddresses());
-  }, [dispatch]);
+  }, [dispatch, isUpdating]);
 
   return (
     <div>
