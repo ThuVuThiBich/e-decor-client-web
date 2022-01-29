@@ -51,7 +51,7 @@ export default function Shops() {
         {isLoading
           ? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
               <Grid key={item} item xs={12} sm={6} lg={4}>
-                <LoadingCard />
+                <LoadingCard type="shop"/>
               </Grid>
             ))
           : storeShops.shops?.map((shop) => (

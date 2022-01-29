@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
   },
 }));
-export const LoadingCard = () => {
+export const LoadingCard = ({ type }) => {
   const classes = useStyles();
 
   return (
@@ -18,7 +18,14 @@ export const LoadingCard = () => {
       <Skeleton animation="wave" variant="rect" className={classes.media} />
       <CardHeader
         avatar={
-          <Skeleton animation="wave" variant="circle" width={40} height={40} />
+          type === "shop" ? (
+            <Skeleton
+              animation="wave"
+              variant="circle"
+              width={40}
+              height={40}
+            />
+          ) : null
         }
         title={
           <Skeleton

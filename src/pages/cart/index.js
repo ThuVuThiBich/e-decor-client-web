@@ -1,21 +1,10 @@
-import {
-  Table,
-  Container,
-  TableBody,
-  TableContainer,
-  Paper,
-  TableHead,
-  TableCell,
-  TableRow,
-  Box,
-} from "@material-ui/core";
-import React, { useEffect } from "react";
+import { Container } from "@material-ui/core";
 import CartItems from "components/cart";
-import { useStyles } from "./styles";
-import { cartSelector, userSelector } from "redux/selectors";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItems } from "redux/cartRedux";
-import { LoadingTable } from "components/common/LoadingTable";
+import { cartSelector, userSelector } from "redux/selectors";
+import { useStyles } from "./styles";
 
 export default function Cart() {
   const classes = useStyles();

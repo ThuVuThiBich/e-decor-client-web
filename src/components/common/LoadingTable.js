@@ -12,7 +12,7 @@ export const LoadingTable = ({ colsNumber }) => {
   }, [colsNumber]);
 
   return rows.map((el) => (
-    <TableRow key={el} height={60}>
+    <TableRow key={el} height={70}>
       {cols.map((el) => (
         <TableCell key={el}>
           <Skeleton />

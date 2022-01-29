@@ -35,7 +35,9 @@ export default function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell width={"10%"} />
+        <TableCell className={classes.tableCell} width={"10%"}>
+          <TableSortLabel>Action</TableSortLabel>
+        </TableCell>
       </StyledTableRow>
     </TableHead>
   );

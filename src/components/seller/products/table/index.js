@@ -1,4 +1,12 @@
-import { Paper, Table, TableBody, TableContainer } from "@material-ui/core";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+} from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
+import { LoadingTable } from "components/common/LoadingTable";
 import { INITIAL_PAGE, INITIAL_ROWS_PER_PAGE } from "constants/index";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +14,6 @@ import { useHistory } from "react-router-dom";
 import { getProducts } from "redux/productRedux";
 import { productSelector, shopSelector } from "redux/selectors";
 import { EmptyRows } from "./common/EmptyData";
-import { LoadingTable } from "./common/LoadingTable";
 import TableFooter from "./footer";
 import TableHeader from "./header";
 import EnhancedTableRow from "./row";
@@ -20,56 +27,21 @@ const DEFAULT_PARAMS = {
   sortColumn: "",
   type: false,
 };
-const mockOrders = [
-  {
-    id: "1050017AS",
-    stock: 50,
-    price: "$5 - $15",
-  },
-  {
-    id: "2050017AS",
-    stock: 50,
-    price: "$5 - $15",
-  },
-  {
-    id: "3050017AS",
-    stock: 50,
-    price: "$5 - $15",
-  },
-  {
-    id: "4050017AS",
-    stock: 50,
-    price: "$5 - $15",
-  },
-  {
-    id: "5050017AS",
-    stock: 50,
-    price: "$5 - $15",
-  },
-];
+
 export default function ProductsTable() {
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const limit = 5;
   const storeProduct = useSelector(productSelector);
   const { isLoading } = useSelector(productSelector);
   const storeShop = useSelector(shopSelector);
   const id = history.location.state.categoryId;
   const shopId = storeShop.currentShop.id;
-  useEffect(() => {
-    dispatch(
-      getProducts({ id: shopId, params: { categories: id, limit: 5, page: 1 } })
-    );
-  }, [dispatch, id, shopId]);
 
   const classes = useStyles();
-  const [orders, setOrders] = useState(mockOrders);
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [params, setParams] = useState(DEFAULT_PARAMS);
-  const storeOrders = useSelector((state) => state.orders);
+  const [orderBy, setOrderBy] = useState("");
+  const [page, setPage] = useState(1);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -77,39 +49,18 @@ export default function ProductsTable() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = orders?.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  useEffect(() => {
+    dispatch(
+      getProducts({
+        id: shopId,
+        params: { categories: id, limit, page },
+      })
+    );
+  }, [dispatch, id, page, shopId]);
   return (
     <Paper>
       <TableToolbar />
@@ -122,34 +73,29 @@ export default function ProductsTable() {
           />
           <TableBody>
             {isLoading ? (
-              <LoadingTable />
+              <LoadingTable colsNumber={5} />
             ) : (
               <>
                 {storeProduct.products?.map((row) => (
-                  <EnhancedTableRow
-                    key={row.id}
-                    row={row}
-                    //   handleOpenDialog={handleOpenDialog}
-                    //   handleDeleteProject={handelDeleteResource}
-                    //   handleArchiveProject={callApiArchiveResource}
-                  />
+                  <EnhancedTableRow key={row.id} row={row} />
                 ))}
-
-                <EmptyRows isEmptyTable={orders.length === 0} />
               </>
             )}
           </TableBody>
         </Table>
       </TableContainer>
-      {orders.length === 0 ? (
+      {storeProduct.products.length === 0 ? (
         <></>
       ) : (
-        <TableFooter
-          page={params.page}
-          rowsPerPage={5}
-          pageSize={storeOrders?.pageSize | 1}
-          handleChangePage={handleChangePage}
-        />
+        <Box p={2} display="flex" justifyContent="center">
+          <Pagination
+            count={Math.ceil(storeProduct.totalProducts / limit)}
+            page={page}
+            onChange={handleChangePage}
+            variant="outlined"
+            color="primary"
+          />
+        </Box>
       )}
     </Paper>
   );

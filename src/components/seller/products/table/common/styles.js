@@ -8,9 +8,10 @@ export const useStyles = makeStyles({
 export const StyledTableRow = withStyles((theme) => ({
   root: {
     "& .MuiTableCell-root": {
-      padding: 16,
-      paddingLeft: 24,
+      // padding: 16,
+      // paddingLeft: 24,
     },
+
     "& .MuiIconButton-root": {
       color: "#000000",
       padding: 8,
@@ -25,5 +26,4 @@ export const StyledTableCell = withStyles({
     fontSize: 16,
     borderRight: `1px solid "#E0E0E0"`,
   },
-  body: { borderRight: `1px solid "#E0E0E0"` },
 })(TableCell);

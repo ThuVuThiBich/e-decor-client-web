@@ -42,7 +42,7 @@ function EnhancedTableHead(props) {
 
   return isLoading ? (
     <>
-      <TableRow height={60}>
+      <TableRow height={70}>
         <TableCell width={"5%"} key={"000"}>
           <Skeleton />
         </TableCell>
