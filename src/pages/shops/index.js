@@ -1,5 +1,6 @@
 import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
+import { LoadingCard } from "components/common/LoadingCard";
 import Shop from "components/shop";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ export default function Shops() {
 
   const dispatch = useDispatch();
   const storeShops = useSelector(shopSelector);
+  const { isLoading } = useSelector(shopSelector);
 
   useEffect(() => {
     dispatch(getShops({ limit, page }));
@@ -46,11 +48,17 @@ export default function Shops() {
         <Typography className={classes.headText}>All Shops</Typography>
       </Box>
       <Grid container spacing={3}>
-        {storeShops.shops?.map((shop) => (
-          <Grid key={shop.id} item xs={12} sm={6} lg={4}>
-            <Shop shop={shop} />
-          </Grid>
-        ))}
+        {isLoading
+          ? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+              <Grid key={item} item xs={12} sm={6} lg={4}>
+                <LoadingCard />
+              </Grid>
+            ))
+          : storeShops.shops?.map((shop) => (
+              <Grid key={shop.id} item xs={12} sm={6} lg={4}>
+                <Shop shop={shop} />
+              </Grid>
+            ))}
       </Grid>
       <Box
         py={4}

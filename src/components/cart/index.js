@@ -19,9 +19,13 @@ import { alpha, lighten, makeStyles } from "@material-ui/core/styles";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import StorefrontIcon from "@material-ui/icons/Storefront";
+import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
+import { LoadingTable } from "components/common/LoadingTable";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { cartSelector } from "redux/selectors";
 import { getCartItemsShop, getOrderPrice } from "utils/helpers";
 import CartItem from "./cartItem";
 
@@ -30,16 +34,39 @@ const headCells = [
   { id: "price", numeric: true, disablePadding: false, label: "" },
   { id: "carbs", numeric: true, disablePadding: false, label: "" },
   { id: "total", numeric: true, disablePadding: false, label: "" },
-  { id: "total1", numeric: true, disablePadding: false, label: "" },
 ];
 
 function EnhancedTableHead(props) {
-  const { name, classes, onSelectAllClick, numSelected, rowCount } = props;
+  const { name, classes, onSelectAllClick, numSelected, rowCount, isLoading } =
+    props;
 
-  return (
+  return isLoading ? (
+    <>
+      <TableRow height={60}>
+        <TableCell width={"5%"} key={"000"}>
+          <Skeleton />
+        </TableCell>
+        <TableCell width={"35%"} key={"00"}>
+          <Skeleton />
+        </TableCell>
+        <TableCell width={"15%"} key={"11"}>
+          <Skeleton />
+        </TableCell>
+        <TableCell width={"10%"} key={"22"}>
+          <Skeleton />
+        </TableCell>
+        <TableCell width={"20%"} key={"33"}>
+          <Skeleton />
+        </TableCell>
+        <TableCell width={"10%"} key={"22"}>
+          <Skeleton />
+        </TableCell>
+      </TableRow>
+    </>
+  ) : (
     <TableHead className={classes.row}>
       <TableRow>
-        <TableCell align="center">
+        <TableCell align="center" width="5%">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -48,15 +75,18 @@ function EnhancedTableHead(props) {
             inputProps={{ "aria-label": "select all desserts" }}
           />
         </TableCell>
-        <TableCell key={"1"} align={"left"} padding={"none"} width={"20%"}>
+        <TableCell key={"1"} align={"left"} width={"35%"}>
           <Box display="flex" alignItems="center">
             <StorefrontIcon style={{ marginRight: 16 }} />
             {name}
           </Box>
         </TableCell>
-        {headCells?.map((headCell) => (
-          <TableCell key={headCell.id}>{headCell.label}</TableCell>
-        ))}
+
+        <TableCell width={"15%"} key={"11"}></TableCell>
+        <TableCell width={"10%"} key={"22"}></TableCell>
+        <TableCell width={"20%"} key={"33"}></TableCell>
+        <TableCell width={"10%"} key={"22"}></TableCell>
+        <TableCell width={"5%"} key={"44"}></TableCell>
       </TableRow>
     </TableHead>
   );
@@ -147,7 +177,7 @@ const useStyles = makeStyles((theme) => ({
 
   row: {
     "& .MuiTableCell-root": {
-      padding: "8px 0px",
+      // padding: "8px 0px",
     },
   },
   tableRowRoot: {
@@ -183,7 +213,7 @@ export default function EnhancedTable(props) {
   }, [item]);
   const classes = useStyles();
   const [selected, setSelected] = useState([]);
-
+  const { isLoading } = useSelector(cartSelector);
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = data?.map((n) => n.version.id);
@@ -238,24 +268,29 @@ export default function EnhancedTable(props) {
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
               rowCount={data.length}
+              isLoading={isLoading}
             />
 
             <TableBody className={classes.row}>
-              {data?.map((row, index) => {
-                const isItemSelected = isSelected(row.version.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+              {isLoading ? (
+                <LoadingTable colsNumber={6} />
+              ) : (
+                data?.map((row, index) => {
+                  const isItemSelected = isSelected(row.version.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <CartItem
-                    key={index}
-                    isItemSelected={isItemSelected}
-                    labelId={labelId}
-                    classes={classes}
-                    handleClick={handleClick}
-                    row={row}
-                  />
-                );
-              })}
+                  return (
+                    <CartItem
+                      key={index}
+                      isItemSelected={isItemSelected}
+                      labelId={labelId}
+                      classes={classes}
+                      handleClick={handleClick}
+                      row={row}
+                    />
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -31,7 +31,7 @@ export default function Header() {
   const { recentProducts, quantity, isUpdated } = useSelector(cartSelector);
 
   useEffect(() => {
-    currentUser && dispatch(getRecentCartItems());
+    getToken() && currentUser && dispatch(getRecentCartItems());
   }, [currentUser, dispatch, isUpdated]);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);

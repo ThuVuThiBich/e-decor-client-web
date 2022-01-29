@@ -15,6 +15,7 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import RoomIcon from "@material-ui/icons/Room";
+import { LoadingTable } from "components/common/LoadingTable";
 import AddressForm from "components/user/addressForm";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +26,7 @@ import { useStyles } from "./styles";
 
 export default function Address() {
   const history = useHistory();
-  const { addresses, isUpdating } = useSelector(addressSelector);
+  const { addresses, isUpdating, isLoading } = useSelector(addressSelector);
   const dispatch = useDispatch();
   const classes = useStyles();
   const { id } = useParams();
@@ -72,41 +73,45 @@ export default function Address() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {addresses.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {row?.name ? row?.name : "Vu Thu"}
-                    </TableCell>
-                    <TableCell>
-                      {`${row?.detail}, ${row?.ward?.name}, ${row?.district?.name}, ${row?.city?.name}`}
-                    </TableCell>
-                    <TableCell align="center">
-                      {row?.name ? row?.name : "0123456789"}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Tooltip title="Edit">
-                        <IconButton
-                          aria-label="edit"
-                          onClick={() => {
-                            history.push(`address/${row?.id}`);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Delete">
-                        <IconButton
-                          aria-label="delete"
-                          onClick={() => {
-                            dispatch(deleteAddress(row?.id));
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {isLoading ? (
+                  <LoadingTable />
+                ) : (
+                  addresses.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell component="th" scope="row">
+                        {row?.name ? row?.name : "Vu Thu"}
+                      </TableCell>
+                      <TableCell>
+                        {`${row?.detail}, ${row?.ward?.name}, ${row?.district?.name}, ${row?.city?.name}`}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.name ? row?.name : "0123456789"}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Tooltip title="Edit">
+                          <IconButton
+                            aria-label="edit"
+                            onClick={() => {
+                              history.push(`address/${row?.id}`);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => {
+                              dispatch(deleteAddress(row?.id));
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </TableContainer>

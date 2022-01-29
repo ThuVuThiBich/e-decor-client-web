@@ -52,6 +52,7 @@ export default function ProductsTable() {
   const dispatch = useDispatch();
 
   const storeProduct = useSelector(productSelector);
+  const { isLoading } = useSelector(productSelector);
   const storeShop = useSelector(shopSelector);
   const id = history.location.state.categoryId;
   const shopId = storeShop.currentShop.id;
@@ -62,7 +63,6 @@ export default function ProductsTable() {
   }, [dispatch, id, shopId]);
 
   const classes = useStyles();
-  const isLoading = false;
   const [orders, setOrders] = useState(mockOrders);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");

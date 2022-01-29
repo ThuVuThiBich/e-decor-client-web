@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
 import { setAuth, setToken } from "utils/helpers";
+import { reset } from "./cartRedux";
 
 // async action
 // await async action tren component
@@ -36,6 +37,13 @@ export const updateInfo = createAsyncThunk(
     if (response.result.success) return data;
   }
 );
+
+export const logOut = createAsyncThunk(
+  "user/logOut",
+  async (data, thunkAPI) => {
+    thunkAPI.dispatch(reset());
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -43,11 +51,7 @@ const userSlice = createSlice({
     isLoading: false,
     error: "",
   },
-  reducers: {
-    logOut: (state) => {
-      state.currentUser = null;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [login.pending]: (state) => {
       state.isLoading = true;
@@ -101,8 +105,21 @@ const userSlice = createSlice({
         gender: action.payload.gender,
       };
     },
+
+    [logOut.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [logOut.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [logOut.fulfilled]: (state, action) => {
+      state.currentUser = null;
+      state.isLoading = false;
+      state.error = false;
+    },
   },
 });
 
-export const { logOut } = userSlice.actions;
+// export const {  } = userSlice.actions;
 export default userSlice.reducer;

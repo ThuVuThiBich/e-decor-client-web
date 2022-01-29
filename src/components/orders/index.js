@@ -1,9 +1,9 @@
 import { Paper, Table, TableBody, TableContainer } from "@material-ui/core";
+import { LoadingTable } from "components/common/LoadingTable";
 import { INITIAL_PAGE, INITIAL_ROWS_PER_PAGE } from "constants/index";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { EmptyRows } from "./common/EmptyData";
-import { LoadingTable } from "./common/LoadingTable";
 import TableFooter from "./footer";
 import TableHeader from "./header";
 import EnhancedTableRow from "./row";

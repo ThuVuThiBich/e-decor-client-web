@@ -44,7 +44,7 @@ export default function CartItem(props) {
         />
       </TableCell>
 
-      <TableCell component="th" id={labelId} scope="row" width="35%">
+      <TableCell id={labelId} scope="row" width="35%">
         <Box display="flex" alignItems="center">
           <img
             style={{ marginRight: 16 }}
