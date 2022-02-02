@@ -12,6 +12,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "redux/categoryRedux";
+import { useHistory } from "react-router-dom";
 import { categorySelector } from "redux/selectors";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,14 +58,19 @@ const MenuProps = {
 };
 export default function SearchInput() {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const storeCategory = useSelector(categorySelector);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
   const classes = useStyles();
   const [searchValue, setSearchValue] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
   const handleChangeDropdown = (e) => {
+    setCategoryValue(e.target.value);
+    history.push("/products");
+  };
+  const handleChangeSearch = (e) => {
     setSearchValue(e.target.value);
   };
   return (
@@ -73,16 +79,21 @@ export default function SearchInput() {
         <SearchIcon />
       </IconButton>
       <InputBase
+        value={searchValue}
         className={classes.input}
         placeholder="Searching for ..."
         inputProps={{ "aria-label": "search" }}
+        onChange={handleChangeSearch}
+        onKeyPress={() => {
+          history.push("/products");
+        }}
       />
 
       <Divider className={classes.divider} orientation="vertical" />
 
       <FormControl variant="outlined" className={classes.select}>
         <Select
-          value={searchValue}
+          value={categoryValue}
           name={"category"}
           displayEmpty
           MenuProps={MenuProps}
@@ -90,7 +101,7 @@ export default function SearchInput() {
           onChange={handleChangeDropdown}
         >
           <MenuItem key={"all-categories"} value={""}>
-            All categories
+            All Categories
           </MenuItem>
           {storeCategory?.categories?.map((option) => (
             <MenuItem key={option} value={option.id}>

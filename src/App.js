@@ -6,6 +6,7 @@ import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import Product from "pages/product";
+import Search from "pages/product/search";
 import withSeller from "pages/seller";
 import Dashboard from "pages/seller/dashboard";
 import SellerOrderDetail from "pages/seller/orderDetail";
@@ -45,6 +46,7 @@ function App() {
       <Route path={"/address"} component={withUser(Address)} exact />
       <Route path={"/address/:id"} component={withUser(Address)} exact />
 
+      <Route path={"/products"} component={withAuthLayout(Search)} exact />
       <Route path={"/cart"} component={withAuthLayout(Cart)} exact />
       <Route path={"/checkout"} component={withAuthLayout(Checkout)} exact />
 
