@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getShopCategories } from "redux/categoryRedux";
-import { getProducts } from "redux/productRedux";
+import { getProducts, getShopProducts } from "redux/productRedux";
 import {
   categorySelector,
   productSelector,
@@ -51,7 +51,7 @@ export default function ShopContent(props) {
 
   useEffect(() => {
     dispatch(
-      getProducts({
+      getShopProducts({
         id,
         params: { limit, page, categories, min, max, ratings: ratingValue },
       })

@@ -34,8 +34,21 @@ export const getImagesFromProductVersion = (products) => {
 };
 
 export const getCategoryNameFromId = (id, categories) => {
+  console.log(id);
+  console.log(categories);
   const category = categories?.find((item) => +item.categoryId === +id);
   return category?.category?.name;
+};
+
+export const getCategoryName = (id, categories) => {
+  console.log(id);
+  console.log(categories);
+  const category = categories?.find((item) => +item.id === +id);
+  return category?.name;
+};
+export const getCategoryId = (name, categories) => {
+  const category = categories?.find((item) => item.name === name);
+  return category?.id;
 };
 
 export const getPrice = (min, max) => {
@@ -63,7 +76,8 @@ export const getOrderPrice = (data, selectItems) => {
     const element = data?.[index]?.version?.id;
     if (selectItems?.includes(element))
       price +=
-        data?.[index]?.version?.price * data?.[index]?.version?.cartItems?.[0]?.quantity;
+        data?.[index]?.version?.price *
+        data?.[index]?.version?.cartItems?.[0]?.quantity;
   }
   return price;
 };

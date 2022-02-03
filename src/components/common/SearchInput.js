@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "redux/categoryRedux";
 import { useHistory } from "react-router-dom";
 import { categorySelector } from "redux/selectors";
+import { getCategoryId, getCategoryName } from "utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,16 +60,37 @@ const MenuProps = {
 export default function SearchInput() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const classes = useStyles();
+  const [searchValue, setSearchValue] = useState("");
+  const [categoryValue, setCategoryValue] = useState("");
   const storeCategory = useSelector(categorySelector);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-  const classes = useStyles();
-  const [searchValue, setSearchValue] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
+
+  useEffect(() => {
+    if (
+      history.location.pathname.split("/").length === 3 &&
+      history.location.pathname.split("/")[1] === "products" &&
+      history.location.pathname.split("/")[2]
+    )
+      setCategoryValue(
+        getCategoryId(
+          history.location.pathname.split("/")[2],
+          storeCategory.categories
+        )
+      );
+    else setCategoryValue("");
+  }, [dispatch, history.location.pathname, storeCategory.categories]);
+
   const handleChangeDropdown = (e) => {
     setCategoryValue(e.target.value);
-    history.push("/products");
+    console.log(e);
+    if (e.target.value)
+      history.push(
+        `/products/${getCategoryName(e.target.value, storeCategory.categories)}`
+      );
+    else history.push(`/products/`);
   };
   const handleChangeSearch = (e) => {
     setSearchValue(e.target.value);
@@ -104,7 +126,7 @@ export default function SearchInput() {
             All Categories
           </MenuItem>
           {storeCategory?.categories?.map((option) => (
-            <MenuItem key={option} value={option.id}>
+            <MenuItem key={option.id} value={option.id}>
               {option.name}
             </MenuItem>
           ))}

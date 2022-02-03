@@ -2,9 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import productApi from "api/productApi";
 
 export const getProducts = createAsyncThunk(
-  "product/getAll",
+  "product/getProducts",
   async (data, thunkAPI) => {
-    const response = await productApi.getAll(data.id, data.params);
+    const response = await productApi.getProducts(data);
+    return response.result;
+  }
+);
+export const getShopProducts = createAsyncThunk(
+  "product/getShopProducts",
+  async (data, thunkAPI) => {
+    const response = await productApi.getShopProducts(data.id, data.params);
     return response.result;
   }
 );
@@ -25,7 +32,7 @@ export const updateProduct = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await productApi.update(data);
     if (response.result.success) {
-      // const actionResult = await thunkAPI.dispatch(getAll());
+      // const actionResult = await thunkAPI.dispatch(getShopProducts());
       // const res = unwrapResult(actionResult);
       // return res.result;
     }
@@ -37,7 +44,7 @@ export const deleteProduct = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await productApi.delete(data);
     if (response.result.success) {
-      // const actionResult = await thunkAPI.dispatch(getAll());
+      // const actionResult = await thunkAPI.dispatch(getShopProducts());
       // const res = unwrapResult(actionResult);
       // return res.result;
     }
@@ -94,6 +101,19 @@ const productSlice = createSlice({
       state.error = action.error;
     },
     [getProducts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.products = action.payload.products;
+      state.totalProducts = action.payload.totalProducts;
+      state.currentPage = action.payload.currentPage;
+    },
+    [getShopProducts.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getShopProducts.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getShopProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.products = action.payload.products;
       state.totalProducts = action.payload.totalProducts;

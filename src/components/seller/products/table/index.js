@@ -11,7 +11,7 @@ import { INITIAL_PAGE, INITIAL_ROWS_PER_PAGE } from "constants/index";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getProducts } from "redux/productRedux";
+import { getProducts, getShopProducts } from "redux/productRedux";
 import { productSelector, shopSelector } from "redux/selectors";
 import { EmptyRows } from "./common/EmptyData";
 import TableFooter from "./footer";
@@ -55,7 +55,7 @@ export default function ProductsTable() {
 
   useEffect(() => {
     dispatch(
-      getProducts({
+      getShopProducts({
         id: shopId,
         params: { categories: id, limit, page },
       })

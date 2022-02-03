@@ -47,6 +47,7 @@ function App() {
       <Route path={"/address/:id"} component={withUser(Address)} exact />
 
       <Route path={"/products"} component={withAuthLayout(Search)} exact />
+      <Route path={"/products/:categoryName"} component={withAuthLayout(Search)} exact />
       <Route path={"/cart"} component={withAuthLayout(Cart)} exact />
       <Route path={"/checkout"} component={withAuthLayout(Checkout)} exact />
 

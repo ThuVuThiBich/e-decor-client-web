@@ -1,23 +1,26 @@
 import { Container } from "@material-ui/core";
 import SearchBox from "components/common/SearchBox";
-import Bottom from "components/product/bottom";
-import Mid from "components/product/mid";
-import Top from "components/product/top";
 import ShopContent from "components/shop/shopContent";
-import ShopInfo from "components/shop/shopInfo";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProduct } from "redux/productRedux";
+import { getProducts } from "redux/productRedux";
+import { categorySelector } from "redux/selectors";
+import { getCategoryId } from "utils/helpers";
 import { useStyles } from "./styles";
 
 export default function Search() {
   const classes = useStyles();
-  const { id } = useParams();
+  const { categoryName } = useParams();
+  console.log(categoryName);
   const dispatch = useDispatch();
+  const { categories } = useSelector(categorySelector);
+  console.log(getCategoryId(categoryName, categories));
   useEffect(() => {
-    // dispatch(getProducts(id));
-  }, [dispatch, id]);
+    dispatch(
+      getProducts({ categories: getCategoryId(categoryName, categories) })
+    );
+  }, [categories, categoryName, dispatch]);
   return (
     <Container className={classes.container}>
       <SearchBox />
