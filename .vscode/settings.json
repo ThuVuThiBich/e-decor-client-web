@@ -10,6 +10,7 @@
         "reduxjs",
         "Selecteds",
         "Swipeable",
+        "toastify",
         "uploaders",
         "uuidv",
         "zdepth"

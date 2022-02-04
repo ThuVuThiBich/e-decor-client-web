@@ -34,7 +34,8 @@ import { useStyles } from "./styles";
 //
 import axios from "axios";
 import { resetProductVersion } from "redux/productRedux";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",
@@ -325,6 +326,7 @@ export default function NewProductForm() {
           </Button>
         </Box>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }

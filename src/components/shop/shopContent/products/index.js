@@ -1,17 +1,27 @@
 import { Grid } from "@material-ui/core";
+import { LoadingCard } from "components/common/LoadingCard";
+import { useSelector } from "react-redux";
+import { productSelector } from "redux/selectors";
 import Product from "./product";
 import { useStyles } from "./styles";
 
 export default function Products(props) {
   const classes = useStyles();
+  const { isLoading } = useSelector(productSelector);
   const { products } = props;
   return (
     <Grid container spacing={3}>
-      {products?.map((product) => (
-        <Grid key={product.id} item xs={12} sm={6} lg={4}>
-          <Product product={product} />
-        </Grid>
-      ))}
+      {isLoading
+        ? [1, 2, 3, 4, 5, 6].map((item) => (
+            <Grid item xs={12} md={4} key={item}>
+              <LoadingCard />
+            </Grid>
+          ))
+        : products?.map((product) => (
+            <Grid key={product.id} item xs={12} sm={6} lg={4}>
+              <Product product={product} />
+            </Grid>
+          ))}
     </Grid>
   );
 }

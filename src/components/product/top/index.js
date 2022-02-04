@@ -22,7 +22,8 @@ import ItemsCarousel from "react-items-carousel";
 import { getImagesFromProductVersion, getPriceText } from "utils/helpers";
 import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-// import { addProduct } from "redux/cartRedux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { productSelector } from "redux/selectors";
 import { addCartItem } from "redux/cartRedux";
 export default function Top(props) {

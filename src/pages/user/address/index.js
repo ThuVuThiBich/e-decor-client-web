@@ -23,6 +23,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { deleteAddress, getAddresses } from "redux/addressRedux";
 import { addressSelector } from "redux/selectors";
 import { useStyles } from "./styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Address() {
   const history = useHistory();
@@ -117,6 +119,7 @@ export default function Address() {
           </TableContainer>
         )}
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </div>
   );
 }

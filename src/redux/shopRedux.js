@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
 import shopApi from "api/shopApi";
+import { toast } from "react-toastify";
 
 export const getMyShop = createAsyncThunk(
   "shop/getMyShop",
@@ -14,11 +15,11 @@ export const createShop = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await shopApi.createShop(data);
     if (response.result) {
+      toast.success("SUCCESS");
       const actionResult = await thunkAPI.dispatch(getMyShop());
       const res = unwrapResult(actionResult);
       return res.result;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 
@@ -27,11 +28,11 @@ export const updateShop = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await shopApi.updateShop(data);
     if (response.result.success) {
+      toast.success("SUCCESS");
       const actionResult = await thunkAPI.dispatch(getMyShop());
       const res = unwrapResult(actionResult);
       return res.result;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 

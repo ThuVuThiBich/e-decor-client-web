@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import wishlistApi from "api/wishlistApi";
+import { toast } from "react-toastify";
 
 export const getWishlists = createAsyncThunk(
   "wishlist/getAll",
@@ -14,9 +15,9 @@ export const createWishlist = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await wishlistApi.create(data);
     if (response.result) {
+      toast.success("SUCCESS");
       return response.result;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 
@@ -25,9 +26,9 @@ export const removeWishlist = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await wishlistApi.delete(data);
     if (response.result.success) {
+      toast.success("SUCCESS");
       return data;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 
@@ -36,9 +37,9 @@ export const deleteWishlist = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await wishlistApi.delete(data);
     if (response.result.success) {
+      toast.success("SUCCESS");
       return data;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 

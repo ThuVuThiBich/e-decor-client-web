@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import cartApi from "api/cartApi";
 import { getToken } from "utils/helpers";
+import { toast } from "react-toastify";
 
 export const getCartItems = createAsyncThunk("cart/getCartItems", async () => {
   const response = await cartApi.getAll();
@@ -22,9 +23,9 @@ export const addCartItem = createAsyncThunk(
   async (data) => {
     const response = await cartApi.add(data);
     if (response.result) {
+      toast.success("SUCCESS");
       return response.result;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 
@@ -33,9 +34,9 @@ export const updateQuantity = createAsyncThunk(
   async (data) => {
     const response = await cartApi.update(data.id, data.body);
     if (response.result.success) {
+      toast.success("SUCCESS");
       return response.result.success;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 export const deleteCartItem = createAsyncThunk(
@@ -43,9 +44,9 @@ export const deleteCartItem = createAsyncThunk(
   async (data) => {
     const response = await cartApi.delete(data);
     if (response.result.success) {
+      toast.success("SUCCESS");
       return response.result.success;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 

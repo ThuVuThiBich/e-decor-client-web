@@ -1,9 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Typography
-} from "@material-ui/core";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Product from "components/shop/shopContent/products/product";
 import React, { useEffect } from "react";
@@ -11,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { wishlistSelector } from "redux/selectors";
 import { getWishlists } from "redux/wishlistRedux";
 import { useStyles } from "./styles";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Wishlist() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -20,7 +16,7 @@ export default function Wishlist() {
   useEffect(() => {
     dispatch(getWishlists());
   }, [dispatch]);
- 
+
   return (
     <div>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -28,7 +24,9 @@ export default function Wishlist() {
           <FavoriteIcon className={classes.icon} style={{ color: "#D23F57" }} />
           <Typography className={classes.title}>My Wish List</Typography>
         </Box>
-        <Button color="primary" variant="outlined">Add All To Cart</Button>
+        <Button color="primary" variant="outlined">
+          Add All To Cart
+        </Button>
       </Box>
       <Box my={4}>
         <Grid container spacing={3}>
@@ -39,6 +37,7 @@ export default function Wishlist() {
           ))}
         </Grid>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </div>
   );
 }

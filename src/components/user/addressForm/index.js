@@ -21,6 +21,8 @@ import {
 } from "redux/addressRedux";
 import { addressSelector } from "redux/selectors";
 import { useStyles } from "./styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddressForm(props) {
   const { id } = useParams();
@@ -279,6 +281,7 @@ export default function AddressForm(props) {
           </Button>
         </Box>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }

@@ -13,14 +13,17 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
-import React, { createRef, useState } from "react";
-import { useStyles } from "./styles";
-import { useDispatch, useSelector } from "react-redux";
-import { userSelector } from "redux/selectors";
 import { CloudUpload, Delete } from "@material-ui/icons";
+import PersonIcon from "@material-ui/icons/Person";
 import axios from "axios";
+import React, { createRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { userSelector } from "redux/selectors";
 import { updateInfo } from "redux/userRedux";
+import { useStyles } from "./styles";
+
 export default function Profile() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
@@ -286,6 +289,7 @@ export default function Profile() {
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </div>
   );
 }

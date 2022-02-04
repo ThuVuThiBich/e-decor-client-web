@@ -58,7 +58,7 @@ function EnhancedTableHead(props) {
         <TableCell width={"20%"} key={"33"}>
           <Skeleton />
         </TableCell>
-        <TableCell width={"10%"} key={"22"}>
+        <TableCell width={"10%"} key={"44"}>
           <Skeleton />
         </TableCell>
       </TableRow>
@@ -85,8 +85,8 @@ function EnhancedTableHead(props) {
         <TableCell width={"15%"} key={"11"}></TableCell>
         <TableCell width={"10%"} key={"22"}></TableCell>
         <TableCell width={"20%"} key={"33"}></TableCell>
-        <TableCell width={"10%"} key={"22"}></TableCell>
-        <TableCell width={"5%"} key={"44"}></TableCell>
+        <TableCell width={"10%"} key={"44"}></TableCell>
+        <TableCell width={"5%"} key={"55"}></TableCell>
       </TableRow>
     </TableHead>
   );

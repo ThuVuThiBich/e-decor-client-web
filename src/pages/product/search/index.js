@@ -12,10 +12,8 @@ import { useStyles } from "./styles";
 export default function Search() {
   const classes = useStyles();
   const { categoryName } = useParams();
-  console.log(categoryName);
   const dispatch = useDispatch();
   const { categories } = useSelector(categorySelector);
-  console.log(getCategoryId(categoryName, categories));
   useEffect(() => {
     dispatch(
       getProducts({ categories: getCategoryId(categoryName, categories) })

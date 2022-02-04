@@ -3,6 +3,7 @@ import CallIcon from "@material-ui/icons/Call";
 import PlaceIcon from "@material-ui/icons/Place";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
+import { LoadingShopInfo } from "components/common/LoadingShopInfo";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -11,14 +12,16 @@ import { getShop } from "redux/shopRedux";
 import { useStyles } from "./styles";
 
 export default function ShopInfo(props) {
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const shop = useSelector(shopSelector).shop;
+  const { shop, isLoading } = useSelector(shopSelector);
   const classes = useStyles({ coverImage: shop?.coverImage });
   useEffect(() => {
     dispatch(getShop(id));
   }, [dispatch, id]);
-  return (
+  return isLoading ? (
+    <LoadingShopInfo />
+  ) : (
     <Card className={classes.root}>
       <Box className={classes.wallpaper}></Box>
       <Box className={classes.main}>
@@ -123,9 +126,7 @@ export default function ShopInfo(props) {
             <Box>
               <Rating
                 value={
-                  Number(shop?.avgRatings) === 0
-                    ? 5
-                    : Number(shop?.avgRatings)
+                  Number(shop?.avgRatings) === 0 ? 5 : Number(shop?.avgRatings)
                 }
                 precision={0.1}
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}

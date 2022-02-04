@@ -7,6 +7,9 @@ import { getProduct } from "redux/productRedux";
 import { productSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function ViewProduct() {
   const classes = useStyles();
   const dispatch = useDispatch();

@@ -20,11 +20,13 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProduct } from "redux/productRedux";
+import { getProduct, updateProduct } from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const thumbsContainer = {
   marginTop: 16,
 };
@@ -54,6 +56,7 @@ const style = {
 };
 
 export default function ViewProductForm(props) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const { product } = useSelector(productSelector);
@@ -293,12 +296,16 @@ export default function ViewProductForm(props) {
           <Button
             color="primary"
             variant="contained"
-            onClick={() => setIsEdit(!isEdit)}
+            onClick={() => {
+              setIsEdit(!isEdit);
+              dispatch(updateProduct());
+            }}
           >
             {isEdit ? "Edit Product" : "Save Changes"}
           </Button>
         </Box>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }

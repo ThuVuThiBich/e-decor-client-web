@@ -8,7 +8,6 @@ import { getToken } from "utils/helpers";
 import { useStyles } from "./styles";
 const withUser = (Component) => (props) => {
   const classes = useStyles();
-  console.log(getToken());
   return getToken() ? (
     <>
       <Header />

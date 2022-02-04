@@ -85,7 +85,6 @@ export default function SearchInput() {
 
   const handleChangeDropdown = (e) => {
     setCategoryValue(e.target.value);
-    console.log(e);
     if (e.target.value)
       history.push(
         `/products/${getCategoryName(e.target.value, storeCategory.categories)}`

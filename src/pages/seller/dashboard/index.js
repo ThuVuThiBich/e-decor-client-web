@@ -12,6 +12,8 @@ import earningsImg from "assets/images/earnings.png";
 import soldImg from "assets/images/sold.png";
 import Chart from "react-apexcharts";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Dashboard() {
   const classes = useStyles();
   const history = useHistory();
@@ -208,6 +210,7 @@ export default function Dashboard() {
           </Paper>
         </Box>
       )}
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Box>
   );
 }

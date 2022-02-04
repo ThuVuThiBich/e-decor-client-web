@@ -21,6 +21,8 @@ import { createShop, updateShop } from "redux/shopRedux";
 import defaultAva from "../../../assets/images/profile_pic.svg";
 import defaultWall from "../../../assets/images/picture.png";
 import { useStyles } from "./styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ShopInfo() {
   const classes = useStyles();
@@ -383,6 +385,7 @@ export default function ShopInfo() {
           </Box>
         </Box>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }

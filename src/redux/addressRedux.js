@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import addressApi from "api/addressApi";
+import { toast } from "react-toastify";
 
 export const getCities = createAsyncThunk("address/getCities", async () => {
   const response = await addressApi.getCities();
@@ -33,9 +34,9 @@ export const addAddress = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await addressApi.add(data);
     if (response.result) {
+      toast.success("SUCCESS");
       return response.result;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 
@@ -44,9 +45,9 @@ export const updateAddress = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await addressApi.update(data.id, data.address);
     if (response.result.success) {
+      toast.success("SUCCESS");
       return response.result.success;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 export const deleteAddress = createAsyncThunk(
@@ -54,9 +55,9 @@ export const deleteAddress = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await addressApi.delete(data);
     if (response.result.success) {
+      toast.success("SUCCESS");
       return data;
-    }
-    return null;
+    } else toast.error("ERROR");
   }
 );
 const addressSlice = createSlice({

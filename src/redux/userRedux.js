@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
 import { setAuth, setToken } from "utils/helpers";
 import { reset } from "./cartRedux";
+import { toast } from "react-toastify";
 
 // async action
 // await async action tren component
@@ -34,7 +35,10 @@ export const updateInfo = createAsyncThunk(
   "user/updateInfo",
   async (data, thunkAPI) => {
     const response = await authApi.updateInfo(data);
-    if (response.result.success) return data;
+    if (response.result.success) {
+      toast.success("SUCCESS");
+      return data;
+    } else toast.error("ERROR");
   }
 );
 
