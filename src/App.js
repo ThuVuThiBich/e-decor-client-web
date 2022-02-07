@@ -1,5 +1,6 @@
 import { withAuthLayout } from "hocs";
 import withoutAuth from "hocs/withoutAuth";
+import Blog from "pages/blog/Blog";
 import Cart from "pages/cart";
 import Checkout from "pages/checkout";
 import Home from "pages/Home";
@@ -32,6 +33,7 @@ function App() {
   return (
     <Switch>
       <Route path="/" component={withAuthLayout(Home)} exact />
+      <Route path="/blog" component={Blog} exact />
       <Redirect from={"/home"} to={"/"} />
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
@@ -47,7 +49,11 @@ function App() {
       <Route path={"/address/:id"} component={withUser(Address)} exact />
 
       <Route path={"/products"} component={withAuthLayout(Search)} exact />
-      <Route path={"/products/:categoryName"} component={withAuthLayout(Search)} exact />
+      <Route
+        path={"/products/:categoryName"}
+        component={withAuthLayout(Search)}
+        exact
+      />
       <Route path={"/cart"} component={withAuthLayout(Cart)} exact />
       <Route path={"/checkout"} component={withAuthLayout(Checkout)} exact />
 
