@@ -34,6 +34,8 @@ function App() {
     <Switch>
       <Route path="/" component={withAuthLayout(Home)} exact />
       <Route path="/blog" component={Blog} exact />
+      <Route path="/blog/my-blogs" component={Blog} exact />
+      <Route path="/blog/my-favorite" component={Blog} exact />
       <Redirect from={"/home"} to={"/"} />
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />

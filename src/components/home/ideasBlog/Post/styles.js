@@ -2,7 +2,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 596,
+    minWidth: 596,
+    marginTop: 16,
+    marginBottom: 16,
   },
   area: {
     paddingBottom: 32,

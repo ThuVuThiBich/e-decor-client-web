@@ -16,7 +16,7 @@ export default function Product(props) {
   const classes = useStyles();
   const [state, setState] = useState({
     raised: false,
-    shadow: 1,
+    shadow: 0.5,
   });
 
   const history = useHistory();
@@ -25,8 +25,8 @@ export default function Product(props) {
     <Card
       className={classes.root}
       classes={{ root: state.raised ? classes.cardHovered : "" }}
-      onMouseOver={() => setState({ raised: true, shadow: 3 })}
-      onMouseOut={() => setState({ raised: false, shadow: 1 })}
+      onMouseOver={() => setState({ raised: true, shadow: 1 })}
+      onMouseOut={() => setState({ raised: false, shadow: 0.5 })}
       raised={state.raised}
       zdepth={state.shadow}
       style={{ cursor: "pointer" }}

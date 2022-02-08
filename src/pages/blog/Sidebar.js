@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import { Box, Paper, Typography, Grid } from "@material-ui/core";
+import Carousel from "react-material-ui-carousel";
+import Product from "components/shop/shopContent/products/product";
 
 const useStyles = makeStyles((theme) => ({
   sidebarAboutBox: {
@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
   sidebarSection: {
     marginTop: theme.spacing(3),
   },
+  product: {
+    // "& .Carousel-root": {
+    overflow: "unset !important",
+    position: "static !important",
+    // },
+  },
 }));
 
 export default function Sidebar(props) {
@@ -22,6 +28,37 @@ export default function Sidebar(props) {
 
   return (
     <Grid item xs={12} md={4}>
+      <Box
+        mb={4}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Box
+          mb={2}
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            lineHeight: 1,
+            textTransform: "none",
+            whiteSpace: "normal",
+            color: "#2B3445",
+          }}
+        >
+          Featured Products
+        </Box>
+        <Carousel
+          className={classes.product}
+          animation="slide"
+          duration="5000"
+          interval={5000}
+        >
+          {[1, 2, 3, 4]?.map((event, i) => (
+            <Product key={i} />
+          ))}
+        </Carousel>
+      </Box>
       <Paper elevation={0} className={classes.sidebarAboutBox}>
         <Typography variant="h6" gutterBottom>
           {title}

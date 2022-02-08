@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import InstagramIcon from "@material-ui/icons/Instagram";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Header from "./Header";
@@ -15,6 +15,7 @@ import Footer from "./Footer";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
+import { Box, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -83,7 +84,7 @@ const sidebar = {
     { title: "April 1999", url: "#" },
   ],
   social: [
-    { name: "GitHub", icon: GitHubIcon },
+    { name: "Instagram", icon: InstagramIcon },
     { name: "Twitter", icon: TwitterIcon },
     { name: "Facebook", icon: FacebookIcon },
   ],
@@ -95,8 +96,20 @@ export default function Blog() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
-        <Header title="Blog" sections={sections} />
+      <Box
+        style={{
+          backgroundColor: "#0c0e30",
+          zIndex: 1000,
+          position: "fixed",
+          width: "100%",
+        }}
+        mb={10}
+      >
+        <Container maxWidth="lg">
+          <Header title="E-Decor Blog" sections={sections} />
+        </Container>
+      </Box>
+      <Container maxWidth="lg" style={{ paddingTop: 150 }}>
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
@@ -105,7 +118,8 @@ export default function Blog() {
             ))}
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>
-            <Main title="From the firehose" posts={posts} />
+            <Main title="Decor Posts" posts={posts} />
+
             <Sidebar
               title={sidebar.title}
               description={sidebar.description}
