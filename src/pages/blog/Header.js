@@ -70,11 +70,11 @@ export default function Header(props) {
     >
       <MenuItem onClick={handleMenuClose}>
         <Link
-          to={"/blog/my-blogs"}
+          to={"/blog/my-blog"}
           className={classes.link}
           style={{ color: "#2B3445" }}
         >
-          My blogs
+          My blog
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
