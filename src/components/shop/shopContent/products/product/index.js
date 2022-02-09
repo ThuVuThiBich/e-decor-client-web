@@ -12,7 +12,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { createWishlist, removeWishlist } from "redux/wishlistRedux";
 
 export default function Product(props) {
-  const { product } = props;
+  const { product, noHover = false } = props;
   const classes = useStyles();
   const [state, setState] = useState({
     raised: false,
@@ -25,8 +25,8 @@ export default function Product(props) {
     <Card
       className={classes.root}
       classes={{ root: state.raised ? classes.cardHovered : "" }}
-      onMouseOver={() => setState({ raised: true, shadow: 1 })}
-      onMouseOut={() => setState({ raised: false, shadow: 0.5 })}
+      onMouseOver={() => !noHover && setState({ raised: true, shadow: 1 })}
+      onMouseOut={() => !noHover && setState({ raised: false, shadow: 0.5 })}
       raised={state.raised}
       zdepth={state.shadow}
       style={{ cursor: "pointer" }}

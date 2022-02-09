@@ -1,8 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -11,11 +9,11 @@ import MainFeaturedPost from "./MainFeaturedPost";
 import FeaturedPost from "./FeaturedPost";
 import Main from "./Main";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
-import { Box, Paper } from "@material-ui/core";
+import { Box, Paper, Container, Grid } from "@material-ui/core";
+import Footer from "components/layout/Footer";
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const sections = [
+export const sections = [
   { title: "Technology", url: "#" },
   { title: "Design", url: "#" },
   { title: "Culture", url: "#" },
@@ -94,7 +92,7 @@ export default function Blog() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <Box
         style={{
@@ -129,10 +127,7 @@ export default function Blog() {
           </Grid>
         </main>
       </Container>
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }

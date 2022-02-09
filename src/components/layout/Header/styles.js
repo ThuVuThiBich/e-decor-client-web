@@ -48,5 +48,6 @@ export const useStyles = makeStyles((theme) => ({
 
   link: {
     color: "#2B3445",
+    "&:hover": { color: "#D23F57 !important", textDecoration: "none" },
   },
 }));

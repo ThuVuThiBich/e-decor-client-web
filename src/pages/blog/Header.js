@@ -36,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
   custom: {
     borderColor: "rgb(116, 116, 116) !important",
   },
+  link: {
+    flexShrink: 0,
+    color: "white",
+    transition: "color 150ms ease-in-out",
+    cursor: "pointer",
+    "&:hover": { color: "#D23F57 !important", textDecoration: "none" },
+  },
 }));
 
 export default function Header(props) {
@@ -58,16 +65,24 @@ export default function Header(props) {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-      style={{ marginTop: 50, marginRight: 40 }}
+      style={{ marginTop: 40 }}
       MenuListProps={{ onMouseLeave: handleMenuClose }}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link to={"/blog/my-blogs"} className={classes.link}>
+        <Link
+          to={"/blog/my-blogs"}
+          className={classes.link}
+          style={{ color: "#2B3445" }}
+        >
           My blogs
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        <Link to={"/blog/my-favorite"} className={classes.link}>
+        <Link
+          to={"/blog/my-favorite"}
+          className={classes.link}
+          style={{ color: "#2B3445" }}
+        >
           My favorite
         </Link>
       </MenuItem>
@@ -142,7 +157,7 @@ export default function Header(props) {
             key={section.title}
             variant="body2"
             href={section.url}
-            className={classes.toolbarLink}
+            className={classes.link}
           >
             {section.title}
           </Link>

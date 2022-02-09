@@ -34,7 +34,18 @@ export default function Main(props) {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography variant="h6" gutterBottom>
+        <Typography
+          variant="h6"
+          gutterBottom
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            lineHeight: 1,
+            textTransform: "none",
+            whiteSpace: "normal",
+            color: "#2B3445",
+          }}
+        >
           {title}
         </Typography>
         <FormControl

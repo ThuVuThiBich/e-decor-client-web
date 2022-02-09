@@ -13,10 +13,11 @@ import Logo from "components/common/Logo";
 import React from "react";
 import { useStyles } from "./styles";
 
-export default function Footer() {
+export default function Footer(props) {
+  const { isBlog = false } = props;
   const classes = useStyles();
   return (
-    <footer className={classes.footer}>
+    <footer className={classes.footer} style={{ bottom: isBlog ? 0 : "none" }}>
       <Box className={classes.root}>
         <Container maxWidth="lg" className={classes.container}>
           <Box className={classes.wrapper}>

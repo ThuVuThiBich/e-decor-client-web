@@ -14,12 +14,7 @@ const useStyles = makeStyles((theme) => ({
   sidebarSection: {
     marginTop: theme.spacing(3),
   },
-  product: {
-    // "& .Carousel-root": {
-    overflow: "unset !important",
-    position: "static !important",
-    // },
-  },
+  product: {},
 }));
 
 export default function Sidebar(props) {
@@ -55,7 +50,7 @@ export default function Sidebar(props) {
           interval={5000}
         >
           {[1, 2, 3, 4]?.map((event, i) => (
-            <Product key={i} />
+            <Product key={i} noHover={true} />
           ))}
         </Carousel>
       </Box>
