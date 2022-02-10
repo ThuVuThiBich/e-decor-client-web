@@ -53,6 +53,24 @@ const useStyles = makeStyles((theme) => ({
   },
   text: { fontSize: 16, fontWeight: 600 },
   subText: { color: "#7D879C" },
+  //
+  searchRoot: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 300,
+  },
+  searchInput: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+    borderBottom: "1px solid #eeeeee",
+    "&:hover": {
+      borderBottomColor: "#2B3445",
+    },
+  },
+  searchIconButton: {
+    padding: 10,
+  },
 }));
 
 const MenuProps = {
@@ -63,7 +81,7 @@ const MenuProps = {
     },
   },
 };
-export default function SearchBox() {
+export default function ToolbarBox() {
   const dispatch = useDispatch();
   const history = useHistory();
   const storeCategory = useSelector(categorySelector);
@@ -82,16 +100,14 @@ export default function SearchBox() {
   };
   return (
     <Paper component="form" className={classes.root}>
-      <Box
-        ml={1.5}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-      >
-        <Typography className={classes.text}>
-          Searching for " Dong ho "{" "}
-        </Typography>
-        <Typography className={classes.subText}>48 results found</Typography>
+      <Box className={classes.searchRoot}>
+        <IconButton className={classes.searchIconButton} aria-label="menu">
+          <SearchIcon />
+        </IconButton>
+        <InputBase
+          className={classes.searchInput}
+          placeholder="Search post ..."
+        />
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box

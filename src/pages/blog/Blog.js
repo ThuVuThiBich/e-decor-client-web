@@ -62,7 +62,7 @@ const featuredPosts = [
   },
 ];
 
-const posts = [post1, post2, post3];
+export const posts = [post1, post2, post3];
 
 const sidebar = {
   title: "About",
