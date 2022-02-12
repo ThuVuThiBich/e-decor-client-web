@@ -49,14 +49,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MenuProps = {
-  PaperProps: {
-    style: {
-      marginTop: 40,
-      width: 200,
-    },
-  },
-};
 export default function SearchInput() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -117,9 +109,10 @@ export default function SearchInput() {
           value={categoryValue}
           name={"category"}
           displayEmpty
-          MenuProps={MenuProps}
           input={<InputBase classes={{ input: classes.selectInput }} />}
           onChange={handleChangeDropdown}
+          disableScrollLock={true}
+          inputProps={{ MenuProps: { disableScrollLock: true } }}
         >
           <MenuItem key={"all-categories"} value={""}>
             All Categories
