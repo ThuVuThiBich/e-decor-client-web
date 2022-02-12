@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
   TextField,
@@ -12,6 +13,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+
 const useStyles = makeStyles((theme) => ({
   title: {
     color: "#2b3445",
@@ -39,6 +42,18 @@ const useStyles = makeStyles((theme) => ({
       borderTopLeftRadius: 4,
       borderTopRightRadius: 4,
       background: "#f5f5f5",
+    },
+  },
+  //
+  wallInput: {
+    display: "none",
+  },
+  wallLabel: {
+    "& .MuiIconButton-root": {
+      backgroundColor: "#E3E9EF",
+      "&:hover": {
+        backgroundColor: "rgba(15, 52, 96, 0.04)",
+      },
     },
   },
 }));
@@ -167,6 +182,56 @@ export default function AddBlog() {
                   formats={formats}
                   placeholder={"Content ..."}
                 />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Typography>Image</Typography>
+                <Box
+                  style={{
+                    border: "1px solid #ccc",
+                    backgroundImage: `url(${"wallUrl"})`,
+                    backgroundPositionX: `center`,
+                    backgroundPositionY: `center`,
+                    // backgroundSize: uploadCover ? "cover" : 150,
+                    // backgroundRepeat: uploadCover ? "none" : "no-repeat",
+                    borderRadius: 10,
+                    overflow: "hidden",
+                    height: 173,
+                    position: "relative",
+                  }}
+                >
+                  <Box style={{ position: "absolute", top: 20, right: 24 }}>
+                    <input
+                      accept="image/*"
+                      className={classes.wallInput}
+                      id="wall-file"
+                      type="file"
+                      onChange={(e) => {
+                        // getUploadedUrl(e.target.files?.[0]).then((result) =>
+                        //   setWallUrl(result)
+                        // );
+                      }}
+                    />
+                    <label
+                      className={classes.wallLabel}
+                      htmlFor="wall-file"
+                      style={{ marginLeft: -24 }}
+                    >
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        aria-label="upload picture"
+                        component="span"
+                      >
+                        <PhotoCamera />
+                      </IconButton>
+                    </label>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <Button color="primary" variant="contained">
+                  Post
+                </Button>
               </Grid>
             </Grid>
           </Box>

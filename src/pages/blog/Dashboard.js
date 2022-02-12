@@ -71,7 +71,7 @@ export default function Dashboard() {
             activeClassName={classes.active}
           >
             <FavoriteBorderIcon className={classes.icon} />
-            My favorite posts
+            My Favorite Posts
           </NavLink>
         </Box>
       </Box>
