@@ -99,7 +99,7 @@ export default function AddressForm(props) {
   }, [dispatch, districtId]);
 
   const handleSubmit = () => {
-    const address = { detail, cityId, districtId, wardId };
+    const address = { name, phone, detail, cityId, districtId, wardId };
     if (id === "add") {
       dispatch(addAddress(address));
     } else {
@@ -121,8 +121,8 @@ export default function AddressForm(props) {
                   id="component-outlined"
                   value={name}
                   onChange={handleChangeName}
-                  label="Shop Name"
-                  placeholder="Shop Name"
+                  label="Deliver's Name"
+                  placeholder="Deliver's Name"
                 />
               </FormControl>
             </Grid>

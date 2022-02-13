@@ -87,7 +87,7 @@ export default function Address() {
                         {`${row?.detail}, ${row?.ward?.name}, ${row?.district?.name}, ${row?.city?.name}`}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.name ? row?.name : "0123456789"}
+                        {row?.name ? row?.phone : "0123456789"}
                       </TableCell>
                       <TableCell align="center">
                         <Tooltip title="Edit">
