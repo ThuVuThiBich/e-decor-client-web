@@ -9,6 +9,7 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  Avatar,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
@@ -26,7 +27,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { productSelector } from "redux/selectors";
 import { addCartItem } from "redux/cartRedux";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+
 export default function Top(props) {
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
   const [showedImage, setShowedImage] = useState("");
@@ -60,6 +66,7 @@ export default function Top(props) {
   const addToCart = (e) => {
     if (value) dispatch(addCartItem({ quantity, productVersionId: value }));
     else {
+      toast.warn("Please select product variation first");
       console.error("Please select product variation first");
     }
   };
@@ -281,9 +288,52 @@ export default function Top(props) {
                 </Button>
               </Box>
             </Box>
+            <Box display="flex" alignItems="flex-start">
+              <Box mr={2}>
+                <Avatar
+                  alt=""
+                  src={product?.shop?.avatar}
+                  className={classes.avatar}
+                />
+              </Box>
+              <Box display="flex" justifyContent="space-between" width="80%">
+                <Box display="flex" flexDirection="column">
+                  <Box mb={1}>
+                    <Typography style={{ fontWeight: 600 }}>
+                      {product?.shop?.name}
+                    </Typography>
+                    <Rating
+                      value={5}
+                      precision={0.1}
+                      emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                      readOnly
+                      className={classes.rating}
+                    />
+                  </Box>
+                  <Box mb={2}>{product?.shop?.description}</Box>
+                </Box>
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="space-evenly"
+                >
+                  <Button variant="outlined" color="primary">
+                    Chat
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => history.push(`/shops/${product?.shop?.id}`)}
+                  >
+                    Xem shop
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }

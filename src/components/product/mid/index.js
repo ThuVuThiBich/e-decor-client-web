@@ -7,10 +7,17 @@ import {
   Tabs,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
+import { feedbackSelector, productSelector } from "redux/selectors";
+import { PayPalButton } from "react-paypal-button-v2";
 import Description from "./description";
 import Review from "./review";
+import { getFeedbacks } from "redux/feedbackRedux";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import UserReview from "./review/userReview";
+import { Pagination } from "@material-ui/lab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,9 +53,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Mid() {
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [page, setPage] = useState(1);
 
+  const { product } = useSelector(productSelector);
+  const { feedbacks, totalFeedbacks } = useSelector(feedbackSelector);
+  console.log(product);
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -56,6 +73,9 @@ export default function Mid() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+  useEffect(() => {
+    dispatch(getFeedbacks({ id, params: { limit: 5 } }));
+  }, [dispatch, id]);
   return (
     <Paper>
       <Box className={classes.root} my={2}>
@@ -73,10 +93,53 @@ export default function Mid() {
         </AppBar>
         <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
           <TabPanel value={value} index={0}>
-            <Description />
+            {/* {product.description ? product.description : null} */}
+            {/* <Description description={product.description} /> */}
+
+            <div
+              dangerouslySetInnerHTML={{ __html: product?.description }}
+            ></div>
+            {/* <PayPalButton
+              amount="0.01"
+              // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+              onSuccess={(details, data) => {
+                alert(
+                  "Transaction completed by " + details.payer.name.given_name
+                );
+
+                // OPTIONAL: Call your server to save the transaction
+                return fetch("/paypal-transaction-complete", {
+                  method: "post",
+                  body: JSON.stringify({
+                    orderID: data.orderID,
+                  }),
+                });
+              }}
+              options={{
+                clientId:
+                  "AYxz4r4mvWKV_FTZTHN7iNTGubX2sTEcklqiMZ8of72uyCi6GfnGO7mnRQ9KexF8OgB5IIgR_04gV6hn",
+              }}
+            /> */}
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Review />{" "}
+            {feedbacks?.length > 0 ? (
+              <>
+                {feedbacks?.map((item, index) => (
+                  <UserReview feedback={item} />
+                ))}
+                <Box mt={2} display="flex" justifyContent="center">
+                  <Pagination
+                    count={Math.ceil(totalFeedbacks / 5)}
+                    page={page}
+                    onChange={handleChangePage}
+                    variant="outlined"
+                    color="primary"
+                  />
+                </Box>
+              </>
+            ) : (
+              <Box>No Reviews</Box>
+            )}
           </TabPanel>
         </SwipeableViews>{" "}
       </Box>

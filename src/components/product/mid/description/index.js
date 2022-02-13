@@ -1,6 +1,8 @@
 import { Box } from "@material-ui/core";
 import React from "react";
 
-export default function Description() {
-  return <Box>Description</Box>;
+export default function Description(props) {
+  const { description } = props;
+  console.log(description);
+  return description ? description : null;
 }

@@ -64,8 +64,6 @@ const wishlistSlice = createSlice({
     [getWishlists.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.wishlists = action.payload;
-      // state.totalWishlists = action.payload.totalWishlists;
-      // state.currentPage = action.payload.currentPage;
     },
     [createWishlist.pending]: (state) => {
       state.isLoading = true;
