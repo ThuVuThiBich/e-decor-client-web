@@ -20,6 +20,7 @@ import Products from "pages/seller/products";
 import CategoryProducts from "pages/seller/products/categoryProducts";
 import NewProduct from "pages/seller/products/newProduct";
 import ViewProduct from "pages/seller/products/viewProduct";
+import Promotions from "pages/seller/promotions";
 import Settings from "pages/seller/settings";
 import Shops from "pages/shops";
 import ShopDetail from "pages/shops/shop";
@@ -66,6 +67,8 @@ function App() {
 
       <Route path={"/shop/dashboard"} component={withSeller(Dashboard)} exact />
       <Route path={"/shop/settings"} component={withSeller(Settings)} exact />
+      <Route path={"/shop/promotions"} component={withSeller(Promotions)} exact />
+      <Route path={"/shop/promotions/:id"} component={withSeller(Promotions)} exact />
       <Route path={"/shop/products"} component={withSeller(Products)} exact />
       <Route
         path={"/shop/products/:categoryName"}

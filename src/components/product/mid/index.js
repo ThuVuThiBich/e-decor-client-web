@@ -62,7 +62,6 @@ export default function Mid() {
 
   const { product } = useSelector(productSelector);
   const { feedbacks, totalFeedbacks } = useSelector(feedbackSelector);
-  console.log(product);
   const handleChangePage = (event, value) => {
     setPage(value);
   };
@@ -99,8 +98,8 @@ export default function Mid() {
             <div
               dangerouslySetInnerHTML={{ __html: product?.description }}
             ></div>
-            {/* <PayPalButton
-              amount="0.01"
+            <PayPalButton
+              amount="50.0"
               // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
               onSuccess={(details, data) => {
                 alert(
@@ -119,7 +118,7 @@ export default function Mid() {
                 clientId:
                   "AYxz4r4mvWKV_FTZTHN7iNTGubX2sTEcklqiMZ8of72uyCi6GfnGO7mnRQ9KexF8OgB5IIgR_04gV6hn",
               }}
-            /> */}
+            />
           </TabPanel>
           <TabPanel value={value} index={1}>
             {feedbacks?.length > 0 ? (

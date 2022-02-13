@@ -41,8 +41,8 @@ export default function AddressForm(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState(address?.name);
+  const [phone, setPhone] = useState(address?.phone);
   const [detail, setDetail] = useState(address?.detail);
   const [cityId, setCityId] = useState(address?.cityId);
   const [districtId, setDistrictId] = useState(address?.districtId);
@@ -54,6 +54,8 @@ export default function AddressForm(props) {
   }, [addresses, id]);
   useEffect(() => {
     if (id !== "add") {
+      setName(address?.name);
+      setPhone(address?.phone);
       setDetail(address?.detail);
       setCityId(address?.cityId);
       setDistrictId(address?.districtId);

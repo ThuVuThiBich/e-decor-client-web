@@ -54,6 +54,14 @@ export default function Sidebar() {
             <SettingsOutlinedIcon className={classes.icon} />
             Settings
           </NavLink>
+          <NavLink
+            className={classes.navLink}
+            to="/shop/promotions"
+            activeClassName={classes.active}
+          >
+            <SettingsOutlinedIcon className={classes.icon} />
+            Promotions
+          </NavLink>
         </Box>
       </Box>
     </Paper>

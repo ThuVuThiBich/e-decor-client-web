@@ -7,6 +7,7 @@ import categoryReducer from "./categoryRedux";
 import addressReducer from "./addressRedux";
 import wishlistReducer from "./wishlistRedux";
 import feedbackReducer from "./feedbackRedux";
+import promotionReducer from "./promotionRedux";
 import {
   persistStore,
   persistReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   wishlist: wishlistReducer,
   feedback: feedbackReducer,
+  promotion: promotionReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

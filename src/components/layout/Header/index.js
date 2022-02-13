@@ -78,7 +78,7 @@ export default function Header() {
       onClose={handleMenuClose}
       style={{ marginTop: 50, marginRight: 40 }}
       MenuListProps={{ onMouseLeave: handleMenuClose }}
-      disableScrollLock={true}
+      disablescrolllock="true"
     >
       <MenuItem onClick={handleMenuClose}>
         <Link to={"/profile"} className={classes.link}>
@@ -123,7 +123,7 @@ export default function Header() {
       onClick={() => {
         history.push("/cart");
       }}
-      disableScrollLock={true}
+      disablescrolllock="true"
     >
       <Box p={2}>
         <Typography style={{ color: "#7d879c" }}>

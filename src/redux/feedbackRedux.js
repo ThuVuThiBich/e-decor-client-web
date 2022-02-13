@@ -32,7 +32,7 @@ export const deleteFeedback = createAsyncThunk(
   }
 );
 
-const wishlistSlice = createSlice({
+const feedbackSlice = createSlice({
   name: "feedback",
   initialState: {
     feedbacks: [],
@@ -86,5 +86,5 @@ const wishlistSlice = createSlice({
   },
 });
 
-// export const {} = wishlistSlice.actions;
-export default wishlistSlice.reducer;
+// export const {} = feedbackSlice.actions;
+export default feedbackSlice.reducer;
