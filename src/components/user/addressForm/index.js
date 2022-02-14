@@ -61,13 +61,7 @@ export default function AddressForm(props) {
       setDistrictId(address?.districtId);
       setWardId(address?.wardId);
     }
-  }, [
-    address?.cityId,
-    address?.detail,
-    address?.districtId,
-    address?.wardId,
-    id,
-  ]);
+  }, [address?.cityId, address?.detail, address?.districtId, address?.name, address?.phone, address?.wardId, id]);
   const handleChangeName = (event) => {
     setName(event.target.value);
   };

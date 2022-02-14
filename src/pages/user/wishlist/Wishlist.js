@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Typography } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import Product from "components/shop/shopContent/products/product";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { wishlistSelector } from "redux/selectors";
@@ -8,6 +7,7 @@ import { getWishlists } from "redux/wishlistRedux";
 import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Product from "./product";
 export default function Wishlist() {
   const classes = useStyles();
   const dispatch = useDispatch();

@@ -1,11 +1,32 @@
-import { Box, Button, Divider, Paper, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Divider,
+  Menu,
+  MenuItem,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
 import React from "react";
 import { useStyles } from "./styles";
+import CheckIcon from "@material-ui/icons/Check";
+import { PayPalButton } from "react-paypal-button-v2";
 
 export default function PaymentMethod() {
   const classes = useStyles();
+  const [isPurchased, setIsPurchased] = React.useState(false);
+  //
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setIsPurchased(!isPurchased);
+    setAnchorEl(null);
+  };
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
@@ -26,14 +47,38 @@ export default function PaymentMethod() {
             </Typography>
           </Box>
           <Box display="flex" alignItems="center" mr={10}>
-            <Typography className={classes.text}>Cash on Delivery</Typography>
+            <Typography className={classes.text}>
+              {isPurchased ? "Pay with Paypal" : "Cash on Delivery"}
+            </Typography>
             <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
               color="primary"
-              style={{  marginLeft: 16 }}
-              onClick={() => {}}
+              style={{ marginLeft: 16 }}
+              onClick={handleClick}
             >
               Change
             </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>
+                {!isPurchased && (
+                  <CheckIcon style={{ marginRight: 4, color: "blue" }} />
+                )}
+                <Box pl={isPurchased ? 3 : 0}>Cash on Delivery</Box>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                {isPurchased && (
+                  <CheckIcon style={{ marginRight: 4, color: "blue" }} />
+                )}
+                <Box pl={!isPurchased ? 3 : 0}>Pay with Paypal</Box>
+              </MenuItem>
+            </Menu>
           </Box>
         </Box>
         <Box
@@ -105,23 +150,50 @@ export default function PaymentMethod() {
         <Box
           pt={2}
           display="flex"
-          alignItems="center"
+          alignItems={isPurchased ? "flex-start" : "center"}
           justifyContent="space-between"
           my={2}
           style={{ borderTop: "1px solid #ccc", borderTopStyle: "dashed" }}
         >
           <Typography className={classes.text}>
-            By clicking "Place Order", you are agreeing to Our General
-            Transaction Terms
+            By clicking {isPurchased ? "for payment" : `"Place Order"`}, you are
+            agreeing to Our General Transaction Terms
           </Typography>
-          <Button
-            color="primary"
-            variant="contained"
-            style={{ marginRight: 80, marginLeft: 16 }}
-            onClick={() => {}}
-          >
-            Place Order
-          </Button>
+
+          {isPurchased ? (
+            <Box mr={10}>
+              <PayPalButton
+                amount="50.0"
+                // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                onSuccess={(details, data) => {
+                  alert(
+                    "Transaction completed by " + details.payer.name.given_name
+                  );
+
+                  // OPTIONAL: Call your server to save the transaction
+                  return fetch("/paypal-transaction-complete", {
+                    method: "post",
+                    body: JSON.stringify({
+                      orderID: data.orderID,
+                    }),
+                  });
+                }}
+                options={{
+                  clientId:
+                    "AYxz4r4mvWKV_FTZTHN7iNTGubX2sTEcklqiMZ8of72uyCi6GfnGO7mnRQ9KexF8OgB5IIgR_04gV6hn",
+                }}
+              />
+            </Box>
+          ) : (
+            <Button
+              color="primary"
+              variant="contained"
+              style={{ marginRight: 80, marginLeft: 16 }}
+              onClick={() => {}}
+            >
+              Place Order
+            </Button>
+          )}
         </Box>
       </Box>
     </Paper>

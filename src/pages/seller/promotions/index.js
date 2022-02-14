@@ -10,22 +10,21 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import RoomIcon from "@material-ui/icons/Room";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { LoadingTable } from "components/common/LoadingTable";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { deletePromotion, getPromotions } from "redux/promotionRedux";
-import { promotionSelector, shopSelector } from "redux/selectors";
-import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { deletePromotion, getPromotions } from "redux/promotionRedux";
+import { promotionSelector, shopSelector } from "redux/selectors";
 import PromotionForm from "./promotionForm";
-
+import { useStyles } from "./styles";
 export default function Promotions() {
   const history = useHistory();
   const { currentShop } = useSelector(shopSelector);
@@ -48,7 +47,7 @@ export default function Promotions() {
         mb={2}
       >
         <Box display="flex" alignItems="center">
-          <RoomIcon className={classes.icon} />
+          <LocalOfferIcon className={classes.icon} />
           <Typography className={classes.title}>My Promotions</Typography>
         </Box>
         <Button
@@ -110,7 +109,12 @@ export default function Promotions() {
                           <IconButton
                             aria-label="delete"
                             onClick={() => {
-                              dispatch(deletePromotion({id:currentShop.id ,body: row?.id}));
+                              dispatch(
+                                deletePromotion({
+                                  id: currentShop.id,
+                                  body: row?.id,
+                                })
+                              );
                             }}
                           >
                             <DeleteIcon />

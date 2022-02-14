@@ -77,3 +77,15 @@ export const getOrderPrice = (data, selectItems) => {
   }
   return price;
 };
+
+export const getAddressText = (row) => {
+  return `${row?.detail ? `${row?.detail}, ` : ""} ${row?.ward?.name}, ${
+    row?.district?.name
+  }, ${row?.city?.name}`;
+};
+
+export const getShopAddressText = (row) => {
+  return `${row?.addressDetail ? `${row?.addressDetail}` : ""} ${
+    row?.ward?.name
+  }, ${row?.district?.name}, ${row?.city?.name}`;
+};

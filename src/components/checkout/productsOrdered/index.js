@@ -3,7 +3,8 @@ import React from "react";
 import ShopOrdered from "./shopOrdered";
 import { useStyles } from "./styles";
 
-export default function ProductsOrdered() {
+export default function ProductsOrdered(props) {
+  const {shopId} = props
   const classes = useStyles();
 
   return (
@@ -71,7 +72,7 @@ export default function ProductsOrdered() {
       </Paper>
       <Grid container>
         <Grid item xs={12} md={12}>
-          <ShopOrdered />
+          <ShopOrdered shopId={shopId} />
         </Grid>
       </Grid>
     </Box>

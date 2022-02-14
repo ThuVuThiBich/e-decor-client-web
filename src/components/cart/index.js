@@ -37,8 +37,15 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { name, classes, onSelectAllClick, numSelected, rowCount, isLoading } =
-    props;
+  const {
+    id,
+    name,
+    classes,
+    onSelectAllClick,
+    numSelected,
+    rowCount,
+    isLoading,
+  } = props;
 
   return isLoading ? (
     <>
@@ -116,8 +123,10 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected, data, selected } = props;
+  const { id, numSelected, data, selected } = props;
+  console.log(id);
   const history = useHistory();
+  console.log(data);
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -145,7 +154,15 @@ const EnhancedTableToolbar = (props) => {
             <Button
               color="primary"
               variant="contained"
-              onClick={() => history.push("/checkout")}
+              onClick={() =>
+                id &&
+                history.push({
+                  pathname: `/checkout`,
+                  state: {
+                    shopId: id,
+                  },
+                })
+              }
             >
               Check Out
             </Button>
@@ -250,6 +267,7 @@ export default function EnhancedTable(props) {
       <Paper className={classes.paper}>
         {selected.length > 0 && (
           <EnhancedTableToolbar
+            id={item.id}
             numSelected={selected.length}
             data={data}
             selected={selected}
@@ -264,6 +282,7 @@ export default function EnhancedTable(props) {
           >
             <EnhancedTableHead
               name={item?.name}
+              id={item?.id}
               classes={classes}
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}

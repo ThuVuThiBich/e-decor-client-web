@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 export const getPromotions = createAsyncThunk(
   "promotion/getAll",
   async (data, thunkAPI) => {
-    const response = await promotionApi.getAll(data);
-    return response.result;
+    if (data) {
+      const response = await promotionApi.getAll(data);
+      return response.result;
+    }
   }
 );
 

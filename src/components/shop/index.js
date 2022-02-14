@@ -15,6 +15,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStyles } from "./styles";
+import { getAddressText, getShopAddressText } from "utils/helpers";
 
 export default function Shop(props) {
   const { shop } = props;
@@ -34,7 +35,7 @@ export default function Shop(props) {
         <Box className={classes.info} display={"flex"}>
           <PlaceIcon className={classes.icon} />
           <Typography className={classes.detail} component={"span"}>
-            {shop.ward.name}, {shop.district.name}, {shop.city.name}
+            {getShopAddressText(shop)}
           </Typography>
         </Box>
         <Box className={classes.info} display={"flex"}>

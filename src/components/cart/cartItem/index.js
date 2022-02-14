@@ -106,7 +106,9 @@ export default function CartItem(props) {
         <Tooltip title="Delete">
           <IconButton
             aria-label="delete"
-            onClick={() => dispatch(deleteCartItem(row.cartItemId))}
+            onClick={(event) => {
+               handleClick(event, row.version.id);
+              dispatch(deleteCartItem(row.cartItemId))}}
           >
             <DeleteIcon />
           </IconButton>

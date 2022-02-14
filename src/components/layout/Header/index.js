@@ -146,7 +146,9 @@ export default function Header() {
                 alt=""
               />
               <Box>
-                <Typography style={{ marginLeft: 8 }}>Clock</Typography>
+                <Typography style={{ marginLeft: 8 }}>
+                  {item?.productVersion?.product?.name}
+                </Typography>
                 <Typography
                   style={{ marginLeft: 8, fontSize: 12, color: "#757575" }}
                 >

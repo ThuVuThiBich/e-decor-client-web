@@ -25,6 +25,7 @@ import { addressSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getAddressText } from "utils/helpers";
 
 export default function Address() {
   const history = useHistory();
@@ -84,7 +85,7 @@ export default function Address() {
                         {row?.name ? row?.name : "Vu Thu"}
                       </TableCell>
                       <TableCell>
-                        {`${row?.detail}, ${row?.ward?.name}, ${row?.district?.name}, ${row?.city?.name}`}
+                        {getAddressText(row)}
                       </TableCell>
                       <TableCell align="center">
                         {row?.name ? row?.phone : "0123456789"}

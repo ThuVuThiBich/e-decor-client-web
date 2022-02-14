@@ -1,9 +1,16 @@
 import {
   Box,
   Button,
+  Checkbox,
   Divider,
   Grid,
+  Input,
+  ListItemText,
+  Menu,
+  MenuItem,
   Paper,
+  Radio,
+  Select,
   Table,
   TableBody,
   TableContainer,
@@ -15,9 +22,13 @@ import {
 import MuiTableCell from "@material-ui/core/TableCell";
 import ForumIcon from "@material-ui/icons/Forum";
 import StorefrontIcon from "@material-ui/icons/Storefront";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStyles } from "./styles";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { getPromotions } from "redux/promotionRedux";
+import { MenuProps } from "components/orders/table/toolbar/styles";
+import { promotionSelector } from "redux/selectors";
 const TableCell = withStyles({
   root: {
     borderBottom: "none",
@@ -36,9 +47,33 @@ const rows = [
   createData("Gingerbread", "blue", 16.0, 1, 3.9),
 ];
 
-export default function ShopOrdered() {
+export default function ShopOrdered(props) {
+  const { shopId } = props;
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [hasVoucher, setHasVoucher] = useState(false);
+  const [voucherValue, setVoucherValue] = useState(null);
+  const { promotions } = useSelector(promotionSelector);
+  //
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (e) => {
+    setAnchorEl(null);
+  };
+  const handleCloseMenuItem = (e) => {
+    console.log(promotions);
+    console.log(e);
+    setAnchorEl(null);
+    setVoucherValue(e);
+  };
+
+  useEffect(() => {
+    shopId && dispatch(getPromotions(shopId));
+  }, [dispatch, shopId]);
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
@@ -126,9 +161,34 @@ export default function ShopOrdered() {
             </Box>
           ) : (
             <Box mr={5}>
-              <Button color="primary" onClick={() => setHasVoucher(true)}>
+              <Button
+                color="primary"
+                onClick={
+                  // () => setHasVoucher(true)
+                  handleClick
+                }
+              >
                 Select Voucher
               </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                onChange={(event) => console.log(event.target.value)}
+              >
+                {promotions?.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    value={item.id}
+                    onClick={() => handleCloseMenuItem(item.id)}
+                  >
+                    <Radio checked={+voucherValue === +item.id} />
+                    <ListItemText primary={item.content} />
+                  </MenuItem>
+                ))}
+              </Menu>
             </Box>
           )}
         </Box>

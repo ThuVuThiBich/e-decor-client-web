@@ -9,7 +9,11 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getPrice } from "utils/helpers";
 import { useStyles } from "./styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { createWishlist, removeWishlist } from "redux/wishlistRedux";
+import {
+  createWishlist,
+  deleteWishlist,
+  removeWishlist,
+} from "redux/wishlistRedux";
 
 export default function Product(props) {
   const { product, noHover = false } = props;
@@ -40,17 +44,17 @@ export default function Product(props) {
         display="flex"
         justifyContent="center"
         onClick={() => {
-          history.push(`/product/${product?.id}`);
+          history.push(`/product/${product?.product?.id}`);
         }}
       >
-        <img src={product?.images?.[0]?.image || noImage} alt="" />
+        <img src={product?.product?.images?.[0]?.image || noImage} alt="" />
       </Box>
       <Box display="flex" p={2} flexDirection="column">
         <Typography gutterBottom className={classes.name} component="div">
-          {product?.name}
+          {product?.product?.name}
         </Typography>
         <Typography className={classes.price}>
-          {getPrice(product?.minPrice, product?.maxPrice)} VND
+          {getPrice(product?.product?.minPrice, product?.product?.maxPrice)} VND
         </Typography>
 
         <Box
@@ -62,31 +66,27 @@ export default function Product(props) {
           <Box display="flex" alignItems="center">
             <Rating
               value={
-                Number(product?.avgRatings) === 0
+                Number(product?.product?.avgRatings) === 0
                   ? 5
-                  : Number(product?.avgRatings)
+                  : Number(product?.product?.avgRatings)
               }
               precision={0.5}
               emptyIcon={<StarBorderIcon fontSize="inherit" />}
               readOnly
             />
             <Typography style={{ marginLeft: 4, color: "#757575" }}>
-              {product?.totalRatings === 0 ? "" : `(${product?.totalRatings})`}
+              {product?.product?.totalRatings === 0
+                ? ""
+                : `(${product?.product?.totalRatings})`}
             </Typography>
           </Box>
           <IconButton
             onClick={(e) => {
               e.preventDefault();
-              product?.inWishlist
-                ? dispatch(removeWishlist(product?.wishlistItemId))
-                : dispatch(createWishlist({ productId: product?.id }));
+              dispatch(deleteWishlist(product?.id));
             }}
           >
-            {product?.inWishlist ? (
-              <FavoriteIcon style={{ color: "#D23F57" }} />
-            ) : (
-              <FavoriteBorderIcon />
-            )}
+            <FavoriteIcon style={{ color: "#D23F57" }} />
           </IconButton>
         </Box>
       </Box>

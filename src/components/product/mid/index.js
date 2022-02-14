@@ -98,27 +98,7 @@ export default function Mid() {
             <div
               dangerouslySetInnerHTML={{ __html: product?.description }}
             ></div>
-            <PayPalButton
-              amount="50.0"
-              // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-              onSuccess={(details, data) => {
-                alert(
-                  "Transaction completed by " + details.payer.name.given_name
-                );
-
-                // OPTIONAL: Call your server to save the transaction
-                return fetch("/paypal-transaction-complete", {
-                  method: "post",
-                  body: JSON.stringify({
-                    orderID: data.orderID,
-                  }),
-                });
-              }}
-              options={{
-                clientId:
-                  "AYxz4r4mvWKV_FTZTHN7iNTGubX2sTEcklqiMZ8of72uyCi6GfnGO7mnRQ9KexF8OgB5IIgR_04gV6hn",
-              }}
-            />
+           
           </TabPanel>
           <TabPanel value={value} index={1}>
             {feedbacks?.length > 0 ? (

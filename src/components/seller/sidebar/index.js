@@ -7,6 +7,8 @@ import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useStyles } from "./styles";
+import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
+
 export default function Sidebar() {
   const classes = useStyles();
 
@@ -59,7 +61,7 @@ export default function Sidebar() {
             to="/shop/promotions"
             activeClassName={classes.active}
           >
-            <SettingsOutlinedIcon className={classes.icon} />
+            <LocalOfferOutlinedIcon className={classes.icon} />
             Promotions
           </NavLink>
         </Box>

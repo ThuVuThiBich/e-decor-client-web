@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { addPromotion } from "redux/promotionRedux";
 import { promotionSelector, shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
-
+import discountImg from "assets/images/discount.png";
 export default function PromotionForm(props) {
   const { id } = useParams();
   const { promotions } = useSelector(promotionSelector);
@@ -62,18 +62,24 @@ export default function PromotionForm(props) {
     const promotion = { content, discount, standarFee };
     console.log(promotion);
     // if (id === "add") {
-      dispatch(addPromotion({ id: currentShop.id, body: promotion }));
+    dispatch(addPromotion({ id: currentShop.id, body: promotion }));
     // } else {
-      // dispatch(updatePromotion({ id, promotion }));
+    // dispatch(updatePromotion({ id, promotion }));
     // }
     history.push("/shop/promotions");
   };
   return (
     <Paper>
       <Box p={4}>
-        <Box mb={4}>
+        <Box mb={4} display="flex" alignItems="center">
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
+              <Box
+                mb={2}
+                style={{ color: "#2b3445", fontWeight: 600, fontSize: 18 }}
+              >
+                New Promotion
+              </Box>
               <FormControl variant="outlined" margin="dense" fullWidth>
                 <InputLabel htmlFor="component-outlined">
                   Tên chương trình giảm giá
@@ -122,14 +128,22 @@ export default function PromotionForm(props) {
                   inputProps={{ type: "text" }}
                 />
               </FormControl>
+              <Box mt={2}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleSubmit}
+                >
+                  {id === "add" ? "Add New" : "Save Changes"}
+                </Button>
+              </Box>
             </Grid>
-            <Grid item xs={12} md={6}></Grid>
+            <Grid item xs={12} md={6}>
+              <Box>
+                <img src={discountImg} alt="" />
+              </Box>
+            </Grid>
           </Grid>
-        </Box>
-        <Box>
-          <Button color="primary" variant="contained" onClick={handleSubmit}>
-            {id === "add" ? "Add New" : "Save Changes"}
-          </Button>
         </Box>
       </Box>
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />

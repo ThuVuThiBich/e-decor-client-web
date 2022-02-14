@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { shopSelector } from "redux/selectors";
 import { getShop } from "redux/shopRedux";
+import { getShopAddressText } from "utils/helpers";
 import { useStyles } from "./styles";
 
 export default function ShopInfo(props) {
@@ -135,8 +136,7 @@ export default function ShopInfo(props) {
               <Box mt={1} className={classes.subText} display={"flex"}>
                 <PlaceIcon className={classes.icon} />
                 <Typography className={classes.detail} component={"span"}>
-                  {shop?.addressDetail ? `${shop?.addressDetail}, ` : ""}
-                  {shop?.ward.name}, {shop?.district.name}, {shop?.city.name}
+                  {getShopAddressText(shop)}
                 </Typography>
               </Box>
               <Box mt={1} className={classes.subText} display={"flex"}>
