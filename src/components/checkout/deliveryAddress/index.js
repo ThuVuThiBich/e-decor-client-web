@@ -8,19 +8,21 @@ import {
   Radio,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStyles } from "./styles";
 import PlaceIcon from "@material-ui/icons/Place";
-import { useSelector } from "react-redux";
-import { addressSelector } from "redux/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { addressSelector, orderSelector } from "redux/selectors";
 import { getAddressText } from "utils/helpers";
+import { storeAddressId } from "redux/orderRedux";
 
 export default function DeliveryAddress() {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const { addresses } = useSelector(addressSelector);
-  const [addressId, setAddressId] = useState(addresses?.[0].id);
-  console.log(addressId);
-
+  const { address } = useSelector(orderSelector);
+  const { addresses, defaultAddressId } = useSelector(addressSelector);
+  const [addressId, setAddressId] = useState(defaultAddressId);
+  console.log(defaultAddressId);
   //
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -32,11 +34,11 @@ export default function DeliveryAddress() {
     setAnchorEl(null);
   };
   const handleCloseMenuItem = (e) => {
-    console.log(addresses);
-    console.log(e);
     setAnchorEl(null);
     setAddressId(e);
+    dispatch(storeAddressId(e));
   };
+  // useEffect(() => {},[])
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
@@ -67,22 +69,23 @@ export default function DeliveryAddress() {
               className={classes.name}
               style={{ marginRight: 8, fontWeight: 600, fontSize: 18 }}
             >
-              Thu Vu
+              {address?.name}
             </Typography>
             <Typography
               className={classes.phone}
               style={{ marginRight: 16, fontWeight: 600, fontSize: 18 }}
             >
-              (+84) 832890865
+              {address?.phone}
             </Typography>
             <Typography
               className={classes.address}
               style={{ marginRight: 8, fontSize: 18 }}
             >
-              {getAddressText(addresses.find((e) => e.id === addressId))}
+              {address && getAddressText(address)}
             </Typography>
           </Box>
           <Box>
+            s
             <Button
               color="primary"
               variant="outlined"
@@ -99,7 +102,7 @@ export default function DeliveryAddress() {
               keepMounted
               open={Boolean(anchorEl)}
               onClose={handleClose}
-              onChange={(event) => console.log(event.target.value)}
+              disableScrollLock={true}
             >
               {addresses?.map((item, index) => (
                 <MenuItem

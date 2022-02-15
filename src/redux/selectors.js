@@ -7,3 +7,4 @@ export const addressSelector = (state) => state.address;
 export const wishlistSelector = (state) => state.wishlist;
 export const feedbackSelector = (state) => state.feedback;
 export const promotionSelector = (state) => state.promotion;
+export const orderSelector = (state) => state.order;

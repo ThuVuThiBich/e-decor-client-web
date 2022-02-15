@@ -67,7 +67,7 @@ export default function Header(props) {
       onClose={handleMenuClose}
       style={{ marginTop: 40 }}
       MenuListProps={{ onMouseLeave: handleMenuClose }}
-      disablescrolllock="true"
+      disableScrollLock={true}
     >
       <MenuItem onClick={handleMenuClose}>
         <Link

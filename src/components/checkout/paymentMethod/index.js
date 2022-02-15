@@ -12,8 +12,14 @@ import React from "react";
 import { useStyles } from "./styles";
 import CheckIcon from "@material-ui/icons/Check";
 import { PayPalButton } from "react-paypal-button-v2";
+import { orderSelector } from "redux/selectors";
+import { useSelector } from "react-redux";
 
 export default function PaymentMethod() {
+  const { shopName, orderItems, amount, voucherPrice } =
+    useSelector(orderSelector);
+
+  const orderStore = useSelector(orderSelector);
   const classes = useStyles();
   const [isPurchased, setIsPurchased] = React.useState(false);
   //
@@ -99,7 +105,7 @@ export default function PaymentMethod() {
               <Typography className={classes.subText}>
                 Merchandise Subtotal:
               </Typography>
-              <Typography className={classes.text}>$50</Typography>
+              <Typography className={classes.text}>{amount} VND</Typography>
             </Box>
             <Box
               py={0.5}
@@ -119,9 +125,11 @@ export default function PaymentMethod() {
               alignItems="center"
             >
               <Typography className={classes.subText}>
-                Voucher Discount:{" "}
+                Voucher Discount:
               </Typography>
-              <Typography className={classes.text}>$20</Typography>
+              <Typography className={classes.text}>
+                - {voucherPrice} VND
+              </Typography>
             </Box>
             <Divider
               style={{ borderColor: "#ccc", marginBottom: 8, marginTop: 4 }}
@@ -189,7 +197,9 @@ export default function PaymentMethod() {
               color="primary"
               variant="contained"
               style={{ marginRight: 80, marginLeft: 16 }}
-              onClick={() => {}}
+              onClick={() => {
+                console.log(orderStore);
+              }}
             >
               Place Order
             </Button>

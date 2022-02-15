@@ -23,10 +23,16 @@ import { Skeleton } from "@material-ui/lab";
 import clsx from "clsx";
 import { LoadingTable } from "components/common/LoadingTable";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import {
+  storeAmount,
+  storeItem,
+  storeOrderItems,
+  storeShopInfo,
+} from "redux/orderRedux";
 import { cartSelector } from "redux/selectors";
-import { getCartItemsShop, getOrderPrice } from "utils/helpers";
+import { getCartItemsShop, getOrderPrice, getPriceTotal } from "utils/helpers";
 import CartItem from "./cartItem";
 
 const headCells = [
@@ -124,9 +130,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { id, numSelected, data, selected } = props;
-  console.log(id);
   const history = useHistory();
-  console.log(data);
   return (
     <Toolbar
       className={clsx(classes.root, {
@@ -223,6 +227,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable(props) {
+  const dispatch = useDispatch();
   const { item } = props;
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -233,8 +238,25 @@ export default function EnhancedTable(props) {
   const { isLoading } = useSelector(cartSelector);
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = data?.map((n) => n.version.id);
+      const newSelecteds = data?.map((n) => n?.version?.id);
       setSelected(newSelecteds);
+      // store shop info and items
+      dispatch(storeShopInfo({ id: item?.id, name: item?.name }));
+      //
+      const orderItems = [];
+      data?.map((n) =>
+        orderItems.push({
+          name: n.name,
+          price: n.version.price,
+          productVersionName: n.version.name,
+          image: n.version.image,
+          productVersionId: n.version.cartItems[0].id,
+          quantity: n.version.cartItems[0].quantity,
+        })
+      );
+      dispatch(storeOrderItems(orderItems));
+      dispatch(storeAmount(getPriceTotal(orderItems)));
+
       return;
     }
     setSelected([]);
@@ -267,7 +289,7 @@ export default function EnhancedTable(props) {
       <Paper className={classes.paper}>
         {selected.length > 0 && (
           <EnhancedTableToolbar
-            id={item.id}
+            id={item?.id}
             numSelected={selected.length}
             data={data}
             selected={selected}

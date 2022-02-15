@@ -1,12 +1,14 @@
 import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import React from "react";
+import { useSelector } from "react-redux";
+import { orderSelector } from "redux/selectors";
 import ShopOrdered from "./shopOrdered";
 import { useStyles } from "./styles";
 
 export default function ProductsOrdered(props) {
-  const {shopId} = props
+  const { shopId } = props;
   const classes = useStyles();
-
+  const { shopName } = useSelector(orderSelector);
   return (
     <Box>
       <Paper className={classes.root}>

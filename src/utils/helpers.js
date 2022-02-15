@@ -89,3 +89,14 @@ export const getShopAddressText = (row) => {
     row?.ward?.name
   }, ${row?.district?.name}, ${row?.city?.name}`;
 };
+
+export const getPriceTotal = (orderItems) => {
+  let priceTotal = 0;
+  orderItems.map((item) => (priceTotal += item.price * item.quantity));
+  return priceTotal;
+};
+
+export const getDiscount = (promotions, id) => {
+  if (id) console.log(promotions.find((item) => +item.id === +id));
+  return promotions.find((item) => +item.id === +id);
+};

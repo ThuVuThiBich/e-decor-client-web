@@ -28,34 +28,26 @@ import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromotions } from "redux/promotionRedux";
 import { MenuProps } from "components/orders/table/toolbar/styles";
-import { promotionSelector } from "redux/selectors";
+import { orderSelector, promotionSelector } from "redux/selectors";
+import { getDiscount, getPriceTotal } from "utils/helpers";
+import { storeVoucherPrice } from "redux/orderRedux";
 const TableCell = withStyles({
   root: {
     borderBottom: "none",
   },
 })(MuiTableCell);
 
-function createData(name, version, price, quantity, total) {
-  return { name, version, price, quantity, total };
-}
-
-const rows = [
-  createData("Cupcake", "blue", 3.5, 1, 4.3),
-  createData("Donut", "red", 25.0, 2, 4.9),
-  createData("Eclair", "blue", 16.0, 4, 6.0),
-  createData("Frozen yoghurt", "fruit", 6.0, 1, 4.0),
-  createData("Gingerbread", "blue", 16.0, 1, 3.9),
-];
-
 export default function ShopOrdered(props) {
+  const { shopName, orderItems, amount } = useSelector(orderSelector);
+
+  //
   const { shopId } = props;
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [hasVoucher, setHasVoucher] = useState(false);
   const [voucherValue, setVoucherValue] = useState(null);
   const { promotions } = useSelector(promotionSelector);
   //
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -65,10 +57,11 @@ export default function ShopOrdered(props) {
     setAnchorEl(null);
   };
   const handleCloseMenuItem = (e) => {
-    console.log(promotions);
-    console.log(e);
     setAnchorEl(null);
     setVoucherValue(e);
+    dispatch(
+      storeVoucherPrice((amount * getDiscount(promotions, e)?.discount) / 100)
+    );
   };
 
   useEffect(() => {
@@ -80,7 +73,7 @@ export default function ShopOrdered(props) {
         <Box display="flex" alignItems="center" my={1}>
           <StorefrontIcon style={{ marginRight: 8 }} />
           <Typography className={classes.text} style={{ fontSize: 18 }}>
-            Good Mood Decor
+            {shopName}
           </Typography>
           <Divider
             orientation="vertical"
@@ -98,7 +91,7 @@ export default function ShopOrdered(props) {
         <TableContainer>
           <Table className={classes.table} aria-label="simple table">
             <TableBody>
-              {rows?.map((row) => (
+              {orderItems?.map((row) => (
                 <TableRow key={row.name}>
                   <TableCell
                     component="th"
@@ -111,19 +104,17 @@ export default function ShopOrdered(props) {
                         style={{ marginRight: 16 }}
                         width={50}
                         height={50}
-                        src={
-                          "https://cf.shopee.vn/file/0fe6b6974d2a05c251336fd150944fea_tn"
-                        }
+                        src={row.image}
                         alt=""
                       />
                       {row.name}
                     </Box>
                   </TableCell>
-                  <TableCell width="20%">{row.version}</TableCell>
-                  <TableCell width="15%">${row.price}</TableCell>
+                  <TableCell width="20%">{row.productVersionName}</TableCell>
+                  <TableCell width="15%">{row.price} VND</TableCell>
                   <TableCell width="15%">{row.quantity}</TableCell>
                   <TableCell width="10%" className={classes.price}>
-                    ${row.total}
+                    {row.quantity * row.price} VND
                   </TableCell>
                 </TableRow>
               ))}
@@ -143,54 +134,53 @@ export default function ShopOrdered(props) {
               Shop Voucher
             </Typography>
           </Box>
-          {hasVoucher ? (
-            <Box display="flex" alignItems="center" mr={11}>
-              <Button
-                color="primary"
-                style={{ marginRight: 16 }}
-                onClick={() => setHasVoucher(false)}
-              >
-                Change Voucher
-              </Button>
+
+          <Box mr={5} display="flex" alignItems="center">
+            <Button color="primary" onClick={handleClick}>
+              {voucherValue ? "Change Voucher" : "Select Voucher"}
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {promotions?.map(
+                (item, index) =>
+                  amount >= item.standarFee && (
+                    <MenuItem
+                      key={index}
+                      value={item?.id}
+                      onClick={() => handleCloseMenuItem(item?.id)}
+                    >
+                      <Radio checked={+voucherValue === +item?.id} />
+                      <ListItemText
+                        primary={item.content}
+                        secondary={`Giảm ${item.discount} % đơn hàng từ ${item.standarFee} VND`}
+                      />
+                    </MenuItem>
+                  )
+              )}
+            </Menu>
+            {voucherValue ? (
               <Typography
                 className={classes.text}
-                style={{ color: "rgb(210, 63, 87)" }}
+                style={{
+                  color: "rgb(210, 63, 87)",
+                  marginLeft: 8,
+                  marginRight: 8,
+                }}
               >
-                - $5
+                -
+                {(amount * getDiscount(promotions, voucherValue)?.discount) /
+                  100}
+                VND
               </Typography>
-            </Box>
-          ) : (
-            <Box mr={5}>
-              <Button
-                color="primary"
-                onClick={
-                  // () => setHasVoucher(true)
-                  handleClick
-                }
-              >
-                Select Voucher
-              </Button>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                onChange={(event) => console.log(event.target.value)}
-              >
-                {promotions?.map((item, index) => (
-                  <MenuItem
-                    key={index}
-                    value={item.id}
-                    onClick={() => handleCloseMenuItem(item.id)}
-                  >
-                    <Radio checked={+voucherValue === +item.id} />
-                    <ListItemText primary={item.content} />
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          )}
+            ) : (
+              <></>
+            )}
+          </Box>
         </Box>
         <Box
           py={2}
@@ -229,7 +219,7 @@ export default function ShopOrdered(props) {
                 <Button
                   color="primary"
                   style={{ marginRight: 16 }}
-                  onClick={() => setHasVoucher(false)}
+                  onClick={() => {}}
                 >
                   Change
                 </Button>
@@ -247,8 +237,8 @@ export default function ShopOrdered(props) {
           style={{ borderTop: "1px solid #ccc", borderTopStyle: "dashed" }}
         >
           <Box
-            mr={10}
-            width="25%"
+            mr={6}
+            width="28%"
             display="flex"
             alignItems="center"
             justifyContent="space-between"
@@ -261,16 +251,15 @@ export default function ShopOrdered(props) {
                 color: "rgba(0,0,0,.54)",
               }}
             >
-              Order Total ( 5 items):
+              Order Total ( {orderItems.length} items):
             </Typography>
             <Typography
               style={{
-                marginLeft: 32,
                 color: "rgb(210, 63, 87)",
                 fontSize: 18,
               }}
             >
-              $25
+              {amount} VND
             </Typography>
           </Box>
         </Box>
