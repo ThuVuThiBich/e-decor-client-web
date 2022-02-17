@@ -1,8 +1,9 @@
 import { Box, Paper, Typography } from "@material-ui/core";
 import React from "react";
+import { getAddressText } from "utils/helpers";
 import { useStyles } from "./styles";
 
-export default function Infor() {
+export default function Infor({ order }) {
   const classes = useStyles();
 
   return (
@@ -12,15 +13,13 @@ export default function Infor() {
           <Typography gutterBottom className={classes.headText}>
             Shipping Address
           </Typography>
-          <Typography>
-            Kelly Williams 777 Brockton Avenue, Abington MA 2351
-          </Typography>
+          <Typography>{getAddressText(order?.address)}</Typography>
         </Box>
         <Box pl={1} py={1}>
           <Typography gutterBottom className={classes.headText}>
             Shipping Unit
           </Typography>
-          <Typography>GrabExpress</Typography>
+          <Typography>{order?.shipping?.shippingUnit?.name}</Typography>
         </Box>
       </Box>
     </Paper>

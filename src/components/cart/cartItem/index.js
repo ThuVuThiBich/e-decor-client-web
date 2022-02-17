@@ -57,7 +57,7 @@ export default function CartItem(props) {
         </Box>
       </TableCell>
       <TableCell width="15%">{row.version.name}</TableCell>
-      <TableCell width="10%">{row.version.price} VND</TableCell>
+      <TableCell width="10%">{row.version.price} $</TableCell>
       <TableCell width="20%">
         <Box className={classes.test} mx={2}>
           <Button
@@ -100,15 +100,16 @@ export default function CartItem(props) {
         </Box>
       </TableCell>
       <TableCell width="10%" className={classes.price}>
-        {row.version.price * quantity} VND
+        {row.version.price * quantity} $
       </TableCell>
       <TableCell width="5%">
         <Tooltip title="Delete">
           <IconButton
             aria-label="delete"
             onClick={(event) => {
-               handleClick(event, row.version.id);
-              dispatch(deleteCartItem(row.cartItemId))}}
+              handleClick(event, row.version.id);
+              dispatch(deleteCartItem(row.cartItemId));
+            }}
           >
             <DeleteIcon />
           </IconButton>

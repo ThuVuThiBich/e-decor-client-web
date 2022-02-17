@@ -108,10 +108,10 @@ export default function ShopOrdered(props) {
                     </Box>
                   </TableCell>
                   <TableCell width="20%">{row.productVersionName}</TableCell>
-                  <TableCell width="15%">{row.price} VND</TableCell>
+                  <TableCell width="15%">{row.price} $</TableCell>
                   <TableCell width="15%">{row.quantity}</TableCell>
                   <TableCell width="10%" className={classes.price}>
-                    {row.quantity * row.price} VND
+                    {row.quantity * row.price} $
                   </TableCell>
                 </TableRow>
               ))}
@@ -154,7 +154,7 @@ export default function ShopOrdered(props) {
                       <Radio checked={+voucherValue === +item?.id} />
                       <ListItemText
                         primary={item.content}
-                        secondary={`Giảm ${item.discount} % đơn hàng từ ${item.standarFee} VND`}
+                        secondary={`Giảm ${item.discount} % đơn hàng từ ${item.standarFee} $`}
                       />
                     </MenuItem>
                   )
@@ -172,7 +172,7 @@ export default function ShopOrdered(props) {
                 -
                 {(amount * getDiscount(promotions, voucherValue)?.discount) /
                   100}
-                VND
+                $
               </Typography>
             ) : (
               <></>
@@ -256,7 +256,7 @@ export default function ShopOrdered(props) {
                 fontSize: 18,
               }}
             >
-              {amount} VND
+              {amount} $
             </Typography>
           </Box>
         </Box>

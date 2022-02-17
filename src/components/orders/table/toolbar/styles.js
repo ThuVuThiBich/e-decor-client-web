@@ -31,7 +31,10 @@ export const useToolbarStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     fontSize: 14,
-    "&:hover": { border: `1px solid red` },
+    "&:hover": {
+      border: `1px solid #bdbdbd`,
+      backgroundColor: "rgba(0, 0, 0, 0.04)",
+    },
     "&:active": { border: `1px solid blue` },
     "&:focus": { borderRadius: 4 },
   },

@@ -13,12 +13,13 @@ import { useStyles } from "./styles";
 import CheckIcon from "@material-ui/icons/Check";
 import { PayPalButton } from "react-paypal-button-v2";
 import { orderSelector } from "redux/selectors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DataUsageTwoTone } from "@material-ui/icons";
+import { createOrder } from "redux/orderRedux";
 
 export default function PaymentMethod() {
   const { amount, voucherPrice } = useSelector(orderSelector);
-
+  const dispatch = useDispatch();
   const orderStore = useSelector(orderSelector);
   const classes = useStyles();
   const [isPurchased, setIsPurchased] = React.useState(false);
@@ -105,7 +106,7 @@ export default function PaymentMethod() {
               <Typography className={classes.subText}>
                 Merchandise Subtotal:
               </Typography>
-              <Typography className={classes.text}>{amount} VND</Typography>
+              <Typography className={classes.text}>{amount} $</Typography>
             </Box>
             <Box
               py={0.5}
@@ -128,7 +129,7 @@ export default function PaymentMethod() {
                 Voucher Discount:
               </Typography>
               <Typography className={classes.text}>
-                - {voucherPrice} VND
+                - {voucherPrice} $
               </Typography>
             </Box>
             <Divider
@@ -188,7 +189,7 @@ export default function PaymentMethod() {
                 }}
                 options={{
                   clientId:
-                    "AYxz4r4mvWKV_FTZTHN7iNTGubX2sTEcklqiMZ8of72uyCi6GfnGO7mnRQ9KexF8OgB5IIgR_04gV6hn",
+                    "AWU9VC1zyNCUtemNPAxRqOWBgq1yBr6uXumP10JCNLCj7U5b6NSMKdCH2MMtsq7wytkTapztM5z6R5Pp",
                 }}
               />
             </Box>
@@ -204,6 +205,10 @@ export default function PaymentMethod() {
                   error,
                   address,
                   shopName,
+                  order,
+                  orders,
+                  currentPage,
+                  totalOrders,
                   ...data
                 } = orderStore;
                 console.log({
@@ -213,6 +218,15 @@ export default function PaymentMethod() {
                     quantity: item.quantity,
                   })),
                 });
+                dispatch(
+                  createOrder({
+                    ...data,
+                    orderItems: data.orderItems.map((item) => ({
+                      productVersionId: item.productVersionId,
+                      quantity: item.quantity,
+                    })),
+                  })
+                );
               }}
             >
               Place Order

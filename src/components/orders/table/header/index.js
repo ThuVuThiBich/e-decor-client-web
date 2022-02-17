@@ -5,10 +5,7 @@ import { useStyles } from "./styles";
 
 export default function EnhancedTableHead(props) {
   const classes = useStyles();
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+
   const headCells = [
     { id: "order", label: "Order #" },
     { id: "status", label: "Status" },
@@ -21,18 +18,11 @@ export default function EnhancedTableHead(props) {
         {headCells?.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={"left"}
+            align="center"
             padding={"normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
             className={classes.tableCell}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-            </TableSortLabel>
+            {headCell.label}
           </TableCell>
         ))}
         <TableCell className={classes.tableCell} width={"10%"}>

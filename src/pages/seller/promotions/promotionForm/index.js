@@ -107,7 +107,7 @@ export default function PromotionForm(props) {
                   value={standarFee}
                   onChange={handleChangeStandarFee}
                   label="Giá trị hóa đơn giảm giá"
-                  placeholder="Giá trị hóa đơn giảm giá (VND)"
+                  placeholder="Giá trị hóa đơn giảm giá ($)"
                   inputProps={{ type: "text" }}
                 />
               </FormControl>

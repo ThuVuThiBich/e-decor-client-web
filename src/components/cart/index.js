@@ -132,7 +132,7 @@ const EnhancedTableToolbar = (props) => {
               color="inherit"
               variant="subtitle1"
             >
-              {getOrderPrice(data, selected)} VND
+              {getOrderPrice(data, selected)} $
             </Typography>
             <Button
               color="primary"
@@ -223,13 +223,14 @@ export default function EnhancedTable(props) {
       dispatch(storeShopInfo({ id: item?.id, name: item?.name }));
       //
       const orderItems = [];
+      console.log(data);
       data?.map((n) =>
         orderItems.push({
           name: n.name,
           price: n.version.price,
           productVersionName: n.version.name,
           image: n.version.image,
-          productVersionId: n.version.cartItems[0].id,
+          productVersionId: n.version.cartItems[0].productVersionId,
           quantity: n.version.cartItems[0].quantity,
         })
       );

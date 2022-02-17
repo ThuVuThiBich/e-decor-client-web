@@ -1,30 +1,30 @@
 import axiosClient from "./axiosClient";
 
-const cartApi = {
-  getAll: () => {
-    const url = `/cart-items`;
+const orderApi = {
+  getAll: (params) => {
+    const url = `/orders`;
+    return axiosClient.get(url, { params });
+  },
+
+  get: (id) => {
+    const url = `/orders/${id}`;
     return axiosClient.get(url);
   },
 
-  get: () => {
-    const url = `/cart-items/recent?limit=5`;
-    return axiosClient.get(url);
-  },
-
-  add: (data) => {
-    const url = `/cart-items`;
+  create: (data) => {
+    const url = `/orders`;
     return axiosClient.post(url, data);
   },
 
   update: (id, data) => {
-    const url = `/cart-items/${id}`;
+    const url = `/orders/${id}`;
     return axiosClient.patch(url, data);
   },
 
   delete: (id) => {
-    const url = `/cart-items/${id}`;
+    const url = `/orders/${id}`;
     return axiosClient.delete(url);
   },
 };
 
-export default cartApi;
+export default orderApi;

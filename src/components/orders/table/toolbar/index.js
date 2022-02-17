@@ -57,6 +57,14 @@ export default function TableToolbar(props) {
             MenuProps={MenuProps}
             input={<InputBase classes={{ input: classes.input }} />}
             onChange={handleChangeDropdown}
+            inputProps={{
+              MenuProps: { disableScrollLock: true },
+              PaperProps: {
+                style: {
+                  boxShadow: "0 1px 5px 1px rgb(0 0 0 / 20%)",
+                },
+              },
+            }}
           >
             {STATUSES?.map((option) => (
               <MenuItem key={option.value} value={option.value}>

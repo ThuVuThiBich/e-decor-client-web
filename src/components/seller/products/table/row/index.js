@@ -24,7 +24,7 @@ export default function EnhancedTableRow(props) {
         {_.get(row, "totalVersions")}
       </StyledTableCell>
       <StyledTableCell>
-        {getPrice(_.get(row, "minPrice"), _.get(row, "maxPrice"))} VND
+        {getPrice(_.get(row, "minPrice"), _.get(row, "maxPrice"))} $
       </StyledTableCell>
       <StyledTableCell>
         <Tooltip title="View detail" arrow>

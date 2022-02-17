@@ -49,7 +49,7 @@ export default function Product(props) {
           {product?.product?.name}
         </Typography>
         <Typography className={classes.price}>
-          {getPrice(product?.product?.minPrice, product?.product?.maxPrice)} VND
+          {getPrice(product?.product?.minPrice, product?.product?.maxPrice)} $
         </Typography>
 
         <Box

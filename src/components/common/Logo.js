@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: "flex",
     alignItems: "center",
-    marginLeft: -8,
+    marginLeft: -4,
   },
   text: {
     color: "white",

@@ -15,7 +15,7 @@ import { PayPalButton } from "react-paypal-button-v2";
 import Description from "./description";
 import Review from "./review";
 import { getFeedbacks } from "redux/feedbackRedux";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom";
 import UserReview from "./review/userReview";
 import { Pagination } from "@material-ui/lab";
 

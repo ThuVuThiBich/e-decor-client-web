@@ -219,7 +219,7 @@ export default function Top(props) {
               </Box>
               <Box py={1}>
                 <Typography className={classes.price}>
-                  {showedPrice} VND
+                  {showedPrice} $
                 </Typography>
               </Box>
               <Box display="flex" pb={1}>

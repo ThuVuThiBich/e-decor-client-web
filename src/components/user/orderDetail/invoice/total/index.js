@@ -1,8 +1,9 @@
 import { Box, Divider, Paper, Typography } from "@material-ui/core";
 import React from "react";
+import { getPriceTotalFromOrderItems } from "utils/helpers";
 import { useStyles } from "./styles";
 
-export default function Total() {
+export default function Total({ order }) {
   const classes = useStyles();
 
   return (
@@ -14,27 +15,42 @@ export default function Total() {
         <Box my={2}>
           <Box display="flex" justifyContent="space-between">
             <Typography className={classes.subText}>Subtotal:</Typography>
-            <Typography className={classes.boldText}>$335</Typography>
+            <Typography className={classes.boldText}>
+              ${getPriceTotalFromOrderItems(order?.orderItems)}
+            </Typography>
           </Box>
           <Box display="flex" justifyContent="space-between">
             <Typography className={classes.subText}>Shipping fee:</Typography>
-            <Typography className={classes.boldText}>$10</Typography>
+            <Typography className={classes.boldText}>
+              ${order?.shipping?.shippingUnit?.fee}
+            </Typography>
           </Box>
           <Box display="flex" justifyContent="space-between">
             <Typography className={classes.subText}>Discount:</Typography>
-            <Typography className={classes.boldText}>-$30</Typography>
+            <Typography className={classes.boldText}>
+              - $
+              {(getPriceTotalFromOrderItems(order?.orderItems) *
+                order?.promotion.discount) /
+                100}
+            </Typography>
           </Box>
         </Box>
         <Divider />
         <Box my={1} display="flex" justifyContent="space-between">
           <Typography className={classes.boldText}>Total </Typography>
-          <Typography className={classes.boldText}>$315</Typography>
+          <Typography className={classes.boldText}>
+            $ {order?.amount + order?.shipping?.shippingUnit?.fee}
+          </Typography>
         </Box>
         <Divider />
 
         <Box my={1} display="flex" justifyContent="space-between">
           <Typography className={classes.boldText}>Payment Method </Typography>
-          <Typography>Payment on delivery</Typography>
+          <Typography>
+            {order.status === "purchased"
+              ? "Pay With Paypal"
+              : "Payment On Delivery"}
+          </Typography>
         </Box>
       </Box>
     </Paper>

@@ -8,26 +8,35 @@ export default function Product(props) {
   return (
     <Box display="flex" p={1} className={classes.root}>
       <Box mr={1}>
-        <img width={64} height={64} src={product.url} alt="" />
+        <img
+          width={64}
+          height={64}
+          src={product?.productVersion?.image}
+          alt=""
+        />
       </Box>
 
       <Grid container spacing={1}>
         <Grid item md={5}>
           <Box display="flex" m={2} flexDirection="column">
-            <Typography className={classes.headText}>{product.name}</Typography>
+            <Typography className={classes.headText}>
+              {product?.productVersion?.product?.name}
+            </Typography>
             <Typography className={classes.subText}>
-              ${product.price} x {product.amount}
+              $ {product?.productVersion?.price} x {product?.quantity}
             </Typography>
           </Box>
         </Grid>
         <Grid item md={5}>
           <Box display="flex" m={2}>
-            <Typography>{product.description}</Typography>
+            <Typography>{product?.productVersion?.name}</Typography>
           </Box>
         </Grid>
         <Grid item md={2}>
           <Box display="flex" m={2} justifyContent="flex-end">
-            <Typography>${product.total}</Typography>
+            <Typography>
+              ${product?.productVersion?.price * product?.quantity}
+            </Typography>
           </Box>
         </Grid>
       </Grid>

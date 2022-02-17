@@ -10,7 +10,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -72,7 +72,7 @@ export default function Promotions() {
                 <TableRow>
                   <TableCell>Tên chương trình giảm giá</TableCell>
                   <TableCell align="center">
-                    Giá trị hóa đơn giảm giá ( VND )
+                    Giá trị hóa đơn giảm giá ( $ )
                   </TableCell>
                   <TableCell align="center">Phần trăm giảm giá (%)</TableCell>
                   <TableCell align="center">Actions</TableCell>

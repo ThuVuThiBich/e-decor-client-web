@@ -1,13 +1,23 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Detail from "components/user/orderDetail";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { getOrder } from "redux/orderRedux";
+import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function OrderDetail() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { id } = useParams();
+  console.log(id);
+  useEffect(() => {
+    dispatch(getOrder(id));
+  }, [dispatch, id]);
+  const { order } = useSelector(orderSelector);
   return (
     <div>
       <Box
