@@ -1,14 +1,11 @@
 import { Box, Grid, Paper, Typography } from "@material-ui/core";
 import React from "react";
-import { useSelector } from "react-redux";
-import { orderSelector } from "redux/selectors";
 import ShopOrdered from "./shopOrdered";
 import { useStyles } from "./styles";
 
 export default function ProductsOrdered(props) {
   const { shopId } = props;
   const classes = useStyles();
-  const { shopName } = useSelector(orderSelector);
   return (
     <Box>
       <Paper className={classes.root}>
@@ -57,13 +54,13 @@ export default function ProductsOrdered(props) {
                       Version
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      Unit Price
+                      <Box ml={8}>Unit Price</Box>
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      Amount
+                      <Box ml={4}>Amount</Box>
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      Item Subtotal
+                      <Box ml={4}>Item Subtotal</Box>
                     </Grid>
                   </Grid>
                 </Box>

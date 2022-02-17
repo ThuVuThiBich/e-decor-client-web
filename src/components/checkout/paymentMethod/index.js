@@ -14,10 +14,10 @@ import CheckIcon from "@material-ui/icons/Check";
 import { PayPalButton } from "react-paypal-button-v2";
 import { orderSelector } from "redux/selectors";
 import { useSelector } from "react-redux";
+import { DataUsageTwoTone } from "@material-ui/icons";
 
 export default function PaymentMethod() {
-  const { shopName, orderItems, amount, voucherPrice } =
-    useSelector(orderSelector);
+  const { amount, voucherPrice } = useSelector(orderSelector);
 
   const orderStore = useSelector(orderSelector);
   const classes = useStyles();
@@ -198,7 +198,21 @@ export default function PaymentMethod() {
               variant="contained"
               style={{ marginRight: 80, marginLeft: 16 }}
               onClick={() => {
-                console.log(orderStore);
+                const {
+                  voucherPrice,
+                  isLoading,
+                  error,
+                  address,
+                  shopName,
+                  ...data
+                } = orderStore;
+                console.log({
+                  ...data,
+                  orderItems: data.orderItems.map((item) => ({
+                    productVersionId: item.productVersionId,
+                    quantity: item.quantity,
+                  })),
+                });
               }}
             >
               Place Order

@@ -93,6 +93,7 @@ export default function PromotionForm(props) {
                 />
               </FormControl>
               <FormControl
+                disabled={id !== "add"}
                 variant="outlined"
                 margin="dense"
                 fullWidth

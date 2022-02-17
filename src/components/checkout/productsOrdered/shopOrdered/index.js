@@ -1,16 +1,13 @@
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
   Grid,
-  Input,
   ListItemText,
   Menu,
   MenuItem,
   Paper,
   Radio,
-  Select,
   Table,
   TableBody,
   TableContainer,
@@ -21,16 +18,15 @@ import {
 } from "@material-ui/core";
 import MuiTableCell from "@material-ui/core/TableCell";
 import ForumIcon from "@material-ui/icons/Forum";
+import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import React, { useEffect, useState } from "react";
-import { useStyles } from "./styles";
-import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import { useDispatch, useSelector } from "react-redux";
+import { storePromotionId, storeVoucherPrice } from "redux/orderRedux";
 import { getPromotions } from "redux/promotionRedux";
-import { MenuProps } from "components/orders/table/toolbar/styles";
 import { orderSelector, promotionSelector } from "redux/selectors";
-import { getDiscount, getPriceTotal } from "utils/helpers";
-import { storeVoucherPrice } from "redux/orderRedux";
+import { getDiscount } from "utils/helpers";
+import { useStyles } from "./styles";
 const TableCell = withStyles({
   root: {
     borderBottom: "none",
@@ -62,6 +58,7 @@ export default function ShopOrdered(props) {
     dispatch(
       storeVoucherPrice((amount * getDiscount(promotions, e)?.discount) / 100)
     );
+    dispatch(storePromotionId(e));
   };
 
   useEffect(() => {

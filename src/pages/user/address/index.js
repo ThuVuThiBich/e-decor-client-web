@@ -88,7 +88,7 @@ export default function Address() {
                         {getAddressText(row)}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.name ? row?.phone : "0123456789"}
+                        {row?.phone ? row?.phone : "0123456789"}
                       </TableCell>
                       <TableCell align="center">
                         <Tooltip title="Edit">

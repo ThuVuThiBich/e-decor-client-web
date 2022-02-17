@@ -27,6 +27,8 @@ import { useStyles } from "./styles";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactQuill from "react-quill";
+import { formats, modules } from "pages/blog/addBlog";
 const thumbsContainer = {
   marginTop: 16,
 };
@@ -64,12 +66,14 @@ export default function ViewProductForm(props) {
   const [images, setImages] = useState(
     product?.images?.map((item) => item.image)
   );
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(
+    product && product?.description
+  );
   const [categoryId, setCategoryId] = useState(
     product && product?.category?.id
   );
   const handleChange = (event) => {
-    setName(event.target.value);
+    setDescription(event?.target?.value);
   };
 
   // images
@@ -100,6 +104,20 @@ export default function ViewProductForm(props) {
       </Box>
     </Grid>
   ));
+  const previousThumbs = product.images?.map((file, index) => (
+    <Grid item xs={12} md={3} key={index}>
+      <Box
+        style={{
+          borderRadius: 8,
+          width: 200,
+          height: 200,
+          boxSizing: "border-box",
+        }}
+      >
+        <img src={file.image} style={img} alt="" />
+      </Box>
+    </Grid>
+  ));
 
   useEffect(
     () => () => {
@@ -121,11 +139,6 @@ export default function ViewProductForm(props) {
 
   const [isEdit, setIsEdit] = useState(true);
 
-  // const images = [
-  //   "https://cf.shopee.vn/file/bbc95d311285ebab19a6a115cd6360a6",
-  //   "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
-  //   "	https://cf.shopee.vn/file/2ea05e947bf5df310fee1e8777bfd6ba",
-  // ];
   return (
     <Paper>
       <Box p={2} my={2}>
@@ -136,14 +149,13 @@ export default function ViewProductForm(props) {
                 variant="outlined"
                 margin="dense"
                 fullWidth
-                className={classes.leftFormControl}
+                disabled={isEdit}
               >
                 <InputLabel htmlFor="component-outlined">Name</InputLabel>
                 <OutlinedInput
-                  disabled={isEdit}
                   id="component-outlined"
                   value={name}
-                  onChange={handleChange}
+                  onChange={(e) => setName(e.target.value)}
                   label="Name"
                   placeholder="Name"
                 />
@@ -178,10 +190,18 @@ export default function ViewProductForm(props) {
                     },
                     getContentAnchorEl: null,
                   }}
+                  inputProps={{
+                    MenuProps: {
+                      disableScrollLock: true,
+                      classes: {
+                        paper: classes.paper,
+                      },
+                    },
+                  }}
                 >
-                  {storeCategory.shopCategories?.map((option) => (
-                    <MenuItem key={option.categoryId} value={option.categoryId}>
-                      {option.category.name}
+                  {storeCategory.categories?.map((option, index) => (
+                    <MenuItem key={index} value={option?.id}>
+                      {option?.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -251,6 +271,7 @@ export default function ViewProductForm(props) {
                   </div>
                   <aside style={thumbsContainer}>
                     <Grid container spacing={2}>
+                      {previousThumbs}
                       {thumbs}
                     </Grid>
                   </aside>
@@ -261,29 +282,60 @@ export default function ViewProductForm(props) {
             <Grid item xs={12} md={12}>
               <Box>
                 {isEdit ? (
-                  <FormControl variant="outlined" margin="dense" fullWidth>
-                    <InputLabel htmlFor="component-outlined">
+                  <fieldset
+                    style={{
+                      border: "1px solid #cccccc",
+                      borderRadius: 4,
+                      padding: "8px 16px 16px",
+                      margin: 8,
+                    }}
+                  >
+                    <legend
+                      style={{
+                        margin: "0px 8px opx -4px",
+                        padding: "0px 4px",
+                        color: "#777d82",
+                      }}
+                    >
                       Description
-                    </InputLabel>
-                    <OutlinedInput
-                      id="component-outlined"
-                      value={name}
-                      onChange={handleChange}
-                      label="Description"
-                      placeholder="Description"
-                      multiline
-                      rows={3}
-                    />
-                  </FormControl>
+                    </legend>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: description }}
+                    ></div>
+                  </fieldset>
                 ) : (
-                  <Editor
-                    rows={5}
-                    placeholder="Description ..."
-                    toolbarClassName={classes.editorToolbar}
-                    editorClassName={classes.editor}
-                    editorState={editorState}
-                    onEditorStateChange={onEditorStateChange}
+                  // <FormControl variant="outlined" margin="dense" fullWidth>
+                  //   <InputLabel htmlFor="component-outlined">
+                  //     Description
+                  //   </InputLabel>
+                  //   <OutlinedInput
+                  //     id="component-outlined"
+                  //     value={description}
+                  //     onChange={handleChange}
+                  //     label="Description"
+                  //     placeholder="Description"
+                  //     multiline
+                  //     rows={3}
+                  //   />
+                  // </FormControl>
+                  <ReactQuill
+                    className={classes.editor}
+                    style={{ borderRadius: 8 }}
+                    // theme="snow"
+                    value={description}
+                    onChange={handleChange}
+                    modules={modules}
+                    formats={formats}
+                    placeholder={"Description ..."}
                   />
+                  // <Editor
+                  //   rows={5}
+                  //   placeholder="Description ..."
+                  //   toolbarClassName={classes.editorToolbar}
+                  //   editorClassName={classes.editor}
+                  //   editorState={editorState}
+                  //   onEditorStateChange={onEditorStateChange}
+                  // />
                 )}
               </Box>
             </Grid>
@@ -298,7 +350,8 @@ export default function ViewProductForm(props) {
             variant="contained"
             onClick={() => {
               setIsEdit(!isEdit);
-              dispatch(updateProduct());
+              console.log(isEdit);
+              !isEdit && dispatch(updateProduct());
             }}
           >
             {isEdit ? "Edit Product" : "Save Changes"}

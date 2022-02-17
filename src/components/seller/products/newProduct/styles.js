@@ -6,9 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     height: 37.65,
   },
   selectInput: { margin: "0 5px" },
-  formControl: {
-    margin: theme.spacing(1),
-  },
+
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
@@ -46,9 +44,25 @@ export const useStyles = makeStyles((theme) => ({
   editorToolbar: {
     backgroundColor: `rgb(250, 250, 250)`,
   },
+  // editor: {
+  //   border: `1px solid #cccccc`,
+  //   padding: 8,
+  //   borderRadius: 4,
+  // },
   editor: {
-    border: `1px solid #cccccc`,
-    padding: 8,
-    borderRadius: 4,
+    "& .ql-container": {
+      borderBottomLeftRadius: 4,
+      borderBottomRightRadius: 4,
+      // background: "#fefcfc",
+      height: 200,
+    },
+    "& .ql-toolbar": {
+      borderTopLeftRadius: 4,
+      borderTopRightRadius: 4,
+      background: "#f5f5f5",
+    },
+  },
+  paper: {
+    marginTop: 50,
   },
 }));

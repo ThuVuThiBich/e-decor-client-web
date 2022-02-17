@@ -14,9 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-
 import { alpha, lighten, makeStyles } from "@material-ui/core/styles";
-
 import DeleteIcon from "@material-ui/icons/Delete";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import { Skeleton } from "@material-ui/lab";
@@ -25,33 +23,14 @@ import { LoadingTable } from "components/common/LoadingTable";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
-  storeAmount,
-  storeItem,
-  storeOrderItems,
-  storeShopInfo,
-} from "redux/orderRedux";
+import { storeAmount, storeOrderItems, storeShopInfo } from "redux/orderRedux";
 import { cartSelector } from "redux/selectors";
 import { getCartItemsShop, getOrderPrice, getPriceTotal } from "utils/helpers";
 import CartItem from "./cartItem";
 
-const headCells = [
-  { id: "version", numeric: true, disablePadding: false, label: "" },
-  { id: "price", numeric: true, disablePadding: false, label: "" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "" },
-  { id: "total", numeric: true, disablePadding: false, label: "" },
-];
-
 function EnhancedTableHead(props) {
-  const {
-    id,
-    name,
-    classes,
-    onSelectAllClick,
-    numSelected,
-    rowCount,
-    isLoading,
-  } = props;
+  const { name, classes, onSelectAllClick, numSelected, rowCount, isLoading } =
+    props;
 
   return isLoading ? (
     <>

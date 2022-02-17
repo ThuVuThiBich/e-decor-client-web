@@ -9,9 +9,14 @@ import { useStyles } from "./styles";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useRouteMatch } from "react-router-dom";
 
 export default function ViewProduct() {
   const classes = useStyles();
+  const history = useHistory();
+  let match = useRouteMatch();
+  console.log(match);
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
   const { productId } = useParams();
@@ -40,7 +45,17 @@ export default function ViewProduct() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button color="primary" variant="outlined">
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => {
+            history.push({
+              pathname: `/shop/products/${match.params.categoryName}`,
+              state: { categoryId: product?.category?.id },
+            });
+            console.log(history);
+          }}
+        >
           Back To Product List
         </Button>
       </Box>

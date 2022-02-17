@@ -9,7 +9,7 @@ const orderSlice = createSlice({
     promotionId: null,
     shippingId: null,
     amount: 0,
-    isPurchased: true,
+    isPurchased: false,
     orderItems: [],
     isLoading: false,
     error: false,
@@ -21,6 +21,7 @@ const orderSlice = createSlice({
   reducers: {
     setOrder: (state, action) => {
       state.address = action.payload;
+      state.addressId = action.payload.id;
     },
     storeShopInfo: (state, action) => {
       state.shopId = action.payload.id;
@@ -28,6 +29,9 @@ const orderSlice = createSlice({
     },
     storeAddressId: (state, action) => {
       state.addressId = action.payload;
+    },
+    storePromotionId: (state, action) => {
+      state.promotionId = action.payload;
     },
     storeVoucherPrice: (state, action) => {
       state.voucherPrice = action.payload;
@@ -56,5 +60,6 @@ export const {
   storeAmount,
   storeVoucherPrice,
   setOrder,
+  storePromotionId,
 } = orderSlice.actions;
 export default orderSlice.reducer;

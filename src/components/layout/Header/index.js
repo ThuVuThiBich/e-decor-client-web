@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Badge,
   Box,
   Button,
@@ -146,7 +147,17 @@ export default function Header() {
                 alt=""
               />
               <Box>
-                <Typography style={{ marginLeft: 8 }}>
+                <Typography
+                  style={{
+                    marginLeft: 8,
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 2,
+                    maxWidth: 270,
+                    paddingRight: 16,
+                  }}
+                >
                   {item?.productVersion?.product?.name}
                 </Typography>
                 <Typography
@@ -241,8 +252,13 @@ export default function Header() {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
                 onMouseOver={handleProfileMenuOpen}
+                style={{ cursor: "pointer" }}
               >
-                <AccountCircle />
+                <Avatar
+                  alt=""
+                  src={currentUser?.avatar}
+                  style={{ cursor: "pointer" }}
+                />
               </IconButton>
             ) : (
               <IconButton

@@ -2,12 +2,9 @@ import { Container } from "@material-ui/core";
 import ShopContent from "components/shop/shopContent";
 import ShopInfo from "components/shop/shopInfo";
 import React from "react";
-import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
-import { shopSelector } from "redux/selectors";
-import { LoadingShopInfo } from "components/common/LoadingShopInfo";
+import { useStyles } from "./styles";
 export default function ShopDetail() {
   const classes = useStyles();
   // const { isLoading } = useSelector(shopSelector);

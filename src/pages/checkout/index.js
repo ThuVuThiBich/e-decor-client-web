@@ -19,11 +19,11 @@ export default function Checkout() {
   useEffect(() => {
     dispatch(getAddresses());
     dispatch(getPromotions());
-    dispatch(setOrder());
   }, [dispatch]);
-  useEffect(() => {
-    if (addresses.length > 0) dispatch(setOrder(addresses[0]));
-  }, [addresses, dispatch]);
+  // useEffect(() => {
+  //   console.log("order")
+  //   if (addresses?.length > 0) dispatch(setOrder(addresses[0]));
+  // }, [addresses, dispatch]);
   const shopId = history.location.state.shopId;
   console.log(shopId);
   console.log(addresses);

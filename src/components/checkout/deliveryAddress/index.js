@@ -8,13 +8,13 @@ import {
   Radio,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useStyles } from "./styles";
 import PlaceIcon from "@material-ui/icons/Place";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setOrder, storeAddressId } from "redux/orderRedux";
 import { addressSelector, orderSelector } from "redux/selectors";
 import { getAddressText } from "utils/helpers";
-import { storeAddressId } from "redux/orderRedux";
+import { useStyles } from "./styles";
 
 export default function DeliveryAddress() {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export default function DeliveryAddress() {
   const [addressId, setAddressId] = useState(defaultAddressId);
   console.log(defaultAddressId);
   //
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -38,7 +38,9 @@ export default function DeliveryAddress() {
     setAddressId(e);
     dispatch(storeAddressId(e));
   };
-  // useEffect(() => {},[])
+  useEffect(() => {
+    dispatch(setOrder(addresses[0]));
+  }, [addresses, dispatch]);
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
@@ -85,15 +87,7 @@ export default function DeliveryAddress() {
             </Typography>
           </Box>
           <Box>
-            s
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={
-                // () => setHasVoucher(true)
-                handleClick
-              }
-            >
+            <Button color="primary" variant="outlined" onClick={handleClick}>
               CHANGE
             </Button>
             <Menu

@@ -123,7 +123,7 @@ const addressSlice = createSlice({
     [getAddresses.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.addresses = action.payload;
-      state.defaultAddressId = action.payload[0].id;
+      state.defaultAddressId = action.payload?.[0]?.id;
     },
 
     [addAddress.pending]: (state) => {

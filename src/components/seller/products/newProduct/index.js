@@ -36,6 +36,8 @@ import axios from "axios";
 import { resetProductVersion } from "redux/productRedux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { formats, modules } from "pages/blog/addBlog";
+import ReactQuill from "react-quill";
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",
@@ -94,9 +96,11 @@ export default function NewProductForm() {
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getShopCategories(id));
-  }, [dispatch, id]);
+  //
+  const handleChange = (value) => {
+    console.log(value);
+    setDescription(value);
+  };
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -219,7 +223,7 @@ export default function NewProductForm() {
     <Paper>
       <Box p={2} my={2}>
         <form>
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <FormControl variant="outlined" margin="dense" fullWidth>
                 <InputLabel htmlFor="component-outlined">Name</InputLabel>
@@ -260,10 +264,18 @@ export default function NewProductForm() {
                     },
                     getContentAnchorEl: null,
                   }}
+                  inputProps={{
+                    MenuProps: {
+                      disableScrollLock: true,
+                      classes: {
+                        paper: classes.paper,
+                      },
+                    },
+                  }}
                 >
-                  {storeCategory.shopCategories?.map((option) => (
-                    <MenuItem key={option.categoryId} value={option.categoryId}>
-                      {option.category.name}
+                  {storeCategory.categories?.map((option, index) => (
+                    <MenuItem key={index} value={option.id}>
+                      {option.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -300,7 +312,17 @@ export default function NewProductForm() {
             </Grid>
 
             <Grid item xs={12} md={12}>
-              <Box>
+              <ReactQuill
+                className={classes.editor}
+                style={{ borderRadius: 8 }}
+                // theme="snow"
+                value={description}
+                onChange={handleChange}
+                modules={modules}
+                formats={formats}
+                placeholder={"Description ..."}
+              />
+              {/* <Box>
                 <Editor
                   rows={5}
                   placeholder="Description ..."
@@ -309,7 +331,7 @@ export default function NewProductForm() {
                   editorState={editorState}
                   onEditorStateChange={onEditorStateChange}
                 />
-              </Box>
+              </Box> */}
             </Grid>
           </Grid>
 
