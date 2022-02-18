@@ -43,13 +43,13 @@ export default function ProductsOrdered(props) {
                       Version
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      <Box ml={8}>Unit Price</Box>
+                      <Box ml={5}>Unit Price</Box>
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Box ml={4}>Amount</Box>
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      <Box ml={4}>Item Subtotal</Box>
+                      <Box ml={2}>Item Subtotal</Box>
                     </Grid>
                   </Grid>
                 </Box>

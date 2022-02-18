@@ -20,7 +20,7 @@ export default function CartItem(props) {
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
   useEffect(() => {
-    setQuantity(row.version.cartItems?.[0].quantity);
+    setQuantity(row?.version.cartItems?.[0].quantity);
   }, [row]);
   return (
     <TableRow
@@ -40,7 +40,7 @@ export default function CartItem(props) {
           color="primary"
           checked={isItemSelected}
           inputProps={{ "aria-labelledby": labelId }}
-          onClick={(event) => handleClick(event, row.version.id)}
+          onClick={(event) => handleClick(event, row?.version.id)}
         />
       </TableCell>
 
@@ -50,14 +50,14 @@ export default function CartItem(props) {
             style={{ marginRight: 16 }}
             width={80}
             height={80}
-            src={row.version.image}
+            src={row?.version.image}
             alt=""
           />
-          {row.name}
+          {row?.name}
         </Box>
       </TableCell>
-      <TableCell width="15%">{row.version.name}</TableCell>
-      <TableCell width="10%">{row.version.price} $</TableCell>
+      <TableCell width="15%">{row?.version.name}</TableCell>
+      <TableCell width="10%">${row?.version.price}</TableCell>
       <TableCell width="20%">
         <Box className={classes.test} mx={2}>
           <Button
@@ -69,7 +69,7 @@ export default function CartItem(props) {
                 setQuantity(quantity - 1);
                 dispatch(
                   updateQuantity({
-                    id: row.cartItemId,
+                    id: row?.cartItemId,
                     body: { quantity: quantity - 1 },
                   })
                 );
@@ -89,7 +89,7 @@ export default function CartItem(props) {
               setQuantity(quantity + 1);
               dispatch(
                 updateQuantity({
-                  id: row.cartItemId,
+                  id: row?.cartItemId,
                   body: { quantity: quantity + 1 },
                 })
               );
@@ -100,15 +100,15 @@ export default function CartItem(props) {
         </Box>
       </TableCell>
       <TableCell width="10%" className={classes.price}>
-        {row.version.price * quantity} $
+        ${row?.version.price * quantity} 
       </TableCell>
       <TableCell width="5%">
         <Tooltip title="Delete">
           <IconButton
             aria-label="delete"
             onClick={(event) => {
-              handleClick(event, row.version.id);
-              dispatch(deleteCartItem(row.cartItemId));
+              handleClick(event, row?.version.id);
+              dispatch(deleteCartItem(row?.cartItemId));
             }}
           >
             <DeleteIcon />

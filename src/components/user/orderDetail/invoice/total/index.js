@@ -39,7 +39,7 @@ export default function Total({ order }) {
         <Box my={1} display="flex" justifyContent="space-between">
           <Typography className={classes.boldText}>Total </Typography>
           <Typography className={classes.boldText}>
-            $ {order?.amount + order?.shipping?.shippingUnit?.fee}
+            ${order?.amount + order?.shipping?.shippingUnit?.fee}
           </Typography>
         </Box>
         <Divider />

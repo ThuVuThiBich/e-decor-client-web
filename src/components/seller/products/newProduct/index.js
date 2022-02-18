@@ -98,7 +98,6 @@ export default function NewProductForm() {
   const dispatch = useDispatch();
   //
   const handleChange = (value) => {
-    console.log(value);
     setDescription(value);
   };
 

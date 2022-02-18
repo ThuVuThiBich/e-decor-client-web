@@ -123,7 +123,6 @@ export default function AddBlog() {
   const history = useHistory();
   const [value, setValue] = useState("");
   const handleChange = (value) => {
-    console.log(value);
     setValue(value);
   };
   

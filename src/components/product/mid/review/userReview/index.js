@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 export default function UserReview(props) {
   const classes = useStyles();
   const { feedback } = props;
-  console.log(feedback);
   return (
     <Box mb={2} ml={3} mt={1}>
       <Box display="flex" alignItems="flex-start">

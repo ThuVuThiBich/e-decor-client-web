@@ -97,7 +97,6 @@ export const getPriceTotal = (orderItems) => {
 };
 
 export const getDiscount = (promotions, id) => {
-  if (id) console.log(promotions.find((item) => +item.id === +id));
   return promotions.find((item) => +item.id === +id);
 };
 
@@ -107,4 +106,16 @@ export const getPriceTotalFromOrderItems = (orderItems) => {
     (item) => (priceTotal += item?.productVersion?.price * item?.quantity)
   );
   return priceTotal;
+};
+
+export const hasSuitableVoucher = (promotions, amount) => {
+  if (!promotions?.length) return false;
+  const tmp = promotions?.filter((item, index) => amount >= item.standarFee);
+  return tmp?.length > 0;
+};
+
+export const getMinFeeShipping = (shipments) => {
+  return shipments?.reduce(function (res, obj) {
+    return obj?.fee < res?.fee ? obj : res;
+  });
 };

@@ -7,24 +7,26 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
-import React from "react";
-import { useStyles } from "./styles";
 import CheckIcon from "@material-ui/icons/Check";
+import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
+import React, { useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
-import { orderSelector } from "redux/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import { DataUsageTwoTone } from "@material-ui/icons";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createOrder } from "redux/orderRedux";
+import { orderSelector } from "redux/selectors";
+import { useStyles } from "./styles";
 
 export default function PaymentMethod() {
-  const { amount, voucherPrice } = useSelector(orderSelector);
+  const { amount, voucherPrice, shipping, orderId } =
+    useSelector(orderSelector);
   const dispatch = useDispatch();
+  const history = useHistory();
   const orderStore = useSelector(orderSelector);
   const classes = useStyles();
-  const [isPurchased, setIsPurchased] = React.useState(false);
+  const [isPurchased, setIsPurchased] = useState(true);
   //
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -53,7 +55,7 @@ export default function PaymentMethod() {
               Payment Method
             </Typography>
           </Box>
-          <Box display="flex" alignItems="center" mr={10}>
+          <Box display="flex" alignItems="center" mr={9}>
             <Typography className={classes.text}>
               {isPurchased ? "Pay with Paypal" : "Cash on Delivery"}
             </Typography>
@@ -106,7 +108,7 @@ export default function PaymentMethod() {
               <Typography className={classes.subText}>
                 Merchandise Subtotal:
               </Typography>
-              <Typography className={classes.text}>{amount} $</Typography>
+              <Typography className={classes.text}>${amount}</Typography>
             </Box>
             <Box
               py={0.5}
@@ -117,7 +119,7 @@ export default function PaymentMethod() {
               <Typography className={classes.subText}>
                 Shipping Total:{" "}
               </Typography>
-              <Typography className={classes.text}>$10</Typography>
+              <Typography className={classes.text}>${shipping.fee}</Typography>
             </Box>
             <Box
               py={0.5}
@@ -129,7 +131,7 @@ export default function PaymentMethod() {
                 Voucher Discount:
               </Typography>
               <Typography className={classes.text}>
-                - {voucherPrice} $
+                - ${voucherPrice}
               </Typography>
             </Box>
             <Divider
@@ -151,7 +153,7 @@ export default function PaymentMethod() {
                   fontSize: 18,
                 }}
               >
-                $40
+                ${amount - voucherPrice + shipping.fee}
               </Typography>
             </Box>
           </Box>
@@ -172,24 +174,57 @@ export default function PaymentMethod() {
           {isPurchased ? (
             <Box mr={10}>
               <PayPalButton
-                amount="50.0"
-                // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                amount={amount - voucherPrice}
+                shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                 onSuccess={(details, data) => {
+                  console.log("details", details.payer.name.given_name);
+                  console.log("data", data);
                   alert(
                     "Transaction completed by " + details.payer.name.given_name
                   );
+                  const {
+                    voucherPrice,
+                    isLoading,
+                    error,
+                    address,
+                    shipping,
+                    shopName,
+                    order,
+                    orders,
+                    currentPage,
+                    totalOrders,
+                    orderId,
+                    ...orderData
+                  } = orderStore;
+                  console.log({
+                    ...orderData,
+                    orderItems: data.orderItems.map((item) => ({
+                      productVersionId: item.productVersionId,
+                      quantity: item.quantity,
+                    })),
+                  });
+
+                  history.push(`/orders/success`);
 
                   // OPTIONAL: Call your server to save the transaction
-                  return fetch("/paypal-transaction-complete", {
+                  return fetch(`${process.env.REACT_APP_API_URL}/orders`, {
                     method: "post",
                     body: JSON.stringify({
-                      orderID: data.orderID,
+                      ...data,
+                      isPurchased: true,
+                      orderItems: data.orderItems.map((item) => ({
+                        productVersionId: item.productVersionId,
+                        quantity: item.quantity,
+                      })),
                     }),
                   });
                 }}
                 options={{
                   clientId:
                     "AWU9VC1zyNCUtemNPAxRqOWBgq1yBr6uXumP10JCNLCj7U5b6NSMKdCH2MMtsq7wytkTapztM5z6R5Pp",
+                }}
+                onError={(err) => {
+                  console.log("onError: err=", err);
                 }}
               />
             </Box>
@@ -204,11 +239,13 @@ export default function PaymentMethod() {
                   isLoading,
                   error,
                   address,
+                  shipping,
                   shopName,
                   order,
                   orders,
                   currentPage,
                   totalOrders,
+                  orderId,
                   ...data
                 } = orderStore;
                 console.log({
@@ -227,6 +264,7 @@ export default function PaymentMethod() {
                     })),
                   })
                 );
+                history.push(`/orders/success`);
               }}
             >
               Place Order

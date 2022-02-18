@@ -20,12 +20,19 @@ import MuiTableCell from "@material-ui/core/TableCell";
 import ForumIcon from "@material-ui/icons/Forum";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import StorefrontIcon from "@material-ui/icons/Storefront";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { storePromotionId, storeVoucherPrice } from "redux/orderRedux";
-import { getPromotions } from "redux/promotionRedux";
-import { orderSelector, promotionSelector } from "redux/selectors";
-import { getDiscount } from "utils/helpers";
+import {
+  setOrderShipping,
+  storePromotionId,
+  storeVoucherPrice,
+} from "redux/orderRedux";
+import {
+  orderSelector,
+  promotionSelector,
+  shipmentSelector,
+} from "redux/selectors";
+import { getDiscount, hasSuitableVoucher } from "utils/helpers";
 import { useStyles } from "./styles";
 const TableCell = withStyles({
   root: {
@@ -34,7 +41,8 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 export default function ShopOrdered(props) {
-  const { shopName, orderItems, amount } = useSelector(orderSelector);
+  const { shopName, orderItems, amount, shippingId, shipping } =
+    useSelector(orderSelector);
 
   //
   const { shopId } = props;
@@ -61,9 +69,25 @@ export default function ShopOrdered(props) {
     dispatch(storePromotionId(e));
   };
 
-  useEffect(() => {
-    shopId && dispatch(getPromotions(shopId));
-  }, [dispatch, shopId]);
+  // shipment
+  const [anchorElShip, setAnchorElShip] = useState(null);
+
+  const handleClickShip = (event) => {
+    setAnchorElShip(event.currentTarget);
+  };
+
+  const handleCloseShip = (e) => {
+    setAnchorElShip(null);
+  };
+  const handleCloseMenuItemShip = (e) => {
+    setAnchorElShip(null);
+    dispatch(setOrderShipping(shipments.find((item) => +item.id === +e)));
+  };
+  const { isLoading, shipments } = useSelector(shipmentSelector);
+
+  // useEffect(() => {
+  //   dispatch(setOrderAddress(addresses[0]));
+  // }, [addresses, dispatch]);
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
@@ -89,7 +113,7 @@ export default function ShopOrdered(props) {
           <Table className={classes.table} aria-label="simple table">
             <TableBody>
               {orderItems?.map((row) => (
-                <TableRow key={row.name}>
+                <TableRow key={row?.name}>
                   <TableCell
                     component="th"
                     scope="row"
@@ -101,17 +125,17 @@ export default function ShopOrdered(props) {
                         style={{ marginRight: 16 }}
                         width={50}
                         height={50}
-                        src={row.image}
+                        src={row?.image}
                         alt=""
                       />
-                      {row.name}
+                      {row?.name}
                     </Box>
                   </TableCell>
-                  <TableCell width="20%">{row.productVersionName}</TableCell>
-                  <TableCell width="15%">{row.price} $</TableCell>
-                  <TableCell width="15%">{row.quantity}</TableCell>
+                  <TableCell width="20%">{row?.productVersionName}</TableCell>
+                  <TableCell width="15%">${row?.price}</TableCell>
+                  <TableCell width="15%">{row?.quantity}</TableCell>
                   <TableCell width="10%" className={classes.price}>
-                    {row.quantity * row.price} $
+                    ${row?.quantity * row?.price}
                   </TableCell>
                 </TableRow>
               ))}
@@ -132,10 +156,15 @@ export default function ShopOrdered(props) {
             </Typography>
           </Box>
 
-          <Box mr={5} display="flex" alignItems="center">
-            <Button color="primary" onClick={handleClick}>
-              {voucherValue ? "Change Voucher" : "Select Voucher"}
-            </Button>
+          <Box mr={10} display="flex" alignItems="center">
+            {hasSuitableVoucher(promotions, amount) ? (
+              <Button color="primary" onClick={handleClick}>
+                {voucherValue ? "Change Voucher" : "Select Voucher"}
+              </Button>
+            ) : (
+              <Box>No Suitable Vouchers</Box>
+            )}
+
             <Menu
               id="simple-menu"
               anchorEl={anchorEl}
@@ -154,7 +183,7 @@ export default function ShopOrdered(props) {
                       <Radio checked={+voucherValue === +item?.id} />
                       <ListItemText
                         primary={item.content}
-                        secondary={`Giảm ${item.discount} % đơn hàng từ ${item.standarFee} $`}
+                        secondary={`Discount ${item.discount} % for order from $${item.standarFee}`}
                       />
                     </MenuItem>
                   )
@@ -169,10 +198,9 @@ export default function ShopOrdered(props) {
                   marginRight: 8,
                 }}
               >
-                -
+                - $
                 {(amount * getDiscount(promotions, voucherValue)?.discount) /
                   100}
-                $
               </Typography>
             ) : (
               <></>
@@ -212,16 +240,40 @@ export default function ShopOrdered(props) {
                   Shipping Option:
                 </Typography>
 
-                <Typography className={classes.text}>Nhanh</Typography>
+                <Typography className={classes.text}>
+                  {shipping?.name}
+                </Typography>
                 <Button
                   color="primary"
                   style={{ marginRight: 16 }}
-                  onClick={() => {}}
+                  onClick={handleClickShip}
                 >
                   Change
                 </Button>
-
-                <Typography className={classes.text}>$5</Typography>
+                <Menu
+                  id="simple-menu-ship"
+                  anchorEl={anchorElShip}
+                  keepMounted
+                  open={Boolean(anchorElShip)}
+                  onClose={handleCloseShip}
+                >
+                  {shipments?.map((item, index) => (
+                    <MenuItem
+                      key={index}
+                      value={item?.id}
+                      onClick={() => handleCloseMenuItemShip(item?.id)}
+                    >
+                      <Radio checked={+shippingId === +item?.id} />
+                      <ListItemText
+                        primary={item.name}
+                        secondary={item.workingTime}
+                      />
+                    </MenuItem>
+                  ))}
+                </Menu>
+                <Typography className={classes.text}>
+                  ${shipping?.fee}
+                </Typography>
               </Box>
             </Grid>
           </Grid>
@@ -234,8 +286,8 @@ export default function ShopOrdered(props) {
           style={{ borderTop: "1px solid #ccc", borderTopStyle: "dashed" }}
         >
           <Box
-            mr={6}
-            width="28%"
+            mr={10}
+            width="25%"
             display="flex"
             alignItems="center"
             justifyContent="space-between"
@@ -256,7 +308,7 @@ export default function ShopOrdered(props) {
                 fontSize: 18,
               }}
             >
-              {amount} $
+              ${amount}
             </Typography>
           </Box>
         </Box>

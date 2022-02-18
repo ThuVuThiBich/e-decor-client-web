@@ -20,7 +20,6 @@ export default function Orders() {
     dispatch(getOrders({ limit: 5, page }));
   }, [dispatch, page]);
   const { orders } = useSelector(orderSelector);
-  console.log(orders);
   return (
     <div>
       <Box

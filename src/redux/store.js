@@ -9,6 +9,8 @@ import wishlistReducer from "./wishlistRedux";
 import feedbackReducer from "./feedbackRedux";
 import promotionReducer from "./promotionRedux";
 import orderReducer from "./orderRedux";
+import shipmentReducer from "./shipmentRedux";
+
 import {
   persistStore,
   persistReducer,
@@ -38,6 +40,7 @@ const rootReducer = combineReducers({
   feedback: feedbackReducer,
   promotion: promotionReducer,
   order: orderReducer,
+  shipment: shipmentReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

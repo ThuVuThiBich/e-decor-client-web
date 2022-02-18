@@ -7,13 +7,13 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { getOrder } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
+import { isEmpty } from "underscore";
 
 export default function OrderDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
-  console.log(id);
   useEffect(() => {
     dispatch(getOrder(id));
   }, [dispatch, id]);
@@ -36,9 +36,7 @@ export default function OrderDetail() {
           </Button>
         </Link>
       </Box>
-      <Box>
-        <Detail />
-      </Box>
+      <Box>{!isEmpty(order) && <Detail />}</Box>
     </div>
   );
 }

@@ -82,7 +82,6 @@ const promotionSlice = createSlice({
     [deletePromotion.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = false;
-      console.log(action.payload);
       state.promotions.splice(
         state.promotions.findIndex((item) => +item.id === +action.payload),
         1

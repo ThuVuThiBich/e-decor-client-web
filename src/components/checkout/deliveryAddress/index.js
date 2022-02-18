@@ -11,7 +11,7 @@ import {
 import PlaceIcon from "@material-ui/icons/Place";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrder, storeAddressId } from "redux/orderRedux";
+import { setOrderAddress } from "redux/orderRedux";
 import { addressSelector, orderSelector } from "redux/selectors";
 import { getAddressText } from "utils/helpers";
 import { useStyles } from "./styles";
@@ -22,7 +22,6 @@ export default function DeliveryAddress() {
   const { address } = useSelector(orderSelector);
   const { addresses, defaultAddressId } = useSelector(addressSelector);
   const [addressId, setAddressId] = useState(defaultAddressId);
-  console.log(defaultAddressId);
   //
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -36,10 +35,10 @@ export default function DeliveryAddress() {
   const handleCloseMenuItem = (e) => {
     setAnchorEl(null);
     setAddressId(e);
-    dispatch(storeAddressId(e));
+    dispatch(setOrderAddress(addresses.find((item) => +item.id === +e)));
   };
   useEffect(() => {
-    dispatch(setOrder(addresses[0]));
+    dispatch(setOrderAddress(addresses[0]));
   }, [addresses, dispatch]);
   return (
     <Paper className={classes.root}>

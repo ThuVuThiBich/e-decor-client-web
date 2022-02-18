@@ -60,12 +60,8 @@ export default function PromotionForm(props) {
 
   const handleSubmit = () => {
     const promotion = { content, discount, standarFee };
-    console.log(promotion);
-    // if (id === "add") {
     dispatch(addPromotion({ id: currentShop.id, body: promotion }));
-    // } else {
-    // dispatch(updatePromotion({ id, promotion }));
-    // }
+
     history.push("/shop/promotions");
   };
   return (
@@ -82,14 +78,14 @@ export default function PromotionForm(props) {
               </Box>
               <FormControl variant="outlined" margin="dense" fullWidth>
                 <InputLabel htmlFor="component-outlined">
-                  Tên chương trình giảm giá
+                  Promotion's Name
                 </InputLabel>
                 <OutlinedInput
                   id="component-outlined"
                   value={content}
                   onChange={handleChangeContent}
-                  label="Tên chương trình giảm giá"
-                  placeholder="Tên chương trình giảm giá"
+                  label="Promotion's Name"
+                  placeholder="Promotion's Name"
                 />
               </FormControl>
               <FormControl
@@ -100,14 +96,14 @@ export default function PromotionForm(props) {
                 className={classes.discount}
               >
                 <InputLabel htmlFor="component-outlined">
-                  Giá trị hóa đơn giảm giá
+                  Order Value
                 </InputLabel>
                 <OutlinedInput
                   id="component-outlined"
                   value={standarFee}
                   onChange={handleChangeStandarFee}
-                  label="Giá trị hóa đơn giảm giá"
-                  placeholder="Giá trị hóa đơn giảm giá ($)"
+                  label="Order Value"
+                  placeholder="Order Value ($)"
                   inputProps={{ type: "text" }}
                 />
               </FormControl>
@@ -118,14 +114,14 @@ export default function PromotionForm(props) {
                 className={classes.discount}
               >
                 <InputLabel htmlFor="component-outlined">
-                  Phần trăm giảm giá
+                  Discount Value
                 </InputLabel>
                 <OutlinedInput
                   id="component-outlined"
                   value={discount}
                   onChange={handleChangeDiscount}
-                  label="Phần trăm giảm giá"
-                  placeholder="Phần trăm giảm giá (%)"
+                  label="Discount Value"
+                  placeholder="Discount Value (%)"
                   inputProps={{ type: "text" }}
                 />
               </FormControl>

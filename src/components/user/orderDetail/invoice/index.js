@@ -10,7 +10,6 @@ import Total from "./total";
 export default function Invoice() {
   const classes = useStyles();
   const { order } = useSelector(orderSelector);
-
   return (
     <Box>
       <Products order={order} />

@@ -23,7 +23,7 @@ export default function Product(props) {
               {product?.productVersion?.product?.name}
             </Typography>
             <Typography className={classes.subText}>
-              $ {product?.productVersion?.price} x {product?.quantity}
+              ${product?.productVersion?.price} x {product?.quantity}
             </Typography>
           </Box>
         </Grid>

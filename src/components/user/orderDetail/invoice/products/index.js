@@ -6,7 +6,6 @@ import { format } from "date-fns";
 
 export default function Products({ order }) {
   const classes = useStyles();
-
   return (
     <Paper>
       <Box my={2}>

@@ -36,7 +36,7 @@ const orderSlice = createSlice({
     addressId: null,
     shopId: null,
     promotionId: null,
-    shippingId: null,
+    shippingId: 2,
     amount: 0,
     isPurchased: false,
     orderItems: [],
@@ -46,16 +46,23 @@ const orderSlice = createSlice({
     shopName: "",
     voucherPrice: 0,
     address: {},
+    shipping: {},
     //
     orders: [],
     totalOrders: 0,
     currentPage: 1,
     order: {},
+    //
+    orderId: null
   },
   reducers: {
-    setOrder: (state, action) => {
+    setOrderAddress: (state, action) => {
       state.address = action.payload;
       state.addressId = action.payload?.id;
+    },
+    setOrderShipping: (state, action) => {
+      state.shipping = action.payload;
+      state.shippingId = action.payload?.id;
     },
     storeShopInfo: (state, action) => {
       state.shopId = action.payload.id;
@@ -67,9 +74,13 @@ const orderSlice = createSlice({
     storePromotionId: (state, action) => {
       state.promotionId = action.payload;
     },
+    storeShippingId: (state, action) => {
+      state.shippingId = action.payload;
+    },
     storeVoucherPrice: (state, action) => {
       state.voucherPrice = action.payload;
     },
+
     storeAmount: (state, action) => {
       state.amount = action.payload;
     },
@@ -78,6 +89,9 @@ const orderSlice = createSlice({
     },
     storeAddress: (state, action) => {
       state.address = action.payload;
+    },
+    storeShipping: (state, action) => {
+      state.shipping = action.payload;
     },
     storeOrderItems: (state, action) => {
       state.orderItems = action.payload;
@@ -111,6 +125,20 @@ const orderSlice = createSlice({
       state.error = false;
       state.order = action.payload;
     },
+    //
+    [createOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [createOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [createOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+      state.voucherPrice = 0;
+      state.orderId = action.payload.id;
+    },
   },
 });
 
@@ -121,7 +149,10 @@ export const {
   storeAddressId,
   storeAmount,
   storeVoucherPrice,
-  setOrder,
+  setOrderAddress,
   storePromotionId,
+  storeShippingId,
+  setOrderShipping,
+  s,
 } = orderSlice.actions;
 export default orderSlice.reducer;

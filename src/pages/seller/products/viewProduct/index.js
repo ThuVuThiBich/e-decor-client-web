@@ -17,7 +17,6 @@ export default function ViewProduct() {
   const classes = useStyles();
   const history = useHistory();
   let match = useRouteMatch();
-  console.log(match);
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
   const { productId } = useParams();
@@ -42,7 +41,6 @@ export default function ViewProduct() {
               pathname: `/shop/products/${match.params.categoryName}`,
               state: { categoryId: product?.category?.id },
             });
-            console.log(history);
           }}
         >
           Back To Product List

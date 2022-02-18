@@ -7,6 +7,7 @@ import MyFavorite from "pages/blog/myFavorite";
 import withBlog from "pages/blog/withBlog";
 import Cart from "pages/cart";
 import Checkout from "pages/checkout";
+import OrderSuccess from "pages/checkout/orderSuccess";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
@@ -50,6 +51,7 @@ function App() {
       <Route path={"/product/:id"} component={withAuthLayout(Product)} exact />
       <Route path={"/profile"} component={withUser(Profile)} exact />
       <Route path={"/orders"} component={withUser(Orders)} exact />
+      <Route path={"/orders/success"} component={withUser(OrderSuccess)} exact />
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
       <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />

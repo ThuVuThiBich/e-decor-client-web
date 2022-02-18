@@ -13,29 +13,12 @@ import { getShipments } from "redux/shipmentRedux";
 import { getMinFeeShipping } from "utils/helpers";
 import { useStyles } from "./styles";
 
-export default function Checkout() {
+export default function OrderSuccess() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-  const shopId = history.location.state.shopId;
-  const { addresses } = useSelector(addressSelector);
-  const { shipments } = useSelector(shipmentSelector);
-  useEffect(() => {
-    dispatch(getAddresses());
-    shopId && dispatch(getPromotions(shopId));
-    dispatch(getShipments());
-  }, [dispatch, shopId]);
 
-  useEffect(() => {
-    shipments.length > 0 &&
-      dispatch(setOrderShipping(getMinFeeShipping(shipments)));
-  }, [dispatch, shipments]);
+  useEffect(() => {}, []);
 
-  return (
-    <Container className={classes.container}>
-      <DeliveryAddress />
-      <ProductsOrdered shopId={shopId} />
-      <PaymentMethod />
-    </Container>
-  );
+  return <Container className={classes.container}></Container>;
 }

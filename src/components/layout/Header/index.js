@@ -168,7 +168,7 @@ export default function Header() {
               </Box>
             </Box>
             <Box style={{ color: "#D23F57" }}>
-              {item?.productVersion?.price} $
+              ${item?.productVersion?.price}
             </Box>
           </Box>
         </MenuItem>

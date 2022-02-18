@@ -16,6 +16,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { LoadingTable } from "components/common/LoadingTable";
+import Images from "constants/image";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -70,16 +71,14 @@ export default function Promotions() {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Tên chương trình giảm giá</TableCell>
-                  <TableCell align="center">
-                    Giá trị hóa đơn giảm giá ( $ )
-                  </TableCell>
-                  <TableCell align="center">Phần trăm giảm giá (%)</TableCell>
+                  <TableCell>Promotion's Name</TableCell>
+                  <TableCell align="center">Order Value ( $ )</TableCell>
+                  <TableCell align="center">Discount Value (%)</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {isLoading ? (
+                {isLoading && isUpdating ? (
                   <LoadingTable />
                 ) : (
                   promotions?.map((row, index) => (
@@ -127,6 +126,23 @@ export default function Promotions() {
               </TableBody>
             </Table>
           </TableContainer>
+        )}
+        {!promotions?.length && !isLoading && !id && !isUpdating && (
+          <Paper>
+            <Box
+              style={{ height: 350 }}
+              p={1}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <img alt="" src={Images.NO_DATA} />
+              <Box mt={2} style={{ color: "#3f51b5" }}>
+                No Data
+              </Box>
+            </Box>
+          </Paper>
         )}
       </Box>
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />

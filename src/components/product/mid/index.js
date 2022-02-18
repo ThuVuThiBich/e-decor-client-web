@@ -7,17 +7,14 @@ import {
   Tabs,
   Typography,
 } from "@material-ui/core";
+import { Pagination } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SwipeableViews from "react-swipeable-views";
-import { feedbackSelector, productSelector } from "redux/selectors";
-import { PayPalButton } from "react-paypal-button-v2";
-import Description from "./description";
-import Review from "./review";
-import { getFeedbacks } from "redux/feedbackRedux";
 import { useParams } from "react-router-dom";
+import SwipeableViews from "react-swipeable-views";
+import { getFeedbacks } from "redux/feedbackRedux";
+import { feedbackSelector, productSelector } from "redux/selectors";
 import UserReview from "./review/userReview";
-import { Pagination } from "@material-ui/lab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -92,13 +89,9 @@ export default function Mid() {
         </AppBar>
         <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
           <TabPanel value={value} index={0}>
-            {/* {product.description ? product.description : null} */}
-            {/* <Description description={product.description} /> */}
-
             <div
               dangerouslySetInnerHTML={{ __html: product?.description }}
             ></div>
-           
           </TabPanel>
           <TabPanel value={value} index={1}>
             {feedbacks?.length > 0 ? (
