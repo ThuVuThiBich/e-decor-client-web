@@ -83,7 +83,10 @@ export default function Products({ order }) {
           </Box>
           <Box p={2}>
             {order?.orderItems?.map((product) => (
-              <Product product={product} key={product.id} isWritten={true} />
+              <Product
+                product={product}
+                key={product.id}
+              />
             ))}
           </Box>
         </Box>

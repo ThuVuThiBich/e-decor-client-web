@@ -33,8 +33,24 @@ const orderApi = {
 
   //
   getShopOrders: (params) => {
-    const url = `/orders`;
+    const url = `/orders/shop-owner`;
     return axiosClient.get(url, { params });
+  },
+
+  // update
+  updateOrderStatus: (id, data) => {
+    const url = `/orders/${id}/shop-owner`;
+    return axiosClient.patch(url, data);
+  },
+  // confirm
+  confirmReceiveOrder: (id) => {
+    const url = `/orders/${id}/confirm-receipt`;
+    return axiosClient.patch(url);
+  },
+  // cancel
+  cancelOrder: (id) => {
+    const url = `/orders/${id}/cancel`;
+    return axiosClient.delete(url);
   },
 };
 

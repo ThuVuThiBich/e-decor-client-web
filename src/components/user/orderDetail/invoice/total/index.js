@@ -49,9 +49,7 @@ export default function Total({ order }) {
         <Box my={1} display="flex" justifyContent="space-between">
           <Typography className={classes.boldText}>Payment Method </Typography>
           <Typography>
-            {order.status === "purchased"
-              ? "Pay With Paypal"
-              : "Payment On Delivery"}
+            {order.isPurchased ? "Pay With Paypal" : "Payment On Delivery"}
           </Typography>
         </Box>
       </Box>

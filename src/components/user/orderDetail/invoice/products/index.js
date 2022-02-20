@@ -3,9 +3,14 @@ import React from "react";
 import Product from "./product";
 import { useStyles } from "./styles";
 import { format } from "date-fns";
+import { useDispatch } from "react-redux";
+import { getToken } from "utils/helpers";
+import { useHistory } from "react-router-dom";
 
 export default function Products({ order }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
   return (
     <Paper>
       <Box my={2}>
@@ -29,9 +34,53 @@ export default function Products({ order }) {
           </Box>
           <Box>
             {/* status: pending - processing */}
-            <Button variant="contained" color="primary">
-              Cancel
-            </Button>
+            {order?.status === "shipped" ? (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  // dispatch();
+                  fetch(
+                    `${process.env.REACT_APP_API_URL}/orders/${order?.id}/confirm-receipt`,
+                    {
+                      method: "PATCH",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${getToken()}`,
+                      },
+                    }
+                  )
+                    .then((response) => response.json())
+                    .then((data) => history.push(`/orders/${data.id}`));
+                }}
+              >
+                Confirm
+              </Button>
+            ) : (
+              order?.status !== "delivered" && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    fetch(
+                      `${process.env.REACT_APP_API_URL}/orders/${order?.id}/cancel`,
+                      {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${getToken()}`,
+                        },
+                      }
+                    )
+                      .then((response) => response.json())
+                      .then((data) => history.push(`/orders`));
+                  }}
+                >
+                  Cancel
+                </Button>
+              )
+            )}
+
             {/* status: shipped */}
             {/* <Button variant="contained" color="primary">
               Confirm
@@ -40,7 +89,11 @@ export default function Products({ order }) {
         </Box>
         <Box p={2}>
           {order?.orderItems?.map((product) => (
-            <Product product={product} key={product.id} isWritten={true} />
+            <Product
+              product={product}
+              key={product.id}
+              isWritten={order?.status === "delivered"}
+            />
           ))}
         </Box>
       </Box>

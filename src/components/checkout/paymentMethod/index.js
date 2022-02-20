@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { createOrder, storeIsPurchased } from "redux/orderRedux";
+import { createOrder, resetOrder, storeIsPurchased } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 import { getToken } from "utils/helpers";
@@ -199,8 +199,10 @@ export default function PaymentMethod() {
                   history.push(`/orders/success`);
                   console.log(data);
                   console.log(details);
+                  dispatch(resetOrder())
                   return orderApi.createNewOrder({
                     ...orderData,
+                    senderPayPalMail: details.payer.email_address,
                     promotionId: orderStore.promotionId
                       ? orderStore.promotionId
                       : undefined,
@@ -208,7 +210,6 @@ export default function PaymentMethod() {
                       productVersionId: item.productVersionId,
                       quantity: item.quantity,
                     })),
-                    paypalEmail: details.payer.email_address,
                   });
                 }}
                 options={{

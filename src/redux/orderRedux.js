@@ -100,6 +100,12 @@ const orderSlice = createSlice({
       state.orderItems = action.payload;
       state.amount = getPriceTotal(action.payload);
     },
+
+    //
+    resetOrder: (state, action) => {
+      state.isPurchased = false;
+      state.voucherPrice = 0;
+    },
   },
   extraReducers: {
     [getOrders.pending]: (state) => {
@@ -157,5 +163,6 @@ export const {
   storePromotionId,
   storeShippingId,
   setOrderShipping,
+  resetOrder,
 } = orderSlice.actions;
 export default orderSlice.reducer;
