@@ -6,6 +6,10 @@ export const useStyles = makeStyles({
   },
   title: {
     color: "#7D879C",
-    marginRight: 4
+    marginRight: 4,
+  },
+  formControl: {
+    margin: 8,
+    minWidth: 120,
   },
 });

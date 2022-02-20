@@ -25,9 +25,16 @@ const orderApi = {
     const url = `/orders/${id}`;
     return axiosClient.delete(url);
   },
+
   createNewOrder: (data) => {
     const url = `/orders`;
     return axiosClient.post(url, data);
+  },
+
+  //
+  getShopOrders: (params) => {
+    const url = `/orders`;
+    return axiosClient.get(url, { params });
   },
 };
 

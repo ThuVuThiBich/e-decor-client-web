@@ -1,13 +1,27 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import Detail from "components/user/orderDetail";
+import Detail from "components/seller/orderDetail";
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { getOrder } from "redux/orderRedux";
+import { orderSelector } from "redux/selectors";
+import { isEmpty } from "underscore";
 import { useStyles } from "./styles";
 
 export default function SellerOrderDetail() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { id } = useParams();
+  useEffect(() => {
+    console.log("OrderDetail", id);
+    dispatch(getOrder(id));
+  }, [dispatch, id]);
+  const { order } = useSelector(orderSelector);
   return (
     <div>
       <Box
@@ -20,15 +34,13 @@ export default function SellerOrderDetail() {
           <ShoppingCartIcon className={classes.icon} />
           <Typography className={classes.title}>Order Details</Typography>
         </Box>
-        <Link to={"/orders"}>
+        <Link to={"/shop/orders"}>
           <Button color="primary" variant="outlined">
             Back to Order List
           </Button>
         </Link>
       </Box>
-      <Box>
-        <Detail />
-      </Box>
+      <Box>{!isEmpty(order) && <Detail />}</Box>
     </div>
   );
 }

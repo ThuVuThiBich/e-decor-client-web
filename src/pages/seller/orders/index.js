@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import OrdersTable from "components/orders/table";
+import OrdersTable from "components/seller/orderTable";
 import React from "react";
 import { useStyles } from "./styles";
 

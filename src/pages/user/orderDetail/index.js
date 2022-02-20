@@ -15,6 +15,7 @@ export default function OrderDetail() {
   const history = useHistory();
   const { id } = useParams();
   useEffect(() => {
+
     dispatch(getOrder(id));
   }, [dispatch, id]);
   const { order } = useSelector(orderSelector);

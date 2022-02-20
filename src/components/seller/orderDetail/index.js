@@ -9,7 +9,7 @@ export default function Detail() {
 
   return (
     <Box>
-      <Status />
+      {/* <Status /> */}
       <Invoice />
     </Box>
   );

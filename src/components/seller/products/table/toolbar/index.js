@@ -87,6 +87,7 @@ export default function TableToolbar(props) {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
           elevation={5}
+          disableScrollLock={true}
         >
           <MenuItem>
             <Button

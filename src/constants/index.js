@@ -35,7 +35,7 @@ export const DELIVERED = "delivered";
 export const CANCELED = "canceled";
 export const SHIPPED = "shipped";
 export const STATUSES = [
-  { name: STATUS, value: STATUS },
+  // { name: STATUS, value: STATUS },
   { name: "Pending", value: PENDING },
   { name: "Delivered", value: DELIVERED },
   { name: "Processing", value: PROCESSING },

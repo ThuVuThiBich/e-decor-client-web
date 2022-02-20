@@ -77,6 +77,7 @@ export default function PaymentMethod() {
               keepMounted
               open={Boolean(anchorEl)}
               onClose={handleClose}
+              disableScrollLock={true}
             >
               <MenuItem onClick={handleClose}>
                 {!isPurchased && (
@@ -195,7 +196,9 @@ export default function PaymentMethod() {
                     amount,
                     ...orderData
                   } = orderStore;
-
+                  history.push(`/orders/success`);
+                  console.log(data);
+                  console.log(details);
                   return orderApi.createNewOrder({
                     ...orderData,
                     promotionId: orderStore.promotionId
@@ -205,6 +208,7 @@ export default function PaymentMethod() {
                       productVersionId: item.productVersionId,
                       quantity: item.quantity,
                     })),
+                    paypalEmail: details.payer.email_address,
                   });
                 }}
                 options={{

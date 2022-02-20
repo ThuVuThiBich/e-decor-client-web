@@ -1,10 +1,10 @@
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import { useStyles } from "./styles";
 
 export default function Product(props) {
   const classes = useStyles();
-  const { product } = props;
+  const { product, isWritten = false } = props;
   return (
     <Box display="flex" p={1} className={classes.root}>
       <Box mr={1}>
@@ -16,7 +16,7 @@ export default function Product(props) {
         />
       </Box>
 
-      <Grid container spacing={1}>
+      <Grid container spacing={1} alignItems="center">
         <Grid item md={5}>
           <Box display="flex" m={2} flexDirection="column">
             <Typography className={classes.headText}>
@@ -27,18 +27,25 @@ export default function Product(props) {
             </Typography>
           </Box>
         </Grid>
-        <Grid item md={5}>
+        <Grid item md={isWritten ? 3 : 5}>
           <Box display="flex" m={2}>
             <Typography>{product?.productVersion?.name}</Typography>
           </Box>
         </Grid>
-        <Grid item md={2}>
+        <Grid item md={isWritten ? 1 : 2}>
           <Box display="flex" m={2} justifyContent="flex-end">
             <Typography>
               ${product?.productVersion?.price * product?.quantity}
             </Typography>
           </Box>
         </Grid>
+        {isWritten && (
+          <Grid item md={3}>
+            <Box display="flex" m={2} justifyContent="flex-end">
+              <Button color="secondary">Write A Review</Button>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

@@ -1,60 +1,93 @@
-import { Box, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@material-ui/core";
+import React, { useState } from "react";
 import Product from "./product";
 import { useStyles } from "./styles";
-const mockProducts = [
-  {
-    id: "1",
-    name: "Nến thơm",
-    url: "https://cf.shopee.vn/file/2b95a7a9ebf3b7b4410ddf3e1aa62ef4",
-    price: 5,
-    amount: 2,
-    description: "Không khói thư giãn cao cấp Aroma Menahem Sena Beauty",
-    total: 10,
-  },
-  {
-    id: "2",
-    name: "Lịch để bàn lật số 2022 ",
-    url: "https://cf.shopee.vn/file/381fdfbf11931e04595d1e16d017e5ca",
-    price: 12,
-    amount: 1,
-    description: "Phong cách Vintage DECOSA",
-    total: 12,
-  },
-  {
-    id: "3",
-    name: "Bình Hoa Thủy Tinh",
-    url: "https://cf.shopee.vn/file/9d8fd8ddb577758fffa9cc638818837e",
-    price: 8,
-    amount: 3,
-    description:
-      " Phong Cách Bắc Âu/Cành Hoa Tulip Giả Dùng Để Trang Trí Nhà Cửa",
-    total: 24,
-  },
-];
+import { format } from "date-fns";
+import { STATUSES } from "constants/index";
 
-export default function Products() {
+export default function Products({ order }) {
   const classes = useStyles();
+  const defaultStatus = order?.status;
+  const [status, setStatus] = useState(order?.status);
 
+  const handleChange = (event) => {
+    setStatus(event.target.value);
+  };
   return (
-    <Paper>
-      <Box my={2}>
-        <Box display="flex" className={classes.head}>
-          <Box display="flex" m={2}>
-            <Typography className={classes.title}>Order ID: </Typography>
-            <Typography>9001997718074513</Typography>
+    <Box>
+      {defaultStatus !== status && (
+        <Box style={{ width: "100%" }}>
+          <Button
+            style={{ width: "100%" }}
+            variant="contained"
+            color="secondary"
+          >
+            Save Changes
+          </Button>
+        </Box>
+      )}
+      <Paper>
+        <Box my={2}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            className={classes.head}
+            p={1}
+          >
+            <Box display="flex" alignItems="center" ml={1}>
+              <Box display="flex">
+                <Typography className={classes.title}>Order ID: </Typography>
+                <Typography>{order?.id}</Typography>
+              </Box>
+              <Box display="flex" pl={1}>
+                <Typography className={classes.title}>Placed on: </Typography>
+                <Typography>
+                  {format(new Date(order?.createdAt), "MMM dd, yyyy")}
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <FormControl
+                margin="dense"
+                variant="outlined"
+                className={classes.formControl}
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Order Status
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={status}
+                  onChange={handleChange}
+                  label="Order Status"
+                  inputProps={{ MenuProps: { disableScrollLock: true } }}
+                >
+                  {STATUSES?.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
-          <Box display="flex" m={2}>
-            <Typography className={classes.title}>Placed on: </Typography>
-            <Typography>20 Dec, 2021</Typography>
+          <Box p={2}>
+            {order?.orderItems?.map((product) => (
+              <Product product={product} key={product.id} isWritten={true} />
+            ))}
           </Box>
         </Box>
-        <Box p={2}>
-          {mockProducts?.map((product) => (
-            <Product product={product} key={product.id} />
-          ))}
-        </Box>
-      </Box>
-    </Paper>
+      </Paper>
+    </Box>
   );
 }

@@ -171,6 +171,7 @@ export default function ShopOrdered(props) {
               keepMounted
               open={Boolean(anchorEl)}
               onClose={handleClose}
+              disableScrollLock={true}
             >
               {promotions?.map(
                 (item, index) =>
@@ -256,6 +257,7 @@ export default function ShopOrdered(props) {
                   keepMounted
                   open={Boolean(anchorElShip)}
                   onClose={handleCloseShip}
+                  disableScrollLock={true}
                 >
                   {shipments?.map((item, index) => (
                     <MenuItem
