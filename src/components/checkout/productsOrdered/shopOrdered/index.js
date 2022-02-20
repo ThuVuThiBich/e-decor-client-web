@@ -41,7 +41,7 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 export default function ShopOrdered(props) {
-  const { shopName, orderItems, amount, shippingId, shipping } =
+  const { shopName, orderItems, amount, shippingUnitId, shipping } =
     useSelector(orderSelector);
 
   //
@@ -263,7 +263,7 @@ export default function ShopOrdered(props) {
                       value={item?.id}
                       onClick={() => handleCloseMenuItemShip(item?.id)}
                     >
-                      <Radio checked={+shippingId === +item?.id} />
+                      <Radio checked={+shippingUnitId === +item?.id} />
                       <ListItemText
                         primary={item.name}
                         secondary={item.workingTime}

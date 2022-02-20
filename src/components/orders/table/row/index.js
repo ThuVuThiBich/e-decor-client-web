@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { StyledTableCell, StyledTableRow } from "../common/styles";
 import { useStyles } from "./styles";
 import { format } from "date-fns";
+import { STATUS_COLORS, ORDER_STATUS } from "constants/index";
 export default function EnhancedTableRow(props) {
   const { row } = props;
   const classes = useStyles();
@@ -12,21 +13,16 @@ export default function EnhancedTableRow(props) {
     <StyledTableRow key={row.id}>
       <StyledTableCell align="center">{row?.id}</StyledTableCell>
       <StyledTableCell align="center" className={classes.chip}>
-        {row?.status === "purchased" ? (
-          <Chip
-            color="primary"
-            size="small"
-            label="Paid"
-            style={{ letterSpacing: 1.2, fontSize: 12 }}
-          />
-        ) : (
-          <Chip
-            color="primary"
-            size="small"
-            label="Unpaid"
-            style={{ letterSpacing: 1.2, fontSize: 12 }}
-          />
-        )}
+        <Chip
+          color="primary"
+          size="small"
+          label={row?.status}
+          style={{
+            letterSpacing: 1.2,
+            fontSize: 12,
+            backgroundColor: STATUS_COLORS[ORDER_STATUS.indexOf(row?.status)],
+          }}
+        />
       </StyledTableCell>
       <StyledTableCell align="center">
         {format(new Date(row?.createdAt), "MMM dd, yyyy")}

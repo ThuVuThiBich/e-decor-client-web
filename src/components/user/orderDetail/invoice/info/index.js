@@ -19,7 +19,7 @@ export default function Infor({ order }) {
           <Typography gutterBottom className={classes.headText}>
             Shipping Unit
           </Typography>
-          <Typography>{order?.shipping?.shippingUnit?.name}</Typography>
+          <Typography>{order?.shippingUnit?.name}</Typography>
         </Box>
       </Box>
     </Paper>

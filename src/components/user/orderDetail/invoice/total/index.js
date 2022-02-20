@@ -22,16 +22,18 @@ export default function Total({ order }) {
           <Box display="flex" justifyContent="space-between">
             <Typography className={classes.subText}>Shipping fee:</Typography>
             <Typography className={classes.boldText}>
-              ${order?.shipping?.shippingUnit?.fee}
+              ${order?.shippingUnit?.fee}
             </Typography>
           </Box>
           <Box display="flex" justifyContent="space-between">
             <Typography className={classes.subText}>Discount:</Typography>
             <Typography className={classes.boldText}>
               - $
-              {(getPriceTotalFromOrderItems(order?.orderItems) *
-                order?.promotion.discount) /
-                100}
+              {order?.promotion
+                ? (getPriceTotalFromOrderItems(order?.orderItems) *
+                    order?.promotion?.discount) /
+                  100
+                : 0}
             </Typography>
           </Box>
         </Box>
@@ -39,7 +41,7 @@ export default function Total({ order }) {
         <Box my={1} display="flex" justifyContent="space-between">
           <Typography className={classes.boldText}>Total </Typography>
           <Typography className={classes.boldText}>
-            ${order?.amount + order?.shipping?.shippingUnit?.fee}
+            ${order?.amount + order?.shippingUnit?.fee}
           </Typography>
         </Box>
         <Divider />

@@ -25,6 +25,10 @@ const orderApi = {
     const url = `/orders/${id}`;
     return axiosClient.delete(url);
   },
+  createNewOrder: (data) => {
+    const url = `/orders`;
+    return axiosClient.post(url, data);
+  },
 };
 
 export default orderApi;

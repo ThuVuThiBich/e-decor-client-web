@@ -7,24 +7,27 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import axios from "axios";
 import CheckIcon from "@material-ui/icons/Check";
 import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
 import React, { useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { createOrder } from "redux/orderRedux";
+import { createOrder, storeIsPurchased } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
+import { getToken } from "utils/helpers";
+import axiosClient from "api/axiosClient";
+import orderApi from "api/orderApi";
 
 export default function PaymentMethod() {
-  const { amount, voucherPrice, shipping, orderId } =
+  const { amount, voucherPrice, shipping, order, isPurchased } =
     useSelector(orderSelector);
   const dispatch = useDispatch();
   const history = useHistory();
   const orderStore = useSelector(orderSelector);
   const classes = useStyles();
-  const [isPurchased, setIsPurchased] = useState(true);
   //
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -33,7 +36,7 @@ export default function PaymentMethod() {
   };
 
   const handleClose = () => {
-    setIsPurchased(!isPurchased);
+    dispatch(storeIsPurchased(!isPurchased));
     setAnchorEl(null);
   };
   return (
@@ -174,14 +177,9 @@ export default function PaymentMethod() {
           {isPurchased ? (
             <Box mr={10}>
               <PayPalButton
-                amount={amount - voucherPrice}
+                amount={amount - voucherPrice + shipping.fee}
                 shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                 onSuccess={(details, data) => {
-                  console.log("details", details.payer.name.given_name);
-                  console.log("data", data);
-                  alert(
-                    "Transaction completed by " + details.payer.name.given_name
-                  );
                   const {
                     voucherPrice,
                     isLoading,
@@ -194,29 +192,19 @@ export default function PaymentMethod() {
                     currentPage,
                     totalOrders,
                     orderId,
+                    amount,
                     ...orderData
                   } = orderStore;
-                  console.log({
+
+                  return orderApi.createNewOrder({
                     ...orderData,
-                    orderItems: data.orderItems.map((item) => ({
+                    promotionId: orderStore.promotionId
+                      ? orderStore.promotionId
+                      : undefined,
+                    orderItems: orderStore.orderItems.map((item) => ({
                       productVersionId: item.productVersionId,
                       quantity: item.quantity,
                     })),
-                  });
-
-                  history.push(`/orders/success`);
-
-                  // OPTIONAL: Call your server to save the transaction
-                  return fetch(`${process.env.REACT_APP_API_URL}/orders`, {
-                    method: "post",
-                    body: JSON.stringify({
-                      ...data,
-                      isPurchased: true,
-                      orderItems: data.orderItems.map((item) => ({
-                        productVersionId: item.productVersionId,
-                        quantity: item.quantity,
-                      })),
-                    }),
                   });
                 }}
                 options={{

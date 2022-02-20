@@ -33,12 +33,28 @@ export const PENDING = "pending";
 export const PROCESSING = "processing";
 export const DELIVERED = "delivered";
 export const CANCELED = "canceled";
+export const SHIPPED = "shipped";
 export const STATUSES = [
   { name: STATUS, value: STATUS },
   { name: "Pending", value: PENDING },
   { name: "Delivered", value: DELIVERED },
   { name: "Processing", value: PROCESSING },
+  { name: "Shipped", value: SHIPPED },
   { name: "Canceled", value: CANCELED },
+];
+export const STATUS_COLORS = [
+  "#c9ccc4",
+  "#c2dfff",
+  "#d2f5b0",
+  "#fff494",
+  "#fcbdbd",
+];
+export const ORDER_STATUS = [
+  "pending",
+  "processing",
+  "shipped",
+  "#delivered",
+  "#cancelled",
 ];
 
 export const IS_ACTIVATED = "isActivate";
