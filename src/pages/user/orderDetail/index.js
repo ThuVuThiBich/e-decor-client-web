@@ -14,11 +14,10 @@ export default function OrderDetail() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const { order, isUpdating } = useSelector(orderSelector);
   useEffect(() => {
-
     dispatch(getOrder(id));
-  }, [dispatch, id]);
-  const { order } = useSelector(orderSelector);
+  }, [dispatch, id, isUpdating]);
   return (
     <div>
       <Box

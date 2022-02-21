@@ -7,6 +7,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Paper,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -15,6 +16,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Logo from "components/common/Logo";
 import SearchInput from "components/common/SearchInput";
+import Images from "constants/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -22,6 +24,7 @@ import { Link } from "react-router-dom";
 import { getRecentCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
 import { logOut } from "redux/userRedux";
+import { size } from "underscore";
 import { getToken } from "utils/helpers";
 import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
@@ -105,7 +108,7 @@ export default function Header() {
   );
 
   const cardMenuId = "card-menu";
-  const renderCardMenu = (
+  const renderCardMenu = size(recentProducts) ? (
     <Menu
       anchorEl={cardAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -194,6 +197,38 @@ export default function Header() {
         >
           View My Shopping Cart
         </Button>
+      </Box>
+    </Menu>
+  ) : (
+    <Menu
+      anchorEl={cardAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={cardMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isCardMenuOpen}
+      onClose={handleCardMenuClose}
+      style={{
+        marginTop: 80,
+        marginRight: 40,
+        cursor: "pointer",
+        minWidth: 400,
+      }}
+      MenuListProps={{ onMouseLeave: handleCardMenuClose }}
+      onClick={() => {
+        history.push("/cart");
+      }}
+      disableScrollLock={true}
+    >
+      <Box
+        p={2}
+        px={6}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <img src={Images.EMPTY_CART} alt="" />
+        <Box style={{ color: "#bdbdbd" }}>No Products Yet</Box>
       </Box>
     </Menu>
   );

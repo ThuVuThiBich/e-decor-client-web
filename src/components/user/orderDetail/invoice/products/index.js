@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { getToken } from "utils/helpers";
 import { useHistory } from "react-router-dom";
+import { cancelOrder, confirmOrder } from "redux/orderRedux";
 
 export default function Products({ order }) {
   const classes = useStyles();
@@ -39,41 +40,47 @@ export default function Products({ order }) {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  // dispatch();
-                  fetch(
-                    `${process.env.REACT_APP_API_URL}/orders/${order?.id}/confirm-receipt`,
-                    {
-                      method: "PATCH",
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${getToken()}`,
-                      },
-                    }
-                  )
-                    .then((response) => response.json())
-                    .then((data) => history.push(`/orders/${data.id}`));
+                  history.push(`/orders/${order.id}`);
+
+                  dispatch(confirmOrder(order.id));
+                  // fetch(
+                  //   `${process.env.REACT_APP_API_URL}/orders/${order?.id}/confirm-receipt`,
+                  //   {
+                  //     method: "PATCH",
+                  //     headers: {
+                  //       "Content-Type": "application/json",
+                  //       Authorization: `Bearer ${getToken()}`,
+                  //     },
+                  //   }
+                  // )
+                  //   .then((response) => response.json())
+                  //   .then((data) => history.push(`/orders/${order.id}`));
                 }}
               >
                 Confirm
               </Button>
             ) : (
-              order?.status !== "delivered" && (
+              order?.status !== "shipped" &&
+              order?.status !== "delivered" &&
+              order?.status !== "canceled" && (
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    fetch(
-                      `${process.env.REACT_APP_API_URL}/orders/${order?.id}/cancel`,
-                      {
-                        method: "DELETE",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${getToken()}`,
-                        },
-                      }
-                    )
-                      .then((response) => response.json())
-                      .then((data) => history.push(`/orders`));
+                    history.push(`/orders/${order.id}`);
+                    dispatch(cancelOrder(order.id));
+                    // fetch(
+                    //   `${process.env.REACT_APP_API_URL}/orders/${order?.id}/cancel`,
+                    //   {
+                    //     method: "DELETE",
+                    //     headers: {
+                    //       "Content-Type": "application/json",
+                    //       Authorization: `Bearer ${getToken()}`,
+                    //     },
+                    //   }
+                    // )
+                    //   .then((response) => response.json())
+                    //   .then((data) => history.push(`/orders/${order.id}`));
                   }}
                 >
                   Cancel
@@ -82,9 +89,11 @@ export default function Products({ order }) {
             )}
 
             {/* status: shipped */}
-            {/* <Button variant="contained" color="primary">
-              Confirm
-            </Button> */}
+            {order?.status === "canceled" && (
+              <Button variant="contained" color="primary">
+                Order Again
+              </Button>
+            )}
           </Box>
         </Box>
         <Box p={2}>

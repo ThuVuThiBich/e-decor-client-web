@@ -51,7 +51,7 @@ function App() {
       <Route path={"/product/:id"} component={withAuthLayout(Product)} exact />
       <Route path={"/profile"} component={withUser(Profile)} exact />
       <Route path={"/orders"} component={withUser(Orders)} exact />
-      <Route path={"/orders/success"} component={withUser(OrderSuccess)} exact />
+      {/* <Route path={"/orders/success"} component={withUser(OrderSuccess)} exact /> */}
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
       <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />

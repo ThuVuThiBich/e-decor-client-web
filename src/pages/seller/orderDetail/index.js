@@ -17,11 +17,11 @@ export default function SellerOrderDetail() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const { order, isLoading, isUpdating } = useSelector(orderSelector);
   useEffect(() => {
     console.log("OrderDetail", id);
     dispatch(getOrder(id));
-  }, [dispatch, id]);
-  const { order } = useSelector(orderSelector);
+  }, [dispatch, id, isUpdating]);
   return (
     <div>
       <Box
@@ -40,7 +40,7 @@ export default function SellerOrderDetail() {
           </Button>
         </Link>
       </Box>
-      <Box>{!isEmpty(order) && <Detail />}</Box>
+      <Box>{!isEmpty(order) && !isLoading && <Detail />}</Box>
     </div>
   );
 }

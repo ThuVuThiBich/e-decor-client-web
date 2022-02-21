@@ -22,8 +22,18 @@ import axiosClient from "api/axiosClient";
 import orderApi from "api/orderApi";
 
 export default function PaymentMethod() {
-  const { amount, voucherPrice, shipping, order, isPurchased } =
-    useSelector(orderSelector);
+  const {
+    amount,
+    voucherPrice,
+    shipping,
+    order,
+    isPurchased,
+    orderItems,
+    addressId,
+    shopId,
+    promotionId,
+    shippingUnitId,
+  } = useSelector(orderSelector);
   const dispatch = useDispatch();
   const history = useHistory();
   const orderStore = useSelector(orderSelector);
@@ -181,40 +191,31 @@ export default function PaymentMethod() {
                 amount={amount - voucherPrice + shipping.fee}
                 shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                 onSuccess={(details, data) => {
-                  const {
-                    voucherPrice,
-                    isLoading,
-                    error,
-                    address,
-                    shipping,
-                    shopName,
-                    order,
-                    orders,
-                    currentPage,
-                    totalOrders,
-                    orderId,
-                    amount,
-                    ...orderData
-                  } = orderStore;
-                  history.push(`/orders/success`);
                   console.log(data);
                   console.log(details);
-                  dispatch(resetOrder())
-                  return orderApi.createNewOrder({
-                    ...orderData,
-                    senderPayPalMail: details.payer.email_address,
-                    promotionId: orderStore.promotionId
-                      ? orderStore.promotionId
-                      : undefined,
-                    orderItems: orderStore.orderItems.map((item) => ({
-                      productVersionId: item.productVersionId,
-                      quantity: item.quantity,
-                    })),
+                  dispatch(resetOrder());
+                  return dispatch(
+                    createOrder({
+                      isPurchased,
+                      addressId,
+                      shopId,
+                      shippingUnitId,
+                      senderPayPalMail: details.payer.email_address,
+                      promotionId: orderStore.promotionId
+                        ? orderStore.promotionId
+                        : undefined,
+                      orderItems: orderStore.orderItems.map((item) => ({
+                        productVersionId: item.productVersionId,
+                        quantity: item.quantity,
+                      })),
+                    })
+                  ).then((res) => {
+                    console.log(res);
+                    history.push(`/orders/${res.payload.id}`);
                   });
                 }}
                 options={{
-                  clientId:
-                    "AWU9VC1zyNCUtemNPAxRqOWBgq1yBr6uXumP10JCNLCj7U5b6NSMKdCH2MMtsq7wytkTapztM5z6R5Pp",
+                  clientId: process.env.REACT_APP_PRODUCTION_CLIENT_ID,
                 }}
                 onError={(err) => {
                   console.log("onError: err=", err);
@@ -227,31 +228,16 @@ export default function PaymentMethod() {
               variant="contained"
               style={{ marginRight: 80, marginLeft: 16 }}
               onClick={() => {
-                const {
-                  voucherPrice,
-                  isLoading,
-                  error,
-                  address,
-                  shipping,
-                  shopName,
-                  order,
-                  orders,
-                  currentPage,
-                  totalOrders,
-                  orderId,
-                  ...data
-                } = orderStore;
-                console.log({
-                  ...data,
-                  orderItems: data.orderItems.map((item) => ({
-                    productVersionId: item.productVersionId,
-                    quantity: item.quantity,
-                  })),
-                });
                 dispatch(
                   createOrder({
-                    ...data,
-                    orderItems: data.orderItems.map((item) => ({
+                    isPurchased,
+                    addressId,
+                    shopId,
+                    shippingUnitId,
+                    promotionId: orderStore.promotionId
+                      ? orderStore.promotionId
+                      : undefined,
+                    orderItems: orderStore.orderItems.map((item) => ({
                       productVersionId: item.productVersionId,
                       quantity: item.quantity,
                     })),

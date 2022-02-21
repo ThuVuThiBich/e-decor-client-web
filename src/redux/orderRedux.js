@@ -30,6 +30,42 @@ export const getOrder = createAsyncThunk(
   }
 );
 
+// shop
+export const getShopOrders = createAsyncThunk(
+  "order/getShopOrders",
+  async (params, thunkAPI) => {
+    const response = await orderApi.getShopOrders(params);
+    return response.result;
+  }
+);
+
+// update
+export const updateOrderStatus = createAsyncThunk(
+  "order/updateOrderStatus",
+  async (data, thunkAPI) => {
+    const response = await orderApi.updateOrderStatus(data.id, data.status);
+    return response.result;
+  }
+);
+// confirm
+
+export const confirmOrder = createAsyncThunk(
+  "order/confirmOrder",
+  async (data, thunkAPI) => {
+    const response = await orderApi.confirmReceiveOrder(data);
+    return response.result;
+  }
+);
+
+// cancel
+
+export const cancelOrder = createAsyncThunk(
+  "order/confirmOrder",
+  async (data, thunkAPI) => {
+    const response = await orderApi.cancelOrder(data);
+    return response.result;
+  }
+);
 const orderSlice = createSlice({
   name: "order",
   initialState: {
@@ -41,6 +77,7 @@ const orderSlice = createSlice({
     isPurchased: false,
     orderItems: [],
     isLoading: false,
+    isUpdating: false,
     error: false,
     //
     shopName: "",
@@ -147,6 +184,73 @@ const orderSlice = createSlice({
       state.error = false;
       state.voucherPrice = 0;
       state.orderId = action.payload.id;
+    },
+    // shop
+    [getShopOrders.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getShopOrders.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getShopOrders.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.orders = action.payload.orders;
+      state.totalOrders = action.payload.totalOrders;
+      state.currentPage = action.payload.currentPage;
+    },
+
+    // update
+    [updateOrderStatus.pending]: (state) => {
+      state.isLoading = true;
+      state.isUpdating = true;
+    },
+    [updateOrderStatus.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isUpdating = false;
+
+      state.error = action.error;
+    },
+    [updateOrderStatus.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isUpdating = false;
+
+      state.error = false;
+      state.order = action.payload;
+    },
+    // confirm
+    [confirmOrder.pending]: (state) => {
+      state.isLoading = true;
+      state.isUpdating = true;
+    },
+    [confirmOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isUpdating = false;
+
+      state.error = action.error;
+    },
+    [confirmOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isUpdating = false;
+
+      state.error = false;
+    },
+    // cancel
+    [cancelOrder.pending]: (state) => {
+      state.isLoading = true;
+      state.isUpdating = true;
+    },
+    [cancelOrder.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isUpdating = false;
+
+      state.error = action.error;
+    },
+    [cancelOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isUpdating = false;
+
+      state.error = false;
     },
   },
 });

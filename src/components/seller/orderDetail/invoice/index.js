@@ -9,10 +9,10 @@ import { useStyles } from "./styles";
 
 export default function Invoice() {
   const classes = useStyles();
-  const { order } = useSelector(orderSelector);
+  const { order, isLoading } = useSelector(orderSelector);
   return (
     <Box>
-      <Products order={order} />
+      {!isLoading && <Products order={order} />}
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Infor order={order} />

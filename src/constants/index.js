@@ -43,18 +43,18 @@ export const STATUSES = [
   { name: "Canceled", value: CANCELED },
 ];
 export const STATUS_COLORS = [
-  "#c9ccc4",
-  "#c2dfff",
-  "#d2f5b0",
-  "#fff494",
-  "#fcbdbd",
+  "rgb(163 129 161)",
+  "rgb(49 142 246)",
+  "rgb(72 133 13)",
+  "rgb(238 154 28)",
+  "rgb(244 45 45)",
 ];
 export const ORDER_STATUS = [
   "pending",
   "processing",
   "shipped",
-  "#delivered",
-  "#cancelled",
+  "delivered",
+  "canceled",
 ];
 
 export const IS_ACTIVATED = "isActivate";

@@ -102,7 +102,7 @@ export const getDiscount = (promotions, id) => {
 
 export const getPriceTotalFromOrderItems = (orderItems) => {
   let priceTotal = 0;
-  orderItems.map(
+  orderItems?.map(
     (item) => (priceTotal += item?.productVersion?.price * item?.quantity)
   );
   return priceTotal;

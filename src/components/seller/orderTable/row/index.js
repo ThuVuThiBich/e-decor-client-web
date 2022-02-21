@@ -9,6 +9,7 @@ import { STATUS_COLORS, ORDER_STATUS } from "constants/index";
 export default function EnhancedTableRow(props) {
   const { row } = props;
   const classes = useStyles();
+  console.log(row);
   return (
     <StyledTableRow key={row.id}>
       <StyledTableCell align="center">{row?.id}</StyledTableCell>
@@ -27,7 +28,9 @@ export default function EnhancedTableRow(props) {
       <StyledTableCell align="center">
         {format(new Date(row?.createdAt), "MMM dd, yyyy")}
       </StyledTableCell>
-      <StyledTableCell align="center">${row?.amount}</StyledTableCell>
+      <StyledTableCell align="center">
+        ${row?.amount + row?.shippingUnit?.fee}
+      </StyledTableCell>
       <StyledTableCell align="center">
         <Tooltip title="View detail" arrow>
           <Link to={`/shop/orders/${row?.id}`}>

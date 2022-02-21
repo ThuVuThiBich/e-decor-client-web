@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   InputBase,
+  InputLabel,
   Menu,
   MenuItem,
   Select,
@@ -18,7 +19,7 @@ export default function TableToolbar(props) {
   const {
     searched = "",
     setSearched,
-    status = STATUS,
+    status = "",
     keyUp,
     cancelSearch,
     handleChangeDropdown,
@@ -49,7 +50,7 @@ export default function TableToolbar(props) {
           onKeyUp={keyUp}
           onChange={(newValue) => setSearched(newValue)}
         />
-        <FormControl variant="outlined" className={classes.selectInput}>
+        {/* <FormControl variant="outlined" className={classes.selectInput}>
           <Select
             value={status}
             name={"status"}
@@ -66,6 +67,34 @@ export default function TableToolbar(props) {
               },
             }}
           >
+            {STATUSES?.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl> */}
+        <FormControl
+          margin="dense"
+          variant="outlined"
+          className={classes.formControl}
+          size="small"
+        >
+          <InputLabel id="demo-simple-select-outlined-label">
+            Order Status
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={status}
+            onChange={handleChangeDropdown}
+            label="Order Status"
+            inputProps={{ MenuProps: { disableScrollLock: true } }}
+            SelectDisplayProps={{ style: { paddingTop: 4, paddingBottom: 10 } }}
+          >
+            <MenuItem key={"#"} value={""}>
+              All
+            </MenuItem>
             {STATUSES?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.name}

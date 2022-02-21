@@ -4,6 +4,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  MenuList,
   Paper,
   Select,
   Typography,
@@ -13,15 +14,29 @@ import Product from "./product";
 import { useStyles } from "./styles";
 import { format } from "date-fns";
 import { STATUSES } from "constants/index";
+import { getToken } from "utils/helpers";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateOrderStatus } from "redux/orderRedux";
+import { orderSelector } from "redux/selectors";
 
 export default function Products({ order }) {
+  console.log(order);
+  console.log(order?.status);
+  const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const defaultStatus = order?.status;
   const [status, setStatus] = useState(order?.status);
+  const { isLoading } = useSelector(orderSelector);
 
   const handleChange = (event) => {
+    console.log(status);
     setStatus(event.target.value);
+    console.log(event.target.value);
   };
+
   return (
     <Box>
       {defaultStatus !== status && (
@@ -30,6 +45,25 @@ export default function Products({ order }) {
             style={{ width: "100%" }}
             variant="contained"
             color="secondary"
+            onClick={() => {
+              dispatch(
+                updateOrderStatus({ id: order?.id, status: { status } })
+              );
+              history.push(`/shop/orders/${order?.id}`);
+              // fetch(
+              //   `${process.env.REACT_APP_API_URL}/orders/${order?.id}/shop-owner`,
+              //   {
+              //     method: "PATCH",
+              //     headers: {
+              //       "Content-Type": "application/json",
+              //       Authorization: `Bearer ${getToken()}`,
+              //     },
+              //     body: JSON.stringify({ status }),
+              //   }
+              // )
+              //   .then((response) => response.json())
+              //   .then((data) => history.push(`/shop/orders/${order?.id}`));
+            }}
           >
             Save Changes
           </Button>
@@ -56,39 +90,171 @@ export default function Products({ order }) {
               </Box>
             </Box>
             <Box>
-              <FormControl
-                margin="dense"
-                variant="outlined"
-                className={classes.formControl}
-              >
-                <InputLabel id="demo-simple-select-outlined-label">
-                  Order Status
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
-                  value={status}
-                  onChange={handleChange}
-                  label="Order Status"
-                  inputProps={{ MenuProps: { disableScrollLock: true } }}
+              {defaultStatus === "processing" && (
+                <FormControl
+                  margin="dense"
+                  variant="outlined"
+                  className={classes.formControl}
                 >
-                  {STATUSES?.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.name}
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Order Status
+                  </InputLabel>
+
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={status}
+                    onChange={handleChange}
+                    label="Order Status"
+                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                  >
+                    <MenuItem key={"1"} value={"pending"} disabled>
+                      Pending
                     </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                    <MenuItem key={"2"} value={"processing"}>
+                      Processing
+                    </MenuItem>
+                    <MenuItem key={"3"} value={"shipped"}>
+                      Shipped
+                    </MenuItem>
+                    <MenuItem key={"4"} value={"delivered"} disabled>
+                      Delivered
+                    </MenuItem>
+                    <MenuItem key={"5"} value={"canceled"}>
+                      Cancel
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+              {defaultStatus === "pending" && (
+                <FormControl
+                  margin="dense"
+                  variant="outlined"
+                  className={classes.formControl}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Order Status
+                  </InputLabel>
+
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={status}
+                    onChange={handleChange}
+                    label="Order Status"
+                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                  >
+                    <MenuItem key={"1"} value={"pending"}>
+                      Pending
+                    </MenuItem>
+                    <MenuItem key={"2"} value={"processing"}>
+                      Processing
+                    </MenuItem>
+                    <MenuItem key={"3"} value={"shipped"}>
+                      Shipped
+                    </MenuItem>
+                    <MenuItem key={"4"} value={"delivered"} disabled>
+                      Delivered
+                    </MenuItem>
+                    <MenuItem key={"5"} value={"canceled"}>
+                      Cancel
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+              {defaultStatus === "canceled" && (
+                <FormControl
+                  margin="dense"
+                  variant="outlined"
+                  className={classes.formControl}
+                  disabled
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Order Status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={status}
+                    onChange={handleChange}
+                    label="Order Status"
+                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                  >
+                    <MenuItem key={"5"} value={"canceled"}>
+                      Cancel
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+              {defaultStatus === "delivered" && (
+                <FormControl
+                  margin="dense"
+                  variant="outlined"
+                  className={classes.formControl}
+                  disabled
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Order Status
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={status}
+                    onChange={handleChange}
+                    label="Order Status"
+                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                  >
+                    <MenuItem key={"5"} value={"delivered"}>
+                      Delivered
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+              {defaultStatus === "shipped" && (
+                <FormControl
+                  margin="dense"
+                  variant="outlined"
+                  className={classes.formControl}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Order Status
+                  </InputLabel>
+
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={status}
+                    onChange={handleChange}
+                    label="Order Status"
+                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                  >
+                    <MenuItem key={"1"} value={"pending"} disabled>
+                      Pending
+                    </MenuItem>
+                    <MenuItem key={"2"} value={"processing"} disabled>
+                      Processing
+                    </MenuItem>
+                    <MenuItem key={"3"} value={"shipped"}>
+                      Shipped
+                    </MenuItem>
+                    <MenuItem key={"4"} value={"delivered"} disabled>
+                      Delivered
+                    </MenuItem>
+                    <MenuItem key={"5"} value={"canceled"} disabled>
+                      Cancel
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              )}
             </Box>
           </Box>
-          <Box p={2}>
-            {order?.orderItems?.map((product) => (
-              <Product
-                product={product}
-                key={product.id}
-              />
-            ))}
-          </Box>
+          {!isLoading && (
+            <Box p={2}>
+              {order?.orderItems?.map((product) => (
+                <Product product={product} key={product.id} />
+              ))}
+            </Box>
+          )}
         </Box>
       </Paper>
     </Box>

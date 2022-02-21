@@ -27,7 +27,9 @@ export default function EnhancedTableRow(props) {
       <StyledTableCell align="center">
         {format(new Date(row?.createdAt), "MMM dd, yyyy")}
       </StyledTableCell>
-      <StyledTableCell align="center">${row?.amount}</StyledTableCell>
+      <StyledTableCell align="center">
+        ${row?.amount + row?.shippingUnit?.fee}
+      </StyledTableCell>
       <StyledTableCell align="center">
         <Tooltip title="View detail" arrow>
           <Link to={`orders/${row?.id}`}>
