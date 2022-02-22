@@ -242,8 +242,10 @@ export default function PaymentMethod() {
                       quantity: item.quantity,
                     })),
                   })
-                );
-                history.push(`/orders/success`);
+                ).then((res) => {
+                  console.log(res);
+                  history.push(`/orders/${res.payload.id}`);
+                });
               }}
             >
               Place Order

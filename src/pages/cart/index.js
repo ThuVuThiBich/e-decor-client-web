@@ -9,10 +9,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { size } from "underscore";
 import Images from "constants/image";
+import { useHistory } from "react-router-dom";
 
 export default function Cart() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const { currentUser } = useSelector(userSelector);
   const { products, isUpdated } = useSelector(cartSelector);
 
@@ -37,7 +39,7 @@ export default function Cart() {
             Your shopping cart is empty
           </Box>
           <Box mb={16}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={()=>history.push("/")} >
               Go Shopping Now
             </Button>
           </Box>

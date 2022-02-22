@@ -36,5 +36,11 @@ export const theme = createTheme({
       textTransform: "capitalize",
     },
   },
-  overrides: {},
+  overrides: {
+    MuiButton: {
+      contained: {
+        boxShadow: "none",
+      },
+    },
+  },
 });
