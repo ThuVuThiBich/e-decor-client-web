@@ -43,6 +43,7 @@ export const deleteProduct = createAsyncThunk(
     const response = await productApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");
+      return data;
     } else toast.error("ERROR");
   }
 );
@@ -162,7 +163,7 @@ const productSlice = createSlice({
     [deleteProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.products.splice(
-        state.products.findIndex((item) => item._id === action.payload.id),
+        state.products.findIndex((item) => +item.id === +action.payload),
         1
       );
     },

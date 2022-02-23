@@ -29,7 +29,7 @@ export default function SubHeader() {
             className={classes.divider}
           />
           <Link className={classes.link} to="/shop/settings">
-            Join as Seller
+            Setup Your Shop
           </Link>
           <Divider
             orientation="vertical"

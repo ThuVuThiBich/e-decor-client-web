@@ -11,6 +11,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { theme } from "assets/css/Common";
 import { CssBaseline } from "@material-ui/core";
 import { initFacebookSdk } from "initFacebookSdk";
+import { ConfirmProvider } from "material-ui-confirm";
 
 // initFacebookSdk().then(startApp);
 // function startApp() {
@@ -36,7 +37,9 @@ ReactDOM.render(
       <PersistGate loading={null} persistor={persistor}>
         <CssBaseline />
         <ThemeProvider theme={theme}>
-          <App />
+          <ConfirmProvider>
+            <App />
+          </ConfirmProvider>
         </ThemeProvider>
       </PersistGate>
     </BrowserRouter>

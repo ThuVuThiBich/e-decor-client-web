@@ -7728,6 +7728,11 @@ markdown-to-jsx@^7.1.6:
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.1.6.tgz#421487df2a66fe4231d94db653a34da033691e62"
   integrity sha512-1wrIGZYwIG2gR3yfRmbr4FlQmhaAKoKTpRo4wur4fp9p0njU1Hi7vR8fj0AUKKIcPduiJmPprzmCB5B/GvlC7g==
 
+material-ui-confirm@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/material-ui-confirm/-/material-ui-confirm-2.1.4.tgz#2d27d7632268009a7322ffdf1652235bfb534045"
+  integrity sha512-n0R0nLNpeTVuyxniDQ0gvXS19tAfNC6EpFe4Q0VfZ9J2GCKtzJQ7n/JNAD8XGTdFAzCky0yuBj9qTBRi5A4XgA==
+
 material-ui-rating@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/material-ui-rating/-/material-ui-rating-4.2.0.tgz#21aeb913a8d5815f53968add5acb06e68ee0d610"

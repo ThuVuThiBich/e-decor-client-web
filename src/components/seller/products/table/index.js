@@ -11,6 +11,7 @@ import { INITIAL_PAGE, INITIAL_ROWS_PER_PAGE } from "constants/index";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { getProducts, getShopProducts } from "redux/productRedux";
 import { productSelector, shopSelector } from "redux/selectors";
 import { EmptyRows } from "./common/EmptyData";
@@ -97,6 +98,7 @@ export default function ProductsTable() {
           />
         </Box>
       )}
+      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }
