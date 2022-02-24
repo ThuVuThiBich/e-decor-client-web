@@ -13,8 +13,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "redux/categoryRedux";
 import { useHistory } from "react-router-dom";
-import { categorySelector } from "redux/selectors";
+import { categorySelector, filterSelector } from "redux/selectors";
 import { getCategoryId, getCategoryName } from "utils/helpers";
+import { storeCategories, storeKeyword } from "redux/filterRedux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,9 +54,9 @@ export default function SearchInput() {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
-  const [searchValue, setSearchValue] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const storeCategory = useSelector(categorySelector);
+  const { keyword } = useSelector(filterSelector);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
@@ -77,6 +78,8 @@ export default function SearchInput() {
 
   const handleChangeDropdown = (e) => {
     setCategoryValue(e.target.value);
+    dispatch(storeCategories([e.target.value]));
+
     if (e.target.value)
       history.push(
         `/products/${getCategoryName(e.target.value, storeCategory.categories)}`
@@ -84,7 +87,7 @@ export default function SearchInput() {
     else history.push(`/products/`);
   };
   const handleChangeSearch = (e) => {
-    setSearchValue(e.target.value);
+    dispatch(storeKeyword(e.target.value));
   };
   return (
     <Paper component="form" className={classes.root}>
@@ -92,7 +95,7 @@ export default function SearchInput() {
         <SearchIcon />
       </IconButton>
       <InputBase
-        value={searchValue}
+        value={keyword}
         className={classes.input}
         placeholder="Searching for ..."
         inputProps={{ "aria-label": "search" }}

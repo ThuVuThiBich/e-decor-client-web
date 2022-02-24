@@ -16,7 +16,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "redux/categoryRedux";
 import { useHistory } from "react-router-dom";
-import { categorySelector } from "redux/selectors";
+import {
+  categorySelector,
+  filterSelector,
+  productSelector,
+} from "redux/selectors";
 import AppsIcon from "@material-ui/icons/Apps";
 import ViewListIcon from "@material-ui/icons/ViewList";
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +70,9 @@ const MenuProps = {
 export default function SearchBox() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { totalProducts } = useSelector(productSelector);
   const storeCategory = useSelector(categorySelector);
+  const { keyword } = useSelector(filterSelector);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
@@ -89,9 +95,11 @@ export default function SearchBox() {
         justifyContent="center"
       >
         <Typography className={classes.text}>
-          Searching for " Dong ho "{" "}
+          {keyword ? `Searching for "${keyword}"` : "All products"}
         </Typography>
-        <Typography className={classes.subText}>48 results found</Typography>
+        <Typography className={classes.subText}>
+          {totalProducts} results found
+        </Typography>
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box

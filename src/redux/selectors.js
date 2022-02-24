@@ -9,3 +9,4 @@ export const feedbackSelector = (state) => state.feedback;
 export const promotionSelector = (state) => state.promotion;
 export const orderSelector = (state) => state.order;
 export const shipmentSelector = (state) => state.shipment;
+export const filterSelector = (state) => state.filter;

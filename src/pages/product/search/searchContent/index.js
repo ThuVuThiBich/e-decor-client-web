@@ -1,4 +1,4 @@
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Paper } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import Products from "components/shop/shopContent/products";
 import { useEffect, useState } from "react";
@@ -11,10 +11,12 @@ import {
   productSelector,
   wishlistSelector,
 } from "redux/selectors";
+import { isEmpty } from "underscore";
 import Filter from "../filter";
 import { useStyles } from "./styles";
+import Images from "constants/image";
+
 export default function SearchContent(props) {
-  const { isLoading } = useSelector(wishlistSelector);
   const classes = useStyles();
   const limit = 9;
 
@@ -27,7 +29,6 @@ export default function SearchContent(props) {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
   const [page, setPage] = useState(1);
-  const [categories, setCategories] = useState("");
   const [pageText, setPageText] = useState("");
   useEffect(() => {
     if (page === 1) {
@@ -49,58 +50,53 @@ export default function SearchContent(props) {
     setPage(value);
   };
 
-  useEffect(() => {
-    dispatch(
-      getProducts({
-        limit,
-        page,
-        categories: [4, 5],
-        min,
-        max,
-        ratings: ratingValue,
-      })
-    );
-  }, [categories, dispatch, id, max, min, page, ratingValue, isLoading]);
-
   const storeCategory = useSelector(categorySelector);
-  // useEffect(() => {
-  //   dispatch(getShopCategories(id));
-  // }, [dispatch, id]);
 
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>
-        <Filter
-          categories={storeCategory.categories}
-          setCategories={setCategories}
-          setMin={setMin}
-          setMax={setMax}
-          setRatingValue={setRatingValue}
-          ratingValue={ratingValue}
-        />
+        <Filter allCategories={storeCategory.categories} />
       </Grid>
-      <Grid item xs={12} md={9} className={classes.list}>
-        <Products products={storeProducts?.products} />
-        <Box
-          py={4}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box>
-            Showing {pageText} of {storeProducts.totalProducts} Products
+      {isEmpty(storeProducts?.products) ? (
+        <Grid item xs={12} md={9} className={classes.list}>
+          <Paper>
+            <Box
+              p={15}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <img src={Images.NO_SEARCH} alt="" width={200} />
+              <Box style={{ color: "#bdbdbd", fontSize: 16 }} mt={3}>
+                No Results Yet
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+      ) : (
+        <Grid item xs={12} md={9} className={classes.list}>
+          <Products products={storeProducts?.products} />
+          <Box
+            py={4}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              Showing {pageText} of {storeProducts.totalProducts} Products
+            </Box>
+            <Box>
+              <Pagination
+                count={Math.ceil(storeProducts.totalProducts / limit)}
+                page={page}
+                onChange={handleChange}
+                variant="outlined"
+                color="primary"
+              />
+            </Box>
           </Box>
-          <Box>
-            <Pagination
-              count={Math.ceil(storeProducts.totalProducts / limit)}
-              page={page}
-              onChange={handleChange}
-              variant="outlined"
-              color="primary"
-            />
-          </Box>
-        </Box>
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }

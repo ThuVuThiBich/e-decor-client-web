@@ -13,16 +13,19 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  storeCategories,
+  storeMax,
+  storeMin,
+  storeRatings,
+} from "redux/filterRedux";
+import { filterSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 export default function Filter(props) {
-  const {
-    categories,
-    setCategories,
-    setMin,
-    setMax,
-    setRatingValue,
-    ratingValue,
-  } = props;
+  const { allCategories } = props;
+  const { categories, ratings } = useSelector(filterSelector);
+  const dispatch = useDispatch();
   const classes = useStyles();
   const stars = [5, 4, 3, 2, 1];
 
@@ -33,22 +36,22 @@ export default function Filter(props) {
   });
 
   const handleChangeRating = (event) => {
-    setRatingValue(event.target.value);
+    dispatch(storeRatings(event.target.value));
   };
   const handleChangeStatus = (event) => {};
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState(categories);
   const handleChangeCategory = (event) => {
     if (selectedCategories.includes(+event.target.name)) {
-      setCategories(
-        selectedCategories
-          .filter((item) => +item !== +event.target.name)
-          .toString()
-      );
       setSelectedCategories(
         selectedCategories.filter((item) => +item !== +event.target.name)
       );
+      dispatch(
+        storeCategories(
+          selectedCategories.filter((item) => +item !== +event.target.name)
+        )
+      );
     } else {
-      setCategories([...selectedCategories, +event.target.name].toString());
+      dispatch(storeCategories([...selectedCategories, +event.target.name]));
       setSelectedCategories([...selectedCategories, +event.target.name]);
     }
   };
@@ -63,7 +66,7 @@ export default function Filter(props) {
         <Box>
           <FormControl component="fieldset" className={classes.formControl}>
             <FormGroup>
-              {categories?.map((item, index) => (
+              {allCategories?.map((item, index) => (
                 <FormControlLabel
                   key={index}
                   control={
@@ -102,7 +105,7 @@ export default function Filter(props) {
               size="small"
               InputProps={{ inputProps: { min: 0, step: 10 } }}
               onChange={(event) => {
-                setMin(event.target.value);
+                dispatch(storeMin(event.target.value));
               }}
             />
           </FormControl>
@@ -118,7 +121,7 @@ export default function Filter(props) {
               size="small"
               InputProps={{ inputProps: { min: 0, step: 10 } }}
               onChange={(event) => {
-                setMax(event.target.value);
+                dispatch(storeMax(event.target.value));
               }}
             />
           </FormControl>
@@ -177,7 +180,7 @@ export default function Filter(props) {
             <RadioGroup
               name="type"
               // defaultValue={""}
-              value={+ratingValue}
+              value={+ratings}
               onChange={handleChangeRating}
             >
               {stars.map((item) => (

@@ -12,7 +12,7 @@ export default function Products(props) {
   return (
     <Grid container spacing={3}>
       {isLoading
-        ? [1, 2, 3, 4, 5, 6].map((item) => (
+        ? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
             <Grid item xs={12} md={4} key={item}>
               <LoadingCard />
             </Grid>
