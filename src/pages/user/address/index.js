@@ -26,6 +26,7 @@ import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAddressText } from "utils/helpers";
+import Images from "constants/image";
 
 export default function Address() {
   const history = useHistory();
@@ -84,9 +85,7 @@ export default function Address() {
                       <TableCell component="th" scope="row">
                         {row?.name ? row?.name : "Vu Thu"}
                       </TableCell>
-                      <TableCell>
-                        {getAddressText(row)}
-                      </TableCell>
+                      <TableCell>{getAddressText(row)}</TableCell>
                       <TableCell align="center">
                         {row?.phone ? row?.phone : "0123456789"}
                       </TableCell>
@@ -118,6 +117,23 @@ export default function Address() {
               </TableBody>
             </Table>
           </TableContainer>
+        )}
+        {!addresses?.length && !isLoading && !id && !isUpdating && (
+          <Paper>
+            <Box
+              style={{ height: 350 }}
+              p={1}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <img alt="" src={Images.NO_DATA} />
+              <Box mt={2} style={{ color: "#3f51b5" }}>
+                No Data
+              </Box>
+            </Box>
+          </Paper>
         )}
       </Box>
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />

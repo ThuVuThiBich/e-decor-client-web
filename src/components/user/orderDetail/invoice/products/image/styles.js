@@ -18,12 +18,12 @@ export const useStyles = makeStyles({
   //
   avatarWrapper: {
     backgroundColor: "white",
-    width: 150,
-    height: 150,
+    width: 154,
+    height: 154,
     border: `1px solid ${grey[100]}`,
-    padding: 5,
+    // padding: 4,
     boxShadow: `0 0 1px 0 ${grey[500]} inset, 0 0 1px 0 ${grey[500]}`,
-    marginBottom: 8,
+    marginBottom: 4,
 
     transition: ".5s ease",
     backfaceVisibility: "hidden",
@@ -36,7 +36,7 @@ export const useStyles = makeStyles({
   btn: {
     transition: ".5s ease",
     position: "absolute",
-    top: 50,
-    left: 50,
+    top: 60,
+    left: 60,
   },
 });

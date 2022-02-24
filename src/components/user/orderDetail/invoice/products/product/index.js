@@ -1,18 +1,100 @@
-import { Box, Button, Grid, TextField, Typography } from "@material-ui/core";
-import React, { useState } from "react";
-import { useStyles } from "./styles";
-import Rating from "@material-ui/lab/Rating";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid, TextField, Typography
+} from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Rating from "@material-ui/lab/Rating";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { createFeedback } from "redux/feedbackRedux";
+import ProductImage from "../image";
+import { useStyles } from "./styles";
 
+const style = {
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "20px",
+  borderWidth: 2,
+  borderRadius: 4,
+  borderColor: "#eeeeee",
+  borderStyle: "dashed",
+  backgroundColor: "#fafafa",
+  color: "#bdbdbd",
+  outline: "none",
+  transition: "border .24s ease-in-out",
+};
 export default function Product(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { product, isWritten = false } = props;
   const [content, setContent] = useState("");
   const [isSelected, setIsSelected] = useState(false);
-  const [rating, setRating] = React.useState(5);
+  const [rating, setRating] = useState(5);
+  const [feedbackImages, setFeedbackImages] = useState([]);
+  // images
+  const [files, setFiles] = useState([]);
+
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [files]
+  );
+
+  // images
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      // Push all the axios request promise into a single array
+      const uploaders = acceptedFiles?.map((file) => {
+        // Initial FormData
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "uploads"); // Replace the preset name with your own
+        formData.append("api_key", "824454275614915"); // Replace API key with your own Cloudinary key
+        formData.append("timestamp", (Date.now() / 1000) | 0);
+
+        // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+        return axios
+          .post(
+            "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+            formData,
+            {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            }
+          )
+          .then((response) => {
+            return response.data.secure_url;
+          });
+      });
+      //
+      // Once all the files are uploaded
+      axios.all(uploaders).then((response) => {
+        // ... perform after upload is successful operation
+        setFeedbackImages(response);
+        console.log(response);
+      });
+      //
+      setFiles(
+        acceptedFiles?.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+
+  const thumbs = files?.map((file, index) => (
+    <ProductImage file={file.preview} key={index} />
+  ));
 
   return (
     <Box>
@@ -70,6 +152,7 @@ export default function Product(props) {
           </Typography>
           <Box my={2} display="flex" justifyContent="center">
             <Rating
+              name="rating"
               value={rating}
               precision={0.1}
               emptyIcon={<StarBorderIcon fontSize="inherit" />}
@@ -91,6 +174,32 @@ export default function Product(props) {
             // InputProps={{ style: { fontSize: 16 } }}
             // InputLabelProps={{ style: { fontSize: 16 } }}
           />
+          <Box mt={2}>
+            <div {...getRootProps({ style })}>
+              <input {...getInputProps()} />
+              <p>Drag & drop product images here</p>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                p={1}
+              >
+                <Divider className={classes.divider} />
+                <Box>
+                  <Typography component="span" className={classes.dividerText}>
+                    or
+                  </Typography>
+                </Box>
+                <Divider className={classes.divider} />
+              </Box>
+              <Button color="primary" variant="contained">
+                Select Files
+              </Button>
+            </div>
+            <Box display="flex" flexWrap="wrap" ml={-1}>
+              {thumbs}
+            </Box>
+          </Box>
           <Box my={4} display="flex" flexDirection="row">
             <Box mr={2}>
               <Button
@@ -100,14 +209,11 @@ export default function Product(props) {
                   setIsSelected(!isSelected);
                   dispatch(
                     createFeedback({
-                      id: product?.productVersion?.id,
+                      id: product?.productVersion?.product?.id,
                       body: {
                         content,
                         rating,
-                        feedbackImages: [
-                          "https://cf.shopee.vn/file/6721e2037646b1375d9d5c7cb39e1304",
-                          "https://cf.shopee.vn/file/f3f9e91014d84e4846b12612c77bd45f",
-                        ],
+                        feedbackImages,
                       },
                     })
                   );

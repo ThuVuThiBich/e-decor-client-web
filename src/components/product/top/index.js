@@ -36,6 +36,7 @@ export default function Top(props) {
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
   const [showedImage, setShowedImage] = useState("");
+  const [isDisabled, setIsDisabled] = useState("");
   useEffect(() => {
     setShowedImage(
       product?.images?.concat(
@@ -61,6 +62,7 @@ export default function Top(props) {
     );
     setShowedImage(item.image);
     setShowedPrice(item.price);
+    setIsDisabled(!item.quantity);
   };
 
   const addToCart = (e) => {
@@ -238,7 +240,9 @@ export default function Top(props) {
                       key={product?.id}
                       value={product?.id.toString()}
                       control={<Radio />}
-                      label={product?.name}
+                      label={`${product?.name} ${
+                        product?.quantity ? "" : "(Out of stock)"
+                      } `}
                     />
                   ))}
                 </RadioGroup>
@@ -275,6 +279,7 @@ export default function Top(props) {
                   variant="outlined"
                   className={classes.actionBtn}
                   onClick={addToCart}
+                  disabled={isDisabled}
                 >
                   <AddShoppingCartIcon />
                   Add To Cart

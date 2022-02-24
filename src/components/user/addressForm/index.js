@@ -25,6 +25,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function AddressForm(props) {
+  const { isCheckout = false, setIsOpenDialog } = props;
   const { id } = useParams();
   const { addresses } = useSelector(addressSelector);
 
@@ -61,7 +62,15 @@ export default function AddressForm(props) {
       setDistrictId(address?.districtId);
       setWardId(address?.wardId);
     }
-  }, [address?.cityId, address?.detail, address?.districtId, address?.name, address?.phone, address?.wardId, id]);
+  }, [
+    address?.cityId,
+    address?.detail,
+    address?.districtId,
+    address?.name,
+    address?.phone,
+    address?.wardId,
+    id,
+  ]);
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
@@ -96,12 +105,20 @@ export default function AddressForm(props) {
 
   const handleSubmit = () => {
     const address = { name, phone, detail, cityId, districtId, wardId };
-    if (id === "add") {
+    if (id === "add" || isCheckout) {
       dispatch(addAddress(address));
     } else {
       dispatch(updateAddress({ id, address }));
     }
-    history.push("/address");
+    isCheckout
+      ? history.push({
+          pathname: `/checkout`,
+          state: {
+            shopId: 1,
+          },
+        })
+      : history.push("/address");
+    isCheckout && setIsOpenDialog(false);
   };
   return (
     <Paper>
@@ -271,11 +288,27 @@ export default function AddressForm(props) {
             </Grid>
           </Grid>
         </Box>
-        <Box>
-          <Button color="primary" variant="contained" onClick={handleSubmit}>
-            {id === "add" ? "Add New" : "Save Changes"}
-          </Button>
-        </Box>
+        {isCheckout ? (
+          <Box display="flex" justifyContent={"flex-end"}>
+            <Button
+              style={{ marginRight: 4, backgroundColor: "#424242" }}
+              color="primary"
+              variant="contained"
+              onClick={() => history.push("/cart")}
+            >
+              Cancel
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleSubmit}>
+              Confirm
+            </Button>
+          </Box>
+        ) : (
+          <Box>
+            <Button color="primary" variant="contained" onClick={handleSubmit}>
+              {id === "add" ? "Add New" : "Save Changes"}
+            </Button>
+          </Box>
+        )}
       </Box>
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>

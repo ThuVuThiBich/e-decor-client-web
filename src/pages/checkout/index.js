@@ -18,13 +18,13 @@ export default function Checkout() {
   const classes = useStyles();
   const history = useHistory();
   const shopId = history.location.state.shopId;
-  const { addresses } = useSelector(addressSelector);
+  const { addresses, isUpdating } = useSelector(addressSelector);
   const { shipments } = useSelector(shipmentSelector);
   useEffect(() => {
     dispatch(getAddresses());
     shopId && dispatch(getPromotions(shopId));
     dispatch(getShipments());
-  }, [dispatch, shopId]);
+  }, [dispatch, shopId, isUpdating]);
 
   useEffect(() => {
     shipments.length > 0 &&

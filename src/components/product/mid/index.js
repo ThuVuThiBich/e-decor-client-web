@@ -89,9 +89,11 @@ export default function Mid() {
         </AppBar>
         <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
           <TabPanel value={value} index={0}>
-            <div
-              dangerouslySetInnerHTML={{ __html: product?.description }}
-            ></div>
+            <Box p={2} px={3}>
+              <div
+                dangerouslySetInnerHTML={{ __html: product?.description }}
+              ></div>
+            </Box>
           </TabPanel>
           <TabPanel value={value} index={1}>
             {feedbacks?.length > 0 ? (

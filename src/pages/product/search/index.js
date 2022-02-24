@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { getProducts } from "redux/productRedux";
 import { categorySelector } from "redux/selectors";
 import { getCategoryId } from "utils/helpers";
+import SearchContent from "./searchContent";
 import { useStyles } from "./styles";
 
 export default function Search() {
@@ -15,14 +16,15 @@ export default function Search() {
   const dispatch = useDispatch();
   const { categories } = useSelector(categorySelector);
   useEffect(() => {
-    dispatch(
-      getProducts({ categories: getCategoryId(categoryName, categories) })
-    );
+    categoryName &&
+      dispatch(
+        getProducts({ categories: getCategoryId(categoryName, categories) })
+      );
   }, [categories, categoryName, dispatch]);
   return (
     <Container className={classes.container}>
       <SearchBox />
-      <ShopContent />
+      <SearchContent />
     </Container>
   );
 }
