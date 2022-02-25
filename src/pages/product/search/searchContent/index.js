@@ -55,7 +55,7 @@ export default function SearchContent(props) {
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>
-        <Filter allCategories={storeCategory.categories} />
+        <Filter allCategories={storeCategory?.categories} />
       </Grid>
       {isEmpty(storeProducts?.products) ? (
         <Grid item xs={12} md={9} className={classes.list}>
@@ -68,7 +68,7 @@ export default function SearchContent(props) {
             >
               <img src={Images.NO_SEARCH} alt="" width={200} />
               <Box style={{ color: "#bdbdbd", fontSize: 16 }} mt={3}>
-                No Results Yet
+                No Results Yet.
               </Box>
             </Box>
           </Paper>

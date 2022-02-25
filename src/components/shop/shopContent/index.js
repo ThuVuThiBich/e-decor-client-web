@@ -1,33 +1,20 @@
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Paper } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
+import Images from "constants/image";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getShopCategories } from "redux/categoryRedux";
-import { getProducts, getShopProducts } from "redux/productRedux";
-import {
-  categorySelector,
-  productSelector,
-  wishlistSelector,
-} from "redux/selectors";
+import { useSelector } from "react-redux";
+import { categorySelector, productSelector } from "redux/selectors";
+import { isEmpty } from "underscore";
 import Filter from "./filter";
 import Products from "./products";
 import { useStyles } from "./styles";
 export default function ShopContent(props) {
-  const { isLoading } = useSelector(wishlistSelector);
   const classes = useStyles();
   const limit = 9;
 
-  const { id } = useParams();
-  const dispatch = useDispatch();
-
   const storeProducts = useSelector(productSelector);
-  const [ratingValue, setRatingValue] = useState("");
 
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
   const [page, setPage] = useState(1);
-  const [categories, setCategories] = useState("");
   const [pageText, setPageText] = useState("");
   useEffect(() => {
     if (page === 1) {
@@ -49,54 +36,63 @@ export default function ShopContent(props) {
     setPage(value);
   };
 
-  useEffect(() => {
-    dispatch(
-      getShopProducts({
-        id,
-        params: { limit, page, categories, min, max, ratings: ratingValue },
-      })
-    );
-  }, [categories, dispatch, id, max, min, page, ratingValue, isLoading]);
-
   const storeCategory = useSelector(categorySelector);
-  useEffect(() => {
-    dispatch(getShopCategories(id));
-  }, [dispatch, id]);
 
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>
-        <Filter
-          shopCategories={storeCategory.shopCategories}
-          setCategories={setCategories}
-          setMin={setMin}
-          setMax={setMax}
-          setRatingValue={setRatingValue}
-          ratingValue={ratingValue}
-        />
+        <Filter shopCategories={storeCategory?.shopCategories} />
       </Grid>
-      <Grid item xs={12} md={9} className={classes.list}>
-        <Products products={storeProducts?.products} />
-        <Box
-          py={4}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box>
-            Showing {pageText} of {storeProducts.totalProducts} Products
+      {isEmpty(storeProducts?.products) ? (
+        <Grid item xs={12} md={9} className={classes.list}>
+          <Paper>
+            <Box
+              p={15}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <img
+                src={
+                  isEmpty(storeCategory.shopCategories)
+                    ? Images.NO_PRODUCT
+                    : Images.NO_SEARCH
+                }
+                alt=""
+                width={200}
+              />
+              <Box style={{ color: "#bdbdbd", fontSize: 16 }} mt={3}>
+                {isEmpty(storeCategory.shopCategories)
+                  ? "No Products Yet."
+                  : "No Results Yet."}
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+      ) : (
+        <Grid item xs={12} md={9} className={classes.list}>
+          <Products products={storeProducts?.products} />
+          <Box
+            py={4}
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              Showing {pageText} of {storeProducts.totalProducts} Products
+            </Box>
+            <Box>
+              <Pagination
+                count={Math.ceil(storeProducts.totalProducts / limit)}
+                page={page}
+                onChange={handleChange}
+                variant="outlined"
+                color="primary"
+              />
+            </Box>
           </Box>
-          <Box>
-            <Pagination
-              count={Math.ceil(storeProducts.totalProducts / limit)}
-              page={page}
-              onChange={handleChange}
-              variant="outlined"
-              color="primary"
-            />
-          </Box>
-        </Box>
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }

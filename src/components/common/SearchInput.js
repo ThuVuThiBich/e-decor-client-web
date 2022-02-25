@@ -101,7 +101,7 @@ export default function SearchInput() {
         inputProps={{ "aria-label": "search" }}
         onChange={handleChangeSearch}
         onKeyPress={() => {
-          history.push("/products");
+          keyword && history.push("/products");
         }}
       />
 

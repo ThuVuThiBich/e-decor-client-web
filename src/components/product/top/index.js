@@ -186,7 +186,7 @@ export default function Top(props) {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} style={{ position: "relative" }}>
             <Box py={4}>
               <Box py={2}>
                 <Typography className={classes.headText}>
@@ -293,45 +293,57 @@ export default function Top(props) {
                 </Button>
               </Box>
             </Box>
-            <Box display="flex" alignItems="flex-start">
-              <Box mr={2}>
-                <Avatar
-                  alt=""
-                  src={product?.shop?.avatar}
-                  className={classes.avatar}
-                />
-              </Box>
-              <Box display="flex" justifyContent="space-between" width="80%">
-                <Box display="flex" flexDirection="column">
-                  <Box mb={1}>
-                    <Typography style={{ fontWeight: 600 }}>
-                      {product?.shop?.name}
-                    </Typography>
-                    <Rating
-                      value={5}
-                      precision={0.1}
-                      emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                      readOnly
-                      className={classes.rating}
-                    />
-                  </Box>
-                  <Box mb={2}>{product?.shop?.description}</Box>
+
+            <Box
+              style={{ position: "absolute", bottom: 0, width: "100%" }}
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+            >
+              <Divider style={{ width: 535, height: 1, marginBottom: 24 }} />
+
+              <Box display="flex" style={{ width: "100%" }}>
+                <Box mr={2}>
+                  <Avatar
+                    alt=""
+                    src={product?.shop?.coverImage}
+                    className={classes.avatar}
+                  />
                 </Box>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="space-evenly"
-                >
-                  <Button variant="outlined" color="primary">
-                    Chat
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => history.push(`/shops/${product?.shop?.id}`)}
+                <Box display="flex" justifyContent="space-between" width="80%">
+                  <Box display="flex" flexDirection="column">
+                    <Box mb={1}>
+                      <Typography style={{ fontWeight: 600 }}>
+                        {product?.shop?.name}
+                      </Typography>
+                      <Rating
+                        value={5}
+                        precision={0.1}
+                        emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                        readOnly
+                        className={classes.rating}
+                      />
+                    </Box>
+                    <Box mb={2}>{product?.shop?.description}</Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-evenly"
                   >
-                    Xem shop
-                  </Button>
+                    <Button variant="outlined" color="primary">
+                      Chat
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() =>
+                        history.push(`/shops/${product?.shop?.id}`)
+                      }
+                    >
+                      Xem shop
+                    </Button>
+                  </Box>
                 </Box>
               </Box>
             </Box>

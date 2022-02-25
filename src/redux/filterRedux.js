@@ -1,16 +1,17 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import { createSlice } from "@reduxjs/toolkit";
 
 const filterSlice = createSlice({
   name: "filter",
   initialState: {
     categories: [],
+    selectedShopCategories: [],
     max: "",
     min: "",
     limit: 9,
     page: 1,
     ratings: "",
     keyword: "",
+    shopKeyword: "",
     isLoading: false,
     error: false,
   },
@@ -18,8 +19,14 @@ const filterSlice = createSlice({
     storeKeyword: (state, action) => {
       state.keyword = action.payload;
     },
+    storeShopKeyword: (state, action) => {
+      state.shopKeyword = action.payload;
+    },
     storeCategories: (state, action) => {
       state.categories = action.payload;
+    },
+    storeSelectedShopCategories: (state, action) => {
+      state.selectedShopCategories = action.payload;
     },
     storeRatings: (state, action) => {
       state.ratings = action.payload;
@@ -48,5 +55,7 @@ export const {
   storeMax,
   storeRatings,
   resetFilter,
+  storeShopKeyword,
+  storeSelectedShopCategories,
 } = filterSlice.actions;
 export default filterSlice.reducer;

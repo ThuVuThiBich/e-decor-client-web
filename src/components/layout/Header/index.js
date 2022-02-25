@@ -108,7 +108,7 @@ export default function Header() {
   );
 
   const cardMenuId = "card-menu";
-  const renderCardMenu = size(recentProducts) ? (
+  const renderCartMenu = size(recentProducts) ? (
     <Menu
       anchorEl={cardAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -313,7 +313,7 @@ export default function Header() {
         </Toolbar>
       </AppBar>
       {renderMenu}
-      {currentUser && renderCardMenu}
+      {currentUser && renderCartMenu}
     </div>
   );
 }

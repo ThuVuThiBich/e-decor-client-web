@@ -9,13 +9,12 @@ import {
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import CallIcon from "@material-ui/icons/Call";
 import PlaceIcon from "@material-ui/icons/Place";
-import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-
+import Rating from "@material-ui/lab/Rating";
 import React from "react";
 import { Link } from "react-router-dom";
+import { getShopAddressText } from "utils/helpers";
 import { useStyles } from "./styles";
-import { getAddressText, getShopAddressText } from "utils/helpers";
 
 export default function Shop(props) {
   const { shop } = props;
@@ -53,7 +52,7 @@ export default function Shop(props) {
         display={"flex"}
         justifyContent={"space-between"}
       >
-        <Avatar alt="" src={shop.owner.avatar} className={classes.avatar} />
+        <Avatar alt="" src={shop.avatar} className={classes.avatar} />
         <Tooltip title="View detail" arrow>
           <Link to={`shops/${shop.id}`}>
             <IconButton>

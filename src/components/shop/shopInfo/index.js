@@ -27,7 +27,11 @@ export default function ShopInfo(props) {
     <Card className={classes.root}>
       <Box className={classes.wallpaper}></Box>
       <Box className={classes.main}>
-        <Avatar alt={shop?.avatar} src="" className={classes.avatar} />
+        <Avatar
+          alt={shop?.avatar}
+          src={shop?.avatar}
+          className={classes.avatar}
+        />
         <Box className={classes.info}>
           <Box className={classes.top}>
             <Box className={classes.name}>

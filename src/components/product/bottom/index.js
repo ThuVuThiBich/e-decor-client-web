@@ -7,11 +7,24 @@ import ItemsCarousel from "react-items-carousel";
 import { useStyles } from "./styles";
 import { useSelector } from "react-redux";
 import { productSelector } from "redux/selectors";
-
+import { useEffect } from "react";
+const noOfItems = 12;
+const noOfCards = 3;
+const autoPlayDelay = 5000;
 export default function Bottom() {
   const classes = useStyles();
   const [active, setActive] = useState(0);
   const storeProduct = useSelector(productSelector);
+
+  const onChange = (value) => setActive(value);
+  useEffect(() => {
+    const interval = setInterval(
+      () =>
+        setActive((prevState) => (prevState + 1) % (noOfItems - noOfCards + 1)),
+      autoPlayDelay
+    );
+    return () => clearInterval(interval);
+  }, [active]);
 
   return (
     <Box py={4}>
@@ -21,14 +34,14 @@ export default function Bottom() {
       <Box py={1}>
         <ItemsCarousel
           gutter={20}
-          infiniteLoop={true}
+          // infiniteLoop={true}
           alwaysShowChevrons={true}
           chevronWidth={60}
           numberOfCards={4}
           slidesToScroll={1}
           outsideChevron={false}
           activeItemIndex={active}
-          requestToChangeActive={(value) => setActive(value)}
+          requestToChangeActive={onChange}
           rightChevron={
             <IconButton style={{ color: "white" }}>
               <ArrowForwardIosIcon />

@@ -19,7 +19,7 @@ import { getCities, getDistricts, getWards, reset } from "redux/addressRedux";
 import { addressSelector, shopSelector } from "redux/selectors";
 import { createShop, updateShop } from "redux/shopRedux";
 import defaultAva from "../../../assets/images/profile_pic.svg";
-import defaultWall from "../../../assets/images/picture.png";
+import defaultWall from "../../../assets/images/default_photo.svg";
 import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +27,6 @@ import "react-toastify/dist/ReactToastify.css";
 export default function ShopInfo() {
   const classes = useStyles();
   const storeShop = useSelector(shopSelector);
-  const [uploadCover, setUploadCover] = useState(false);
   const [name, setName] = useState(
     storeShop.currentShop ? storeShop.currentShop.name : ""
   );
@@ -83,7 +82,7 @@ export default function ShopInfo() {
   }, [dispatch, districtId]);
 
   const [avaUrl, setAvaUrl] = useState(
-    storeShop.currentShop ? storeShop.currentShop?.owner?.avatar : defaultAva
+    storeShop.currentShop ? storeShop.currentShop?.avatar : defaultAva
   );
   const [wallUrl, setWallUrl] = useState(
     storeShop.currentShop ? storeShop.currentShop?.coverImage : defaultWall
@@ -91,7 +90,6 @@ export default function ShopInfo() {
 
   // upload
   const getUploadedUrl = async (file) => {
-    setUploadCover(true);
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "uploads");
@@ -134,8 +132,8 @@ export default function ShopInfo() {
             backgroundImage: `url(${wallUrl})`,
             backgroundPositionX: `center`,
             backgroundPositionY: `center`,
-            backgroundSize: uploadCover ? "cover" : 150,
-            backgroundRepeat: uploadCover ? "none" : "no-repeat",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
             borderRadius: 10,
             overflow: "hidden",
             height: 173,

@@ -13,16 +13,21 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  storeSelectedShopCategories,
+  storeMax,
+  storeMin,
+  storeRatings,
+} from "redux/filterRedux";
+import { filterSelector } from "redux/selectors";
+import { isEmpty } from "underscore";
 import { useStyles } from "./styles";
 export default function Filter(props) {
-  const {
-    shopCategories,
-    setCategories,
-    setMin,
-    setMax,
-    setRatingValue,
-    ratingValue,
-  } = props;
+  const { shopCategories } = props;
+  console.log(shopCategories);
+  const { selectedShopCategories, ratings } = useSelector(filterSelector);
+  const dispatch = useDispatch();
   const classes = useStyles();
   const stars = [5, 4, 3, 2, 1];
 
@@ -33,23 +38,27 @@ export default function Filter(props) {
   });
 
   const handleChangeRating = (event) => {
-    setRatingValue(event.target.value);
+    dispatch(storeRatings(event.target.value));
   };
-  const handleChangeStatus = (event) => {
-  };
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const handleChangeStatus = (event) => {};
+  const [selectedCategories, setSelectedCategories] = useState(
+    selectedShopCategories
+  );
   const handleChangeCategory = (event) => {
+    console.log(event.target.name)
     if (selectedCategories.includes(+event.target.name)) {
-      setCategories(
-        selectedCategories
-          .filter((item) => +item !== +event.target.name)
-          .toString()
-      );
       setSelectedCategories(
         selectedCategories.filter((item) => +item !== +event.target.name)
       );
+      dispatch(
+        storeSelectedShopCategories(
+          selectedCategories.filter((item) => +item !== +event.target.name)
+        )
+      );
     } else {
-      setCategories([...selectedCategories, +event.target.name].toString());
+      dispatch(
+        storeSelectedShopCategories([...selectedCategories, +event.target.name])
+      );
       setSelectedCategories([...selectedCategories, +event.target.name]);
     }
   };
@@ -64,19 +73,25 @@ export default function Filter(props) {
         <Box>
           <FormControl component="fieldset" className={classes.formControl}>
             <FormGroup>
-              {shopCategories?.map((item, index) => (
-                <FormControlLabel
-                  key={index}
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.includes(item.categoryId)}
-                      onChange={handleChangeCategory}
-                      name={item.categoryId.toString()}
-                    />
-                  }
-                  label={item.category.name}
-                />
-              ))}
+              {isEmpty(shopCategories) ? (
+                <Box style={{ color: "#bdbdbd" }} mt={1}>
+                  No Categories Yet.
+                </Box>
+              ) : (
+                shopCategories?.map((item, index) => (
+                  <FormControlLabel
+                    key={index}
+                    control={
+                      <Checkbox
+                        checked={selectedCategories.includes(+item.categoryId)}
+                        onChange={handleChangeCategory}
+                        name={item?.categoryId.toString()}
+                      />
+                    }
+                    label={item?.category?.name}
+                  />
+                ))
+              )}
             </FormGroup>
           </FormControl>
         </Box>
@@ -103,7 +118,7 @@ export default function Filter(props) {
               size="small"
               InputProps={{ inputProps: { min: 0, step: 10 } }}
               onChange={(event) => {
-                setMin(event.target.value);
+                dispatch(storeMin(event.target.value));
               }}
             />
           </FormControl>
@@ -119,7 +134,7 @@ export default function Filter(props) {
               size="small"
               InputProps={{ inputProps: { min: 0, step: 10 } }}
               onChange={(event) => {
-                setMax(event.target.value);
+                dispatch(storeMax(event.target.value));
               }}
             />
           </FormControl>
@@ -178,7 +193,7 @@ export default function Filter(props) {
             <RadioGroup
               name="type"
               // defaultValue={""}
-              value={+ratingValue}
+              value={+ratings}
               onChange={handleChangeRating}
             >
               {stars.map((item) => (

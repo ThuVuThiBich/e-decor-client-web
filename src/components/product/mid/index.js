@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
+import Images from "constants/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -112,7 +113,16 @@ export default function Mid() {
                 </Box>
               </>
             ) : (
-              <Box>No Reviews</Box>
+              <Box
+                p={2}
+                px={3}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <img src={Images.NO_REVIEW} alt="" width={200} />
+                <Box style={{ color: "#bdbdbd" }} mt={3}>No Reviews Yet</Box>
+              </Box>
             )}
           </TabPanel>
         </SwipeableViews>{" "}
