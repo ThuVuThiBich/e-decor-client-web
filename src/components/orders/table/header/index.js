@@ -25,8 +25,8 @@ export default function EnhancedTableHead(props) {
             {headCell.label}
           </TableCell>
         ))}
-        <TableCell className={classes.tableCell} width={"10%"}>
-          <TableSortLabel>Action</TableSortLabel>
+        <TableCell align="center" className={classes.tableCell} width={"10%"}>
+          Action
         </TableCell>
       </StyledTableRow>
     </TableHead>

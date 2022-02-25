@@ -124,9 +124,7 @@ export default function Header() {
         minWidth: 400,
       }}
       MenuListProps={{ onMouseLeave: handleCardMenuClose }}
-      onClick={() => {
-        history.push("/cart");
-      }}
+    
       disableScrollLock={true}
     >
       <Box p={2}>
@@ -135,7 +133,14 @@ export default function Header() {
         </Typography>
       </Box>
       {recentProducts?.map((item, index) => (
-        <MenuItem style={{ minWidth: 400 }} key={index}>
+        <MenuItem
+          style={{ minWidth: 400 }}
+          key={index}
+          onClick={() => {
+            console.log(item?.productVersion?.product?.id);
+            history.push(`/product/${item?.productVersion?.product?.id}`);
+          }}
+        >
           <Box
             display={"flex"}
             justifyContent="space-between"

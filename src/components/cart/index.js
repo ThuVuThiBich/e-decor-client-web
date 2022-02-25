@@ -259,6 +259,23 @@ export default function EnhancedTable(props) {
     }
 
     setSelected(newSelected);
+    const tmp = [];
+    console.log(newSelected);
+    console.log(data);
+    data?.map(
+      (n) =>
+        newSelected.includes(n.version.id) &&
+        tmp.push({
+          name: n.name,
+          price: n.version.price,
+          productVersionName: n.version.name,
+          image: n.version.image,
+          productVersionId: n.version.cartItems[0].productVersionId,
+          quantity: n.version.cartItems[0].quantity,
+        })
+    );
+    console.log(tmp);
+    dispatch(storeOrderItems(tmp));
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;

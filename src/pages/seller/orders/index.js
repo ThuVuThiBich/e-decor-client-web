@@ -1,16 +1,18 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import NoShop from "components/common/NoShop";
 import OrdersTable from "components/seller/orderTable";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getShopOrders } from "redux/orderRedux";
-import { orderSelector } from "redux/selectors";
+import { orderSelector, shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function SellerOrders() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const storeShop = useSelector(shopSelector);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -37,9 +39,13 @@ export default function SellerOrders() {
           Get more
         </Button>
       </Box>
-      <Box>
-        <OrdersTable page={page} handleChangePage={handleChangePage} />
-      </Box>
+      {storeShop?.currentShop ? (
+        <Box>
+          <OrdersTable page={page} handleChangePage={handleChangePage} />
+        </Box>
+      ) : (
+        <NoShop />
+      )}
     </div>
   );
 }

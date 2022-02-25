@@ -29,7 +29,7 @@ export default function Bottom() {
   return (
     <Box py={4}>
       <Box my={2}>
-        <Typography className={classes.headText}>Related Products</Typography>
+        <Typography className={classes.headText}>Other Products</Typography>
       </Box>
       <Box py={1}>
         <ItemsCarousel

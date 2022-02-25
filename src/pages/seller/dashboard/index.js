@@ -14,6 +14,7 @@ import Chart from "react-apexcharts";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NoShop from "components/common/NoShop";
 export default function Dashboard() {
   const classes = useStyles();
   const history = useHistory();
@@ -23,6 +24,7 @@ export default function Dashboard() {
   useEffect(() => {
     dispatch(getMyShop());
   }, [dispatch]);
+
   const state = {
     options: {
       chart: {
@@ -55,7 +57,7 @@ export default function Dashboard() {
           Get more
         </Button>
       </Box>
-      {storeShop.currentShop ? (
+      {storeShop?.currentShop ? (
         <Box>
           <Grid container spacing={2}>
             <Grid item sm={6} md={4} lg={4}>
@@ -173,42 +175,7 @@ export default function Dashboard() {
           </Box>
         </Box>
       ) : (
-        <Box mb={4}>
-          <Paper>
-            <Box pt={10} display="flex" justifyContent="center">
-              <img src={noShop} alt="" width={"35%"} />
-            </Box>
-            <Box
-              pt={3}
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Typography style={{ fontSize: 25, fontWeight: 600 }}>
-                Be a Power Seller
-              </Typography>
-              <Typography style={{ fontSize: 16 }}>
-                Manage your shop efficiently on E-Decor Website
-              </Typography>
-            </Box>
-            <Box
-              pt={2}
-              pb={8}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => history.push("/shop/settings")}
-              >
-                Create your own shop
-              </Button>
-            </Box>
-          </Paper>
-        </Box>
+        <NoShop />
       )}
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Box>

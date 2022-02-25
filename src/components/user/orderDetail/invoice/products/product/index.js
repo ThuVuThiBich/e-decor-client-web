@@ -121,7 +121,7 @@ export default function Product(props) {
           </Grid>
           <Grid item md={isWritten ? 3 : 5}>
             <Box display="flex" m={2}>
-              <Typography>{product?.productVersion?.product?.id}</Typography>
+              <Typography>{product?.productVersion?.name}</Typography>
             </Box>
           </Grid>
           <Grid item md={isWritten ? 1 : 2}>

@@ -12,6 +12,8 @@ import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import clsx from "clsx";
 import Icons from "constants/icons";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { orderSelector } from "redux/selectors";
 function getSteps() {
   return ["Process", "Deliver", "Receive"];
 }
@@ -66,7 +68,7 @@ const useColorlibStepIconStyles = makeStyles({
 function ColorlibStepIcon(props) {
   const classes = useColorlibStepIconStyles();
   const { active, completed } = props;
-
+  console.log(props);
   const icons = {
     1: <img src={Icons.WHITE_PACKAGE_ICON} alt="" />,
     2: <LocalShippingIcon />,
@@ -88,7 +90,8 @@ function ColorlibStepIcon(props) {
 export default function Status() {
   const [activeStep, setActiveStep] = useState(1);
   const steps = getSteps();
-
+  const { order } = useSelector(orderSelector);
+  console.log(order);
   return (
     <Paper>
       <Box py={4} mx={0} my={2}>
@@ -99,7 +102,10 @@ export default function Status() {
         >
           {steps?.map((label) => (
             <Step key={label}>
-              <StepLabel StepIconComponent={ColorlibStepIcon}>
+              <StepLabel
+                StepIconComponent={ColorlibStepIcon}
+                StepIconProps={{ active: false, completed: false }}
+              >
                 {label}
               </StepLabel>
             </Step>

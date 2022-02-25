@@ -4,6 +4,7 @@ import noSearch from "../assets/images/no_search.svg";
 import noProduct from "../assets/images/no_product.svg";
 import noReview from "../assets/images/feedback.svg";
 import noWishlist from "../assets/images/wishlist.svg";
+import noShop from "../assets/images/no-shop.svg";
 
 const Images = {
   NO_DATA: noDataImg,
@@ -12,6 +13,7 @@ const Images = {
   NO_PRODUCT: noProduct,
   NO_REVIEW: noReview,
   NO_WISHLIST: noWishlist,
+  NO_SHOP: noShop,
 };
 
 export default Images;
