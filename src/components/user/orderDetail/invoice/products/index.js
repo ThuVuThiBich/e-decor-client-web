@@ -1,12 +1,11 @@
 import { Box, Button, Paper, Typography } from "@material-ui/core";
-import React from "react";
-import Product from "./product";
-import { useStyles } from "./styles";
 import { format } from "date-fns";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { getToken } from "utils/helpers";
 import { useHistory } from "react-router-dom";
 import { cancelOrder, confirmOrder } from "redux/orderRedux";
+import Product from "./product";
+import { useStyles } from "./styles";
 
 export default function Products({ order }) {
   const classes = useStyles();

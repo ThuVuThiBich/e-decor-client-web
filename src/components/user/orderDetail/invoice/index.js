@@ -4,11 +4,9 @@ import { useSelector } from "react-redux";
 import { orderSelector } from "redux/selectors";
 import Infor from "./info";
 import Products from "./products";
-import { useStyles } from "./styles";
 import Total from "./total";
 
 export default function Invoice() {
-  const classes = useStyles();
   const { order } = useSelector(orderSelector);
   return (
     <Box>

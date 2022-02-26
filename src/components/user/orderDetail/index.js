@@ -1,16 +1,19 @@
 import { Box } from "@material-ui/core";
+import { LoadingInvoice } from "components/common/LoadingInvoice";
+import { LoadingStatus } from "components/common/LoadingStatus";
 import React from "react";
+import { useSelector } from "react-redux";
+import { orderSelector } from "redux/selectors";
 import Invoice from "./invoice";
 import Status from "./status";
-import { useStyles } from "./styles";
 
 export default function Detail() {
-  const classes = useStyles();
+  const { isLoading } = useSelector(orderSelector);
 
   return (
     <Box>
-      <Status />
-      <Invoice />
+      {isLoading ? <LoadingStatus /> : <Status />}
+      {isLoading ? <LoadingInvoice /> : <Invoice />}
     </Box>
   );
 }

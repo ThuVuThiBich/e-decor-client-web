@@ -2,9 +2,8 @@ import { Box, Button, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import OrdersTable from "components/orders/table";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getOrders } from "redux/orderRedux";
-import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function Orders() {
@@ -19,7 +18,7 @@ export default function Orders() {
   useEffect(() => {
     dispatch(getOrders({ limit: 5, page }));
   }, [dispatch, page]);
-  const { orders } = useSelector(orderSelector);
+
   return (
     <div>
       <Box

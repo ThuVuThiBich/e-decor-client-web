@@ -11,13 +11,11 @@ import {
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import clsx from "clsx";
 import Icons from "constants/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { orderSelector } from "redux/selectors";
-function getSteps() {
-  return ["Process", "Deliver", "Receive"];
-}
 
+const status = ["processing", "shipped", "delivered"];
 const ColorlibConnector = withStyles({
   alternativeLabel: {
     top: 28,
@@ -88,10 +86,15 @@ function ColorlibStepIcon(props) {
 }
 
 export default function Status() {
-  const [activeStep, setActiveStep] = useState(1);
-  const steps = getSteps();
   const { order } = useSelector(orderSelector);
-  console.log(order);
+  console.log(status.indexOf(order?.status));
+  const [activeStep, setActiveStep] = useState(null);
+  console.log(order.status);
+  useEffect(() => {
+    setActiveStep(
+      status.indexOf(order?.status) >= 0 ? status.indexOf(order?.status) : null
+    );
+  }, [order?.status]);
   return (
     <Paper>
       <Box py={4} mx={0} my={2}>
@@ -100,16 +103,47 @@ export default function Status() {
           activeStep={activeStep}
           connector={<ColorlibConnector />}
         >
-          {steps?.map((label) => (
-            <Step key={label}>
-              <StepLabel
-                StepIconComponent={ColorlibStepIcon}
-                StepIconProps={{ active: false, completed: false }}
-              >
-                {label}
-              </StepLabel>
-            </Step>
-          ))}
+          <Step key={"label"}>
+            <StepLabel
+              StepIconComponent={ColorlibStepIcon}
+              StepIconProps={{
+                active:
+                  order?.status === "processing" ||
+                  order?.status === "shipped" ||
+                  order?.status === "delivered",
+                completed:
+                  order?.status === "processing" ||
+                  order?.status === "shipped" ||
+                  order?.status === "delivered",
+              }}
+            >
+              Process
+            </StepLabel>
+          </Step>
+          <Step key={"label2"}>
+            <StepLabel
+              StepIconComponent={ColorlibStepIcon}
+              StepIconProps={{
+                active:
+                  order?.status === "delivered" || order?.status === "shipped",
+                completed:
+                  order?.status === "delivered" || order?.status === "shipped",
+              }}
+            >
+              Deliver
+            </StepLabel>
+          </Step>
+          <Step key={"label3"}>
+            <StepLabel
+              StepIconComponent={ColorlibStepIcon}
+              StepIconProps={{
+                active: order?.status === "delivered",
+                completed: order?.status === "delivered",
+              }}
+            >
+              Receive
+            </StepLabel>
+          </Step>
         </Stepper>
       </Box>
     </Paper>
