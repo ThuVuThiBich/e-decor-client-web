@@ -11,33 +11,22 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
-import { convertToRaw, EditorState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import React, { useEffect, useState } from "react";
 //
-import { Editor } from "react-draft-wysiwyg";
+import axios from "axios";
+import { formats, modules } from "pages/blog/addBlog";
+import React, { useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
+import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { getShopCategories } from "redux/categoryRedux";
-import { createProduct } from "redux/productRedux";
-import {
-  categorySelector,
-  productSelector,
-  shopSelector,
-} from "redux/selectors";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { createProduct, resetProductVersion } from "redux/productRedux";
+import { categorySelector, productSelector } from "redux/selectors";
 import { getCategoryNameFromId } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
-//
-import axios from "axios";
-import { resetProductVersion } from "redux/productRedux";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { formats, modules } from "pages/blog/addBlog";
-import ReactQuill from "react-quill";
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",
@@ -88,9 +77,7 @@ const style = {
 export default function NewProductForm() {
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
-  const storeShop = useSelector(shopSelector);
   const storeProduct = useSelector(productSelector);
-  const { id } = storeShop.currentShop;
   const [name, setName] = useState("");
   const [images, setImages] = useState();
   const [description, setDescription] = useState("");
@@ -104,9 +91,7 @@ export default function NewProductForm() {
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
-  const handleChangeDescription = (event) => {
-    setDescription(event.target.value);
-  };
+
   const handleChangeCategory = (event) => {
     setCategoryId(event.target.value);
   };
@@ -174,15 +159,7 @@ export default function NewProductForm() {
   // edit
 
   //
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-    setDescription(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-  };
-
-  const { categoryName } = useParams();
   const history = useHistory();
 
   const handleSubmit = (e) => {

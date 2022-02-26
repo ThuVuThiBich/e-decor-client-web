@@ -21,7 +21,7 @@ import { removeProductVersion, updateProductVersion } from "redux/productRedux";
 import Icons from "constants/icons";
 
 export default function ProductVersionForm(props) {
-  const { productVersion, isEdit } = props;
+  const { productVersion, isView } = props;
   const classes = useStyles();
   // images
   const [files, setFiles] = useState([]);
@@ -177,7 +177,7 @@ export default function ProductVersionForm(props) {
                 variant="outlined"
                 margin="dense"
                 fullWidth
-                disabled={isEdit}
+                disabled={isView}
               >
                 <InputLabel htmlFor="component-outlined">Price</InputLabel>
                 <OutlinedInput
@@ -194,7 +194,7 @@ export default function ProductVersionForm(props) {
                 variant="outlined"
                 margin="dense"
                 fullWidth
-                disabled={isEdit}
+                disabled={isView}
               >
                 <InputLabel htmlFor="component-outlined">Stock</InputLabel>
                 <OutlinedInput
@@ -211,7 +211,7 @@ export default function ProductVersionForm(props) {
                 variant="outlined"
                 margin="dense"
                 fullWidth
-                disabled={isEdit}
+                disabled={isView}
               >
                 <InputLabel htmlFor="component-outlined">
                   Description

@@ -12,12 +12,15 @@ import { getShop } from "redux/shopRedux";
 import { getShopAddressText } from "utils/helpers";
 import { useStyles } from "./styles";
 import Icons from "constants/icons";
+import Images from "constants/image";
 
 export default function ShopInfo(props) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { shop, isLoading } = useSelector(shopSelector);
-  const classes = useStyles({ coverImage: shop?.coverImage });
+  const classes = useStyles({
+    coverImage: shop?.coverImage || Images.COVER_LINK,
+  });
   useEffect(() => {
     dispatch(getShop(id));
   }, [dispatch, id]);

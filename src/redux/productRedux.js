@@ -31,9 +31,10 @@ export const createProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "product/update",
   async (data, thunkAPI) => {
-    const response = await productApi.update(data);
+    const response = await productApi.update(data.id, data.body);
     if (response.result.success) {
       toast.success("SUCCESS");
+      return data.id;
     } else toast.error("ERROR");
   }
 );
@@ -65,6 +66,7 @@ const productSlice = createSlice({
     totalProducts: 0,
     currentPage: 1,
     isLoading: false,
+    isUpdating: false,
     error: false,
   },
   reducers: {
@@ -143,14 +145,16 @@ const productSlice = createSlice({
 
     [updateProduct.pending]: (state) => {
       state.isLoading = true;
+      state.isUpdating = true;
     },
     [updateProduct.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.error;
+      state.isUpdating = false;
     },
     [updateProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.product = action.payload;
+      state.isUpdating = false;
     },
 
     [deleteProduct.pending]: (state) => {

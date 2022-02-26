@@ -9,26 +9,26 @@ import {
   OutlinedInput,
   Paper,
   Select,
-  Typography,
+  Typography
 } from "@material-ui/core";
-import { convertToRaw, EditorState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import axios from "axios";
+import { formats, modules } from "pages/blog/addBlog";
 import React, { useEffect, useState } from "react";
-//
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
+import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getProduct, updateProduct } from "redux/productRedux";
+import { useHistory, useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  updateProduct
+} from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
+import { getCategoryNameFromId } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ReactQuill from "react-quill";
-import { formats, modules } from "pages/blog/addBlog";
 const thumbsContainer = {
   marginTop: 16,
 };
@@ -58,10 +58,14 @@ const style = {
 };
 
 export default function ViewProductForm(props) {
+  const { productId } = useParams();
+  const { isView, setIsView } = props;
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const { product } = useSelector(productSelector);
+  console.log(product);
   const [name, setName] = useState(product && product?.name);
   const [images, setImages] = useState(
     product?.images?.map((item) => item.image)
@@ -72,8 +76,8 @@ export default function ViewProductForm(props) {
   const [categoryId, setCategoryId] = useState(
     product && product?.category?.id
   );
-  const handleChange = (event) => {
-    setDescription(event?.target?.value);
+  const handleChange = (value) => {
+    setDescription(value);
   };
 
   // images
@@ -81,6 +85,35 @@ export default function ViewProductForm(props) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",
     onDrop: (acceptedFiles) => {
+      // Push all the axios request promise into a single array
+      const uploaders = acceptedFiles?.map((file) => {
+        // Initial FormData
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "uploads"); // Replace the preset name with your own
+        formData.append("api_key", "824454275614915"); // Replace API key with your own Cloudinary key
+        formData.append("timestamp", (Date.now() / 1000) | 0);
+
+        // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+        return axios
+          .post(
+            "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+            formData,
+            {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            }
+          )
+          .then((response) => {
+            return response.data.secure_url;
+          });
+      });
+      //
+      // Once all the files are uploaded
+      axios.all(uploaders).then((response) => {
+        // ... perform after upload is successful operation
+        setImages(images.concat(response));
+      });
+      //
       setFiles(
         acceptedFiles?.map((file) =>
           Object.assign(file, {
@@ -130,15 +163,56 @@ export default function ViewProductForm(props) {
   // edit
 
   //
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-  const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
-    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+  const storeProduct = useSelector(productSelector);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsView(!isView);
+    //   console.log(isView);
+    //   !isView && dispatch(updateProduct());
+    const data = {
+      name,
+      categoryId,
+      description,
+      material: "",
+      origin: "",
+      size: "",
+      weight: 1,
+      images,
+      versions: storeProduct.productVersions?.map((item) => ({
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+    };
+    !isView && console.log(data);
+    !isView &&
+      dispatch(updateProduct({ id: productId, body: data })).then((data) => {
+        console.log(data);
+        history.push({
+          pathname: `/shop/products/${getCategoryNameFromId(
+            categoryId,
+            storeCategory.shopCategories
+          )}/${data.payload}`,
+          state: {
+            categoryId,
+          },
+        });
+      });
+    // setTimeout(() => {
+    //   history.push({
+    //     pathname: `/shop/products/${getCategoryNameFromId(
+    //       categoryId,
+    //       storeCategory.shopCategories
+    //     )}`,
+    //     state: {
+    //       categoryId,
+    //     },
+    //   });
+    // }, 2000);
   };
-
-  const [isEdit, setIsEdit] = useState(true);
-
   return (
     <Paper>
       <Box p={2} my={2}>
@@ -149,7 +223,7 @@ export default function ViewProductForm(props) {
                 variant="outlined"
                 margin="dense"
                 fullWidth
-                disabled={isEdit}
+                disabled={isView}
               >
                 <InputLabel htmlFor="component-outlined">Name</InputLabel>
                 <OutlinedInput
@@ -172,11 +246,11 @@ export default function ViewProductForm(props) {
                   Select Category
                 </InputLabel>
                 <Select
-                  disabled={isEdit}
+                  disabled={isView}
                   labelId="select-outlined-label"
                   id="select-outlined"
                   value={categoryId}
-                  onChange={handleChange}
+                  onChange={(event) => setCategoryId(event?.target?.value)}
                   label="Select Category"
                   className={classes.input}
                   MenuProps={{
@@ -207,7 +281,7 @@ export default function ViewProductForm(props) {
                 </Select>
               </FormControl>
             </Grid>
-            {isEdit ? (
+            {isView ? (
               <fieldset
                 style={{
                   border: "1px solid #cccccc",
@@ -281,7 +355,7 @@ export default function ViewProductForm(props) {
 
             <Grid item xs={12} md={12}>
               <Box>
-                {isEdit ? (
+                {isView ? (
                   <fieldset
                     style={{
                       border: "1px solid #cccccc",
@@ -304,20 +378,6 @@ export default function ViewProductForm(props) {
                     ></div>
                   </fieldset>
                 ) : (
-                  // <FormControl variant="outlined" margin="dense" fullWidth>
-                  //   <InputLabel htmlFor="component-outlined">
-                  //     Description
-                  //   </InputLabel>
-                  //   <OutlinedInput
-                  //     id="component-outlined"
-                  //     value={description}
-                  //     onChange={handleChange}
-                  //     label="Description"
-                  //     placeholder="Description"
-                  //     multiline
-                  //     rows={3}
-                  //   />
-                  // </FormControl>
                   <ReactQuill
                     className={classes.editor}
                     style={{ borderRadius: 8 }}
@@ -341,20 +401,21 @@ export default function ViewProductForm(props) {
             </Grid>
           </Grid>
 
-          <ProductVersionsForm isEdit={isEdit} />
+          <ProductVersionsForm isView={isView} />
         </form>
 
-        <Box>
+        <Box ml={1}>
           <Button
             color="primary"
             variant="contained"
-            onClick={() => {
-              setIsEdit(!isEdit);
-              console.log(isEdit);
-              !isEdit && dispatch(updateProduct());
-            }}
+            // onClick={() => {
+            //   setIsView(!isView);
+            //   console.log(isView);
+            //   !isView && dispatch(updateProduct());
+            // }}
+            onClick={(e) => handleSubmit(e)}
           >
-            {isEdit ? "Edit Product" : "Save Changes"}
+            {isView ? "Edit Product" : "Save Changes"}
           </Button>
         </Box>
       </Box>

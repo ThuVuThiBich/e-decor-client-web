@@ -7,7 +7,7 @@ export const LoadingInvoice = ({ type }) => {
   const classes = useStyles();
 
   return (
-    <Box>
+    <Box mb={6}>
       <Paper>
         <Box display="flex" flexDirection="column" p={4} mb={2}>
           <Box mb={2} display="flex" className={classes.head}>

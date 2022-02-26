@@ -16,6 +16,7 @@ import SwipeableViews from "react-swipeable-views";
 import { getFeedbacks } from "redux/feedbackRedux";
 import { feedbackSelector, productSelector } from "redux/selectors";
 import UserReview from "./review/userReview";
+import parse from "html-react-parser";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,7 +50,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
 }));
-
+const options = {
+  replace: (domNode) => {
+    if (domNode.attribs && domNode.attribs.class === "remove") {
+      return <></>;
+    }
+  },
+};
 export default function Mid() {
   const { id } = useParams();
 
@@ -73,6 +80,7 @@ export default function Mid() {
   useEffect(() => {
     dispatch(getFeedbacks({ id, params: { limit: 5 } }));
   }, [dispatch, id]);
+
   return (
     <Paper>
       <Box className={classes.root} my={2}>
@@ -95,6 +103,9 @@ export default function Mid() {
                 dangerouslySetInnerHTML={{ __html: product?.description }}
               ></div>
             </Box>
+            {/* <Box p={2} px={3}>
+              {parse(product?.description, options)}
+            </Box> */}
           </TabPanel>
           <TabPanel value={value} index={1}>
             {feedbacks?.length > 0 ? (
@@ -121,7 +132,9 @@ export default function Mid() {
                 alignItems="center"
               >
                 <img src={Images.NO_REVIEW} alt="" width={200} />
-                <Box style={{ color: "#bdbdbd" }} mt={3}>No Reviews Yet</Box>
+                <Box style={{ color: "#bdbdbd" }} mt={3}>
+                  No Reviews Yet
+                </Box>
               </Box>
             )}
           </TabPanel>

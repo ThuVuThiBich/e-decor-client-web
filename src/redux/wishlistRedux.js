@@ -50,6 +50,7 @@ const wishlistSlice = createSlice({
     totalWishlists: 0,
     currentPage: 1,
     isLoading: false,
+    isUpdating: false,
     error: false,
   },
   reducers: {},
@@ -67,14 +68,17 @@ const wishlistSlice = createSlice({
     },
     [createWishlist.pending]: (state) => {
       state.isLoading = true;
+      state.isUpdating = true;
     },
     [createWishlist.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.error;
+      state.isUpdating = false;
     },
     [createWishlist.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = false;
+      state.isUpdating = false;
     },
 
     [removeWishlist.pending]: (state) => {

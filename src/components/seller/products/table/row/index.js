@@ -1,23 +1,19 @@
 import { Box, IconButton, Tooltip } from "@material-ui/core";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { useConfirm } from "material-ui-confirm";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { deleteProduct } from "redux/productRedux";
 import * as _ from "underscore";
 import { getPrice } from "utils/helpers";
 import { StyledTableCell, StyledTableRow } from "../common/styles";
 import { useStyles } from "./styles";
-import { useConfirm } from "material-ui-confirm";
-import { deleteProduct } from "redux/productRedux";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 
 export default function EnhancedTableRow(props) {
   const { row } = props;
   const classes = useStyles();
-  const { categoryName } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
   const confirm = useConfirm();

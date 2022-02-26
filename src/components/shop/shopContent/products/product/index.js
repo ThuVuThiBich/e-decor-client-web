@@ -3,13 +3,14 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import noImage from "assets/images/no-image.png";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getPrice } from "utils/helpers";
 import { useStyles } from "./styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { createWishlist, removeWishlist } from "redux/wishlistRedux";
+import { wishlistSelector } from "redux/selectors";
 
 export default function Product(props) {
   const { product, noHover = false } = props;
@@ -21,6 +22,8 @@ export default function Product(props) {
 
   const history = useHistory();
   const dispatch = useDispatch();
+  const [isWishlist, setIsWishlist] = useState(product?.inWishlist);
+
   return (
     <Card
       className={classes.root}
@@ -77,12 +80,18 @@ export default function Product(props) {
           <IconButton
             onClick={(e) => {
               e.preventDefault();
-              product?.inWishlist
-                ? dispatch(removeWishlist(product?.wishlistItemId))
-                : dispatch(createWishlist({ productId: product?.id }));
+              if (isWishlist) {
+                // setCallApi(true);
+                setIsWishlist(false);
+                dispatch(removeWishlist(product?.wishlistItemId));
+              } else {
+                // setCallApi(true);
+                setIsWishlist(true);
+                dispatch(createWishlist({ productId: product?.id }));
+              }
             }}
           >
-            {product?.inWishlist ? (
+            {isWishlist ? (
               <FavoriteIcon style={{ color: "#D23F57" }} />
             ) : (
               <FavoriteBorderIcon />

@@ -38,6 +38,10 @@ export const useToolbarStyles = makeStyles({
   selectInput: {
     margin: "0 10px",
   },
+  formControl: {
+    margin: 8,
+    minWidth: 120,
+  },
 });
 
 export const MenuProps = {

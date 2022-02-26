@@ -1,13 +1,13 @@
 import { Box, Button, Divider, Grid, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import React, { useState } from "react";
+import React from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductVersion } from "redux/productRedux";
+import { productSelector } from "redux/selectors";
+import { v4 as uuidv4 } from "uuid";
 import ProductVersionForm from "../productVersion";
 import { useStyles } from "./styles";
-import { v4 as uuidv4 } from "uuid";
-import { productSelector } from "redux/selectors";
 
 const initialProductVersion = {
   id: uuidv4(),
@@ -18,17 +18,17 @@ const initialProductVersion = {
 };
 
 export default function ProductVersionsForm(props) {
-  const { isEdit } = props;
+  const { isView } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const storeProduct = useSelector(productSelector);
   const { productVersions } = storeProduct;
   return (
-    <Box my={2}>
+    <Box my={2} mx={1}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography className={classes.headText}>Product Versions</Typography>
         <Button
-          disabled={isEdit}
+          disabled={isView}
           color="primary"
           variant="outlined"
           onClick={() =>
@@ -52,7 +52,7 @@ export default function ProductVersionsForm(props) {
             <Grid item xs={12} md={12} key={index}>
               <ProductVersionForm
                 productVersion={productVersion}
-                isEdit={isEdit}
+                isView={isView}
               />
               <Divider />
             </Grid>
