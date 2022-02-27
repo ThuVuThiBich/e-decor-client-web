@@ -1,3 +1,4 @@
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import {
   Box,
   Button,
@@ -7,6 +8,9 @@ import {
   OutlinedInput,
   Paper,
 } from "@material-ui/core";
+import CalendarIcon from "@material-ui/icons/CalendarTodayOutlined";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import discountImg from "assets/images/discount.png";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -15,11 +19,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { addPromotion } from "redux/promotionRedux";
 import { promotionSelector, shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
-import discountImg from "assets/images/discount.png";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import CalendarIcon from "@material-ui/icons/CalendarTodayOutlined";
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
-import { subDays } from "date-fns";
 
 export default function PromotionForm(props) {
   const { id } = useParams();
@@ -83,7 +82,6 @@ export default function PromotionForm(props) {
     fontSize: 15,
     endAdornment: <CalendarIcon className={classes.calendarIcon} />,
   };
-  const DATE_FORMAT = "ddd, MMM DD";
 
   return (
     <Paper>

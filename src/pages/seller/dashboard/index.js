@@ -9,38 +9,34 @@ import {
   MenuItem,
   Paper,
   Select,
-  TextField,
   Typography,
 } from "@material-ui/core";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { shopSelector, statisticSelector } from "redux/selectors";
-import { getMyShop } from "redux/shopRedux";
-import noShop from "../../../assets/images/no-shop.svg";
-import { useStyles } from "./styles";
-import pendingImg from "assets/images/pending.png";
-import earningsImg from "assets/images/earnings.png";
-import soldImg from "assets/images/sold.png";
-import Chart from "react-apexcharts";
-
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import NoShop from "components/common/NoShop";
-import { getStatistics } from "redux/statisticRedux";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import earningsImg from "assets/images/earnings.png";
+import pendingImg from "assets/images/pending.png";
+import soldImg from "assets/images/sold.png";
+import NoShop from "components/common/NoShop";
 import {
   endOfMonth,
   endOfWeek,
   endOfYear,
   format,
-  formatISO,
   startOfMonth,
   startOfWeek,
   startOfYear,
 } from "date-fns";
+import React, { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { shopSelector, statisticSelector } from "redux/selectors";
+import { getMyShop } from "redux/shopRedux";
+import { getChart, getStatistics } from "redux/statisticRedux";
+import { useStyles } from "./styles";
 
 export const VIEWS = [
   { label: "Week", value: "week" },
@@ -83,32 +79,15 @@ export default function Dashboard() {
           endDate: new Date(endDate).toISOString(),
         })
       );
+      dispatch(
+        getChart({
+          startDate: new Date(startDate).toISOString(),
+          endDate: new Date(endDate).toISOString(),
+        })
+      );
     });
   }, [dispatch, endDate, startDate]);
 
-  const state = {
-    options: {
-      chart: {
-        id: "basic-bar",
-      },
-      xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-      },
-    },
-    series: [
-      {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
-      },
-    ],
-  };
-
-  function prev() {
-    // return new Date().clone().subtract(1, view);
-  }
-  function next() {
-    // return new Date().clone().add(1, view);
-  }
   return (
     <Box>
       <Box
@@ -173,8 +152,8 @@ export default function Dashboard() {
             </FormControl>
           </Box>
         </Box>
-        <Button color="primary" variant="outlined">
-          Get more
+        <Button color="primary" variant="contained">
+          Export
         </Button>
       </Box>
       {storeShop?.currentShop ? (
@@ -286,8 +265,33 @@ export default function Dashboard() {
           <Box my={4}>
             <Paper>
               <Chart
-                options={state.options}
-                series={state.series}
+                options={{
+                  xaxis: {
+                    categories:
+                      view === "year"
+                        ? [
+                            "Jan",
+                            "Feb",
+                            "Mar",
+                            "Apr",
+                            "May",
+                            "June",
+                            "July",
+                            "Aug",
+                            "Sept",
+                            "Oct",
+                            "Nov",
+                            "Dec",
+                          ]
+                        : statisticStore?.chart?.categories,
+                  },
+                }}
+                series={[
+                  {
+                    name: "Earnings ($)",
+                    data: statisticStore?.chart?.data,
+                  },
+                ]}
                 type="line"
                 width="100%"
               />
