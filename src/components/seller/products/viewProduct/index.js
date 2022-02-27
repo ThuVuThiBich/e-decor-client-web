@@ -9,7 +9,7 @@ import {
   OutlinedInput,
   Paper,
   Select,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import axios from "axios";
 import { formats, modules } from "pages/blog/addBlog";
@@ -21,9 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  updateProduct
-} from "redux/productRedux";
+import { updateProduct } from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
 import { getCategoryNameFromId } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
@@ -65,7 +63,6 @@ export default function ViewProductForm(props) {
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const { product } = useSelector(productSelector);
-  console.log(product);
   const [name, setName] = useState(product && product?.name);
   const [images, setImages] = useState(
     product?.images?.map((item) => item.image)
@@ -169,8 +166,6 @@ export default function ViewProductForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsView(!isView);
-    //   console.log(isView);
-    //   !isView && dispatch(updateProduct());
     const data = {
       name,
       categoryId,
@@ -187,10 +182,8 @@ export default function ViewProductForm(props) {
         quantity: item.quantity,
       })),
     };
-    !isView && console.log(data);
     !isView &&
       dispatch(updateProduct({ id: productId, body: data })).then((data) => {
-        console.log(data);
         history.push({
           pathname: `/shop/products/${getCategoryNameFromId(
             categoryId,
@@ -408,11 +401,6 @@ export default function ViewProductForm(props) {
           <Button
             color="primary"
             variant="contained"
-            // onClick={() => {
-            //   setIsView(!isView);
-            //   console.log(isView);
-            //   !isView && dispatch(updateProduct());
-            // }}
             onClick={(e) => handleSubmit(e)}
           >
             {isView ? "Edit Product" : "Save Changes"}

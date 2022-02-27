@@ -25,7 +25,6 @@ import { isEmpty } from "underscore";
 import { useStyles } from "./styles";
 export default function Filter(props) {
   const { shopCategories } = props;
-  console.log(shopCategories);
   const { selectedShopCategories, ratings } = useSelector(filterSelector);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -45,7 +44,6 @@ export default function Filter(props) {
     selectedShopCategories
   );
   const handleChangeCategory = (event) => {
-    console.log(event.target.name)
     if (selectedCategories.includes(+event.target.name)) {
       setSelectedCategories(
         selectedCategories.filter((item) => +item !== +event.target.name)

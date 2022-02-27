@@ -98,9 +98,11 @@ export default function Products({ order }) {
         <Box p={2}>
           {order?.orderItems?.map((product) => (
             <Product
+              orderItemId={product?.id}
               product={product}
-              key={product.id}
-              isWritten={order?.status === "delivered"}
+              key={product?.id}
+              isDelivered={order?.status === "delivered"}
+              hasFeedback={product?.feedback}
             />
           ))}
         </Box>

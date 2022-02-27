@@ -7,7 +7,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Paper,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -124,7 +123,6 @@ export default function Header() {
         minWidth: 400,
       }}
       MenuListProps={{ onMouseLeave: handleCardMenuClose }}
-    
       disableScrollLock={true}
     >
       <Box p={2}>
@@ -137,7 +135,6 @@ export default function Header() {
           style={{ minWidth: 400 }}
           key={index}
           onClick={() => {
-            console.log(item?.productVersion?.product?.id);
             history.push(`/product/${item?.productVersion?.product?.id}`);
           }}
         >

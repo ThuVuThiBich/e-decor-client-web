@@ -9,7 +9,6 @@ import { STATUS_COLORS, ORDER_STATUS } from "constants/index";
 export default function EnhancedTableRow(props) {
   const { row } = props;
   const classes = useStyles();
-  console.log(row);
   return (
     <StyledTableRow key={row.id}>
       <StyledTableCell align="center">{row?.id}</StyledTableCell>

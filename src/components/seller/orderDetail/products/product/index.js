@@ -5,7 +5,6 @@ import { useStyles } from "./styles";
 export default function Product(props) {
   const classes = useStyles();
   const { product } = props;
-  console.log(product);
   return (
     <Box display="flex" p={1} className={classes.root}>
       <Box mr={1}>

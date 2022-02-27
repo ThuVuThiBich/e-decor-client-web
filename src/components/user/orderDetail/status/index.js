@@ -66,7 +66,6 @@ const useColorlibStepIconStyles = makeStyles({
 function ColorlibStepIcon(props) {
   const classes = useColorlibStepIconStyles();
   const { active, completed } = props;
-  console.log(props);
   const icons = {
     1: <img src={Icons.WHITE_PACKAGE_ICON} alt="" />,
     2: <LocalShippingIcon />,
@@ -87,9 +86,7 @@ function ColorlibStepIcon(props) {
 
 export default function Status() {
   const { order } = useSelector(orderSelector);
-  console.log(status.indexOf(order?.status));
   const [activeStep, setActiveStep] = useState(null);
-  console.log(order.status);
   useEffect(() => {
     setActiveStep(
       status.indexOf(order?.status) >= 0 ? status.indexOf(order?.status) : null

@@ -2,7 +2,9 @@ import {
   Box,
   Button,
   Divider,
-  Grid, TextField, Typography
+  Grid,
+  TextField,
+  Typography,
 } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
@@ -32,7 +34,12 @@ const style = {
 export default function Product(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { product, isWritten = false } = props;
+  const {
+    product,
+    isDelivered = false,
+    hasFeedback = false,
+    orderItemId,
+  } = props;
   const [content, setContent] = useState("");
   const [isSelected, setIsSelected] = useState(false);
   const [rating, setRating] = useState(5);
@@ -79,7 +86,6 @@ export default function Product(props) {
       axios.all(uploaders).then((response) => {
         // ... perform after upload is successful operation
         setFeedbackImages(response);
-        console.log(response);
       });
       //
       setFiles(
@@ -119,30 +125,39 @@ export default function Product(props) {
               </Typography>
             </Box>
           </Grid>
-          <Grid item md={isWritten ? 3 : 5}>
+          <Grid item md={isDelivered ? 3 : 5}>
             <Box display="flex" m={2}>
               <Typography>{product?.productVersion?.name}</Typography>
             </Box>
           </Grid>
-          <Grid item md={isWritten ? 1 : 2}>
+          <Grid item md={isDelivered ? 1 : 2}>
             <Box display="flex" m={2} justifyContent="flex-end">
               <Typography>
                 ${product?.productVersion?.price * product?.quantity}
               </Typography>
             </Box>
           </Grid>
-          {isWritten && (
-            <Grid item md={3}>
-              <Box display="flex" m={2} justifyContent="flex-end">
-                <Button
-                  color="secondary"
-                  onClick={() => setIsSelected(!isSelected)}
-                >
-                  {isSelected ? "Close review" : "Write A Review"}
-                </Button>
-              </Box>
-            </Grid>
-          )}
+          {isDelivered &&
+            (hasFeedback ? (
+              <Grid item md={3}>
+                <Box display="flex" m={2} justifyContent="flex-end">
+                  <Button color="secondary" variant="outlined">
+                    Reviewed
+                  </Button>
+                </Box>
+              </Grid>
+            ) : (
+              <Grid item md={3}>
+                <Box display="flex" m={2} justifyContent="flex-end">
+                  <Button
+                    color="secondary"
+                    onClick={() => setIsSelected(!isSelected)}
+                  >
+                    {isSelected ? "Close review" : "Write A Review"}
+                  </Button>
+                </Box>
+              </Grid>
+            ))}
         </Grid>
       </Box>
       {isSelected && (
@@ -211,6 +226,7 @@ export default function Product(props) {
                     createFeedback({
                       id: product?.productVersion?.product?.id,
                       body: {
+                        orderItemId,
                         content,
                         rating,
                         feedbackImages,

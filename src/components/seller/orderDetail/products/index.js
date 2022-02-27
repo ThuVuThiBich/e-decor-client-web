@@ -4,26 +4,20 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  MenuList,
   Paper,
   Select,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import Product from "./product";
-import { useStyles } from "./styles";
 import { format } from "date-fns";
-import { STATUSES } from "constants/index";
-import { getToken } from "utils/helpers";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { updateOrderStatus } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
+import Product from "./product";
+import { useStyles } from "./styles";
 
 export default function Products({ order }) {
-  console.log(order);
-  console.log(order?.status);
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -32,9 +26,7 @@ export default function Products({ order }) {
   const { isLoading } = useSelector(orderSelector);
 
   const handleChange = (event) => {
-    console.log(status);
     setStatus(event.target.value);
-    console.log(event.target.value);
   };
 
   return (

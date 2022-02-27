@@ -7,7 +7,6 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import axios from "axios";
 import CheckIcon from "@material-ui/icons/Check";
 import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
 import React, { useState } from "react";
@@ -17,21 +16,15 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { createOrder, resetOrder, storeIsPurchased } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
-import { getToken } from "utils/helpers";
-import axiosClient from "api/axiosClient";
-import orderApi from "api/orderApi";
 
 export default function PaymentMethod() {
   const {
     amount,
     voucherPrice,
     shipping,
-    order,
     isPurchased,
-    orderItems,
     addressId,
     shopId,
-    promotionId,
     shippingUnitId,
   } = useSelector(orderSelector);
   const dispatch = useDispatch();
@@ -191,8 +184,6 @@ export default function PaymentMethod() {
                 amount={amount - voucherPrice + shipping.fee}
                 shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                 onSuccess={(details, data) => {
-                  console.log(data);
-                  console.log(details);
                   dispatch(resetOrder());
                   return dispatch(
                     createOrder({
@@ -210,7 +201,6 @@ export default function PaymentMethod() {
                       })),
                     })
                   ).then((res) => {
-                    console.log(res);
                     history.push(`/orders/${res.payload.id}`);
                   });
                 }}
@@ -243,7 +233,6 @@ export default function PaymentMethod() {
                     })),
                   })
                 ).then((res) => {
-                  console.log(res);
                   history.push(`/orders/${res.payload.id}`);
                 });
               }}

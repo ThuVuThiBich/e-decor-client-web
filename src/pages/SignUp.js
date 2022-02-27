@@ -20,7 +20,6 @@ const SignUp = () => {
       })
         .then((response) => response.json())
         .then((data) => console.log("here"));
-      // history.push("/login");
     } catch (error) {
       console.log("Failed to sign up ", error.message);
       // show toast error

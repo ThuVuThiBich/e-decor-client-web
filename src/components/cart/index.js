@@ -260,8 +260,6 @@ export default function EnhancedTable(props) {
 
     setSelected(newSelected);
     const tmp = [];
-    console.log(newSelected);
-    console.log(data);
     data?.map(
       (n) =>
         newSelected.includes(n.version.id) &&
@@ -274,7 +272,6 @@ export default function EnhancedTable(props) {
           quantity: n.version.cartItems[0].quantity,
         })
     );
-    console.log(tmp);
     dispatch(storeOrderItems(tmp));
   };
 
