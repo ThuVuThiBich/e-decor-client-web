@@ -1,11 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
-import { Link } from "react-router-dom";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import {
-  Button,
+  Avatar,
   FormControl,
   IconButton,
   Menu,
@@ -14,7 +8,16 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import SearchIcon from "@material-ui/icons/Search";
 import Logo from "components/common/Logo";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { userSelector } from "redux/selectors";
+import { getToken } from "utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -46,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header(props) {
+  const { currentUser } = useSelector(userSelector);
+  const history = useHistory();
   const classes = useStyles();
   const { sections, title } = props;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -135,16 +140,37 @@ export default function Header(props) {
           />
         </FormControl>
 
-        <IconButton
-          edge="end"
-          aria-label="account of current user"
-          aria-haspopup="true"
-          onClick={handleProfileMenuOpen}
-          color="inherit"
-          style={{ marginLeft: 8 }}
-        >
-          <AccountCircle />
-        </IconButton>
+        {getToken() ? (
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={"menuId"}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+            onMouseOver={handleProfileMenuOpen}
+            style={{ cursor: "pointer" }}
+          >
+            <Avatar
+              alt=""
+              src={currentUser?.avatar}
+              style={{ cursor: "pointer" }}
+            />
+          </IconButton>
+        ) : (
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={"menuId"}
+            aria-haspopup="true"
+            onClick={() => {
+              history.push("/login");
+            }}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        )}
       </Toolbar>
       <Toolbar
         component="nav"

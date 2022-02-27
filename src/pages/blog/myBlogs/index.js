@@ -1,8 +1,4 @@
-import {
-  Box,
-  Button, makeStyles,
-  Typography
-} from "@material-ui/core";
+import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import BallotIcon from "@material-ui/icons/Ballot";
 import Post from "components/home/ideasBlog/Post";
@@ -58,7 +54,12 @@ export default function MyBlogs() {
           //     post
           //   </Card>
           // </Box>
-          <Post />
+          <Box
+            key={index}
+            onClick={() => history.push(`/blog/my-posts/${index}`)}
+          >
+            <Post />
+          </Box>
         ))}
       </Box>
     </Box>
