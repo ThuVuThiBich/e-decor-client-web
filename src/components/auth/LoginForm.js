@@ -223,7 +223,7 @@ const LoginForm = (props) => {
             style={{ backgroundColor: "#F3F5F9" }}
           >
             Forgot your password?
-            <Link to="/reset-password" className={classes.link}>
+            <Link to="/forgot-password" className={classes.link}>
               Reset It
             </Link>
           </Box>

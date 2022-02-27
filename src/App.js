@@ -8,11 +8,13 @@ import withBlog from "pages/blog/withBlog";
 import Cart from "pages/cart";
 import Checkout from "pages/checkout";
 import OrderSuccess from "pages/checkout/orderSuccess";
+import ForgotPassword from "pages/ForgotPassword";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import NotFound from "pages/NotFound";
 import Product from "pages/product";
 import Search from "pages/product/search";
+import ResetPassword from "pages/ResetPassword";
 import withSeller from "pages/seller";
 import Dashboard from "pages/seller/dashboard";
 import SellerOrderDetail from "pages/seller/orderDetail";
@@ -32,6 +34,7 @@ import OrderDetail from "pages/user/orderDetail";
 import Orders from "pages/user/orders";
 import Profile from "pages/user/profile";
 import Wishlist from "pages/user/wishlist/Wishlist";
+import VerifyEmail from "pages/VerifyEmail";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
@@ -46,6 +49,22 @@ function App() {
       <Redirect from={"/home"} to={"/"} />
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />
+      <Route
+        path={"/verify-email"}
+        component={withoutAuth(VerifyEmail)}
+        exact
+      />
+      <Route
+        path={"/forgot-password"}
+        component={withoutAuth(ForgotPassword)}
+        exact
+      />
+      <Route
+        path={"/reset-password"}
+        component={withoutAuth(ResetPassword)}
+        exact
+      />
+
       <Route path={"/shops"} component={withAuthLayout(Shops)} exact />
       <Route path={"/shops/:id"} component={withAuthLayout(ShopDetail)} exact />
       <Route path={"/product/:id"} component={withAuthLayout(Product)} exact />
@@ -56,6 +75,7 @@ function App() {
       <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />
       <Route path={"/address"} component={withUser(Address)} exact />
+      <Route path={"/change-password"} component={withUser(Address)} exact />
       <Route path={"/address/:id"} component={withUser(Address)} exact />
 
       <Route path={"/products"} component={withAuthLayout(Search)} exact />
@@ -69,8 +89,16 @@ function App() {
 
       <Route path={"/shop/dashboard"} component={withSeller(Dashboard)} exact />
       <Route path={"/shop/settings"} component={withSeller(Settings)} exact />
-      <Route path={"/shop/promotions"} component={withSeller(Promotions)} exact />
-      <Route path={"/shop/promotions/:id"} component={withSeller(Promotions)} exact />
+      <Route
+        path={"/shop/promotions"}
+        component={withSeller(Promotions)}
+        exact
+      />
+      <Route
+        path={"/shop/promotions/:id"}
+        component={withSeller(Promotions)}
+        exact
+      />
       <Route path={"/shop/products"} component={withSeller(Products)} exact />
       <Route
         path={"/shop/products/:categoryName"}

@@ -19,7 +19,38 @@ export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
 export const signUp = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
+    console.log(data);
     const response = await authApi.signUp(data);
+    console.log(response);
+    if (response.data.result.success) return data.email;
+    return response;
+  }
+);
+
+export const verifyEmail = createAsyncThunk(
+  "user/verifyEmail",
+  async (data, thunkAPI) => {
+    const response = await authApi.verifyEmail(data);
+    return response;
+  }
+);
+
+export const forgotPass = createAsyncThunk(
+  "user/forgotPass",
+  async (data, thunkAPI) => {
+    const response = await authApi.forgotPass(data);
+    console.log(response);
+    if (response.data.result.success) return data.email;
+    else return response;
+  }
+);
+
+export const resetPass = createAsyncThunk(
+  "user/resetPass",
+  async (data, thunkAPI) => {
+    const response = await authApi.resetPass(data);
+    console.log(response);
+    if (response.data.result.success) return response.data.result.success;
     return response;
   }
 );
@@ -54,6 +85,7 @@ const userSlice = createSlice({
     currentUser: null,
     isLoading: false,
     error: "",
+    email: "",
   },
   reducers: {},
   extraReducers: {
@@ -78,7 +110,43 @@ const userSlice = createSlice({
     },
     [signUp.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.email = action.payload;
     },
+
+    [verifyEmail.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [verifyEmail.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [verifyEmail.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+
+    [forgotPass.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [forgotPass.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [forgotPass.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.email = action.payload;
+    },
+
+    [resetPass.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [resetPass.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [resetPass.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+
     [getInfo.pending]: (state) => {
       state.isLoading = true;
     },

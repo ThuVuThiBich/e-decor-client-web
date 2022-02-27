@@ -10,16 +10,10 @@ const SignUp = () => {
   const history = useHistory();
   const handleSignUp = async (user) => {
     try {
-      // dispatch(signUp(user));
-      fetch(`https://8686-14-254-247-140.ngrok.io/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log("here"));
+      dispatch(signUp(user)).then((data) => {
+        console.log("signUp", data);
+        history.push("/verify-email");
+      });
     } catch (error) {
       console.log("Failed to sign up ", error.message);
       // show toast error
