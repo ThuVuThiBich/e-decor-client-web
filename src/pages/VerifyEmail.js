@@ -7,7 +7,7 @@ import {
   makeStyles,
   OutlinedInput,
   Paper,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import clsx from "clsx";
 import Header from "components/auth/Header";
@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { userSelector } from "redux/selectors";
-import { signUp, verifyEmail } from "redux/userRedux";
+import { verifyEmail } from "redux/userRedux";
 
 const useStyles = makeStyles((theme) => ({
   root: {

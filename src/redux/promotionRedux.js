@@ -2,11 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import promotionApi from "api/promotionApi";
 import { toast } from "react-toastify";
 
-export const getPromotions = createAsyncThunk(
+export const getAllPromotions = createAsyncThunk(
   "promotion/getAll",
   async (data, thunkAPI) => {
     if (data) {
-      const response = await promotionApi.getAll(data);
+      const response = await promotionApi.getAll(data.id, data.params);
+      return response.result;
+    }
+  }
+);
+
+export const getPromotions = createAsyncThunk(
+  "promotion/getPromotions",
+  async (data, thunkAPI) => {
+    if (data) {
+      const response = await promotionApi.getPromotions(data);
       return response.result;
     }
   }
@@ -37,6 +47,7 @@ export const deletePromotion = createAsyncThunk(
 const promotionSlice = createSlice({
   name: "promotion",
   initialState: {
+    allPromotions: [],
     promotions: [],
     totalPromotions: 0,
     currentPage: 1,
@@ -46,6 +57,20 @@ const promotionSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
+    [getAllPromotions.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getAllPromotions.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getAllPromotions.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.allPromotions = action.payload.promotions;
+      state.totalPromotions = action.payload.totalPromotions;
+      state.currentPage = action.payload.currentPage;
+    },
+    
     [getPromotions.pending]: (state) => {
       state.isLoading = true;
     },

@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { userSelector } from "redux/selectors";
-import { forgotPass, resetPass, signUp, verifyEmail } from "redux/userRedux";
+import { resetPass } from "redux/userRedux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,8 +110,8 @@ const ResetPassword = () => {
                     Reset Password?
                   </Typography>
                   <Typography>
-                    Please check your inbox and insert a code to verify and get a
-                    new password.
+                    Please check your inbox and insert a code to verify and get
+                    a new password.
                   </Typography>
                 </Box>
 

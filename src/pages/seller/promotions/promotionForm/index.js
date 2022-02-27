@@ -16,15 +16,21 @@ import { addPromotion } from "redux/promotionRedux";
 import { promotionSelector, shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 import discountImg from "assets/images/discount.png";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import CalendarIcon from "@material-ui/icons/CalendarTodayOutlined";
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import { subDays } from "date-fns";
+
 export default function PromotionForm(props) {
   const { id } = useParams();
-  const { promotions } = useSelector(promotionSelector);
+  const { allPromotions } = useSelector(promotionSelector);
   const { currentShop } = useSelector(shopSelector);
 
   const [promotion, setPromotion] = useState({
     content: "",
     discount: "",
     standarFee: "",
+    expiredAt: new Date(),
   });
 
   const history = useHistory();
@@ -33,21 +39,29 @@ export default function PromotionForm(props) {
   const [content, setContent] = useState(promotion?.content);
   const [discount, setDiscount] = useState(promotion?.discount);
   const [standarFee, setStandarFee] = useState(promotion?.standarFee);
+  const [expiredAt, setExpiredAt] = useState(promotion?.expiredAt);
 
   useEffect(() => {
     id !== "add" &&
       setPromotion(
-        promotions?.filter((promotion) => +promotion.id === +id)?.[0]
+        allPromotions?.filter((promotion) => +promotion.id === +id)?.[0]
       );
-  }, [promotions, id]);
+  }, [allPromotions, id]);
 
   useEffect(() => {
     if (id !== "add") {
       setContent(promotion?.content);
       setStandarFee(promotion?.standarFee);
       setDiscount(promotion?.discount);
+      setExpiredAt(promotion?.expiredAt);
     }
-  }, [promotion?.standarFee, id, promotion?.discount, promotion?.content]);
+  }, [
+    promotion?.standarFee,
+    id,
+    promotion?.discount,
+    promotion?.content,
+    promotion?.expiredAt,
+  ]);
   const handleChangeContent = (event) => {
     setContent(event.target.value);
   };
@@ -59,11 +73,18 @@ export default function PromotionForm(props) {
   };
 
   const handleSubmit = () => {
-    const promotion = { content, discount, standarFee };
+    const promotion = { content, discount, standarFee, expiredAt };
     dispatch(addPromotion({ id: currentShop.id, body: promotion }));
 
     history.push("/shop/promotions");
   };
+  const inputProps = {
+    disableUnderline: true,
+    fontSize: 15,
+    endAdornment: <CalendarIcon className={classes.calendarIcon} />,
+  };
+  const DATE_FORMAT = "ddd, MMM DD";
+
   return (
     <Paper>
       <Box p={4}>
@@ -125,6 +146,23 @@ export default function PromotionForm(props) {
                   inputProps={{ type: "text" }}
                 />
               </FormControl>
+              <MuiPickersUtilsProvider
+                utils={DateFnsUtils}
+                style={{ width: "100%" }}
+              >
+                <DatePicker
+                  disableToolbar
+                  inputVariant="outlined"
+                  value={expiredAt}
+                  onChange={(e) => {
+                    setExpiredAt(e);
+                  }}
+                  // format={DATE_FORMAT}
+                  minDate={new Date()}
+                  helperText=""
+                  InputProps={inputProps}
+                />
+              </MuiPickersUtilsProvider>
               <Box mt={2}>
                 <Button
                   color="primary"

@@ -18,19 +18,21 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { LoadingTable } from "components/common/LoadingTable";
 import NoShop from "components/common/NoShop";
 import Images from "constants/image";
+import { format } from "date-fns";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { deletePromotion, getPromotions } from "redux/promotionRedux";
+import { deletePromotion, getAllPromotions } from "redux/promotionRedux";
 import { promotionSelector, shopSelector } from "redux/selectors";
 import PromotionForm from "./promotionForm";
 import { useStyles } from "./styles";
 export default function Promotions() {
   const history = useHistory();
   const { currentShop } = useSelector(shopSelector);
-  const { promotions, isUpdating, isLoading } = useSelector(promotionSelector);
+  const { allPromotions, isUpdating, isLoading } =
+    useSelector(promotionSelector);
   const dispatch = useDispatch();
   const classes = useStyles();
   const { id } = useParams();
@@ -38,7 +40,10 @@ export default function Promotions() {
   const storeShop = useSelector(shopSelector);
 
   useEffect(() => {
-    storeShop?.currentShop && dispatch(getPromotions(currentShop.id));
+    storeShop?.currentShop &&
+      dispatch(
+        getAllPromotions({ id: currentShop.id, params: { page: 1, limit: 5 } })
+      );
   }, [dispatch, currentShop?.id, isUpdating, storeShop?.currentShop]);
 
   return (
@@ -77,6 +82,7 @@ export default function Promotions() {
                     <TableCell>Promotion's Name</TableCell>
                     <TableCell align="center">Order Value ( $ )</TableCell>
                     <TableCell align="center">Discount Value (%)</TableCell>
+                    <TableCell align="center">Expiration Date</TableCell>
                     <TableCell align="center">Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -84,7 +90,7 @@ export default function Promotions() {
                   {isLoading && isUpdating ? (
                     <LoadingTable />
                   ) : (
-                    promotions?.map((row, index) => (
+                    allPromotions?.map((row, index) => (
                       <TableRow key={index}>
                         <TableCell component="th" scope="row">
                           {row?.content ? row?.content : "Lễ hội"}
@@ -95,6 +101,11 @@ export default function Promotions() {
                         </TableCell>
                         <TableCell align="center">
                           {row?.discount ? row?.discount : "100000"}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row?.expiredAt
+                            ? format(new Date(row?.expiredAt), "MMM dd, yyyy")
+                            : "xxx"}
                         </TableCell>
                         <TableCell align="center">
                           <Tooltip title="Edit">
@@ -130,7 +141,7 @@ export default function Promotions() {
               </Table>
             </TableContainer>
           )}
-          {!promotions?.length && !isLoading && !id && !isUpdating && (
+          {!allPromotions?.length && !isLoading && !id && !isUpdating && (
             <Paper>
               <Box
                 style={{ height: 350 }}

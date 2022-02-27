@@ -1,7 +1,11 @@
 import axiosClient from "./axiosClient";
 
 const promotionApi = {
-  getAll: (id) => {
+  getAll: (id, params) => {
+    const url = `/shops/${id}/promotions/all`;
+    return axiosClient.get(url, params);
+  },
+  getPromotions: (id) => {
     const url = `/shops/${id}/promotions`;
     return axiosClient.get(url);
   },

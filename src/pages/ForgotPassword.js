@@ -12,11 +12,10 @@ import {
 import clsx from "clsx";
 import Header from "components/auth/Header";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { userSelector } from "redux/selectors";
-import { forgotPass, signUp, verifyEmail } from "redux/userRedux";
+import { forgotPass } from "redux/userRedux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
