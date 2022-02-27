@@ -11,6 +11,7 @@ import promotionReducer from "./promotionRedux";
 import orderReducer from "./orderRedux";
 import shipmentReducer from "./shipmentRedux";
 import filterReducer from "./filterRedux";
+import statisticReducer from "./statisticRedux";
 
 import {
   persistStore,
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   shipment: shipmentReducer,
   filter: filterReducer,
+  statistic: statisticReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

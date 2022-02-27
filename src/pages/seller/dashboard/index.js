@@ -1,9 +1,22 @@
-import { Box, Button, Card, Grid, Paper, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Card,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { shopSelector } from "redux/selectors";
+import { shopSelector, statisticSelector } from "redux/selectors";
 import { getMyShop } from "redux/shopRedux";
 import noShop from "../../../assets/images/no-shop.svg";
 import { useStyles } from "./styles";
@@ -15,15 +28,63 @@ import Chart from "react-apexcharts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NoShop from "components/common/NoShop";
+import { getStatistics } from "redux/statisticRedux";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import {
+  endOfMonth,
+  endOfWeek,
+  endOfYear,
+  format,
+  formatISO,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+} from "date-fns";
+
+export const VIEWS = [
+  { label: "Week", value: "week" },
+  { label: "Month", value: "month" },
+  { label: "Year", value: "year" },
+];
 export default function Dashboard() {
+  const statisticStore = useSelector(statisticSelector);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const [view, setView] = useState("week");
+  const [startDate, setStartDate] = useState(
+    startOfWeek(new Date(), { weekStartsOn: 1 })
+  );
+  const [endDate, setEndDate] = useState(
+    endOfWeek(new Date(), { weekStartsOn: 1 })
+  );
   const storeShop = useSelector(shopSelector);
   useEffect(() => {
-    dispatch(getMyShop());
-  }, [dispatch]);
+    if (view === "week") {
+      setStartDate(startOfWeek(new Date(), { weekStartsOn: 1 }));
+      setEndDate(endOfWeek(new Date(), { weekStartsOn: 1 }));
+    }
+    if (view === "month") {
+      setStartDate(startOfMonth(new Date()));
+      setEndDate(endOfMonth(new Date()));
+    }
+    if (view === "year") {
+      setStartDate(startOfYear(new Date()));
+      setEndDate(endOfYear(new Date()));
+    }
+  }, [view]);
+
+  useEffect(() => {
+    dispatch(getMyShop()).then((data) => {
+      dispatch(
+        getStatistics({
+          startDate: new Date(startDate).toISOString(),
+          endDate: new Date(endDate).toISOString(),
+        })
+      );
+    });
+  }, [dispatch, endDate, startDate]);
 
   const state = {
     options: {
@@ -41,6 +102,13 @@ export default function Dashboard() {
       },
     ],
   };
+
+  function prev() {
+    // return new Date().clone().subtract(1, view);
+  }
+  function next() {
+    // return new Date().clone().add(1, view);
+  }
   return (
     <Box>
       <Box
@@ -52,6 +120,58 @@ export default function Dashboard() {
         <Box display="flex" alignItems="center">
           <DashboardIcon className={classes.icon} />
           <Typography className={classes.title}>Dashboard</Typography>
+        </Box>
+        <Box className={`${classes.flexBasic} ${classes.header}`}>
+          <Box className={classes.actionBox}>
+            <IconButton
+              className={`fas fa-angle-left ${classes.moveIcon}`}
+              onClick={() => {}}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+            <Box mx={1}>
+              <Typography>
+                {format(startDate, "MMM dd, yyyy")} <span> - </span>
+                {format(endDate, "MMM dd, yyyy")}
+              </Typography>
+            </Box>
+
+            <IconButton
+              className={`fas fa-angle-right ${classes.moveIcon}`}
+              onClick={() => {}}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+            <FormControl
+              margin="dense"
+              variant="outlined"
+              className={classes.formControl}
+              size="small"
+            >
+              <InputLabel id="demo-simple-select-outlined-label">
+                View
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={view}
+                onChange={(e) => {
+                  setView(e.target.value);
+                }}
+                label="View"
+                inputProps={{ MenuProps: { disableScrollLock: true } }}
+                // SelectDisplayProps={{
+                //   style: { paddingTop: 4, paddingBottom: 10 },
+                // }}
+              >
+                {VIEWS?.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
         </Box>
         <Button color="primary" variant="outlined">
           Get more
@@ -85,7 +205,7 @@ export default function Dashboard() {
                         fontSize: 24,
                       }}
                     >
-                      25.000.000
+                      ${statisticStore?.earning || 0}
                     </Box>
                   </Box>
                   <Box>
@@ -119,7 +239,7 @@ export default function Dashboard() {
                         fontSize: 24,
                       }}
                     >
-                      382
+                      {statisticStore?.productSold}
                     </Box>
                   </Box>
                   <Box>
@@ -153,7 +273,7 @@ export default function Dashboard() {
                         fontSize: 24,
                       }}
                     >
-                      08
+                      {statisticStore?.pendingOrders}
                     </Box>
                   </Box>
                   <Box>
