@@ -55,6 +55,21 @@ export const resetPass = createAsyncThunk(
   }
 );
 
+export const updatePass = createAsyncThunk(
+  "user/updatePass",
+  async (data, thunkAPI) => {
+    const response = await authApi.updatePass(data);
+    console.log(response);
+    if (response?.success) {
+      toast.success("SUCCESS");
+      return response?.success;
+    } else {
+      toast.error("ERROR");
+      return response;
+    }
+  }
+);
+
 export const getInfo = createAsyncThunk(
   "user/getInfo",
   async (data, thunkAPI) => {
@@ -144,6 +159,17 @@ const userSlice = createSlice({
       state.error = action.error;
     },
     [resetPass.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+
+    [updatePass.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updatePass.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [updatePass.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
 

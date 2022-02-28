@@ -25,6 +25,11 @@ const authApi = {
     return publicRequest.post(url, data);
   },
 
+  updatePass: (data) => {
+    const url = "/users";
+    return axiosClient.patch(url, data);
+  },
+
   getInfo: () => {
     const url = "/users";
     return axiosClient.get(url);
