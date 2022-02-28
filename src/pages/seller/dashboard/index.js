@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   FormControl,
   Grid,
   IconButton,
@@ -19,18 +20,24 @@ import pendingImg from "assets/images/pending.png";
 import soldImg from "assets/images/sold.png";
 import NoShop from "components/common/NoShop";
 import {
+  addMonths,
+  addYears,
+  endOfISOWeek,
   endOfMonth,
-  endOfWeek,
   endOfYear,
   format,
+  getDay,
+  nextDay,
+  previousDay,
+  startOfISOWeek,
   startOfMonth,
-  startOfWeek,
   startOfYear,
+  subMonths,
+  subYears,
 } from "date-fns";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { shopSelector, statisticSelector } from "redux/selectors";
@@ -46,43 +53,40 @@ export const VIEWS = [
 export default function Dashboard() {
   const statisticStore = useSelector(statisticSelector);
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
   const [view, setView] = useState("week");
-  const [startDate, setStartDate] = useState(
-    startOfWeek(new Date(), { weekStartsOn: 1 })
-  );
-  const [endDate, setEndDate] = useState(
-    endOfWeek(new Date(), { weekStartsOn: 1 })
-  );
+  const [date, setDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(startOfISOWeek(new Date()));
+  const [endDate, setEndDate] = useState(endOfISOWeek(new Date()));
   const storeShop = useSelector(shopSelector);
+
   useEffect(() => {
     if (view === "week") {
-      setStartDate(startOfWeek(new Date(), { weekStartsOn: 1 }));
-      setEndDate(endOfWeek(new Date(), { weekStartsOn: 1 }));
+      setStartDate(startOfISOWeek(date));
+      setEndDate(endOfISOWeek(date));
     }
     if (view === "month") {
-      setStartDate(startOfMonth(new Date()));
-      setEndDate(endOfMonth(new Date()));
+      setStartDate(startOfMonth(date));
+      setEndDate(endOfMonth(date));
     }
     if (view === "year") {
-      setStartDate(startOfYear(new Date()));
-      setEndDate(endOfYear(new Date()));
+      setStartDate(startOfYear(date));
+      setEndDate(endOfYear(date));
     }
-  }, [view]);
+  }, [date, view]);
 
   useEffect(() => {
     dispatch(getMyShop()).then((data) => {
       dispatch(
         getStatistics({
-          startDate: new Date(startDate).toISOString(),
-          endDate: new Date(endDate).toISOString(),
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
         })
       );
       dispatch(
         getChart({
-          startDate: new Date(startDate).toISOString(),
-          endDate: new Date(endDate).toISOString(),
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
         })
       );
     });
@@ -104,7 +108,15 @@ export default function Dashboard() {
           <Box className={classes.actionBox}>
             <IconButton
               className={`fas fa-angle-left ${classes.moveIcon}`}
-              onClick={() => {}}
+              onClick={() => {
+                setDate(
+                  view === "week"
+                    ? previousDay(date, getDay(date))
+                    : view === "month"
+                    ? subMonths(date, 1)
+                    : subYears(date, 1)
+                );
+              }}
             >
               <ChevronLeftIcon />
             </IconButton>
@@ -117,7 +129,15 @@ export default function Dashboard() {
 
             <IconButton
               className={`fas fa-angle-right ${classes.moveIcon}`}
-              onClick={() => {}}
+              onClick={() => {
+                setDate(
+                  view === "week"
+                    ? nextDay(date, getDay(date))
+                    : view === "month"
+                    ? addMonths(date, 1)
+                    : addYears(date, 1)
+                );
+              }}
             >
               <ChevronRightIcon />
             </IconButton>
@@ -264,37 +284,48 @@ export default function Dashboard() {
           </Grid>
           <Box my={4}>
             <Paper>
-              <Chart
-                options={{
-                  xaxis: {
-                    categories:
-                      view === "year"
-                        ? [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "June",
-                            "July",
-                            "Aug",
-                            "Sept",
-                            "Oct",
-                            "Nov",
-                            "Dec",
-                          ]
-                        : statisticStore?.chart?.categories,
-                  },
-                }}
-                series={[
-                  {
-                    name: "Earnings ($)",
-                    data: statisticStore?.chart?.data,
-                  },
-                ]}
-                type="line"
-                width="100%"
-              />
+              {statisticStore?.isLoading ? (
+                <Box
+                  style={{ height: 250 }}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <Chart
+                  options={{
+                    xaxis: {
+                      categories:
+                        view === "year"
+                          ? [
+                              "Jan",
+                              "Feb",
+                              "Mar",
+                              "Apr",
+                              "May",
+                              "June",
+                              "July",
+                              "Aug",
+                              "Sept",
+                              "Oct",
+                              "Nov",
+                              "Dec",
+                            ]
+                          : statisticStore?.chart?.categories,
+                    },
+                  }}
+                  series={[
+                    {
+                      name: "Earnings ($)",
+                      data: statisticStore?.chart?.data,
+                    },
+                  ]}
+                  type="line"
+                  width="100%"
+                />
+              )}
             </Paper>
           </Box>
         </Box>
