@@ -1,4 +1,5 @@
 import { Container } from "@material-ui/core";
+import { LoadingProductDetail } from "components/common/LoadingProductDetail";
 import Bottom from "components/product/bottom";
 import Mid from "components/product/mid";
 import Top from "components/product/top";
@@ -13,7 +14,7 @@ export default function Product() {
   const classes = useStyles();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { product } = useSelector(productSelector);
+  const { isLoading, product } = useSelector(productSelector);
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
@@ -23,7 +24,7 @@ export default function Product() {
   }, [dispatch, id, product?.shop?.id]);
   return (
     <Container className={classes.container}>
-      <Top />
+      {isLoading ? <LoadingProductDetail /> : <Top />}
       <Mid />
       <Bottom />
     </Container>

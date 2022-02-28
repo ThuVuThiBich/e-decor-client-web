@@ -111,7 +111,7 @@ export default function Mid() {
             {feedbacks?.length > 0 ? (
               <>
                 {feedbacks?.map((item, index) => (
-                  <UserReview feedback={item} />
+                  <UserReview feedback={item} key={index} />
                 ))}
                 <Box mt={2} display="flex" justifyContent="center">
                   <Pagination

@@ -8,10 +8,12 @@ import { useStyles } from "./styles";
 import { useSelector } from "react-redux";
 import { productSelector } from "redux/selectors";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 const noOfItems = 12;
 const noOfCards = 3;
 const autoPlayDelay = 5000;
 export default function Bottom() {
+  const history = useHistory();
   const classes = useStyles();
   const [active, setActive] = useState(0);
   const storeProduct = useSelector(productSelector);
@@ -54,7 +56,11 @@ export default function Bottom() {
           }
         >
           {storeProduct.products?.map((product, index) => (
-            <Box pb={2} key={index}>
+            <Box
+              pb={2}
+              key={index}
+              onClick={() => history.push(`/product/${product?.id}`)}
+            >
               <Product product={product} />
             </Box>
           ))}
