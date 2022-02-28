@@ -104,77 +104,85 @@ export default function Dashboard() {
           <DashboardIcon className={classes.icon} />
           <Typography className={classes.title}>Dashboard</Typography>
         </Box>
-        <Box className={`${classes.flexBasic} ${classes.header}`}>
-          <Box className={classes.actionBox}>
-            <IconButton
-              className={`fas fa-angle-left ${classes.moveIcon}`}
-              onClick={() => {
-                setDate(
-                  view === "week"
-                    ? previousDay(date, getDay(date))
-                    : view === "month"
-                    ? subMonths(date, 1)
-                    : subYears(date, 1)
-                );
-              }}
-            >
-              <ChevronLeftIcon />
-            </IconButton>
-            <Box mx={1}>
-              <Typography>
-                {format(startDate, "MMM dd, yyyy")} <span> - </span>
-                {format(endDate, "MMM dd, yyyy")}
-              </Typography>
-            </Box>
-
-            <IconButton
-              className={`fas fa-angle-right ${classes.moveIcon}`}
-              onClick={() => {
-                setDate(
-                  view === "week"
-                    ? nextDay(date, getDay(date))
-                    : view === "month"
-                    ? addMonths(date, 1)
-                    : addYears(date, 1)
-                );
-              }}
-            >
-              <ChevronRightIcon />
-            </IconButton>
-            <FormControl
-              margin="dense"
-              variant="outlined"
-              className={classes.formControl}
-              size="small"
-            >
-              <InputLabel id="demo-simple-select-outlined-label">
-                View
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={view}
-                onChange={(e) => {
-                  setView(e.target.value);
+        {storeShop?.currentShop ? (
+          <Box className={`${classes.flexBasic} ${classes.header}`}>
+            <Box className={classes.actionBox}>
+              <IconButton
+                className={`fas fa-angle-left ${classes.moveIcon}`}
+                onClick={() => {
+                  setDate(
+                    view === "week"
+                      ? previousDay(date, getDay(date))
+                      : view === "month"
+                      ? subMonths(date, 1)
+                      : subYears(date, 1)
+                  );
                 }}
-                label="View"
-                inputProps={{ MenuProps: { disableScrollLock: true } }}
-                // SelectDisplayProps={{
-                //   style: { paddingTop: 4, paddingBottom: 10 },
-                // }}
               >
-                {VIEWS?.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <ChevronLeftIcon />
+              </IconButton>
+              <Box mx={1}>
+                <Typography>
+                  {format(startDate, "MMM dd, yyyy")} <span> - </span>
+                  {format(endDate, "MMM dd, yyyy")}
+                </Typography>
+              </Box>
+
+              <IconButton
+                className={`fas fa-angle-right ${classes.moveIcon}`}
+                onClick={() => {
+                  setDate(
+                    view === "week"
+                      ? nextDay(date, getDay(date))
+                      : view === "month"
+                      ? addMonths(date, 1)
+                      : addYears(date, 1)
+                  );
+                }}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              <FormControl
+                margin="dense"
+                variant="outlined"
+                className={classes.formControl}
+                size="small"
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  View
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={view}
+                  onChange={(e) => {
+                    setView(e.target.value);
+                  }}
+                  label="View"
+                  inputProps={{ MenuProps: { disableScrollLock: true } }}
+                  // SelectDisplayProps={{
+                  //   style: { paddingTop: 4, paddingBottom: 10 },
+                  // }}
+                >
+                  {VIEWS?.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
-        </Box>
-        <Button color="primary" variant="contained">
-          Export
-        </Button>
+        ) : (
+          <></>
+        )}
+        {storeShop?.currentShop ? (
+          <Button color="primary" variant="contained">
+            Export
+          </Button>
+        ) : (
+          <></>
+        )}
       </Box>
       {storeShop?.currentShop ? (
         <Box>
@@ -329,6 +337,18 @@ export default function Dashboard() {
             </Paper>
           </Box>
         </Box>
+      ) : storeShop?.isLoading ? (
+        <Paper>
+          <Box
+            mb={8}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            p={22}
+          >
+            <CircularProgress />
+          </Box>
+        </Paper>
       ) : (
         <NoShop />
       )}

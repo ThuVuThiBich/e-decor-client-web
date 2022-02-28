@@ -44,13 +44,13 @@ export default function Filter(props) {
     selectedShopCategories
   );
   const handleChangeCategory = (event) => {
-    if (selectedCategories.includes(+event.target.name)) {
+    if (selectedCategories?.includes(+event.target.name)) {
       setSelectedCategories(
-        selectedCategories.filter((item) => +item !== +event.target.name)
+        selectedCategories?.filter((item) => +item !== +event.target.name)
       );
       dispatch(
         storeSelectedShopCategories(
-          selectedCategories.filter((item) => +item !== +event.target.name)
+          selectedCategories?.filter((item) => +item !== +event.target.name)
         )
       );
     } else {
@@ -81,7 +81,7 @@ export default function Filter(props) {
                     key={index}
                     control={
                       <Checkbox
-                        checked={selectedCategories.includes(+item.categoryId)}
+                        checked={selectedCategories?.includes(+item.categoryId)}
                         onChange={handleChangeCategory}
                         name={item?.categoryId.toString()}
                       />

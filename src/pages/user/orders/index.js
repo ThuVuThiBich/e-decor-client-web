@@ -1,9 +1,20 @@
-import { Box, Button, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+  Typography,
+} from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { LoadingTable } from "components/common/LoadingTable";
 import OrdersTable from "components/orders/table";
+import EnhancedTableHead from "components/orders/table/header";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "redux/orderRedux";
+import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function Orders() {
@@ -18,7 +29,7 @@ export default function Orders() {
   useEffect(() => {
     dispatch(getOrders({ limit: 5, page }));
   }, [dispatch, page]);
-
+  const { isLoading } = useSelector(orderSelector);
   return (
     <div>
       <Box
@@ -35,9 +46,20 @@ export default function Orders() {
           Get more
         </Button>
       </Box>
-      <Box>
-        <OrdersTable page={page} handleChangePage={handleChangePage} />
-      </Box>
+      {isLoading ? (
+        <TableContainer component={Paper} style={{ marginBottom: 120 }}>
+          <Table>
+            <EnhancedTableHead />
+            <TableBody>
+              <LoadingTable colsNumber={5} />
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box>
+          <OrdersTable page={page} handleChangePage={handleChangePage} />
+        </Box>
+      )}
     </div>
   );
 }

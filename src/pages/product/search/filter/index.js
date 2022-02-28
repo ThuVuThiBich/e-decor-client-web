@@ -41,13 +41,13 @@ export default function Filter(props) {
   const handleChangeStatus = (event) => {};
   const [selectedCategories, setSelectedCategories] = useState(categories);
   const handleChangeCategory = (event) => {
-    if (selectedCategories.includes(+event.target.name)) {
+    if (selectedCategories?.includes(+event.target.name)) {
       setSelectedCategories(
-        selectedCategories.filter((item) => +item !== +event.target.name)
+        selectedCategories?.filter((item) => +item !== +event.target.name)
       );
       dispatch(
         storeCategories(
-          selectedCategories.filter((item) => +item !== +event.target.name)
+          selectedCategories?.filter((item) => +item !== +event.target.name)
         )
       );
     } else {
@@ -71,12 +71,12 @@ export default function Filter(props) {
                   key={index}
                   control={
                     <Checkbox
-                      checked={selectedCategories.includes(item.id)}
+                      checked={selectedCategories?.includes(item.id)}
                       onChange={handleChangeCategory}
-                      name={item.id.toString()}
+                      name={item?.id?.toString()}
                     />
                   }
-                  label={item.name}
+                  label={item?.name}
                 />
               ))}
             </FormGroup>
