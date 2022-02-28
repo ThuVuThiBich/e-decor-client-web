@@ -2,13 +2,12 @@ import { Box, IconButton, Typography } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Product from "components/shop/shopContent/products/product";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemsCarousel from "react-items-carousel";
-import { useStyles } from "./styles";
 import { useSelector } from "react-redux";
-import { productSelector } from "redux/selectors";
-import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { productSelector } from "redux/selectors";
+import { useStyles } from "./styles";
 const noOfItems = 12;
 const noOfCards = 3;
 const autoPlayDelay = 5000;
@@ -59,7 +58,9 @@ export default function Bottom() {
             <Box
               pb={2}
               key={index}
-              onClick={() => history.push(`/product/${product?.id}`)}
+              onClick={() => {
+                history.push(`/product/${product?.id}`);
+              }}
             >
               <Product product={product} />
             </Box>

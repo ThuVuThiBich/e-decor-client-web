@@ -1,19 +1,16 @@
 import { Container } from "@material-ui/core";
+import ScrollToTop from "components/common/ScrollToTop";
 import SearchBox from "components/common/SearchBox";
-import ShopContent from "components/shop/shopContent";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { resetFilter } from "redux/filterRedux";
 import { getProducts } from "redux/productRedux";
-import { categorySelector, filterSelector } from "redux/selectors";
-import { getCategoryId } from "utils/helpers";
+import { filterSelector } from "redux/selectors";
 import SearchContent from "./searchContent";
 import { useStyles } from "./styles";
 
 export default function Search() {
+  ScrollToTop();
   const classes = useStyles();
-  const { categoryName } = useParams();
   const dispatch = useDispatch();
   const { categories, limit, page, min, max, ratings, keyword } =
     useSelector(filterSelector);

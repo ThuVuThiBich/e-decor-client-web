@@ -1,10 +1,13 @@
 import { Box, withStyles } from "@material-ui/core";
 import Rating from "material-ui-rating";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useStyles } from "./styles";
 
 export default function Pick(props) {
+  const { item } = props;
+  const history = useHistory();
   const classes = useStyles();
   const smallStyles = {
     iconButton: {
@@ -31,6 +34,7 @@ export default function Pick(props) {
     <Box
       className={classes.root}
       //  style={{ width: 100 }}
+      onClick={() => history.push(`/product/${item.id}`)}
     >
       {/* <h2 className={classes.text}>{props.event.name}</h2>
         <p className={classes.subText}>{props.event.description}</p> */}
@@ -38,7 +42,7 @@ export default function Pick(props) {
         <Box>
           <img
             width={"100%"}
-            src="https://via.placeholder.com/100"
+            src={item.image}
             alt=""
             display="block"
             className={classes.image}

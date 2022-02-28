@@ -4,11 +4,13 @@ import Categories from "components/seller/products/categories";
 import Icons from "constants/icons";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function Products() {
   const classes = useStyles();
+  const history = useHistory();
   const storeShop = useSelector(shopSelector);
 
   return (
@@ -25,8 +27,12 @@ export default function Products() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button color="primary" variant="outlined">
-          View
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => history.push("/shop/add-product")}
+        >
+          Add New Product
         </Button>
       </Box>
       {storeShop?.currentShop ? (

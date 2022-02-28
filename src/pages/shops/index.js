@@ -1,6 +1,7 @@
 import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { LoadingCard } from "components/common/LoadingCard";
+import ScrollToTop from "components/common/ScrollToTop";
 import Shop from "components/shop";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,8 @@ import { getShops } from "redux/shopRedux";
 import { useStyles } from "./styles";
 
 export default function Shops() {
+  ScrollToTop();
+
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const limit = 9;
@@ -51,7 +54,7 @@ export default function Shops() {
         {isLoading
           ? [1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
               <Grid key={item} item xs={12} sm={6} lg={4}>
-                <LoadingCard type="shop"/>
+                <LoadingCard type="shop" />
               </Grid>
             ))
           : storeShops.shops?.map((shop) => (

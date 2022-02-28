@@ -1,4 +1,5 @@
 import { Container } from "@material-ui/core";
+import ScrollToTop from "components/common/ScrollToTop";
 import ShopSearchBox from "components/common/ShopSearchBox";
 import ShopContent from "components/shop/shopContent";
 import ShopInfo from "components/shop/shopInfo";
@@ -12,6 +13,7 @@ import { getShopProducts } from "redux/productRedux";
 import { filterSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 export default function ShopDetail() {
+  ScrollToTop();
   const classes = useStyles();
   const { id } = useParams();
 

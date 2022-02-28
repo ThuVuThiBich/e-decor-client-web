@@ -11,67 +11,89 @@ export default function TopPicks() {
   const classes = useStyles();
   const events = [
     {
-      name: "Event1",
-      description: "description 1",
+      name: "Happy WOMAN's Day",
+      description:
+        "Women’s Day is celebrated to make every woman realize how special they are for society, not only today but every day, in every way!",
+      image:
+        "https://i.pinimg.com/originals/fb/d6/72/fbd672e5ef419b6b35d24f772046a7e4.jpg",
     },
     {
-      name: "Event1",
-      description: "description 1",
+      name: "Happy New Year",
+      description:
+        "New year is the glittering light to brighten the dream-lined pathway of future.",
+      image:
+        "https://i0.wp.com/www.homedecordesigns.com/wp-content/uploads/2014/12/nydecor6.jpg?resize=500%2C503",
     },
     {
-      name: "Event1",
-      description: "description 1",
+      name: "Happy Valentine Day",
+      description: "Life is Loving, Love is giving",
+      image:
+        "https://img.joomcdn.net/785af504e58575891e76e8ddcd256f6248dbb987_original.jpeg",
     },
     {
-      name: "Event1",
-      description: "description 1",
+      name: "Merry Christmas",
+      description:
+        "Christmas is the perfect time of year to celebrate family, joy, and coming together. It’s a time to be merry and indulge in plenty of food and drink to keep warm during the cold winter. ",
+      image:
+        "https://image.made-in-china.com/44f3j00rQWfbdkEYpoF/Christmas-Tapestry-Christmas-Art-Ornaments-Christmas-Home-Decoration-New-Year-Wall-Covering-Tapestry-Decoration.jpg",
     },
     {
-      name: "Event1",
-      description: "description 1",
+      name: "Birthday Party Decor",
+      description: "Create a special birthday event",
+      image: "https://m.media-amazon.com/images/I/81lT7qKa6hL._AC_SL1500_.jpg",
     },
   ];
 
   const mockItems = [
     {
-      name: "Event1",
-      description: "description 1",
+      name: "Balloon set for woman's day",
+      image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d",
+      id: 52,
+    },
+    {
+      name: "Wall Grid Panel for Photo Display, Wall Storage Organizer",
+      image: "https://cf.shopee.vn/file/a746af93a3a4310d2b80336dddfd986a",
+      id: 53,
     },
     {
       name: "Event1",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event1",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event1",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event1",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event1",
-      description: "description 1",
-    },
-    {
-      name: "Event1",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event2",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event3",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
     {
       name: "Event1",
-      description: "description 1",
+      image: "image 1",
+      id: 53,
     },
   ];
 

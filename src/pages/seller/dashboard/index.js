@@ -327,7 +327,7 @@ export default function Dashboard() {
                   series={[
                     {
                       name: "Earnings ($)",
-                      data: statisticStore?.chart?.data,
+                      data: statisticStore?.chart?.data || [],
                     },
                   ]}
                   type="line"

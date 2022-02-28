@@ -1,5 +1,6 @@
 import { Container } from "@material-ui/core";
 import { LoadingProductDetail } from "components/common/LoadingProductDetail";
+import ScrollToTop from "components/common/ScrollToTop";
 import Bottom from "components/product/bottom";
 import Mid from "components/product/mid";
 import Top from "components/product/top";
@@ -11,6 +12,7 @@ import { productSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function Product() {
+  ScrollToTop();
   const classes = useStyles();
   const { id } = useParams();
   const dispatch = useDispatch();

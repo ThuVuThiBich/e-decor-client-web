@@ -22,7 +22,7 @@ export default function FeaturedCategories() {
             <Box display="flex" justifyContent="center">
               <img src={pinBoard} alt="" height={490} />
             </Box>
-            <Typography className={classes.cateText}>text</Typography>
+            <Typography className={classes.cateText}>Stationary</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -33,7 +33,7 @@ export default function FeaturedCategories() {
                   <Box display="flex" justifyContent="center">
                     <img src={clock} alt="" height={200} />
                   </Box>
-                  <Typography className={classes.cateText}>text</Typography>
+                  <Typography className={classes.cateText}>Clocks</Typography>
                 </Box>
               </Paper>
             </Grid>
@@ -43,7 +43,7 @@ export default function FeaturedCategories() {
                   <Box display="flex" justifyContent="center">
                     <img src={lamp} alt="" height={200} />
                   </Box>
-                  <Typography className={classes.cateText}>text</Typography>
+                  <Typography className={classes.cateText}>Lighting</Typography>
                 </Box>
               </Paper>
             </Grid>
@@ -55,7 +55,7 @@ export default function FeaturedCategories() {
                   <Box display="flex" justifyContent="center">
                     <img src={candle} alt="" height={200} />
                   </Box>
-                  <Typography className={classes.cateText}>text</Typography>
+                  <Typography className={classes.cateText}>Candles</Typography>
                 </Box>
               </Paper>
             </Grid>
@@ -65,7 +65,9 @@ export default function FeaturedCategories() {
                   <Box display="flex" justifyContent="center">
                     <img src={calendar} alt="" height={200} />
                   </Box>
-                  <Typography className={classes.cateText}>text</Typography>
+                  <Typography className={classes.cateText}>
+                    Calendars
+                  </Typography>
                 </Box>
               </Paper>
             </Grid>
