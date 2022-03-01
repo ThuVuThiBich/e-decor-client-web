@@ -16,17 +16,17 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import RoomIcon from "@material-ui/icons/Room";
 import { LoadingTable } from "components/common/LoadingTable";
+import { EmptyRows } from "components/orders/table/common/EmptyData";
 import AddressForm from "components/user/addressForm";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { deleteAddress, getAddresses } from "redux/addressRedux";
-import { addressSelector } from "redux/selectors";
-import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { deleteAddress, getAddresses } from "redux/addressRedux";
+import { addressSelector } from "redux/selectors";
 import { getAddressText } from "utils/helpers";
-import Images from "constants/image";
+import { useStyles } from "./styles";
 
 export default function Address() {
   const history = useHistory();
@@ -41,7 +41,7 @@ export default function Address() {
   }, [dispatch, isUpdating]);
 
   return (
-    <div>
+    <Box>
       <Box
         display="flex"
         alignItems="center"
@@ -66,7 +66,7 @@ export default function Address() {
         {id ? (
           <AddressForm />
         ) : (
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} style={{ marginBottom: 64 }}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -80,45 +80,51 @@ export default function Address() {
                 {isLoading ? (
                   <LoadingTable />
                 ) : (
-                  addresses.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {row?.name ? row?.name : "Vu Thu"}
-                      </TableCell>
-                      <TableCell>{getAddressText(row)}</TableCell>
-                      <TableCell align="center">
-                        {row?.phone ? row?.phone : "0123456789"}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Tooltip title="Edit">
-                          <IconButton
-                            aria-label="edit"
-                            onClick={() => {
-                              history.push(`address/${row?.id}`);
-                            }}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => {
-                              dispatch(deleteAddress(row?.id));
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  <>
+                    {addresses?.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell component="th" scope="row">
+                          {row?.name ? row?.name : "Vu Thu"}
+                        </TableCell>
+                        <TableCell>{getAddressText(row)}</TableCell>
+                        <TableCell align="center">
+                          {row?.phone ? row?.phone : "0123456789"}
+                        </TableCell>
+                        <TableCell align="center">
+                          <Tooltip title="Edit">
+                            <IconButton
+                              aria-label="edit"
+                              onClick={() => {
+                                history.push(`address/${row?.id}`);
+                              }}
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Delete">
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => {
+                                dispatch(deleteAddress(row?.id));
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    <EmptyRows
+                      isEmptyTable={addresses?.length === 0}
+                      type={"addresses"}
+                    />
+                  </>
                 )}
               </TableBody>
             </Table>
           </TableContainer>
         )}
-        {!addresses?.length && !isLoading && !id && !isUpdating && (
+        {/* {!addresses?.length && !isLoading && !id && !isUpdating && (
           <Paper>
             <Box
               style={{ height: 350 }}
@@ -134,9 +140,9 @@ export default function Address() {
               </Box>
             </Box>
           </Paper>
-        )}
+        )} */}
       </Box>
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
-    </div>
+    </Box>
   );
 }

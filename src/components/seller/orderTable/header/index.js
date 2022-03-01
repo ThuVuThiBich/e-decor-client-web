@@ -15,9 +15,9 @@ export default function EnhancedTableHead(props) {
   return (
     <TableHead>
       <StyledTableRow>
-        {headCells?.map((headCell) => (
+        {headCells?.map((headCell, index) => (
           <TableCell
-            key={headCell.id}
+            key={index}
             align="center"
             padding={"normal"}
             className={classes.tableCell}

@@ -7,6 +7,8 @@ import noWishlist from "../assets/images/wishlist.svg";
 import noShop from "../assets/images/no-shop.svg";
 import coverHome from "../assets/images/cover_home.svg";
 import password  from "../assets/images/password.svg";
+import noCategory  from "../assets/images/no_category.svg";
+import productVersion from "../assets/images/add_product_version.svg";
 
 const Images = {
   NO_DATA: noDataImg,
@@ -16,7 +18,9 @@ const Images = {
   NO_REVIEW: noReview,
   NO_WISHLIST: noWishlist,
   NO_SHOP: noShop,
+  NO_CATEGORY: noCategory,
   COVER_HOME: coverHome,
+  PRODUCT_VERSION: productVersion,
   PASSWORD: password,
   COVER_LINK:
     "https://res.litfad.com/site/img/item/2020/06/11/921815/584x584.jpg",

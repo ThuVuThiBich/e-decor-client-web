@@ -96,11 +96,11 @@ export default function Products({ order }) {
           </Box>
         </Box>
         <Box p={2}>
-          {order?.orderItems?.map((product) => (
+          {order?.orderItems?.map((product, index) => (
             <Product
               orderItemId={product?.id}
               product={product}
-              key={product?.id}
+              key={index}
               isDelivered={order?.status === "delivered"}
               hasFeedback={product?.feedback}
             />

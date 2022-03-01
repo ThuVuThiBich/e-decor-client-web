@@ -1,3 +1,4 @@
+import { blue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
@@ -26,10 +27,16 @@ export const useStyles = makeStyles({
   },
 
   img: {
-   
     "& :hover": {
-      
       border: "1px solid black",
     },
+  },
+  buttonProgress: {
+    color: blue[500],
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
   },
 });

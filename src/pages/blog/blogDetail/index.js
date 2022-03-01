@@ -6,16 +6,15 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography,
+  Typography
 } from "@material-ui/core";
-import BallotOutlinedIcon from "@material-ui/icons/BallotOutlined";
-
-import PostAddIcon from "@material-ui/icons/PostAdd";
+import BallotIcon from "@material-ui/icons/Ballot";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import { useHistory } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -137,7 +136,7 @@ export default function BlogDetail() {
         justifyContent="space-between"
       >
         <Box display="flex" alignItems="center">
-          <BallotOutlinedIcon className={classes.icon} />
+          <BallotIcon className={classes.icon} />
           <Typography className={classes.title}>Post Detail</Typography>
         </Box>
         <Button

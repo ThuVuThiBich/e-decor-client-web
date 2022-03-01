@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
+import ScrollToTop from "components/common/ScrollToTop";
 import { formats, modules } from "pages/blog/addBlog";
 import React, { useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -23,7 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updateProduct } from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
-import { getCategoryNameFromId } from "utils/helpers";
+import { getCategoryName } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 
@@ -56,6 +57,8 @@ const style = {
 };
 
 export default function ViewProductForm(props) {
+  ScrollToTop();
+
   const { productId } = useParams();
   const { isView, setIsView } = props;
   const dispatch = useDispatch();
@@ -175,7 +178,7 @@ export default function ViewProductForm(props) {
       size: "",
       weight: 1,
       images,
-      versions: storeProduct.productVersions?.map((item) => ({
+      versions: storeProduct?.productVersions?.map((item) => ({
         name: item.name,
         image: item.image,
         price: item.price,
@@ -185,26 +188,15 @@ export default function ViewProductForm(props) {
     !isView &&
       dispatch(updateProduct({ id: productId, body: data })).then((data) => {
         history.push({
-          pathname: `/shop/products/${getCategoryNameFromId(
+          pathname: `/shop/products/${getCategoryName(
             categoryId,
-            storeCategory.shopCategories
+            storeCategory.categories
           )}/${data.payload}`,
           state: {
             categoryId,
           },
         });
       });
-    // setTimeout(() => {
-    //   history.push({
-    //     pathname: `/shop/products/${getCategoryNameFromId(
-    //       categoryId,
-    //       storeCategory.shopCategories
-    //     )}`,
-    //     state: {
-    //       categoryId,
-    //     },
-    //   });
-    // }, 2000);
   };
   return (
     <Paper>
@@ -266,7 +258,7 @@ export default function ViewProductForm(props) {
                     },
                   }}
                 >
-                  {storeCategory.categories?.map((option, index) => (
+                  {storeCategory?.categories?.map((option, index) => (
                     <MenuItem key={index} value={option?.id}>
                       {option?.name}
                     </MenuItem>

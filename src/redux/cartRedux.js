@@ -23,7 +23,7 @@ export const addCartItem = createAsyncThunk(
   async (data) => {
     const response = await cartApi.add(data);
     if (response.result) {
-      toast.success("SUCCESS");
+      // toast.success("SUCCESS");
       return response.result;
     } else toast.error("ERROR");
   }

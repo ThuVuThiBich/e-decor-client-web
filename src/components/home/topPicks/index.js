@@ -13,7 +13,7 @@ export default function TopPicks() {
     {
       name: "Happy WOMAN's Day",
       description:
-        "Women’s Day is celebrated to make every woman realize how special they are for society, not only today but every day, in every way!",
+        "Women’s Day is celebrated to make every woman realize how special they are, not only today but every day, in every way!",
       image:
         "https://i.pinimg.com/originals/fb/d6/72/fbd672e5ef419b6b35d24f772046a7e4.jpg",
     },
@@ -46,54 +46,54 @@ export default function TopPicks() {
 
   const mockItems = [
     {
-      name: "Balloon set for woman's day",
+      name: " Balloon set  ",
       image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d",
       id: 52,
+      price: "10 - 15",
     },
     {
-      name: "Wall Grid Panel for Photo Display, Wall Storage Organizer",
+      name: "Wall Grid Panel ",
       image: "https://cf.shopee.vn/file/a746af93a3a4310d2b80336dddfd986a",
       id: 53,
+      price: "20 - 25",
     },
     {
-      name: "Event1",
-      image: "image 1",
-      id: 53,
+      name: "LED 3D Decor Lamp",
+      image:
+        "https://res.cloudinary.com/e-decor/image/upload/v1646118389/uploads/lxpb7tdczpcqd2avbfrv.jpg",
+      id: 54,
+      price: "10 - 25",
     },
     {
-      name: "Event1",
-      image: "image 1",
-      id: 53,
+      name: "Decor postcard",
+      image:
+        "https://res.cloudinary.com/e-decor/image/upload/v1646119409/uploads/s6cvzvugzr88ebq5kbym.jpg",
+      id: 55,
+      price: "20 - 50",
     },
     {
-      name: "Event1",
-      image: "image 1",
-      id: 53,
+      name: " Balloon set  ",
+      image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d",
+      id: 52,
+      price: "5 - 10",
     },
     {
-      name: "Event1",
-      image: "image 1",
+      name: "Wall Grid Panel ",
+      image: "https://cf.shopee.vn/file/06ea894b12045fd40d256d31b73553ee",
       id: 53,
+      price: "50 - 70",
     },
     {
-      name: "Event1",
-      image: "image 1",
-      id: 53,
+      name: "LED 3D Decor Lamp",
+      image: "https://cf.shopee.vn/file/9e991050944a068348ec8d8ad522ecdf",
+      id: 54,
+      price: "10 - 30",
     },
     {
-      name: "Event2",
-      image: "image 1",
-      id: 53,
-    },
-    {
-      name: "Event3",
-      image: "image 1",
-      id: 53,
-    },
-    {
-      name: "Event1",
-      image: "image 1",
-      id: 53,
+      name: "Decor postcard",
+      image: "https://cf.shopee.vn/file/265dcac08e575c52e62932e99100b610",
+      id: 55,
+      price: "25 - 50",
     },
   ];
 
@@ -110,7 +110,7 @@ export default function TopPicks() {
           </Carousel>
         </Grid>
         <Grid item xs={12} md={7}>
-          <Box>
+          <Box mb={3} ml={-1}>
             <Typography variant="h2" className={classes.topPicks}>
               Top Picks
             </Typography>

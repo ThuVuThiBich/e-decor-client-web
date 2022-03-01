@@ -3,16 +3,15 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Detail from "components/user/orderDetail";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getOrder } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
-import { useStyles } from "./styles";
 import { isEmpty } from "underscore";
+import { useStyles } from "./styles";
 
 export default function OrderDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const { id } = useParams();
   const { order, isUpdating } = useSelector(orderSelector);
   useEffect(() => {

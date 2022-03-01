@@ -1,24 +1,21 @@
 import {
   Box,
-  Divider,
   FormControl,
   InputBase,
   MenuItem,
-  OutlinedInput,
   Paper,
   Select,
   Typography,
 } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "redux/categoryRedux";
-import { useHistory } from "react-router-dom";
-import { categorySelector } from "redux/selectors";
 import AppsIcon from "@material-ui/icons/Apps";
+import SearchIcon from "@material-ui/icons/Search";
 import ViewListIcon from "@material-ui/icons/ViewList";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getCategories } from "redux/categoryRedux";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 16,
@@ -84,7 +81,6 @@ const MenuProps = {
 export default function ToolbarBox() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const storeCategory = useSelector(categorySelector);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
@@ -95,9 +91,6 @@ export default function ToolbarBox() {
     setCategoryValue(e.target.value);
     history.push("/products");
   };
-  const handleChangeSearch = (e) => {
-    setSearchValue(e.target.value);
-  };
   return (
     <Paper component="form" className={classes.root}>
       <Box className={classes.searchRoot}>
@@ -107,6 +100,8 @@ export default function ToolbarBox() {
         <InputBase
           className={classes.searchInput}
           placeholder="Search post ..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
         />
       </Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">

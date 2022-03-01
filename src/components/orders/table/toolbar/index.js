@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   FormControl,
-  InputBase,
   InputLabel,
   Menu,
   MenuItem,
@@ -10,10 +9,10 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { STATUS, STATUSES } from "constants/index";
+import { STATUSES } from "constants/index";
 import SearchBar from "material-ui-search-bar";
 import React, { useState } from "react";
-import { MenuProps, useToolbarStyles } from "./styles";
+import { useToolbarStyles } from "./styles";
 
 export default function TableToolbar(props) {
   const {
@@ -50,30 +49,6 @@ export default function TableToolbar(props) {
           onKeyUp={keyUp}
           onChange={(newValue) => setSearched(newValue)}
         />
-        {/* <FormControl variant="outlined" className={classes.selectInput}>
-          <Select
-            value={status}
-            name={"status"}
-            displayEmpty
-            MenuProps={MenuProps}
-            input={<InputBase classes={{ input: classes.input }} />}
-            onChange={handleChangeDropdown}
-            inputProps={{
-              MenuProps: { disableScrollLock: true },
-              PaperProps: {
-                style: {
-                  boxShadow: "0 1px 5px 1px rgb(0 0 0 / 20%)",
-                },
-              },
-            }}
-          >
-            {STATUSES?.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
         <FormControl
           margin="dense"
           variant="outlined"
@@ -95,8 +70,8 @@ export default function TableToolbar(props) {
             <MenuItem key={"#"} value={""}>
               All
             </MenuItem>
-            {STATUSES?.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
+            {STATUSES?.map((option, index) => (
+              <MenuItem key={index} value={option.value}>
                 {option.name}
               </MenuItem>
             ))}

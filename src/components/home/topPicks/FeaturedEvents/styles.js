@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 export const useStyles = makeStyles((theme) => ({
   root: {
     color: "#0c0e30",
-    padding: theme.spacing(4, 2),
+    padding: theme.spacing( 2),
   },
   wrapper: {},
   text: {
@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme) => ({
     whiteSpace: "normal",
   },
   subText: {
-    marginBottom: "1.5rem",
+    marginBottom: "1rem",
     marginTop: 0,
     fontSize: 14,
     lineHeight: 1.2,

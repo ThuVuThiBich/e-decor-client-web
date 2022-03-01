@@ -24,14 +24,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { storeAmount, storeOrderItems, storeShopInfo } from "redux/orderRedux";
-import { cartSelector } from "redux/selectors";
+import { cartSelector, orderSelector } from "redux/selectors";
 import { getCartItemsShop, getOrderPrice, getPriceTotal } from "utils/helpers";
 import CartItem from "./cartItem";
 
 function EnhancedTableHead(props) {
   const { name, classes, onSelectAllClick, numSelected, rowCount, isLoading } =
     props;
-
+  const { shopId } = useSelector(orderSelector);
+  const history = useHistory();
   return isLoading ? (
     <>
       <TableRow height={70}>
@@ -70,7 +71,13 @@ function EnhancedTableHead(props) {
         <TableCell key={"1"} align={"left"} width={"35%"}>
           <Box display="flex" alignItems="center">
             <StorefrontIcon style={{ marginRight: 16 }} />
-            {name}
+
+            <Typography
+              className={classes.shop}
+              onClick={() => history.push(`/shops/${shopId}`)}
+            >
+              {name}
+            </Typography>
           </Box>
         </TableCell>
 
@@ -202,6 +209,11 @@ const useStyles = makeStyles((theme) => ({
 
   price: {
     color: "rgb(210, 63, 87)",
+  },
+  shop: {
+    fontSize: 18,
+    cursor: "pointer",
+    "&:hover": { color: "#D23F57", textDecoration: "underline" },
   },
 }));
 

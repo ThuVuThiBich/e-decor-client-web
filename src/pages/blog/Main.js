@@ -1,19 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
-import Markdown from "./Markdown";
-import {
-  Box,
-  Card,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import Post from "components/home/ideasBlog/Post";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   markdown: {
@@ -87,13 +79,13 @@ export default function Main(props) {
         </FormControl>
       </Box>
       <Divider />
-      {posts.map((post, index) => (
+      {posts?.map((post, index) => (
         // <Box py={2}>
         //   <Card className={classes.markdown} key={index}>
         //     post
         //   </Card>
         // </Box>
-        <Post />
+        <Post key={index}/>
       ))}
     </Grid>
   );

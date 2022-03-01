@@ -113,7 +113,7 @@ export default function Footer(props) {
                 <Box className={classes.address}>
                   70 Washington Square South, New York, NY 10012, United States
                 </Box>
-                <Box className={classes.email}>Email: uilib.help@gmail.com</Box>
+                <Box className={classes.email}>Email: e.decor.sys.care@gmail.com</Box>
                 <Box className={classes.phone}> Phone: +1 1123 456 780</Box>
                 <Box display="flex" className={classes.socialMedia}>
                   <a

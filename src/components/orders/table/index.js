@@ -24,7 +24,7 @@ export default function OrdersTable(props) {
   const isLoading = false;
 
   return (
-    <Paper>
+    <Paper style={{ marginBottom: 64 }}>
       <TableToolbar />
       <TableContainer component={Paper} className={classes.root} elevation={0}>
         <Table className={classes.table}>
@@ -34,8 +34,8 @@ export default function OrdersTable(props) {
               <LoadingTable />
             ) : (
               <>
-                {orders?.map((row) => (
-                  <EnhancedTableRow key={row.id} row={row} />
+                {orders?.map((row, index) => (
+                  <EnhancedTableRow key={index} row={row} />
                 ))}
 
                 <EmptyRows isEmptyTable={orders.length === 0} />

@@ -2,8 +2,6 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
-  DialogContent,
   DialogTitle,
   ListItemText,
   Menu,
@@ -16,7 +14,6 @@ import PlaceIcon from "@material-ui/icons/Place";
 import AddressForm from "components/user/addressForm";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { setOrderAddress } from "redux/orderRedux";
 import { addressSelector, orderSelector } from "redux/selectors";
 import { isEmpty } from "underscore";
@@ -24,7 +21,6 @@ import { getAddressText } from "utils/helpers";
 import { useStyles } from "./styles";
 
 export default function DeliveryAddress() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const { address } = useSelector(orderSelector);

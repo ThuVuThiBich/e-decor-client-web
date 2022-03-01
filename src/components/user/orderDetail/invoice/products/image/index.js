@@ -1,15 +1,10 @@
-import {
-  Avatar,
-  Box, IconButton, Tooltip
-} from "@material-ui/core";
+import { Avatar, Box, IconButton, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { createRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useStyles } from "./styles";
 
 export default function ProductImage(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { file, index } = props;
 
   //

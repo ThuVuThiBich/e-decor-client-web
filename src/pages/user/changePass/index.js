@@ -191,7 +191,7 @@ export default function ChangePassword() {
                       />
                     </FormControl>
 
-                    <Box mt={2} className={classes.wrapper}>
+                    <Box className={classes.wrapper}>
                       <Button
                         color="primary"
                         variant="contained"

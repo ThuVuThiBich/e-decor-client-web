@@ -1,18 +1,11 @@
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 import Images from "constants/image";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { getMyShop } from "redux/shopRedux";
 
 export default function NoShop() {
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getMyShop());
-  }, [dispatch]);
 
   return (
     <Box mb={4}>

@@ -4,9 +4,9 @@ import React from "react";
 import ShopOrdered from "./shopOrdered";
 import { useStyles } from "./styles";
 
-export default function ProductsOrdered(props) {
-  const { shopId } = props;
+export default function ProductsOrdered() {
   const classes = useStyles();
+
   return (
     <Box>
       <Paper className={classes.root}>
@@ -60,7 +60,7 @@ export default function ProductsOrdered(props) {
       </Paper>
       <Grid container>
         <Grid item xs={12} md={12}>
-          <ShopOrdered shopId={shopId} />
+          <ShopOrdered />
         </Grid>
       </Grid>
     </Box>

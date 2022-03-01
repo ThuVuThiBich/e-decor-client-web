@@ -133,7 +133,7 @@ export default function ShopSearchBox() {
         >
           <Typography className={classes.subText}>View:</Typography>
           <Box ml={1}>
-            <IconButton>
+            <IconButton style={{ color: "#D23F57" }}>
               <AppsIcon />
             </IconButton>
             <IconButton>

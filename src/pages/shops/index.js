@@ -57,8 +57,8 @@ export default function Shops() {
                 <LoadingCard type="shop" />
               </Grid>
             ))
-          : storeShops.shops?.map((shop) => (
-              <Grid key={shop.id} item xs={12} sm={6} lg={4}>
+          : storeShops.shops?.map((shop, index) => (
+              <Grid key={index} item xs={12} sm={6} lg={4}>
                 <Shop shop={shop} />
               </Grid>
             ))}

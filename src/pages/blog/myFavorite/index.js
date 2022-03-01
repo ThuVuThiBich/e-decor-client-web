@@ -55,7 +55,7 @@ export default function MyFavorite() {
           //     post
           //   </Card>
           // </Box>
-          <Post />
+          <Post key={index}/>
         ))}
       </Box>
     </Box>

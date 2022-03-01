@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 export const useStyles = makeStyles((theme) => ({
   root: {
     color: "#0c0e30",
-    padding: theme.spacing(4, 2),
+    margin: 8,
+    border: "1px solid #e0e0e0",
+    borderRadius: 4,
   },
   wrapper: {},
   text: {

@@ -22,7 +22,7 @@ export default function Pick(props) {
   };
   const MyRating = ({ classes }) => (
     <Rating
-      value={3}
+      value={5}
       max={5}
       // onChange={(i) => console.log("onChange " + i)}
       classes={classes}
@@ -33,7 +33,6 @@ export default function Pick(props) {
   return (
     <Box
       className={classes.root}
-      //  style={{ width: 100 }}
       onClick={() => history.push(`/product/${item.id}`)}
     >
       {/* <h2 className={classes.text}>{props.event.name}</h2>
@@ -43,17 +42,18 @@ export default function Pick(props) {
           <img
             width={"100%"}
             src={item.image}
+            height={150}
             alt=""
             display="block"
             className={classes.image}
           />
         </Box>
       </Link>
-      <Box mt={2}>
+      <Box pt={2} p={1} style={{ backgroundColor: "white" }}>
         <Box>
           <h4>{props.item.name}</h4>
           <SmallRating />
-          <span>$20.00</span>
+          <span style={{ color: "#D23F57" }}>${item.price}</span>
         </Box>
       </Box>
     </Box>

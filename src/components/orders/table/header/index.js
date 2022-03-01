@@ -1,4 +1,4 @@
-import { TableCell, TableHead, TableSortLabel } from "@material-ui/core";
+import { TableCell, TableHead } from "@material-ui/core";
 import React from "react";
 import { StyledTableRow } from "../common/styles";
 import { useStyles } from "./styles";
@@ -15,9 +15,9 @@ export default function EnhancedTableHead(props) {
   return (
     <TableHead>
       <StyledTableRow>
-        {headCells?.map((headCell) => (
+        {headCells?.map((headCell, index) => (
           <TableCell
-            key={headCell.id}
+            key={index}
             align="center"
             padding={"normal"}
             className={classes.tableCell}

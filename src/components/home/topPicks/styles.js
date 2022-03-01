@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
   },
   paper: {
-    marginTop: -16,
+    marginTop: 20,
+    paddingTop: 20,
   },
 }));

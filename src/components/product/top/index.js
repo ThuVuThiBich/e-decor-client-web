@@ -1,6 +1,8 @@
 import {
+  Avatar,
   Box,
   Button,
+  CircularProgress,
   Divider,
   FormControlLabel,
   Grid,
@@ -9,7 +11,6 @@ import {
   Radio,
   RadioGroup,
   Typography,
-  Avatar,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
@@ -20,23 +21,28 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import React, { useEffect, useState } from "react";
 import ItemsCarousel from "react-items-carousel";
-import { getImagesFromProductVersion, getPriceText } from "utils/helpers";
-import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { productSelector } from "redux/selectors";
-import { addCartItem } from "redux/cartRedux";
-import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { addCartItem } from "redux/cartRedux";
+import { storeOrderItems } from "redux/orderRedux";
+import { cartSelector, productSelector } from "redux/selectors";
+import {
+  getImagesFromProductVersion,
+  getPriceText,
+  getToken,
+} from "utils/helpers";
+import { useStyles } from "./styles";
 
 export default function Top(props) {
   const history = useHistory();
 
   const dispatch = useDispatch();
   const { product } = useSelector(productSelector);
+  const { isLoading } = useSelector(cartSelector);
   const [showedImage, setShowedImage] = useState("");
-  const [isDisabled, setIsDisabled] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   useEffect(() => {
     setShowedImage(
       product?.images?.concat(
@@ -47,6 +53,7 @@ export default function Top(props) {
 
   const [active, setActive] = useState(0);
   const classes = useStyles();
+  const [quantity, setQuantity] = useState(1);
 
   const [showedPrice, setShowedPrice] = useState(
     getPriceText(product?.productVersions)
@@ -60,20 +67,46 @@ export default function Top(props) {
     const item = product?.productVersions.find(
       (item) => +item.id === +event.target.value
     );
+    console.log(item);
+    const orderItem = {
+      name: item?.name,
+      price: item?.price,
+      productVersionName: item?.name,
+      image: item?.image,
+      productVersionId: item?.id,
+      quantity,
+    };
+    dispatch(storeOrderItems([orderItem]));
     setShowedImage(item.image);
     setShowedPrice(item.price);
     setIsDisabled(!item.quantity);
   };
 
   const addToCart = (e) => {
-    if (value) dispatch(addCartItem({ quantity, productVersionId: value }));
+    if (!getToken()) history.push("/login");
+    else if (value)
+      dispatch(addCartItem({ quantity, productVersionId: value })).then(
+        (data) => {
+          console.log(data);
+          if (data.payload.new)
+            toast.success("Item has been added to your shopping cart!");
+          else toast.warn("Item has been added to your shopping cart before!");
+        }
+      );
     else {
       toast.warn("Please select product variation first");
       console.error("Please select product variation first");
     }
   };
-
-  const [quantity, setQuantity] = useState(1);
+  const handleBuyNow = (e) => {
+    if (!getToken()) history.push("/login");
+    else if (value) {
+      history.push("/checkout");
+    } else {
+      toast.warn("Please select product variation first");
+      console.error("Please select product variation first");
+    }
+  };
 
   return (
     <Paper>
@@ -235,9 +268,9 @@ export default function Top(props) {
                   value={value}
                   onChange={handleChange}
                 >
-                  {product?.productVersions?.map((product) => (
+                  {product?.productVersions?.map((product, index) => (
                     <FormControlLabel
-                      key={product?.id}
+                      key={index}
                       value={product?.id.toString()}
                       control={<Radio />}
                       label={`${product?.name} ${
@@ -274,23 +307,34 @@ export default function Top(props) {
                 </Box>
               </Box>
               <Box display="flex" my={1}>
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  className={classes.actionBtn}
-                  onClick={addToCart}
-                  disabled={isDisabled}
-                >
-                  <AddShoppingCartIcon />
-                  Add To Cart
-                </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  className={classes.buyBtn}
-                >
-                  Buy Now
-                </Button>
+                <Box style={{ position: "relative" }}>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    className={classes.actionBtn}
+                    onClick={addToCart}
+                    disabled={isDisabled || isLoading}
+                  >
+                    <AddShoppingCartIcon />
+                    Add To Cart
+                  </Button>
+                  {isLoading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </Box>
+                <Box style={{ position: "relative" }}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    className={classes.buyBtn}
+                    onClick={handleBuyNow}
+                  >
+                    Buy Now
+                  </Button>
+                </Box>
               </Box>
             </Box>
 
@@ -350,7 +394,7 @@ export default function Top(props) {
           </Grid>
         </Grid>
       </Box>
-      <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
+      <ToastContainer autoClose={1000} style={{ marginTop: "100px" }} />
     </Paper>
   );
 }

@@ -198,8 +198,8 @@ export default function AddressForm(props) {
                     getContentAnchorEl: null,
                   }}
                 >
-                  {storeAddress.cities?.map((city) => (
-                    <MenuItem key={city.id} value={city.id}>
+                  {storeAddress?.cities?.map((city, index) => (
+                    <MenuItem key={index} value={city.id}>
                       {city.name}
                     </MenuItem>
                   ))}
@@ -239,8 +239,8 @@ export default function AddressForm(props) {
                     getContentAnchorEl: null,
                   }}
                 >
-                  {storeAddress.districts?.map((district) => (
-                    <MenuItem key={district.id} value={district.id}>
+                  {storeAddress?.districts?.map((district, index) => (
+                    <MenuItem key={index} value={district.id}>
                       {district.name}
                     </MenuItem>
                   ))}
@@ -278,8 +278,8 @@ export default function AddressForm(props) {
                     getContentAnchorEl: null,
                   }}
                 >
-                  {storeAddress.wards?.map((ward) => (
-                    <MenuItem key={ward.id} value={ward.id}>
+                  {storeAddress?.wards?.map((ward, index) => (
+                    <MenuItem key={index} value={ward.id}>
                       {ward.name}
                     </MenuItem>
                   ))}
@@ -294,7 +294,7 @@ export default function AddressForm(props) {
               style={{ marginRight: 4, backgroundColor: "#424242" }}
               color="primary"
               variant="contained"
-              onClick={() => history.push("/cart")}
+              onClick={() => history.goBack()}
             >
               Cancel
             </Button>

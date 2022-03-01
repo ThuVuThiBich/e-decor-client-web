@@ -10,9 +10,14 @@ import { toast } from "react-toastify";
 export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
   // thunkAPI.dispatch(...)
   const response = await authApi.login(data);
+  console.log(response);
   if (response.data.success) {
     setToken(response.data.token);
     await thunkAPI.dispatch(getInfo());
+    return response.data.success;
+  } else {
+    toast.error("Login Failed!");
+    return response;
   }
 });
 

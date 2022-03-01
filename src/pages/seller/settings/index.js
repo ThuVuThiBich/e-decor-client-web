@@ -8,7 +8,7 @@ export default function Settings() {
   const classes = useStyles();
 
   return (
-    <div>
+    <Box>
       <Box
         display="flex"
         alignItems="center"
@@ -26,6 +26,6 @@ export default function Settings() {
       <Box>
         <ShopInfo />
       </Box>
-    </div>
+    </Box>
   );
 }

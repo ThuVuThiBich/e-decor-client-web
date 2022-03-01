@@ -2,7 +2,14 @@ import {
   Avatar,
   Box,
   Button,
+  Checkbox,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
   InputLabel,
@@ -17,7 +24,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCities, getDistricts, getWards, reset } from "redux/addressRedux";
 import { addressSelector, shopSelector } from "redux/selectors";
-import { createShop, updateShop } from "redux/shopRedux";
+import { createShop, getMyShop, updateShop } from "redux/shopRedux";
 import defaultAva from "../../../assets/images/profile_pic.svg";
 import defaultWall from "../../../assets/images/default_photo.svg";
 import { useStyles } from "./styles";
@@ -28,22 +35,25 @@ export default function ShopInfo() {
   const classes = useStyles();
   const storeShop = useSelector(shopSelector);
   const [name, setName] = useState(
-    storeShop.currentShop ? storeShop.currentShop.name : ""
+    storeShop?.currentShop ? storeShop?.currentShop?.name : ""
+  );
+  const [paypalMail, setPaypalMail] = useState(
+    storeShop?.currentShop ? storeShop?.currentShop?.paypalMail : ""
   );
   const [phone, setPhone] = useState(
-    storeShop.currentShop ? storeShop.currentShop?.owner?.phone : ""
+    storeShop?.currentShop ? storeShop?.currentShop?.phone || "" : ""
   );
   const [addressDetail, setAddressDetail] = useState(
-    storeShop.currentShop ? storeShop.currentShop.addressDetail : ""
+    storeShop?.currentShop ? storeShop?.currentShop?.addressDetail || "" : ""
   );
   const [cityId, setCityId] = useState(
-    storeShop.currentShop ? storeShop.currentShop.city?.id : ""
+    storeShop?.currentShop ? storeShop?.currentShop?.city?.id : ""
   );
   const [districtId, setDistrictId] = useState(
-    storeShop.currentShop ? storeShop.currentShop.district?.id : ""
+    storeShop?.currentShop ? storeShop?.currentShop?.district?.id : ""
   );
   const [wardId, setWardId] = useState(
-    storeShop.currentShop ? storeShop.currentShop.ward?.id : ""
+    storeShop?.currentShop ? storeShop?.currentShop?.ward?.id : ""
   );
 
   const handleChangeName = (event) => {
@@ -82,10 +92,10 @@ export default function ShopInfo() {
   }, [dispatch, districtId]);
 
   const [avaUrl, setAvaUrl] = useState(
-    storeShop.currentShop ? storeShop.currentShop?.avatar : defaultAva
+    storeShop?.currentShop ? storeShop?.currentShop?.avatar : defaultAva
   );
   const [wallUrl, setWallUrl] = useState(
-    storeShop.currentShop ? storeShop.currentShop?.coverImage : defaultWall
+    storeShop?.currentShop ? storeShop?.currentShop?.coverImage : defaultWall
   );
 
   // upload
@@ -116,12 +126,20 @@ export default function ShopInfo() {
       coverImage: wallUrl,
       avatar: avaUrl,
       description: "description",
+      paypalMail,
     };
-    storeShop.currentShop
-      ? dispatch(updateShop({ ...data, id: storeShop.currentShop.id }))
-      : dispatch(createShop(data));
+    storeShop?.currentShop
+      ? dispatch(updateShop({ ...data, id: storeShop.currentShop.id })).then(
+          (data) => {
+            console.log(data);
+            dispatch(getMyShop());
+          }
+        )
+      : setIsOpen(!isOpen);
   };
 
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <Paper>
       <Box p={3}>
@@ -280,8 +298,8 @@ export default function ShopInfo() {
                       getContentAnchorEl: null,
                     }}
                   >
-                    {storeAddress.cities?.map((city) => (
-                      <MenuItem key={city.id} value={city.id}>
+                    {storeAddress?.cities?.map((city, index) => (
+                      <MenuItem key={index} value={city.id}>
                         {city.name}
                       </MenuItem>
                     ))}
@@ -321,8 +339,8 @@ export default function ShopInfo() {
                       getContentAnchorEl: null,
                     }}
                   >
-                    {storeAddress.districts?.map((district) => (
-                      <MenuItem key={district.id} value={district.id}>
+                    {storeAddress?.districts?.map((district, index) => (
+                      <MenuItem key={index} value={district.id}>
                         {district.name}
                       </MenuItem>
                     ))}
@@ -362,27 +380,147 @@ export default function ShopInfo() {
                       getContentAnchorEl: null,
                     }}
                   >
-                    {storeAddress.wards?.map((ward) => (
-                      <MenuItem key={ward.id} value={ward.id}>
+                    {storeAddress?.wards?.map((ward, index) => (
+                      <MenuItem key={index} value={ward.id}>
                         {ward.name}
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               </Grid>
+              <Grid item xs={12} md={12}>
+                <FormControl variant="outlined" margin="dense" fullWidth>
+                  <InputLabel htmlFor="component-outlined">
+                    Paypal Mail
+                  </InputLabel>
+                  <OutlinedInput
+                    id="component-outlined"
+                    value={paypalMail}
+                    onChange={(e) => setPaypalMail(e.target.value)}
+                    label="Paypal Mail"
+                    placeholder="Paypal Mail"
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
           </Box>
-          <Box>
+          <Box style={{ position: "relative" }}>
             <Button
               color="primary"
               variant="contained"
               onClick={handleSubmitShop}
+              disabled={storeShop?.isLoading}
             >
-              {storeShop.currentShop ? "Save Changes" : "Create your shop"}
+              {storeShop?.currentShop ? "Save Changes" : "Create your shop"}
             </Button>
+            {storeShop?.isLoading && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
           </Box>
         </Box>
       </Box>
+      <Dialog
+        open={isOpen}
+        onClose={() => {
+          setIsOpen(!isOpen);
+        }}
+        aria-labelledby="form-dialog-title"
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle id="form-dialog-title" onClose={() => {}}>
+          Official Shop Terms of Service
+        </DialogTitle>
+        <DialogContent>
+          <Box>
+            Official Shops are participating Sellers that have been carefully
+            selected by E-Decor (such Sellers, “Official Shops”) from whom
+            E-Decor-registered Buyers will be able to enjoy the rights and
+            privileges described in these Official Shop Terms of Services
+            (“Official Shop Terms of Service”) when purchasing Items from
+            Official Shops (“Official Shop Items”).
+          </Box>
+          <Box>
+            If you are a Buyer, you will be deemed to have consented to the
+            terms and conditions described in these Official Shop Terms of
+            Service when you make purchases on E-Decor.
+          </Box>
+          <Box>
+            Similarly, if you are an Official Shop, you will be deemed to have
+            consented to the terms and conditions described in these Official
+            Shop Terms of Service by your continued participation in E-Decor as
+            an Official Shop.
+          </Box>
+          <Box>
+            These Official Shop Terms of Service supplement the Terms of Service
+            and the other E-Decor Policies, of which these Official Shop
+            Official Shop Terms of Service forms a part – please read the Terms
+            of Service and the other E-Decor Policies available on the Site as
+            they contain important information regarding your rights and
+            obligations.
+          </Box>
+          <Box>
+            Any terms that are used in these Official Shop Terms of Service that
+            are not defined here will have the meanings given to such terms in
+            the Terms of Service and/or the applicable E-Decor Policy.
+          </Box>
+          <Box>
+            All terms and conditions described in these Official Shop Terms of
+            Service are subject to change at E-Decor’s discretion pursuant to
+            the Terms of Service.
+          </Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isConfirm}
+                onChange={() => {
+                  setIsConfirm(!isConfirm);
+                }}
+                name="isConfirm"
+                color="primary"
+              />
+            }
+            label="I agree with the Terms of Service"
+          />
+        </DialogContent>
+        <DialogActions className={classes.dialogActions}>
+          <Button
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+            variant="outlined"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              const data = {
+                name,
+                phone,
+                addressDetail,
+                cityId,
+                districtId,
+                wardId,
+                coverImage: wallUrl,
+                avatar: avaUrl,
+                description: "description",
+                paypalMail,
+              };
+              dispatch(createShop(data)).then((data) => {
+                console.log(data);
+                dispatch(getMyShop());
+              });
+              setIsOpen(!isOpen);
+            }}
+            color="primary"
+            variant="contained"
+            disableElevation
+            disabled={!isConfirm}
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Paper>
   );

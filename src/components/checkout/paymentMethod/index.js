@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   Menu,
   MenuItem,
@@ -213,32 +214,41 @@ export default function PaymentMethod() {
               />
             </Box>
           ) : (
-            <Button
-              color="primary"
-              variant="contained"
-              style={{ marginRight: 80, marginLeft: 16 }}
-              onClick={() => {
-                dispatch(
-                  createOrder({
-                    isPurchased,
-                    addressId,
-                    shopId,
-                    shippingUnitId,
-                    promotionId: orderStore.promotionId
-                      ? orderStore.promotionId
-                      : undefined,
-                    orderItems: orderStore.orderItems.map((item) => ({
-                      productVersionId: item.productVersionId,
-                      quantity: item.quantity,
-                    })),
-                  })
-                ).then((res) => {
-                  history.push(`/orders/${res.payload.id}`);
-                });
-              }}
-            >
-              Place Order
-            </Button>
+            <Box style={{ position: "relative" }}>
+              <Button
+                color="primary"
+                variant="contained"
+                style={{ marginRight: 80, marginLeft: 16 }}
+                disabled={orderStore?.isLoading}
+                onClick={() => {
+                  dispatch(
+                    createOrder({
+                      isPurchased,
+                      addressId,
+                      shopId,
+                      shippingUnitId,
+                      promotionId: orderStore.promotionId
+                        ? orderStore.promotionId
+                        : undefined,
+                      orderItems: orderStore.orderItems.map((item) => ({
+                        productVersionId: item.productVersionId,
+                        quantity: item.quantity,
+                      })),
+                    })
+                  ).then((res) => {
+                    history.push(`/orders/${res.payload.id}`);
+                  });
+                }}
+              >
+                Place Order
+              </Button>
+              {orderStore?.isLoading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
+            </Box>
           )}
         </Box>
       </Box>

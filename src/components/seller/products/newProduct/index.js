@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core";
 //
 import axios from "axios";
+import { LoadingProduct } from "components/common/LoadingProduct";
+import ScrollToTop from "components/common/ScrollToTop";
 import { formats, modules } from "pages/blog/addBlog";
 import React, { useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -24,7 +26,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createProduct, resetProductVersion } from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
-import { getCategoryNameFromId } from "utils/helpers";
+import { getCategoryName } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 const thumbsContainer = {
@@ -75,6 +77,7 @@ const style = {
 };
 
 export default function NewProductForm() {
+  ScrollToTop();
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const storeProduct = useSelector(productSelector);
@@ -140,8 +143,8 @@ export default function NewProductForm() {
     },
   });
 
-  const thumbs = files?.map((file) => (
-    <div style={thumb} key={file.name}>
+  const thumbs = files?.map((file, index) => (
+    <div style={thumb} key={index}>
       <div style={thumbInner}>
         <img src={file.preview} style={img} alt="" />
       </div>
@@ -173,29 +176,37 @@ export default function NewProductForm() {
       size: "",
       weight: 1,
       images,
-      versions: storeProduct.productVersions?.map((item) => ({
+      versions: storeProduct?.productVersions?.map((item) => ({
         name: item.name,
         image: item.image,
         price: item.price,
         quantity: item.quantity,
       })),
     };
-    dispatch(createProduct(data));
-    setTimeout(() => {
-      history.push({
-        pathname: `/shop/products/${getCategoryNameFromId(
-          categoryId,
-          storeCategory.shopCategories
-        )}`,
-        state: {
-          categoryId,
-        },
-      });
-    }, 2000);
+    dispatch(createProduct(data)).then((data) => {
+      console.log(data);
+      const categoryName = getCategoryName(
+        categoryId,
+        storeCategory.categories
+      );
+      categoryName &&
+        data?.payload?.id &&
+        history.push({
+          pathname: `/shop/products/${getCategoryName(
+            categoryId,
+            storeCategory.categories
+          )}/${data?.payload?.id}`,
+          state: {
+            categoryId,
+          },
+        });
+    });
 
     dispatch(resetProductVersion());
   };
-  return (
+  return storeProduct?.isLoading ? (
+    <LoadingProduct />
+  ) : (
     <Paper>
       <Box p={2} my={2}>
         <form>
@@ -249,7 +260,7 @@ export default function NewProductForm() {
                     },
                   }}
                 >
-                  {storeCategory.categories?.map((option, index) => (
+                  {storeCategory?.categories?.map((option, index) => (
                     <MenuItem key={index} value={option.id}>
                       {option.name}
                     </MenuItem>
@@ -314,7 +325,7 @@ export default function NewProductForm() {
           <ProductVersionsForm />
         </form>
 
-        <Box>
+        <Box pb={1}>
           <Button
             color="primary"
             variant="contained"

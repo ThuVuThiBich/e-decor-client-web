@@ -63,21 +63,16 @@ export default function Sidebar(props) {
       <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
         Archives
       </Typography>
-      {archives.map((archive) => (
-        <Link
-          display="block"
-          variant="body1"
-          href={archive.url}
-          key={archive.title}
-        >
+      {archives?.map((archive, index) => (
+        <Link display="block" variant="body1" href={archive.url} key={index}>
           {archive.title}
         </Link>
       ))}
       <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
         Social
       </Typography>
-      {social.map((network) => (
-        <Link display="block" variant="body1" href="#" key={network}>
+      {social?.map((network, index) => (
+        <Link display="block" variant="body1" href="#" key={index}>
           <Grid container direction="row" spacing={1} alignItems="center">
             <Grid item>
               <network.icon />

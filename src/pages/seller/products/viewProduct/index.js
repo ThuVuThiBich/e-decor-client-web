@@ -13,7 +13,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "react-toastify/dist/ReactToastify.css";
 import { deleteProduct, getProduct } from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
-import { getCategoryNameFromId } from "utils/helpers";
+import { getCategoryName } from "utils/helpers";
 import { useStyles } from "./styles";
 
 export default function ViewProduct() {
@@ -27,7 +27,8 @@ export default function ViewProduct() {
   const { isLoading, isUpdating } = useSelector(productSelector);
   const [isView, setIsView] = useState(true);
   const confirm = useConfirm();
-
+  console.log("productId", productId);
+  console.log("match", match);
   useEffect(() => {
     dispatch(getProduct(productId));
   }, [dispatch, productId, isUpdating]);
@@ -36,9 +37,9 @@ export default function ViewProduct() {
       .then(() => {
         dispatch(deleteProduct(item)).then((data) =>
           history.push({
-            pathname: `/shop/products/${getCategoryNameFromId(
+            pathname: `/shop/products/${getCategoryName(
               product.category.id,
-              storeCategory.shopCategories
+              storeCategory.categories
             )}`,
             state: {
               categoryId: product.category.id,

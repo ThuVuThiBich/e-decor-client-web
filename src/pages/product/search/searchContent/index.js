@@ -1,20 +1,14 @@
 import { Box, Grid, Paper } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import Products from "components/shop/shopContent/products";
+import Images from "constants/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getShopCategories } from "redux/categoryRedux";
-import { getProducts, getShopProducts } from "redux/productRedux";
-import {
-  categorySelector,
-  productSelector,
-  wishlistSelector,
-} from "redux/selectors";
+import { categorySelector, productSelector } from "redux/selectors";
 import { isEmpty } from "underscore";
 import Filter from "../filter";
 import { useStyles } from "./styles";
-import Images from "constants/image";
 
 export default function SearchContent(props) {
   const classes = useStyles();

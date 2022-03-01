@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   FormControl,
-  InputBase,
   InputLabel,
   Menu,
   MenuItem,
@@ -10,12 +9,11 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { STATUS, STATUSES } from "constants/index";
+import { STATUSES } from "constants/index";
 import SearchBar from "material-ui-search-bar";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { MenuProps, useToolbarStyles } from "./styles";
+import { useHistory, useParams } from "react-router-dom";
+import { useToolbarStyles } from "./styles";
 
 export default function TableToolbar(props) {
   const {

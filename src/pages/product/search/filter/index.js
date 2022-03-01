@@ -29,11 +29,11 @@ export default function Filter(props) {
   const classes = useStyles();
   const stars = [5, 4, 3, 2, 1];
 
-  const [status, setStatus] = useState({
+  const status = {
     sale: false,
     stock: false,
     featured: false,
-  });
+  };
 
   const handleChangeRating = (event) => {
     dispatch(storeRatings(event.target.value));
@@ -183,10 +183,10 @@ export default function Filter(props) {
               value={+ratings}
               onChange={handleChangeRating}
             >
-              {stars.map((item) => (
+              {stars.map((item, index) => (
                 <FormControlLabel
                   // onChange={handleChangeRating}
-                  key={item}
+                  key={index}
                   value={+item}
                   control={<Radio />}
                   label={

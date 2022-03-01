@@ -7,27 +7,17 @@ import {
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import { LoadingTable } from "components/common/LoadingTable";
-import { INITIAL_PAGE, INITIAL_ROWS_PER_PAGE } from "constants/index";
+import Images from "constants/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { getProducts, getShopProducts } from "redux/productRedux";
+import { getShopProducts } from "redux/productRedux";
 import { productSelector, shopSelector } from "redux/selectors";
-import { EmptyRows } from "./common/EmptyData";
-import TableFooter from "./footer";
 import TableHeader from "./header";
 import EnhancedTableRow from "./row";
 import { useStyles } from "./styles";
 import TableToolbar from "./toolbar";
-
-const DEFAULT_PARAMS = {
-  page: INITIAL_PAGE,
-  size: INITIAL_ROWS_PER_PAGE,
-  keyword: "",
-  sortColumn: "",
-  type: false,
-};
 
 export default function ProductsTable() {
   const history = useHistory();
@@ -63,7 +53,7 @@ export default function ProductsTable() {
     );
   }, [dispatch, id, page, shopId]);
   return (
-    <Paper>
+    <Paper style={{ marginBottom: 64 }}>
       <TableToolbar />
       <TableContainer component={Paper} className={classes.root} elevation={0}>
         <Table className={classes.table}>
@@ -77,13 +67,32 @@ export default function ProductsTable() {
               <LoadingTable colsNumber={5} />
             ) : (
               <>
-                {storeProduct.products?.map((row) => (
-                  <EnhancedTableRow key={row.id} row={row} />
+                {storeProduct.products?.map((row, index) => (
+                  <EnhancedTableRow key={index} row={row} />
                 ))}
               </>
             )}
           </TableBody>
         </Table>
+        {!storeProduct?.products?.length &&
+          !isLoading &&
+          !storeProduct?.isUpdating && (
+            <Paper>
+              <Box
+                style={{ height: 350 }}
+                p={1}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <img alt="" src={Images.NO_DATA} />
+                <Box mt={2} style={{ color: "#3f51b5" }}>
+                  No Data
+                </Box>
+              </Box>
+            </Paper>
+          )}
       </TableContainer>
       {storeProduct.products.length === 0 ? (
         <></>

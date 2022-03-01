@@ -22,6 +22,7 @@ import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   setOrderShipping,
   storePromotionId,
@@ -41,11 +42,11 @@ const TableCell = withStyles({
 })(MuiTableCell);
 
 export default function ShopOrdered(props) {
-  const { shopName, orderItems, amount, shippingUnitId, shipping } =
+  const { shopId, shopName, orderItems, amount, shippingUnitId, shipping } =
     useSelector(orderSelector);
 
   //
-  const { shopId } = props;
+  const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const [voucherValue, setVoucherValue] = useState(null);
@@ -83,17 +84,17 @@ export default function ShopOrdered(props) {
     setAnchorElShip(null);
     dispatch(setOrderShipping(shipments.find((item) => +item.id === +e)));
   };
-  const { isLoading, shipments } = useSelector(shipmentSelector);
+  const { shipments } = useSelector(shipmentSelector);
 
-  // useEffect(() => {
-  //   dispatch(setOrderAddress(addresses[0]));
-  // }, [addresses, dispatch]);
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
         <Box display="flex" alignItems="center" my={1}>
           <StorefrontIcon style={{ marginRight: 8 }} />
-          <Typography className={classes.text} style={{ fontSize: 18 }}>
+          <Typography
+            className={classes.shop}
+            onClick={() => history.push(`/shops/${shopId}`)}
+          >
             {shopName}
           </Typography>
           <Divider
@@ -106,14 +107,15 @@ export default function ShopOrdered(props) {
               height: 20,
             }}
           />
+
           <ForumIcon style={{ marginRight: 8 }} />
           <Typography className={classes.text}>Chat Now</Typography>
         </Box>
         <TableContainer>
           <Table className={classes.table} aria-label="simple table">
             <TableBody>
-              {orderItems?.map((row) => (
-                <TableRow key={row?.name}>
+              {orderItems?.map((row, index) => (
+                <TableRow key={index}>
                   <TableCell
                     component="th"
                     scope="row"

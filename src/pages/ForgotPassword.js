@@ -59,7 +59,6 @@ const ForgotPassword = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  // const { email } = useSelector(userSelector);
   const [email, setEmail] = useState();
 
   const handleFormSubmit = (e) => {

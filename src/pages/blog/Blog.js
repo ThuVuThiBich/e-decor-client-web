@@ -1,19 +1,19 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Container, Grid } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import InstagramIcon from "@material-ui/icons/Instagram";
+import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
+import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
-import Header from "./Header";
-import MainFeaturedPost from "./MainFeaturedPost";
-import FeaturedPost from "./FeaturedPost";
-import Main from "./Main";
-import Sidebar from "./Sidebar";
+import Footer from "components/layout/Footer";
+import React from "react";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
-import { Box, Paper, Container, Grid } from "@material-ui/core";
-import Footer from "components/layout/Footer";
+import FeaturedPost from "./FeaturedPost";
+import Header from "./Header";
+import Main from "./Main";
+import MainFeaturedPost from "./MainFeaturedPost";
+import Sidebar from "./Sidebar";
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -114,8 +114,8 @@ export default function Blog() {
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
+            {featuredPosts?.map((post, index) => (
+              <FeaturedPost key={index} post={post} />
             ))}
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>

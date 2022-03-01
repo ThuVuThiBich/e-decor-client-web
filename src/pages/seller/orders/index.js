@@ -5,7 +5,7 @@ import OrdersTable from "components/seller/orderTable";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getShopOrders } from "redux/orderRedux";
-import { orderSelector, shopSelector } from "redux/selectors";
+import { shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
 export default function SellerOrders() {
@@ -21,7 +21,6 @@ export default function SellerOrders() {
   useEffect(() => {
     dispatch(getShopOrders({ limit: 5, page }));
   }, [dispatch, page]);
-  const { orders } = useSelector(orderSelector);
 
   return (
     <div>

@@ -2,14 +2,12 @@ import { Box, Button, Typography } from "@material-ui/core";
 import ProductsTable from "components/seller/products/table";
 import Icons from "constants/icons";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
 
 export default function CategoryProducts() {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
   return (
     <Box>
       <Box

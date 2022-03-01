@@ -76,21 +76,24 @@ export default function Dashboard() {
   }, [date, view]);
 
   useEffect(() => {
-    dispatch(getMyShop()).then((data) => {
+    dispatch(getMyShop());
+  }, [dispatch]);
+  useEffect(() => {
+    storeShop?.currentShop &&
       dispatch(
         getStatistics({
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),
         })
       );
+    storeShop?.currentShop &&
       dispatch(
         getChart({
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),
         })
       );
-    });
-  }, [dispatch, endDate, startDate]);
+  }, [dispatch, endDate, startDate, storeShop?.currentShop]);
 
   return (
     <Box>
@@ -164,8 +167,8 @@ export default function Dashboard() {
                   //   style: { paddingTop: 4, paddingBottom: 10 },
                   // }}
                 >
-                  {VIEWS?.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                  {VIEWS?.map((option, index) => (
+                    <MenuItem key={index} value={option.value}>
                       {option.label}
                     </MenuItem>
                   ))}
@@ -352,6 +355,7 @@ export default function Dashboard() {
       ) : (
         <NoShop />
       )}
+      
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Box>
   );

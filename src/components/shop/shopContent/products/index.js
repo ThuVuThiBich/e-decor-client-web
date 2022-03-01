@@ -3,10 +3,8 @@ import { LoadingCard } from "components/common/LoadingCard";
 import { useSelector } from "react-redux";
 import { productSelector } from "redux/selectors";
 import Product from "./product";
-import { useStyles } from "./styles";
 
 export default function Products(props) {
-  const classes = useStyles();
   const { isLoading } = useSelector(productSelector);
   const { products } = props;
   return (

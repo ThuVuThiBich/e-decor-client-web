@@ -1,16 +1,15 @@
 import { Box, Card, IconButton, Typography } from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
 import noImage from "assets/images/no-image.png";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { createWishlist, removeWishlist } from "redux/wishlistRedux";
 import { getPrice } from "utils/helpers";
 import { useStyles } from "./styles";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import { createWishlist, removeWishlist } from "redux/wishlistRedux";
-import { wishlistSelector } from "redux/selectors";
 
 export default function Product(props) {
   const { product, noHover = false } = props;

@@ -242,8 +242,8 @@ export default function Products({ order }) {
           </Box>
           {!isLoading && (
             <Box p={2}>
-              {order?.orderItems?.map((product) => (
-                <Product product={product} key={product.id} />
+              {order?.orderItems?.map((product, index) => (
+                <Product product={product} key={index} />
               ))}
             </Box>
           )}

@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Divider,
   FormControl,
   FormControlLabel,
@@ -26,9 +27,9 @@ import { useStyles } from "./styles";
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(userSelector);
+  const { currentUser, isLoading } = useSelector(userSelector);
   const [name, setName] = useState(currentUser?.name);
-  const [phone, setPhone] = useState(currentUser?.phone);
+  const [phone, setPhone] = useState(currentUser?.phone || "");
   const [email, setEmail] = useState(currentUser?.email);
   const [avatar, setAvatar] = useState(currentUser?.avatar);
   const classes = useStyles();
@@ -37,7 +38,6 @@ export default function Profile() {
   const handleChange = (event) => {
     setGender(event.target.value);
   };
-  //
   //
 
   const [image, setImage] = useState(avatar);
@@ -275,14 +275,21 @@ export default function Profile() {
                     </Grid>
                   </Grid>
                 </Box>
-                <Box display="flex" alignItems="center" pl={2} mt={2}>
+                <Box display="flex" alignItems="center" pl={2} mt={2} style={{position: 'relative'}}>
                   <Button
                     color="primary"
                     variant="contained"
                     onClick={handleSubmit}
+                    disabled={isLoading}
                   >
                     Save Changes
                   </Button>
+                  {isLoading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
                 </Box>
               </CardContent>
             </Card>

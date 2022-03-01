@@ -48,7 +48,7 @@ export default function MyBlogs() {
       </Box>
       <ToolbarBox />
       <Box style={{}}>
-        {posts.map((post, index) => (
+        {posts?.map((post, index) => (
           // <Box py={2}>
           //   <Card className={classes.markdown} key={index}>
           //     post

@@ -100,8 +100,10 @@ export default function SearchInput() {
         placeholder="Searching for ..."
         inputProps={{ "aria-label": "search" }}
         onChange={handleChangeSearch}
-        onKeyPress={() => {
-          keyword && history.push("/products");
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            keyword && history.push("/products");
+          }
         }}
       />
 
@@ -120,8 +122,8 @@ export default function SearchInput() {
           <MenuItem key={"all-categories"} value={""}>
             All Categories
           </MenuItem>
-          {storeCategory?.categories?.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
+          {storeCategory?.categories?.map((option, index) => (
+            <MenuItem key={index} value={option.id}>
               {option.name}
             </MenuItem>
           ))}

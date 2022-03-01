@@ -60,8 +60,8 @@ export default function SubHeader() {
                 />
               }
             >
-              {["EN", "VI"]?.map((option) => (
-                <MenuItem key={option} value={option}>
+              {["EN", "VI"]?.map((option, index) => (
+                <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}

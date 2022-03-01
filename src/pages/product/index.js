@@ -7,6 +7,7 @@ import Top from "components/product/top";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { storeShopInfo } from "redux/orderRedux";
 import { getProduct, getShopProducts } from "redux/productRedux";
 import { productSelector } from "redux/selectors";
 import { useStyles } from "./styles";
@@ -18,12 +19,21 @@ export default function Product() {
   const dispatch = useDispatch();
   const { isLoading, product } = useSelector(productSelector);
   useEffect(() => {
-    dispatch(getProduct(id));
-  }, [dispatch, id]);
+    dispatch(getProduct(id)).then((data) => {
+      console.log(data);
+      dispatch(
+        storeShopInfo({
+          id: data?.payload?.shop?.id,
+          name: data?.payload?.shop?.name,
+        })
+      );
+    });
+  }, [dispatch, id, product?.shop?.name]);
 
   useEffect(() => {
     dispatch(getShopProducts({ id: product?.shop?.id, params: { page: 1 } }));
   }, [dispatch, id, product?.shop?.id]);
+
   return (
     <Container className={classes.container}>
       {isLoading ? <LoadingProductDetail /> : <Top />}

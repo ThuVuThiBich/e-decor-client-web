@@ -16,9 +16,6 @@ export const createShop = createAsyncThunk(
     const response = await shopApi.createShop(data);
     if (response.result) {
       toast.success("SUCCESS");
-      const actionResult = await thunkAPI.dispatch(getMyShop());
-      const res = unwrapResult(actionResult);
-      return res.result;
     } else toast.error("ERROR");
   }
 );
@@ -29,9 +26,6 @@ export const updateShop = createAsyncThunk(
     const response = await shopApi.updateShop(data);
     if (response.result.success) {
       toast.success("SUCCESS");
-      const actionResult = await thunkAPI.dispatch(getMyShop());
-      const res = unwrapResult(actionResult);
-      return res.result;
     } else toast.error("ERROR");
   }
 );
@@ -74,6 +68,7 @@ const shopSlice = createSlice({
     [getMyShop.fulfilled]: (state, action) => {
       state.currentShop = action.payload;
       state.error = false;
+      state.isLoading = false;
     },
     [createShop.pending]: (state) => {
       state.isLoading = true;
@@ -84,8 +79,9 @@ const shopSlice = createSlice({
     },
     [createShop.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.currentShop = action.payload;
+      state.error = action.error;
     },
+
     [getShops.pending]: (state) => {
       state.isLoading = true;
     },
@@ -109,7 +105,7 @@ const shopSlice = createSlice({
     },
     [updateShop.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.currentShop = action.payload;
+      state.error = action.error;
     },
 
     [getShop.pending]: (state) => {
