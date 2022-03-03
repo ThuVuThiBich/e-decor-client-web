@@ -4,6 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { cancelOrder, confirmOrder } from "redux/orderRedux";
+import { isEmpty } from "underscore";
 import Product from "./product";
 import { useStyles } from "./styles";
 
@@ -28,7 +29,9 @@ export default function Products({ order }) {
             <Box display="flex" pl={1}>
               <Typography className={classes.title}>Placed on: </Typography>
               <Typography>
-                {format(new Date(order?.createdAt), "MMM dd, yyyy")}
+                {!isEmpty(order)
+                  ? format(new Date(order?.createdAt), "MMM dd, yyyy")
+                  : "xxx"}
               </Typography>
             </Box>
           </Box>

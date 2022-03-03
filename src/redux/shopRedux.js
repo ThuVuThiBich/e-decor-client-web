@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, unwrapResult } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import shopApi from "api/shopApi";
 import { toast } from "react-toastify";
 

@@ -371,6 +371,7 @@ export default function Top(props) {
                     <Box mb={2}>{product?.shop?.description}</Box>
                   </Box>
                   <Box
+                    style={{ width: 120 }}
                     display="flex"
                     flexDirection="column"
                     justifyContent="space-evenly"
@@ -385,7 +386,7 @@ export default function Top(props) {
                         history.push(`/shops/${product?.shop?.id}`)
                       }
                     >
-                      Xem shop
+                      View shop
                     </Button>
                   </Box>
                 </Box>
