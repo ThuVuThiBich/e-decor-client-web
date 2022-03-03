@@ -37,12 +37,16 @@ const filterSlice = createSlice({
     storeMax: (state, action) => {
       state.max = action.payload;
     },
+    storePage: (state, action) => {
+      state.page = action.payload;
+    },
     resetFilter: (state, action) => {
       state.max = "";
       state.min = "";
       state.keyword = "";
       state.categories = [];
       state.ratings = "";
+      state.page = 1;
     },
   },
   extraReducers: {},
@@ -57,5 +61,6 @@ export const {
   resetFilter,
   storeShopKeyword,
   storeSelectedShopCategories,
+  storePage,
 } = filterSlice.actions;
 export default filterSlice.reducer;

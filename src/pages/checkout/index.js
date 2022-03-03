@@ -10,7 +10,7 @@ import { getPromotions } from "redux/promotionRedux";
 import {
   addressSelector,
   orderSelector,
-  shipmentSelector
+  shipmentSelector,
 } from "redux/selectors";
 import { getShipments } from "redux/shipmentRedux";
 import { getMinFeeShipping } from "utils/helpers";
@@ -19,7 +19,7 @@ import { useStyles } from "./styles";
 export default function Checkout() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const shopId = useSelector(orderSelector);
+  const { shopId } = useSelector(orderSelector);
   const { isUpdating } = useSelector(addressSelector);
   const { shipments } = useSelector(shipmentSelector);
   useEffect(() => {
@@ -29,14 +29,14 @@ export default function Checkout() {
   }, [dispatch, shopId, isUpdating]);
 
   useEffect(() => {
-    shipments.length > 0 &&
+    shipments?.length > 0 &&
       dispatch(setOrderShipping(getMinFeeShipping(shipments)));
   }, [dispatch, shipments]);
 
   return (
     <Container className={classes.container}>
       <DeliveryAddress />
-      <ProductsOrdered  />
+      <ProductsOrdered />
       <PaymentMethod />
     </Container>
   );

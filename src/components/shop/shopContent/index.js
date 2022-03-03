@@ -2,8 +2,13 @@ import { Box, Grid, Paper } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import Images from "constants/image";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { categorySelector, productSelector } from "redux/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { storePage } from "redux/filterRedux";
+import {
+  categorySelector,
+  filterSelector,
+  productSelector,
+} from "redux/selectors";
 import { isEmpty } from "underscore";
 import Filter from "./filter";
 import Products from "./products";
@@ -11,10 +16,9 @@ import { useStyles } from "./styles";
 export default function ShopContent(props) {
   const classes = useStyles();
   const limit = 9;
-
+  const dispatch = useDispatch();
   const storeProducts = useSelector(productSelector);
-
-  const [page, setPage] = useState(1);
+  const { page } = useSelector(filterSelector);
   const [pageText, setPageText] = useState("");
   useEffect(() => {
     if (page === 1) {
@@ -31,10 +35,6 @@ export default function ShopContent(props) {
       }
     }
   }, [limit, page, storeProducts?.products?.length]);
-
-  const handleChange = (event, value) => {
-    setPage(value);
-  };
 
   const storeCategory = useSelector(categorySelector);
 
@@ -85,7 +85,9 @@ export default function ShopContent(props) {
               <Pagination
                 count={Math.ceil(storeProducts.totalProducts / limit)}
                 page={page}
-                onChange={handleChange}
+                onChange={(event, value) => {
+                  dispatch(storePage(value));
+                }}
                 variant="outlined"
                 color="primary"
               />

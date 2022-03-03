@@ -191,7 +191,7 @@ export default function ChangePassword() {
                       />
                     </FormControl>
 
-                    <Box className={classes.wrapper}>
+                    <Box mt={2} className={classes.wrapper}>
                       <Button
                         color="primary"
                         variant="contained"
@@ -200,7 +200,6 @@ export default function ChangePassword() {
                           dispatch(
                             updatePass({ currentPassword, newPassword })
                           ).then((data) => {
-                            console.log(data);
                             setCurrentPassword("");
                             setNewPassword("");
                             setConfirmNewPassword("");

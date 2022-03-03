@@ -67,7 +67,6 @@ export default function Top(props) {
     const item = product?.productVersions.find(
       (item) => +item.id === +event.target.value
     );
-    console.log(item);
     const orderItem = {
       name: item?.name,
       price: item?.price,
@@ -87,7 +86,6 @@ export default function Top(props) {
     else if (value)
       dispatch(addCartItem({ quantity, productVersionId: value })).then(
         (data) => {
-          console.log(data);
           if (data.payload.new)
             toast.success("Item has been added to your shopping cart!");
           else toast.warn("Item has been added to your shopping cart before!");

@@ -62,7 +62,7 @@ export default function Address() {
           {id ? "Back To Address" : "Add New Address"}
         </Button>
       </Box>
-      <Box my={2} mb={4}>
+      <Box my={2} mb={20}>
         {id ? (
           <AddressForm />
         ) : (

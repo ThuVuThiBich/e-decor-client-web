@@ -27,8 +27,8 @@ export default function EnhancedTableRow(props) {
       <StyledTableCell align="center">
         {format(new Date(row?.createdAt), "MMM dd, yyyy")}
       </StyledTableCell>
-      <StyledTableCell align="center">
-        ${row?.amount + row?.shippingUnit?.fee}
+      <StyledTableCell align="center" style={{ color: "red" }}>
+        ${(row?.amount + row?.shippingUnit?.fee).toFixed(1)}
       </StyledTableCell>
       <StyledTableCell align="center">
         <Tooltip title="View detail" arrow>

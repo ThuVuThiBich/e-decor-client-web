@@ -71,7 +71,6 @@ const ResetPassword = () => {
     };
     dispatch(resetPass(data))
       .then((data) => {
-        console.log("resetPass", data);
         history.push("/login");
       })
       .catch((error) => {

@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
   // thunkAPI.dispatch(...)
   const response = await authApi.login(data);
-  console.log(response);
   if (response.data.success) {
     setToken(response.data.token);
     await thunkAPI.dispatch(getInfo());
@@ -24,9 +23,7 @@ export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
 export const signUp = createAsyncThunk(
   "user/signUp",
   async (data, thunkAPI) => {
-    console.log(data);
     const response = await authApi.signUp(data);
-    console.log(response);
     if (response.data.result.success) return data.email;
     return response;
   }
@@ -44,7 +41,6 @@ export const forgotPass = createAsyncThunk(
   "user/forgotPass",
   async (data, thunkAPI) => {
     const response = await authApi.forgotPass(data);
-    console.log(response);
     if (response.data.result.success) return data.email;
     else return response;
   }
@@ -54,7 +50,6 @@ export const resetPass = createAsyncThunk(
   "user/resetPass",
   async (data, thunkAPI) => {
     const response = await authApi.resetPass(data);
-    console.log(response);
     if (response.data.result.success) return response.data.result.success;
     return response;
   }
@@ -64,7 +59,6 @@ export const updatePass = createAsyncThunk(
   "user/updatePass",
   async (data, thunkAPI) => {
     const response = await authApi.updatePass(data);
-    console.log(response);
     if (response?.success) {
       toast.success("SUCCESS");
       return response?.success;

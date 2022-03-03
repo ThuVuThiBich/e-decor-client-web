@@ -5,7 +5,12 @@ import Images from "constants/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { categorySelector, productSelector } from "redux/selectors";
+import { resetFilter, storePage } from "redux/filterRedux";
+import {
+  categorySelector,
+  filterSelector,
+  productSelector,
+} from "redux/selectors";
 import { isEmpty } from "underscore";
 import Filter from "../filter";
 import { useStyles } from "./styles";
@@ -22,7 +27,8 @@ export default function SearchContent(props) {
 
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
-  const [page, setPage] = useState(1);
+  const { page } = useSelector(filterSelector);
+
   const [pageText, setPageText] = useState("");
   useEffect(() => {
     if (page === 1) {
@@ -40,12 +46,13 @@ export default function SearchContent(props) {
     }
   }, [limit, page, storeProducts?.products?.length]);
 
-  const handleChange = (event, value) => {
-    setPage(value);
-  };
-
   const storeCategory = useSelector(categorySelector);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetFilter());
+    };
+  }, [dispatch]);
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>
@@ -83,7 +90,9 @@ export default function SearchContent(props) {
               <Pagination
                 count={Math.ceil(storeProducts.totalProducts / limit)}
                 page={page}
-                onChange={handleChange}
+                onChange={(event, value) => {
+                  dispatch(storePage(value));
+                }}
                 variant="outlined"
                 color="primary"
               />

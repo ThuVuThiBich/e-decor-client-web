@@ -184,7 +184,6 @@ export default function NewProductForm() {
       })),
     };
     dispatch(createProduct(data)).then((data) => {
-      console.log(data);
       const categoryName = getCategoryName(
         categoryId,
         storeCategory.categories

@@ -215,7 +215,7 @@ export default function Dashboard() {
                         fontSize: 24,
                       }}
                     >
-                      ${statisticStore?.earning || 0}
+                      ${statisticStore?.earning?.toFixed(1) || 0}
                     </Box>
                   </Box>
                   <Box>
@@ -355,7 +355,7 @@ export default function Dashboard() {
       ) : (
         <NoShop />
       )}
-      
+
       <ToastContainer autoClose={2000} style={{ marginTop: "100px" }} />
     </Box>
   );

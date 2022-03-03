@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from "@material-ui/core";
+import ScrollToTop from "components/common/ScrollToTop";
 import ProductsTable from "components/seller/products/table";
 import Icons from "constants/icons";
 import React from "react";
@@ -6,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
 
 export default function CategoryProducts() {
+  ScrollToTop();
   const classes = useStyles();
   const history = useHistory();
   return (

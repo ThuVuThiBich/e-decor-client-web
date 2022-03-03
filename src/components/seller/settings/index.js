@@ -131,7 +131,6 @@ export default function ShopInfo() {
     storeShop?.currentShop
       ? dispatch(updateShop({ ...data, id: storeShop.currentShop.id })).then(
           (data) => {
-            console.log(data);
             dispatch(getMyShop());
           }
         )
@@ -507,7 +506,6 @@ export default function ShopInfo() {
                 paypalMail,
               };
               dispatch(createShop(data)).then((data) => {
-                console.log(data);
                 dispatch(getMyShop());
               });
               setIsOpen(!isOpen);

@@ -68,7 +68,6 @@ const ForgotPassword = () => {
     };
     dispatch(forgotPass(data))
       .then((data) => {
-        console.log("forgotPass", data);
         history.push("/reset-password");
       })
       .catch((error) => {

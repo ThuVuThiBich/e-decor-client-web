@@ -34,7 +34,6 @@ export const getImagesFromProductVersion = (products) => {
 };
 
 export const getCategoryName = (id, categories) => {
-  console.log('getCategoryName', id, categories)
   const category = categories?.find((item) => +item.id === +id);
   return category?.name;
 };

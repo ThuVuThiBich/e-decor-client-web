@@ -20,7 +20,7 @@ export default function Settings() {
           <Typography className={classes.title}>Profile</Typography>
         </Box>
         <Button color="primary" variant="outlined">
-          Get more
+         Advanced settings 
         </Button>
       </Box>
       <Box>

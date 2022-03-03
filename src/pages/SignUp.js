@@ -11,7 +11,6 @@ const SignUp = () => {
   const handleSignUp = async (user) => {
     try {
       dispatch(signUp(user)).then((data) => {
-        console.log("signUp", data);
         history.push("/verify-email");
       });
     } catch (error) {

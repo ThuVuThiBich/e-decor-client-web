@@ -58,24 +58,22 @@ export default function TableToolbar(props) {
           className={classes.formControl}
           size="small"
         >
-          <InputLabel id="demo-simple-select-outlined-label">
-            Order Status
-          </InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
             value={status}
             onChange={handleChangeDropdown}
-            label="Order Status"
+            label=" Status"
             inputProps={{ MenuProps: { disableScrollLock: true } }}
             SelectDisplayProps={{ style: { paddingTop: 4, paddingBottom: 10 } }}
           >
             <MenuItem key={"#"} value={""}>
               All
             </MenuItem>
-            {STATUSES?.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.name}
+            {["In Stock", "Out of stock"]?.map((option) => (
+              <MenuItem key={option.value} value={option}>
+                {option}
               </MenuItem>
             ))}
           </Select>

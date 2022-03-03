@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getShopCategories } from "redux/categoryRedux";
+import { resetFilter } from "redux/filterRedux";
 import { getShopProducts } from "redux/productRedux";
 import { filterSelector } from "redux/selectors";
 import { useStyles } from "./styles";
@@ -44,6 +45,9 @@ export default function ShopDetail() {
         },
       })
     );
+    return () => {
+      dispatch(resetFilter());
+    };
   }, [
     selectedShopCategories,
     dispatch,

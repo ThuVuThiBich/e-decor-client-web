@@ -28,15 +28,13 @@ export default function EnhancedTableRow(props) {
 
   return (
     <StyledTableRow key={row.id}>
-      <StyledTableCell style={{ paddingLeft: 40 }}>
-        {_.get(row, "id")}
-      </StyledTableCell>
+      <StyledTableCell>{_.get(row, "id")}</StyledTableCell>
       <StyledTableCell>{_.get(row, "name")}</StyledTableCell>
       <StyledTableCell style={{ paddingLeft: 30 }}>
         {_.get(row, "totalVersions")}
       </StyledTableCell>
-      <StyledTableCell>
-        {getPrice(_.get(row, "minPrice"), _.get(row, "maxPrice"))} $
+      <StyledTableCell style={{ color: "red", paddingLeft: 30 }}>
+        ${getPrice(_.get(row, "minPrice"), _.get(row, "maxPrice"))}
       </StyledTableCell>
       <StyledTableCell>
         <Box display="flex">

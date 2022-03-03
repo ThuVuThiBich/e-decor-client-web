@@ -20,7 +20,6 @@ export default function Product() {
   const { isLoading, product } = useSelector(productSelector);
   useEffect(() => {
     dispatch(getProduct(id)).then((data) => {
-      console.log(data);
       dispatch(
         storeShopInfo({
           id: data?.payload?.shop?.id,

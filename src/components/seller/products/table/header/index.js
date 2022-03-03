@@ -5,12 +5,10 @@ import { useStyles } from "./styles";
 
 export default function EnhancedTableHead(props) {
   const classes = useStyles();
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+  const { order, orderBy } = props;
+
   const headCells = [
-    { id: "productId", label: "Product ID #" },
+    { id: "productId", label: "ID" },
     { id: "name", label: "Name" },
     { id: "stock", label: "Stock" },
     { id: "price", label: "Price Range" },
@@ -21,26 +19,16 @@ export default function EnhancedTableHead(props) {
         {headCells?.map((headCell, index) => (
           <TableCell
             key={index}
-            align={"left"}
             padding={"normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             className={classes.tableCell}
+            width={index === 3 ? "15%" : null}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-            </TableSortLabel>
+            {headCell.label}
           </TableCell>
         ))}
-        <TableCell
-          style={{ paddingLeft: 30 }}
-          className={classes.tableCell}
-          width={"10%"}
-        >
-          <TableSortLabel>Action</TableSortLabel>
+        <TableCell className={classes.tableCell} align="center" width={"10%"}>
+          Action
         </TableCell>
       </StyledTableRow>
     </TableHead>

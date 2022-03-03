@@ -7,7 +7,7 @@ import {
   makeStyles,
   OutlinedInput,
   Paper,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import Header from "components/auth/Header";
@@ -71,7 +71,6 @@ const VerifyEmail = () => {
     };
     dispatch(verifyEmail(data))
       .then((data) => {
-        console.log("verifyEmail", data);
         history.push("/login");
       })
       .catch((error) => {

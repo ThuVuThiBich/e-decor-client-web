@@ -27,8 +27,6 @@ export default function ViewProduct() {
   const { isLoading, isUpdating } = useSelector(productSelector);
   const [isView, setIsView] = useState(true);
   const confirm = useConfirm();
-  console.log("productId", productId);
-  console.log("match", match);
   useEffect(() => {
     dispatch(getProduct(productId));
   }, [dispatch, productId, isUpdating]);
