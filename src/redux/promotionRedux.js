@@ -6,7 +6,6 @@ export const getAllPromotions = createAsyncThunk(
   "promotion/getAll",
   async (data, thunkAPI) => {
     if (data) {
-      console.log(data);
       const response = await promotionApi.getAll(data.id, data.params);
       return response.result;
     }

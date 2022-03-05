@@ -251,7 +251,7 @@ export default function ViewProductForm(props) {
                   }}
                   inputProps={{
                     MenuProps: {
-                      disableScrollLock: true,
+                      disablescrolllock: true,
                       classes: {
                         paper: classes.paper,
                       },

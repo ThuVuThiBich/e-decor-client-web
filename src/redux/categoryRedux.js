@@ -3,7 +3,7 @@ import categoryApi from "api/categoryApi";
 
 export const getCategories = createAsyncThunk(
   "category/getCategories",
-  async (data, thunkAPI) => {
+  async () => {
     const response = await categoryApi.getCategories();
     return response.result;
   }
@@ -22,7 +22,6 @@ const categorySlice = createSlice({
   initialState: {
     shopCategories: [],
     categories: [],
-
     isLoading: false,
     error: false,
   },

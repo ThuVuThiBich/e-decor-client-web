@@ -64,7 +64,7 @@ export default function TableToolbar(props) {
             value={status}
             onChange={handleChangeDropdown}
             label=" Status"
-            inputProps={{ MenuProps: { disableScrollLock: true } }}
+            inputProps={{ MenuProps: { disablescrolllock: "true" } }}
             SelectDisplayProps={{ style: { paddingTop: 4, paddingBottom: 10 } }}
           >
             <MenuItem key={"#"} value={""}>

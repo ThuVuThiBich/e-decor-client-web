@@ -88,11 +88,17 @@ export default function ShopSearchBox() {
       <SearchBar
         value={shopKeyword}
         className={classes.searchbar}
-        onCancelSearch={() => {}}
+        onCancelSearch={() => dispatch(storeShopKeyword(""))}
         onKeyUp={() => {}}
         onChange={(newValue) => {
-          setShopKeyword(newValue);
-          dispatch(storeShopKeyword(newValue));
+          // setShopKeyword(newValue);
+          // dispatch(storeShopKeyword(newValue));
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setShopKeyword(e.target.value);
+            dispatch(storeShopKeyword(e.target.value));
+          }
         }}
         placeholder={"Search in this shop ..."}
       />
@@ -112,6 +118,7 @@ export default function ShopSearchBox() {
               MenuProps={MenuProps}
               input={<InputBase classes={{ input: classes.selectInput }} />}
               onChange={handleChangeDropdown}
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
             >
               <MenuItem key={"0"} value={""}>
                 Relevance

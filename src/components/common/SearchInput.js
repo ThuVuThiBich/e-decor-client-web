@@ -116,8 +116,7 @@ export default function SearchInput() {
           displayEmpty
           input={<InputBase classes={{ input: classes.selectInput }} />}
           onChange={handleChangeDropdown}
-          disableScrollLock={true}
-          inputProps={{ MenuProps: { disableScrollLock: true } }}
+          MenuProps={{ disableScrollLock: true }}
         >
           <MenuItem key={"all-categories"} value={""}>
             All Categories

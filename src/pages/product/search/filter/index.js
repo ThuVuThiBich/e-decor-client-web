@@ -6,6 +6,7 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Radio,
   RadioGroup,
   TextField,
@@ -20,6 +21,7 @@ import {
   storeMin,
   storeRatings,
 } from "redux/filterRedux";
+import ReplayIcon from "@material-ui/icons/Replay";
 import { filterSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 export default function Filter(props) {
@@ -104,8 +106,13 @@ export default function Filter(props) {
               placeholder="0"
               size="small"
               InputProps={{ inputProps: { min: 0, step: 10 } }}
-              onChange={(event) => {
-                dispatch(storeMin(event.target.value));
+              onChange={(e) => {
+                !e.target.value && dispatch(storeMin(e.target.value));
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && e.target.value) {
+                  dispatch(storeMin(e.target.value));
+                }
               }}
             />
           </FormControl>
@@ -117,11 +124,16 @@ export default function Filter(props) {
               id="outlined-number"
               type="number"
               variant="outlined"
-              placeholder="100000"
+              placeholder="100"
               size="small"
               InputProps={{ inputProps: { min: 0, step: 10 } }}
-              onChange={(event) => {
-                dispatch(storeMax(event.target.value));
+              onChange={(e) => {
+                !e.target.value && dispatch(storeMax(e.target.value));
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && e.target.value) {
+                  dispatch(storeMax(e.target.value));
+                }
               }}
             />
           </FormControl>
@@ -172,8 +184,16 @@ export default function Filter(props) {
       </Box>
       <Divider />
       <Box my={1}>
-        <Box my={1}>
+        <Box
+          my={1}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography className={classes.headText}>Ratings</Typography>
+          <IconButton onClick={() => dispatch(storeRatings(""))}>
+            <ReplayIcon />
+          </IconButton>
         </Box>
         <Box>
           <FormControl component="fieldset" className={classes.formControl}>
@@ -185,7 +205,6 @@ export default function Filter(props) {
             >
               {stars.map((item, index) => (
                 <FormControlLabel
-                  // onChange={handleChangeRating}
                   key={index}
                   value={+item}
                   control={<Radio />}

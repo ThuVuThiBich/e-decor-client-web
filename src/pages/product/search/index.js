@@ -3,7 +3,6 @@ import ScrollToTop from "components/common/ScrollToTop";
 import SearchBox from "components/common/SearchBox";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetFilter } from "redux/filterRedux";
 import { getProducts } from "redux/productRedux";
 import { filterSelector } from "redux/selectors";
 import SearchContent from "./searchContent";
@@ -28,7 +27,6 @@ export default function Search() {
         keyword,
       })
     );
- 
   }, [categories, dispatch, limit, max, min, page, ratings, keyword]);
   return (
     <Container className={classes.container}>

@@ -4,7 +4,6 @@ import Products from "components/shop/shopContent/products";
 import Images from "constants/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { resetFilter, storePage } from "redux/filterRedux";
 import {
   categorySelector,
@@ -19,14 +18,10 @@ export default function SearchContent(props) {
   const classes = useStyles();
   const limit = 9;
 
-  const { id } = useParams();
   const dispatch = useDispatch();
 
   const storeProducts = useSelector(productSelector);
-  const [ratingValue, setRatingValue] = useState("");
 
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
   const { page } = useSelector(filterSelector);
 
   const [pageText, setPageText] = useState("");
@@ -49,6 +44,7 @@ export default function SearchContent(props) {
   const storeCategory = useSelector(categorySelector);
 
   useEffect(() => {
+    console.log("reset");
     return () => {
       dispatch(resetFilter());
     };

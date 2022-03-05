@@ -77,6 +77,7 @@ const MenuProps = {
       width: 200,
     },
   },
+  disablescrolllock: "true",
 };
 export default function ToolbarBox() {
   const dispatch = useDispatch();
@@ -120,6 +121,7 @@ export default function ToolbarBox() {
               MenuProps={MenuProps}
               input={<InputBase classes={{ input: classes.selectInput }} />}
               onChange={handleChangeDropdown}
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
             >
               <MenuItem key={"0"} value={""}>
                 Relevance

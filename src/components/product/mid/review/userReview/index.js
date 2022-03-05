@@ -32,11 +32,7 @@ export default function UserReview(props) {
               {feedback?.user?.name}
             </Typography>
             <Rating
-              value={
-                Number(feedback?.avgRatings) === 0
-                  ? 5
-                  : Number(feedback?.rating)
-              }
+              value={feedback?.rating ? Number(feedback?.rating) : 0}
               precision={0.1}
               emptyIcon={<StarBorderIcon fontSize="inherit" />}
               readOnly

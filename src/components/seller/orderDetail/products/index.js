@@ -101,7 +101,9 @@ export default function Products({ order }) {
                     value={status}
                     onChange={handleChange}
                     label="Order Status"
-                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                    inputProps={{
+                      MenuProps: { disablescrolllock: "true" },
+                    }}
                   >
                     <MenuItem key={"1"} value={"pending"} disabled>
                       Pending
@@ -137,7 +139,9 @@ export default function Products({ order }) {
                     value={status}
                     onChange={handleChange}
                     label="Order Status"
-                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                    inputProps={{
+                      MenuProps: { disablescrolllock: "true" },
+                    }}
                   >
                     <MenuItem key={"1"} value={"pending"}>
                       Pending
@@ -173,7 +177,9 @@ export default function Products({ order }) {
                     value={status}
                     onChange={handleChange}
                     label="Order Status"
-                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                    inputProps={{
+                      MenuProps: { disablescrolllock: "true" },
+                    }}
                   >
                     <MenuItem key={"5"} value={"canceled"}>
                       Cancel
@@ -197,7 +203,9 @@ export default function Products({ order }) {
                     value={status}
                     onChange={handleChange}
                     label="Order Status"
-                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                    inputProps={{
+                      MenuProps: { disablescrolllock: "true" },
+                    }}
                   >
                     <MenuItem key={"5"} value={"delivered"}>
                       Delivered
@@ -221,7 +229,9 @@ export default function Products({ order }) {
                     value={status}
                     onChange={handleChange}
                     label="Order Status"
-                    inputProps={{ MenuProps: { disableScrollLock: true } }}
+                    inputProps={{
+                      MenuProps: { disablescrolllock: "true" },
+                    }}
                   >
                     <MenuItem key={"1"} value={"pending"} disabled>
                       Pending

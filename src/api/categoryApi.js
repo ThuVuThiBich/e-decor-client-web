@@ -1,14 +1,14 @@
-import axiosClient from "./axiosClient";
+import axiosPublic from "./axiosPublic";
 
 const categoryApi = {
   getCategories: () => {
     const url = `/categories`;
-    return axiosClient.get(url);
+    return axiosPublic.get(url);
   },
 
   getShopCategories: (id) => {
     const url = `/categories/${id}`;
-    return axiosClient.get(url);
+    return axiosPublic.get(url);
   },
 };
 

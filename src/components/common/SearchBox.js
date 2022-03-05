@@ -59,6 +59,7 @@ const MenuProps = {
       width: 200,
     },
   },
+  disableScrollLock: true,
 };
 export default function SearchBox() {
   const dispatch = useDispatch();
@@ -106,6 +107,7 @@ export default function SearchBox() {
               MenuProps={MenuProps}
               input={<InputBase classes={{ input: classes.selectInput }} />}
               onChange={handleChangeDropdown}
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
             >
               <MenuItem key={"0"} value={""}>
                 Relevance

@@ -63,11 +63,7 @@ export default function Product(props) {
         >
           <Box display="flex" alignItems="center">
             <Rating
-              value={
-                Number(product?.avgRatings) === 0
-                  ? 5
-                  : Number(product?.avgRatings)
-              }
+              value={product?.avgRatings ? Number(product?.avgRatings) : 0}
               precision={0.5}
               emptyIcon={<StarBorderIcon fontSize="inherit" />}
               readOnly

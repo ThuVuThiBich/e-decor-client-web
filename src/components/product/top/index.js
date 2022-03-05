@@ -225,22 +225,26 @@ export default function Top(props) {
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center">
-                <Rating
-                  value={
-                    Number(product?.avgRatings) === 0
-                      ? 5
-                      : Number(product?.avgRatings)
-                  }
-                  precision={0.5}
-                  emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                  readOnly
-                />
-                <Divider
-                  orientation="vertical"
-                  flexItem
-                  className={classes.divider}
-                />
-                <Box>{product?.totalRatings} Ratings</Box>
+                {product?.avgRatings ? (
+                  <Box display="flex">
+                    <Rating
+                      value={
+                        product?.avgRatings ? Number(product?.avgRatings) : 0
+                      }
+                      precision={0.5}
+                      emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                      readOnly
+                    />
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      className={classes.divider}
+                    />
+                    <Box>{product?.totalRatings} Ratings</Box>
+                  </Box>
+                ) : (
+                  "No Ratings Yet"
+                )}
                 <Divider
                   orientation="vertical"
                   flexItem

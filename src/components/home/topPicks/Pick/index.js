@@ -24,7 +24,6 @@ export default function Pick(props) {
     <Rating
       value={5}
       max={5}
-      // onChange={(i) => console.log("onChange " + i)}
       classes={classes}
       readOnly={true}
     />
