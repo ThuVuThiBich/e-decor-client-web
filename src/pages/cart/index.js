@@ -1,15 +1,24 @@
-import { Box, Button, Container } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import CartItems from "components/cart";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
 import { useStyles } from "./styles";
-import { ToastContainer } from "react-toastify";
+import { Icons, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { size } from "underscore";
 import Images from "constants/image";
 import { useHistory } from "react-router-dom";
+import { Radio } from "@material-ui/icons";
 
 export default function Cart() {
   const classes = useStyles();
@@ -23,6 +32,62 @@ export default function Cart() {
   }, [currentUser, dispatch, isUpdated]);
   return (
     <Container className={classes.container}>
+      <Paper className={classes.root}>
+        <Box p={2} mb={2}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Grid container alignItems="center" spacing={4}>
+              <Grid item xs={12} md={4}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  style={{ color: "rgb(210, 63, 87)" }}
+                >
+                  <Checkbox
+                    defaultChecked={false}
+                    color="primary"
+                    inputProps={{ "aria-label": "secondary checkbox" }}
+                  />
+                  <Typography
+                    className={classes.text}
+                    style={{ marginLeft: 30, fontSize: 20 }}
+                  >
+                    Product
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Box
+                  style={{ color: "#ccc" }}
+                  display="flex"
+                  justifyContent={"space-between"}
+                >
+                  <Grid item container spacing={4}>
+                    <Grid item xs={12} md={2}>
+                      <Box ml={10}> Version</Box>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <Box ml={11}>Unit Price</Box>
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                      <Box ml={10}>Quantity</Box>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Box ml={15}>Total Price</Box>
+                    </Grid>
+                    <Grid item xs={12} md={1}>
+                      <Box ml={-2}>Actions</Box>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Paper>
       {size(products) ? (
         products?.map((item, index) => <CartItems item={item} key={index} />)
       ) : (
@@ -39,7 +104,11 @@ export default function Cart() {
             Your shopping cart is empty
           </Box>
           <Box mb={16}>
-            <Button variant="contained" color="primary" onClick={()=>history.push("/")} >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push("/")}
+            >
               Go Shopping Now
             </Button>
           </Box>

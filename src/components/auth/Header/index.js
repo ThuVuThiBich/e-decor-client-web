@@ -10,7 +10,6 @@ export default function Header() {
     <AppBar className={classes.appBar} elevation={0}>
       <Toolbar className={classes.toolbar}>
         <Logo />
-        <div className={classes.sectionDesktop}></div>
       </Toolbar>
     </AppBar>
   );

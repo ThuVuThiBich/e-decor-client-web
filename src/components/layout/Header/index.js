@@ -4,6 +4,7 @@ import {
   Badge,
   Box,
   Button,
+  Divider,
   IconButton,
   Menu,
   MenuItem,
@@ -19,6 +20,8 @@ import Images from "constants/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getRecentCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
@@ -261,7 +264,9 @@ export default function Header() {
       <AppBar className={classes.appBar} elevation={0}>
         <Toolbar className={classes.toolbar}>
           <Logo />
-          <SearchInput />
+          {window.location.pathname !== "/cart" &&
+            window.location.pathname !== "/checkout" && <SearchInput />}
+         
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
               <Badge badgeContent={0} color="secondary">
