@@ -9,7 +9,6 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { STATUSES } from "constants/index";
 import SearchBar from "material-ui-search-bar";
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";

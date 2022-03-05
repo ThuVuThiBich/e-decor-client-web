@@ -8,17 +8,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import CartItems from "components/cart";
+import Images from "constants/image";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { getCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
-import { useStyles } from "./styles";
-import { Icons, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { size } from "underscore";
-import Images from "constants/image";
-import { useHistory } from "react-router-dom";
-import { Radio } from "@material-ui/icons";
+import { useStyles } from "./styles";
 
 export default function Cart() {
   const classes = useStyles();

@@ -6,6 +6,7 @@ export const getAllPromotions = createAsyncThunk(
   "promotion/getAll",
   async (data, thunkAPI) => {
     if (data) {
+      console.log(data);
       const response = await promotionApi.getAll(data.id, data.params);
       return response.result;
     }
@@ -26,6 +27,16 @@ export const addPromotion = createAsyncThunk(
   "promotion/create",
   async (data, thunkAPI) => {
     const response = await promotionApi.create(data.id, data.body);
+    if (response.result) {
+      toast.success("SUCCESS");
+      return response.result;
+    } else toast.error("ERROR");
+  }
+);
+export const updatePromotion = createAsyncThunk(
+  "promotion/update",
+  async (data, thunkAPI) => {
+    const response = await promotionApi.update(data.id, data.body);
     if (response.result) {
       toast.success("SUCCESS");
       return response.result;
@@ -70,7 +81,7 @@ const promotionSlice = createSlice({
       state.totalPromotions = action.payload.totalPromotions;
       state.currentPage = action.payload.currentPage;
     },
-    
+
     [getPromotions.pending]: (state) => {
       state.isLoading = true;
     },
@@ -92,6 +103,20 @@ const promotionSlice = createSlice({
       state.isUpdating = false;
     },
     [addPromotion.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+      state.isUpdating = false;
+    },
+    [updatePromotion.pending]: (state) => {
+      state.isLoading = true;
+      state.isUpdating = true;
+    },
+    [updatePromotion.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+      state.isUpdating = false;
+    },
+    [updatePromotion.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = false;
       state.isUpdating = false;

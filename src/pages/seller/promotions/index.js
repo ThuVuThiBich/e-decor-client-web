@@ -12,7 +12,6 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { Pagination } from "@material-ui/lab";
@@ -25,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { deletePromotion, getAllPromotions } from "redux/promotionRedux";
+import { getAllPromotions } from "redux/promotionRedux";
 import { promotionSelector, shopSelector } from "redux/selectors";
 import PromotionForm from "./promotionForm";
 import { useStyles } from "./styles";
@@ -119,21 +118,6 @@ export default function Promotions() {
                                 }}
                               >
                                 <EditIcon />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Delete">
-                              <IconButton
-                                aria-label="delete"
-                                onClick={() => {
-                                  dispatch(
-                                    deletePromotion({
-                                      id: currentShop.id,
-                                      body: row?.id,
-                                    })
-                                  );
-                                }}
-                              >
-                                <DeleteIcon />
                               </IconButton>
                             </Tooltip>
                           </TableCell>

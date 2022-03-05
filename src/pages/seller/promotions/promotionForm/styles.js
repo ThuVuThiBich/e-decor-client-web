@@ -35,4 +35,15 @@ export const useStyles = makeStyles((theme) => ({
     color: "rgb(210, 63, 87)",
     borderLeft: "4px solid rgb(210, 63, 87)",
   },
+  //
+  datepicker: {
+    height: "45px",
+    width: "100% !important",
+  },
+  muiPicker: {
+    "& .MuiFormControl-root ": {
+      width: "100% !important",
+      marginTop: 10,
+    },
+  },
 }));

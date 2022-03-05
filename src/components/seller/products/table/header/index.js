@@ -1,4 +1,4 @@
-import { TableCell, TableHead, TableSortLabel } from "@material-ui/core";
+import { TableCell, TableHead } from "@material-ui/core";
 import React from "react";
 import { StyledTableRow } from "../common/styles";
 import { useStyles } from "./styles";

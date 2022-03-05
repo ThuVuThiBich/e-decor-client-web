@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { addPromotion } from "redux/promotionRedux";
+import { addPromotion, updatePromotion } from "redux/promotionRedux";
 import { promotionSelector, shopSelector } from "redux/selectors";
 import { useStyles } from "./styles";
 
@@ -29,7 +29,7 @@ export default function PromotionForm(props) {
     content: "",
     discount: "",
     standarFee: "",
-    expiredAt: new Date(),
+    expiredAt: null,
   });
 
   const history = useHistory();
@@ -73,14 +73,13 @@ export default function PromotionForm(props) {
 
   const handleSubmit = () => {
     const promotion = { content, discount, standarFee, expiredAt };
-    dispatch(addPromotion({ id: currentShop.id, body: promotion }));
+    id !== "add"
+      ? dispatch(
+          updatePromotion({ id: currentShop.id, body: { id, ...promotion } })
+        )
+      : dispatch(addPromotion({ id: currentShop.id, body: promotion }));
 
     history.push("/shop/promotions");
-  };
-  const inputProps = {
-    disableUnderline: true,
-    fontSize: 15,
-    endAdornment: <CalendarIcon className={classes.calendarIcon} />,
   };
 
   return (
@@ -108,7 +107,6 @@ export default function PromotionForm(props) {
                 />
               </FormControl>
               <FormControl
-                disabled={id !== "add"}
                 variant="outlined"
                 margin="dense"
                 fullWidth
@@ -144,23 +142,32 @@ export default function PromotionForm(props) {
                   inputProps={{ type: "text" }}
                 />
               </FormControl>
-              <MuiPickersUtilsProvider
-                utils={DateFnsUtils}
-                style={{ width: "100%" }}
-              >
-                <DatePicker
-                  disableToolbar
-                  inputVariant="outlined"
-                  value={expiredAt}
-                  onChange={(e) => {
-                    setExpiredAt(e);
-                  }}
-                  // format={DATE_FORMAT}
-                  minDate={new Date()}
-                  helperText=""
-                  InputProps={inputProps}
-                />
-              </MuiPickersUtilsProvider>
+
+              <Box className={classes.muiPicker}>
+                <MuiPickersUtilsProvider
+                  utils={DateFnsUtils}
+                  style={{ width: "100%", marginTop: 10 }}
+                >
+                  <DatePicker
+                    disableToolbar
+                    inputVariant="outlined"
+                    value={expiredAt}
+                    onChange={(e) => {
+                      setExpiredAt(e);
+                    }}
+                    // format={DATE_FORMAT}
+                    minDate={new Date()}
+                    helperText=""
+                    InputProps={{
+                      className: classes.datepicker,
+                      endAdornment: (
+                        <CalendarIcon className={classes.calendarIcon} />
+                      ),
+                    }}
+                    label="Expiration Date"
+                  />
+                </MuiPickersUtilsProvider>
+              </Box>
               <Box mt={2}>
                 <Button
                   color="primary"
