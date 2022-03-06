@@ -6,15 +6,15 @@ import {
   makeStyles,
   Paper,
   TextField,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import BallotIcon from "@material-ui/icons/Ballot";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import ScrollToTop from "components/common/ScrollToTop";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
-
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -120,6 +120,7 @@ export const formats = [
   "formula",
 ];
 export default function BlogDetail() {
+  ScrollToTop();
   const classes = useStyles();
   const history = useHistory();
   const [value, setValue] = useState("");
@@ -142,7 +143,7 @@ export default function BlogDetail() {
         <Button
           color="primary"
           variant="outlined"
-          onClick={() => history.push("/blog/my-blog")}
+          onClick={() => history.push("/blog/my-posts")}
         >
           View Posts List
         </Button>
@@ -161,18 +162,7 @@ export default function BlogDetail() {
                   InputLabelProps={{ style: { fontSize: 16 } }}
                 />
               </Grid>
-              <Grid item xs={12} md={12}>
-                <TextField
-                  fullWidth
-                  id="description"
-                  label="Description"
-                  variant="outlined"
-                  multiline
-                  rows={4}
-                  InputProps={{ style: { fontSize: 16 } }}
-                  InputLabelProps={{ style: { fontSize: 16 } }}
-                />
-              </Grid>
+             
               <Grid item xs={12} md={12}>
                 <ReactQuill
                   className={classes.editor}

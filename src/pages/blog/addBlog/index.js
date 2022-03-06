@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export  const modules = {
+export const modules = {
   toolbar: [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
@@ -125,7 +125,7 @@ export default function AddBlog() {
   const handleChange = (value) => {
     setValue(value);
   };
-  
+
   return (
     <Box>
       <Box
@@ -141,7 +141,7 @@ export default function AddBlog() {
         <Button
           color="primary"
           variant="outlined"
-          onClick={() => history.push("/blog/my-blog")}
+          onClick={() => history.push("/blog/my-posts")}
         >
           View Posts
         </Button>
@@ -160,18 +160,7 @@ export default function AddBlog() {
                   InputLabelProps={{ style: { fontSize: 16 } }}
                 />
               </Grid>
-              <Grid item xs={12} md={12}>
-                <TextField
-                  fullWidth
-                  id="description"
-                  label="Description"
-                  variant="outlined"
-                  multiline
-                  rows={4}
-                  InputProps={{ style: { fontSize: 16 } }}
-                  InputLabelProps={{ style: { fontSize: 16 } }}
-                />
-              </Grid>
+
               <Grid item xs={12} md={12}>
                 <ReactQuill
                   className={classes.editor}

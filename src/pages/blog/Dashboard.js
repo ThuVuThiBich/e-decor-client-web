@@ -50,7 +50,7 @@ export default function Dashboard() {
         <Box display="flex" flexDirection="column">
           <NavLink
             className={classes.navLink}
-            to="/blog/my-blog"
+            to="/blog/my-posts"
             activeClassName={classes.active}
           >
             <BallotOutlinedIcon className={classes.icon} />

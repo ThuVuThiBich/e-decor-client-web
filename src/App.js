@@ -44,7 +44,12 @@ function App() {
     <Switch>
       <Route path="/" component={withAuthLayout(Home)} exact />
       <Route path="/blog" component={Blog} exact />
-      <Route path="/blog/my-blog" component={withBlog(MyBlogs)} exact />
+      <Route
+        path="/blog/posts/:postId"
+        component={withBlog(BlogDetail)}
+        exact
+      />
+      <Route path="/blog/my-posts" component={withBlog(MyBlogs)} exact />
       <Route
         path="/blog/my-posts/:blogId"
         component={withBlog(BlogDetail)}
@@ -80,7 +85,11 @@ function App() {
       <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Orders)} exact />
       <Route path={"/address"} component={withUser(Address)} exact />
-      <Route path={"/change-password"} component={withUser(ChangePassword)} exact />
+      <Route
+        path={"/change-password"}
+        component={withUser(ChangePassword)}
+        exact
+      />
       <Route path={"/address/:id"} component={withUser(Address)} exact />
 
       <Route path={"/products"} component={withAuthLayout(Search)} exact />

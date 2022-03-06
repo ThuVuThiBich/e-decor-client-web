@@ -24,7 +24,7 @@ const withBlog = (Component) => (props) => {
           <Header title="E-Decor Blog" sections={sections} />
         </Container>
       </Box>
-      <Container maxWidth="lg" style={{ paddingTop: 150, paddingBottom: 100 }}>
+      <Container maxWidth="lg" style={{ paddingTop: 100, paddingBottom: 100 }}>
         <main>
           <Grid container spacing={3} className={classes.container}>
             <Grid item xs={12} lg={3}>

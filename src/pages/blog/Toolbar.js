@@ -87,7 +87,7 @@ export default function ToolbarBox() {
   }, [dispatch]);
   const classes = useStyles();
   const [searchValue, setSearchValue] = useState("");
-  const [categoryValue, setCategoryValue] = useState("");
+  const [categoryValue, setCategoryValue] = useState(1);
   const handleChangeDropdown = (e) => {
     setCategoryValue(e.target.value);
     history.push("/products");
@@ -123,14 +123,11 @@ export default function ToolbarBox() {
               onChange={handleChangeDropdown}
               inputProps={{ MenuProps: { disableScrollLock: true } }}
             >
-              <MenuItem key={"0"} value={""}>
-                Relevance
-              </MenuItem>
               <MenuItem key={"1"} value={"1"}>
-                Price Low To High
+                Newest
               </MenuItem>
               <MenuItem key={"2"} value={"2"}>
-                Price High To Low
+                Oldest
               </MenuItem>
             </Select>
           </FormControl>

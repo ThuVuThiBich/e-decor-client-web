@@ -3,9 +3,11 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Post from "components/home/ideasBlog/Post";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { blogSelector } from "redux/selectors";
+import PostCard from "./post";
 
 const useStyles = makeStyles((theme) => ({
   markdown: {
@@ -16,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main(props) {
   const classes = useStyles();
-  const { posts, title } = props;
-  const [type, setType] = useState("Latest");
+  const { title } = props;
+  const [type, setType] = useState("Newest");
+  const { posts } = useSelector(blogSelector);
   return (
     <Grid item xs={12} md={8}>
       <Box
@@ -58,6 +61,7 @@ export default function Main(props) {
             className={classes.input}
             defaultValue=""
             MenuProps={{
+              disableScrollLock: true,
               classes: { paper: classes.menuPaper },
               anchorOrigin: {
                 vertical: "bottom",
@@ -70,7 +74,7 @@ export default function Main(props) {
               getContentAnchorEl: null,
             }}
           >
-            {["Latest", "Popular", "Oldest"]?.map((city, index) => (
+            {["Newest", "Popular", "Oldest"]?.map((city, index) => (
               <MenuItem key={index} value={city}>
                 {city}
               </MenuItem>
@@ -80,12 +84,7 @@ export default function Main(props) {
       </Box>
       <Divider />
       {posts?.map((post, index) => (
-        // <Box py={2}>
-        //   <Card className={classes.markdown} key={index}>
-        //     post
-        //   </Card>
-        // </Box>
-        <Post key={index}/>
+        <PostCard key={index} post={post} />
       ))}
     </Grid>
   );

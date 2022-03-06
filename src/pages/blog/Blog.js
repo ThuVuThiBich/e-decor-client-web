@@ -5,7 +5,9 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Footer from "components/layout/Footer";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getPosts } from "redux/blogRedux";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
@@ -18,6 +20,7 @@ import Sidebar from "./Sidebar";
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
     marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(5),
   },
 }));
 
@@ -93,7 +96,10 @@ const sidebar = {
 
 export default function Blog() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPosts({ page: 1, limit: 5 }));
+  }, [dispatch]);
   return (
     <>
       <CssBaseline />
@@ -110,7 +116,7 @@ export default function Blog() {
           <Header title="E-Decor Blog" sections={sections} />
         </Container>
       </Box>
-      <Container maxWidth="lg" style={{ paddingTop: 150 }}>
+      <Container maxWidth="lg" style={{ paddingTop: 100 }}>
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>

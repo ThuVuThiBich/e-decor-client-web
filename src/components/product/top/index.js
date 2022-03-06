@@ -218,7 +218,7 @@ export default function Top(props) {
             </Box>
           </Grid>
           <Grid item xs={12} md={6} style={{ position: "relative" }}>
-            <Box py={4}>
+            <Box py={4} pr={0.5}>
               <Box py={2}>
                 <Typography className={classes.headText}>
                   {product?.name}
@@ -341,7 +341,7 @@ export default function Top(props) {
             </Box>
 
             <Box
-              style={{ position: "absolute", bottom: 0, width: "100%" }}
+              style={{  width: "100%" }}
               display="flex"
               flexDirection="column"
               alignItems="flex-start"
@@ -373,7 +373,7 @@ export default function Top(props) {
                     <Box mb={2}>{product?.shop?.description}</Box>
                   </Box>
                   <Box
-                    style={{ width: 120 }}
+                    style={{ width: 130 }}
                     display="flex"
                     flexDirection="column"
                     justifyContent="space-evenly"

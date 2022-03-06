@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarTitle: {
     flex: 1,
+    cursor: "pointer"
   },
   toolbarSecondary: {
     justifyContent: "space-between",
@@ -76,7 +77,7 @@ export default function Header(props) {
     >
       <MenuItem onClick={handleMenuClose}>
         <Link
-          to={"/blog/my-blog"}
+          to={"/blog/my-posts"}
           className={classes.link}
           style={{ color: "#2B3445" }}
         >
@@ -110,6 +111,7 @@ export default function Header(props) {
           align="center"
           noWrap
           className={classes.toolbarTitle}
+          onClick={() => history.push("/blog")}
         >
           {title}
         </Typography>
@@ -172,7 +174,7 @@ export default function Header(props) {
           </IconButton>
         )}
       </Toolbar>
-      <Toolbar
+      {/* <Toolbar
         component="nav"
         variant="dense"
         className={classes.toolbarSecondary}
@@ -189,7 +191,7 @@ export default function Header(props) {
             {section.title}
           </Link>
         ))}
-      </Toolbar>
+      </Toolbar> */}
       {renderMenu}
     </React.Fragment>
   );
