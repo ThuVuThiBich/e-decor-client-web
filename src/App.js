@@ -2,11 +2,12 @@ import { withAuthLayout } from "hocs";
 import withoutAuth from "hocs/withoutAuth";
 import AddBlog from "pages/blog/addBlog";
 import Blog from "pages/blog/Blog";
-import BlogDetail from "pages/blog/BlogDetail";
 import MyBlogDetail from "pages/blog/myBlogDetail";
 import MyBlogs from "pages/blog/myBlogs";
 import MyFavorite from "pages/blog/myFavorite";
+import ViewPost from "pages/blog/ViewPost";
 import withBlog from "pages/blog/withBlog";
+import withBlogGuess from "pages/blog/withBlogGuess";
 import Cart from "pages/cart";
 import Checkout from "pages/checkout";
 import ForgotPassword from "pages/ForgotPassword";
@@ -44,8 +45,12 @@ function App() {
   return (
     <Switch>
       <Route path="/" component={withAuthLayout(Home)} exact />
-      <Route path="/blog" component={Blog} exact />
-      <Route path="/blog/posts/:postId" component={BlogDetail} exact />
+      <Route path="/blog" component={withBlogGuess(Blog)} exact />
+      <Route
+        path="/blog/posts/:postId"
+        component={withBlogGuess(ViewPost)}
+        exact
+      />
       <Route path="/blog/my-posts" component={withBlog(MyBlogs)} exact />
       <Route
         path="/blog/my-posts/:blogId"
@@ -54,6 +59,7 @@ function App() {
       />
       <Route path="/blog/add" component={withBlog(AddBlog)} exact />
       <Route path="/blog/my-favorite" component={withBlog(MyFavorite)} exact />
+
       <Redirect from={"/home"} to={"/"} />
       <Route path={"/login"} component={withoutAuth(Login)} exact />
       <Route path={"/sign-up"} component={withoutAuth(SignUp)} exact />

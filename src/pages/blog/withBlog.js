@@ -2,13 +2,14 @@ import { Box, Container, CssBaseline, Grid } from "@material-ui/core";
 import Footer from "components/layout/Footer";
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { getToken } from "utils/helpers";
 import { sections } from "./Blog";
 import Dashboard from "./Dashboard";
 import Header from "./Header";
 import { useStyles } from "./styles";
 const withBlog = (Component) => (props) => {
   const classes = useStyles();
-  return true ? (
+  return getToken() ? (
     <>
       <CssBaseline />
       <Box
@@ -39,7 +40,7 @@ const withBlog = (Component) => (props) => {
       <Footer />
     </>
   ) : (
-    <Redirect to={"/"} />
+    <Redirect to={"/login"} />
   );
 };
 export default withBlog;

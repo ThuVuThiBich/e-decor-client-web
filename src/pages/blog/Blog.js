@@ -1,10 +1,8 @@
-import { Box, Container, Grid } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
-import Footer from "components/layout/Footer";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getPosts } from "redux/blogRedux";
@@ -12,7 +10,6 @@ import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
 import FeaturedPost from "./FeaturedPost";
-import Header from "./Header";
 import Main from "./Main";
 import MainFeaturedPost from "./MainFeaturedPost";
 import Sidebar from "./Sidebar";
@@ -98,24 +95,11 @@ export default function Blog() {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("Blog");
     dispatch(getPosts({ page: 1, limit: 5 }));
   }, [dispatch]);
   return (
     <>
-      <CssBaseline />
-      <Box
-        style={{
-          backgroundColor: "#0c0e30",
-          zIndex: 1000,
-          position: "fixed",
-          width: "100%",
-        }}
-        mb={10}
-      >
-        <Container maxWidth="lg">
-          <Header title="E-Decor Blog" sections={sections} />
-        </Container>
-      </Box>
       <Container maxWidth="lg" style={{ paddingTop: 100 }}>
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
@@ -136,7 +120,6 @@ export default function Blog() {
           </Grid>
         </main>
       </Container>
-      <Footer />
     </>
   );
 }
