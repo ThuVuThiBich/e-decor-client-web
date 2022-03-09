@@ -11,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: "18px 27px",
   },
   rating: {
-    marginTop: 8,
+    // marginTop: 8,
   },
   headText: {
     fontSize: 16,

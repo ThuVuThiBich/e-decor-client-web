@@ -1,34 +1,14 @@
-import { Box, withStyles } from "@material-ui/core";
-import Rating from "material-ui-rating";
+import { Box } from "@material-ui/core";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Rating from "@material-ui/lab/Rating";
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
-
 export default function Pick(props) {
   const { item } = props;
   const history = useHistory();
   const classes = useStyles();
-  const smallStyles = {
-    iconButton: {
-      width: 32,
-      height: 32,
-      padding: 16,
-    },
-    icon: {
-      width: 16,
-      height: 16,
-    },
-  };
-  const MyRating = ({ classes }) => (
-    <Rating
-      value={5}
-      max={5}
-      classes={classes}
-      readOnly={true}
-    />
-  );
-  const SmallRating = withStyles(smallStyles)(MyRating);
+
   return (
     <Box
       className={classes.root}
@@ -40,7 +20,7 @@ export default function Pick(props) {
         <Box>
           <img
             width={"100%"}
-            src={item.image}
+            src={item.images?.[0]?.image}
             height={150}
             alt=""
             display="block"
@@ -50,9 +30,27 @@ export default function Pick(props) {
       </Link>
       <Box pt={2} p={1} style={{ backgroundColor: "white" }}>
         <Box>
-          <h4>{props.item.name}</h4>
-          <SmallRating />
-          <span style={{ color: "#D23F57" }}>${item.price}</span>
+          <h4
+            style={{
+              overflowX: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.name}
+          </h4>
+          <Box>
+            <Rating
+              value={5}
+              precision={0.1}
+              emptyIcon={<StarBorderIcon fontSize="inherit" />}
+              readOnly
+              className={classes.rating}
+            />
+          </Box>
+          <span style={{ color: "#D23F57" }}>
+            ${item?.minPrice} - {item?.maxPrice}
+          </span>
         </Box>
       </Box>
     </Box>

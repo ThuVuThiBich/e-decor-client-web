@@ -4,6 +4,8 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import React, { useState } from "react";
 import ItemsCarousel from "react-items-carousel";
 import Carousel from "react-material-ui-carousel";
+import { useSelector } from "react-redux";
+import { productSelector } from "redux/selectors";
 import FeaturedEvents from "./FeaturedEvents";
 import Pick from "./Pick";
 import { useStyles } from "./styles";
@@ -44,59 +46,8 @@ export default function TopPicks() {
     },
   ];
 
-  const mockItems = [
-    {
-      name: " Balloon set  ",
-      image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d",
-      id: 52,
-      price: "10 - 15",
-    },
-    {
-      name: "Wall Grid Panel ",
-      image: "https://cf.shopee.vn/file/a746af93a3a4310d2b80336dddfd986a",
-      id: 53,
-      price: "20 - 25",
-    },
-    {
-      name: "LED 3D Decor Lamp",
-      image:
-        "https://res.cloudinary.com/e-decor/image/upload/v1646118389/uploads/lxpb7tdczpcqd2avbfrv.jpg",
-      id: 54,
-      price: "10 - 25",
-    },
-    {
-      name: "Decor postcard",
-      image:
-        "https://res.cloudinary.com/e-decor/image/upload/v1646119409/uploads/s6cvzvugzr88ebq5kbym.jpg",
-      id: 55,
-      price: "20 - 50",
-    },
-    {
-      name: " Balloon set  ",
-      image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d",
-      id: 52,
-      price: "5 - 10",
-    },
-    {
-      name: "Wall Grid Panel ",
-      image: "https://cf.shopee.vn/file/06ea894b12045fd40d256d31b73553ee",
-      id: 53,
-      price: "50 - 70",
-    },
-    {
-      name: "LED 3D Decor Lamp",
-      image: "https://cf.shopee.vn/file/9e991050944a068348ec8d8ad522ecdf",
-      id: 54,
-      price: "10 - 30",
-    },
-    {
-      name: "Decor postcard",
-      image: "https://cf.shopee.vn/file/265dcac08e575c52e62932e99100b610",
-      id: 55,
-      price: "25 - 50",
-    },
-  ];
-
+  const { bestSellingProducts } = useSelector(productSelector);
+  console.log(bestSellingProducts);
   const [active, setActive] = useState(0);
 
   return (
@@ -135,7 +86,7 @@ export default function TopPicks() {
               </IconButton>
             }
           >
-            {mockItems?.map((item, index) => (
+            {bestSellingProducts?.map((item, index) => (
               <Pick key={index} item={item} />
             ))}
           </ItemsCarousel>

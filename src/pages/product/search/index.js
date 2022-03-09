@@ -7,6 +7,7 @@ import { getProducts } from "redux/productRedux";
 import { filterSelector } from "redux/selectors";
 import SearchContent from "./searchContent";
 import { useStyles } from "./styles";
+import { isEmpty } from "underscore";
 
 export default function Search() {
   ScrollToTop();
@@ -17,15 +18,23 @@ export default function Search() {
 
   useEffect(() => {
     dispatch(
-      getProducts({
-        limit,
-        page,
-        categories,
-        min,
-        max,
-        ratings,
-        keyword,
-      })
+      min && max && !isEmpty(ratings)
+        ? getProducts({
+            limit,
+            page,
+            categories,
+            min,
+            max,
+            ratings,
+            keyword,
+          })
+        : getProducts({
+            limit,
+            page,
+            categories,
+            ratings,
+            keyword,
+          })
     );
   }, [categories, dispatch, limit, max, min, page, ratings, keyword]);
   return (

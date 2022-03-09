@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarTitle: {
     flex: 1,
-    cursor: "pointer"
+    cursor: "pointer",
   },
   toolbarSecondary: {
     justifyContent: "space-between",
@@ -53,7 +53,7 @@ export default function Header(props) {
   const { currentUser } = useSelector(userSelector);
   const history = useHistory();
   const classes = useStyles();
-  const { sections, title } = props;
+  const { title } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const handleProfileMenuOpen = (event) => {
@@ -129,7 +129,7 @@ export default function Header(props) {
                 step: 10,
                 style: {
                   color: "white",
-                  "& .MuiOutlinedInput-root": {
+                  "& .MuiOutlinedInputRoot": {
                     borderColor: "red !important",
                   },
                   borderColor: "white !important",

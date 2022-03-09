@@ -209,12 +209,15 @@ export default function Filter(props) {
                   value={+item}
                   control={<Radio />}
                   label={
-                    <Rating
-                      name="size-medium"
-                      value={item}
-                      readOnly
-                      className={classes.rating}
-                    />
+                    <Box display="flex" alignItems="center">
+                      <Rating
+                        name="size-medium"
+                        value={item}
+                        readOnly
+                        className={classes.rating}
+                      />
+                      {item !== 5 && <Box ml={1}>& Up</Box>}
+                    </Box>
                   }
                 />
               ))}

@@ -22,7 +22,7 @@ export default function Main(props) {
   const [type, setType] = useState("Newest");
   const { posts } = useSelector(blogSelector);
   return (
-    <Grid item xs={12} md={8}>
+    <Grid item xs={12} md={9}>
       <Box
         mb={2}
         display="flex"

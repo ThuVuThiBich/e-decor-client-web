@@ -11,10 +11,8 @@ import { getPosts } from "redux/blogRedux";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
-import FeaturedPost from "./FeaturedPost";
 import Header from "./Header";
-import Main from "./Main";
-import MainFeaturedPost from "./MainFeaturedPost";
+import PostDetail from "./PostDetail";
 import Sidebar from "./Sidebar";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,37 +33,6 @@ export const sections = [
   { title: "Health", url: "#" },
   { title: "Style", url: "#" },
   { title: "Travel", url: "#" },
-];
-
-const mainFeaturedPost = {
-  title: "E-Decor Blog",
-  description:
-    "Where you find inspirations and ideas through what's most interesting in post's contents.",
-  image:
-    "https://i.pinimg.com/564x/68/7e/be/687ebed47faa6963896c628b836046cc.jpg",
-  imgText: "main image description",
-  linkText: "Continue reading…",
-};
-
-const featuredPosts = [
-  {
-    title: "Featured post",
-    date: "Nov 12",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    image:
-      "https://i.pinimg.com/564x/68/7e/be/687ebed47faa6963896c628b836046cc.jpg",
-    imageText: "Image Text",
-  },
-  {
-    title: "Post title",
-    date: "Nov 11",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    image:
-      "https://i.pinimg.com/564x/68/7e/be/687ebed47faa6963896c628b836046cc.jpg",
-    imageText: "Image Text",
-  },
 ];
 
 export const posts = [post1, post2, post3];
@@ -94,7 +61,7 @@ const sidebar = {
   ],
 };
 
-export default function Blog() {
+export default function BlogDetail() {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -118,14 +85,8 @@ export default function Blog() {
       </Box>
       <Container maxWidth="lg" style={{ paddingTop: 100 }}>
         <main>
-          <MainFeaturedPost post={mainFeaturedPost} />
-          <Grid container spacing={4}>
-            {featuredPosts?.map((post, index) => (
-              <FeaturedPost key={index} post={post} />
-            ))}
-          </Grid>
           <Grid container spacing={3} className={classes.mainGrid}>
-            <Main title="Decor Posts" posts={posts} />
+            <PostDetail />
 
             <Sidebar
               title={sidebar.title}

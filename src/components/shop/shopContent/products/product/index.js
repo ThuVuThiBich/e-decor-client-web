@@ -69,7 +69,9 @@ export default function Product(props) {
               readOnly
             />
             <Typography style={{ marginLeft: 4, color: "#757575" }}>
-              {product?.totalRatings === 0 ? "" : `(${product?.totalRatings})`}
+              {product?.totalRatings === 0
+                ? ""
+                : `(${product?.totalRatings ? product?.totalRatings : 0})`}
             </Typography>
           </Box>
           <IconButton

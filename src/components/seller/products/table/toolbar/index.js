@@ -70,8 +70,8 @@ export default function TableToolbar(props) {
             <MenuItem key={"#"} value={""}>
               All
             </MenuItem>
-            {["In Stock", "Out of stock"]?.map((option) => (
-              <MenuItem key={option.value} value={option}>
+            {["In Stock", "Out of stock"]?.map((option, index) => (
+              <MenuItem key={index} value={option}>
                 {option}
               </MenuItem>
             ))}

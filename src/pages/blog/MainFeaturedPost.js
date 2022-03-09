@@ -68,7 +68,11 @@ export default function MainFeaturedPost(props) {
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link variant="subtitle1" href="#">
+            <Link
+              variant="subtitle1"
+              href="#"
+              style={{ color: "rgb(240 161 174)" }}
+            >
               {post.linkText}
             </Link>
           </div>

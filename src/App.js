@@ -2,7 +2,8 @@ import { withAuthLayout } from "hocs";
 import withoutAuth from "hocs/withoutAuth";
 import AddBlog from "pages/blog/addBlog";
 import Blog from "pages/blog/Blog";
-import BlogDetail from "pages/blog/blogDetail";
+import BlogDetail from "pages/blog/BlogDetail";
+import MyBlogDetail from "pages/blog/myBlogDetail";
 import MyBlogs from "pages/blog/myBlogs";
 import MyFavorite from "pages/blog/myFavorite";
 import withBlog from "pages/blog/withBlog";
@@ -44,15 +45,11 @@ function App() {
     <Switch>
       <Route path="/" component={withAuthLayout(Home)} exact />
       <Route path="/blog" component={Blog} exact />
-      <Route
-        path="/blog/posts/:postId"
-        component={withBlog(BlogDetail)}
-        exact
-      />
+      <Route path="/blog/posts/:postId" component={BlogDetail} exact />
       <Route path="/blog/my-posts" component={withBlog(MyBlogs)} exact />
       <Route
         path="/blog/my-posts/:blogId"
-        component={withBlog(BlogDetail)}
+        component={withBlog(MyBlogDetail)}
         exact
       />
       <Route path="/blog/add" component={withBlog(AddBlog)} exact />

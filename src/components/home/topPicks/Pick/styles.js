@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     margin: 8,
     border: "1px solid #e0e0e0",
     borderRadius: 4,
+   
   },
   wrapper: {},
   text: {

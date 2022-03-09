@@ -29,6 +29,11 @@ const productApi = {
     const url = `/products/${id}`;
     return axiosClient.delete(url);
   },
+
+  getBestSellingProducts: (params) => {
+    const url = `/products/best-sellings`;
+    return axiosClient.get(url, { params });
+  },
 };
 
 export default productApi;

@@ -57,6 +57,14 @@ export const getProduct = createAsyncThunk(
   }
 );
 
+export const getBestSellingProducts = createAsyncThunk(
+  "product/getBestSellingProducts",
+  async (data, thunkAPI) => {
+    const response = await productApi.getBestSellingProducts(data);
+    return response.result;
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -68,6 +76,8 @@ const productSlice = createSlice({
     isLoading: false,
     isUpdating: false,
     error: false,
+    //
+    bestSellingProducts: [],
   },
   reducers: {
     getProductVersions: (state, action) => {
@@ -170,6 +180,21 @@ const productSlice = createSlice({
         state.products.findIndex((item) => +item.id === +action.payload),
         1
       );
+    },
+
+    //
+    [getBestSellingProducts.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getBestSellingProducts.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getBestSellingProducts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.bestSellingProducts = action.payload.products;
+      state.totalProducts = action.payload.totalProducts;
+      state.currentPage = action.payload.currentPage;
     },
   },
 });

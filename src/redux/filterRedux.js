@@ -45,7 +45,7 @@ const filterSlice = createSlice({
       state.min = "";
       state.keyword = "";
       state.categories = [];
-      state.ratings = "";
+      state.ratings = [];
       state.page = 1;
     },
   },
