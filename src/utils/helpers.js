@@ -1,3 +1,4 @@
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 export const getAuth = () => {
@@ -7,6 +8,24 @@ export const getAuth = () => {
 
 export const setAuth = (auth) => {
   localStorage.setItem("auth", JSON.stringify(auth));
+};
+
+//
+export const getUploadedUrl = async (file) => {
+  //  setUploadCover(true);
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", "uploads");
+  try {
+    const uploadRes = await axios.post(
+      "https://api.cloudinary.com/v1_1/e-decor/image/upload",
+      data
+    );
+    const { url } = uploadRes.data;
+    return url;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getToken = () => {

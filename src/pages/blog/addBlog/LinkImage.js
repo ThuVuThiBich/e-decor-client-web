@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import RegionSelect from "react-region-select";
 import { useHistory } from "react-router-dom";
+import { formats, modules } from "constants/index";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -48,66 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const modules = {
-  toolbar: [
-    ["bold", "italic", "underline", "strike"], // toggled buttons
-    ["blockquote", "code-block"],
 
-    [{ header: 1 }, { header: 2 }], // custom button values
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }], // superscript/subscript
-    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-    [{ direction: "rtl" }], // text direction
-
-    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-    [{ font: [] }],
-    [{ align: [] }],
-
-    ["link", "image"],
-
-    ["clean"],
-  ],
-};
-
-export const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-  "color",
-  "size",
-  "align",
-  "font",
-  "size",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "color",
-  "background",
-  "script",
-  "header",
-  "blockquote",
-  "code-block",
-  "indent",
-  "list",
-  "direction",
-  "align",
-  "link",
-  "image",
-  "video",
-  "formula",
-];
 export default function LinkImage(props) {
   console.log(props);
   const { imageObj } = props;

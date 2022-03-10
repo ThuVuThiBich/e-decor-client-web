@@ -1,6 +1,7 @@
 import { Box, Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import ScrollToTop from "components/common/ScrollToTop";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -27,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function MyFavorite() {
+  ScrollToTop();
+
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();

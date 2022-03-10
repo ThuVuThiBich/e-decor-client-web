@@ -15,7 +15,6 @@ import {
 import axios from "axios";
 import { LoadingProduct } from "components/common/LoadingProduct";
 import ScrollToTop from "components/common/ScrollToTop";
-import { formats, modules } from "pages/blog/addBlog";
 import React, { useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
@@ -29,6 +28,8 @@ import { categorySelector, productSelector } from "redux/selectors";
 import { getCategoryName } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
+import { formats, modules } from "constants/index";
+
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",

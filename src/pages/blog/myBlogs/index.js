@@ -1,6 +1,7 @@
 import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import BallotIcon from "@material-ui/icons/Ballot";
+import ScrollToTop from "components/common/ScrollToTop";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function MyBlogs() {
+  ScrollToTop()
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();

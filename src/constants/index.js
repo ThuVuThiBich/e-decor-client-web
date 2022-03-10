@@ -76,7 +76,7 @@ export const TEAMS_URL = "/teams";
 export const POSITIONS_URL = "/position";
 export const IMAGES_URL = "/images/";
 export const EMAILS_URL = "/emails";
-export const INVITE_URL = "/invitedemail";
+export const INVITE_URL = "/invited-email";
 export const USERS_URL = "/manageUsers";
 export const RE_INVITE_URL = "/reinvited";
 export const REPORTS_URL = "/report";
@@ -84,52 +84,70 @@ export const BOOKINGS_URL = "/bookings";
 export const EXPORT_URL = "/export";
 export const IMPORT_URL = "/import";
 
-/* ----------------------- projects ----------------------- */
-export const PROJECT_NAME = "name";
-export const CLIENT_NAME = "clientName";
-export const COLOR = "color";
-export const TEXT_COLOR = "textColor";
-export const COLOR_PATTERN = "colorPattern";
-
-export const PALETTE = {
-  red: "#FE2224",
-  orange: "#E45200",
-  yellow: "#FFD700",
-  blue: "#2B99F0",
-  green: "#56940B",
-  pink: "#E889E8",
-  purple: "#8D35C8",
-  black: "#000",
-  white: "#FFF",
-};
-
 export const VIEWS = [
   { label: "Week", value: "week" },
   { label: "Month", value: "month" },
   { label: "Year", value: "year" },
 ];
 
-export const DAY = "day";
-export const DAYS = "days";
-export const WEEK = "week";
+//
+export const modules = {
+  toolbar: [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
 
-export const DAY_FMT = "ddd";
-export const DATE_FMT = "DD";
-export const DMY = "DD MMM YYYY";
-export const Y_M_D = "YYYY-MM-DD";
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
 
-export const SUN = "Sun";
-export const WEEKENDS = ["Sat", "Sun"];
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-export const PROJECT_ID = "projectId";
-export const RESOURCE_ID = "resourceId";
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
 
-export const START_DATE = "START DATE";
-export const END_DATE = "END DATE";
+    ["link", "image"],
 
-export const PERCENTAGE = "PERCENTAGE";
-export const DURATION = "DURATION";
+    ["clean"],
+  ],
+};
 
-export const DOWNLOAD = "download";
-export const RESPONSE_TYPE = "blob";
-export const RESOURCES_CSV = "Resources.csv";
+export const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "color",
+  "size",
+  "align",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "color",
+  "background",
+  "script",
+  "header",
+  "blockquote",
+  "code-block",
+  "indent",
+  "list",
+  "direction",
+  "align",
+  "link",
+  "image",
+  "video",
+  "formula",
+];

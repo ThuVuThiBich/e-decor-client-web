@@ -145,7 +145,9 @@ export default function PostCard(props) {
               />
             </Box>
           </Box>
-          <Typography paragraph>{post?.content}</Typography>
+          <Box p={2} px={3}>
+            <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
+          </Box>
         </CardContent>
       </Collapse>
     </Card>

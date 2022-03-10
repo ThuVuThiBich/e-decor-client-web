@@ -11,9 +11,10 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
+import { formats, modules } from "constants/index";
+
 import axios from "axios";
 import ScrollToTop from "components/common/ScrollToTop";
-import { formats, modules } from "pages/blog/addBlog";
 import React, { useEffect, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
