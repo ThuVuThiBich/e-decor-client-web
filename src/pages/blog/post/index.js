@@ -18,6 +18,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { format } from "date-fns";
 import { Box, Chip, Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { likePost, unlikePost } from "redux/blogRedux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,9 +50,11 @@ const useStyles = makeStyles((theme) => ({
 export default function PostCard(props) {
   const { post } = props;
   console.log(post);
+  const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -95,8 +99,16 @@ export default function PostCard(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton
+          aria-label="add to favorites"
+          onClick={() => {
+            setIsClicked(!isClicked);
+            isClicked
+              ? dispatch(unlikePost(post?.id)).then((data) => console.log(data))
+              : dispatch(likePost(post?.id)).then((data) => console.log(data));
+          }}
+        >
+          <FavoriteIcon style={{ color: isClicked ? "#D23F57" : null }} />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />

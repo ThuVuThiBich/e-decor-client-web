@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const blogApi = {
   getMyPosts: (params) => {
-    const url = `/blogs`;
+    const url = `/blogs/my-blog`;
     return axiosClient.get(url, { params });
   },
 
@@ -29,6 +29,26 @@ const blogApi = {
   delete: (id) => {
     const url = `/blogs/${id}`;
     return axiosClient.delete(url);
+  },
+
+  // LIKE
+  like: (data) => {
+    const url = `/blogs/${data}/likes`;
+    return axiosClient.post(url);
+  },
+  unlike: (data) => {
+    const url = `/blogs/${data}/likes`;
+    return axiosClient.delete(url);
+  },
+  getMyLikes: (params) => {
+    const url = `/blogs/my-likes`;
+    return axiosClient.get(url, { params });
+  },
+
+  // decor Themes
+  getDecorThemes: (params) => {
+    const url = `/blogs/decor-themes`;
+    return axiosClient.get(url, { params });
   },
 };
 

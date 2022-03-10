@@ -79,7 +79,7 @@ const MenuProps = {
   },
   disablescrolllock: "true",
 };
-export default function ToolbarBox() {
+export default function ToolbarBox({ showType, setShowType }) {
   const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {
@@ -140,10 +140,16 @@ export default function ToolbarBox() {
         >
           <Typography className={classes.subText}>View:</Typography>
           <Box ml={1}>
-            <IconButton>
+            <IconButton
+              style={{ color: showType ? "#D23F57" : null }}
+              onClick={() => setShowType(!showType)}
+            >
               <AppsIcon />
             </IconButton>
-            <IconButton>
+            <IconButton
+              style={{ color: !showType ? "#D23F57" : null }}
+              onClick={() => setShowType(!showType)}
+            >
               <ViewListIcon />
             </IconButton>
           </Box>

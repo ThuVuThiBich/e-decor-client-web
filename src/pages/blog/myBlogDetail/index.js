@@ -283,7 +283,11 @@ export default function MyBlogDetail() {
                   width="854"
                   height="512"
                   onLoad={() => load()}
-                  onClick={(area) => {clicked(area); history.push(`/products/`)}}
+                  onClick={(area) => {
+                    clicked(area);
+                    console.log(area);
+                    // history.push(`/products/`);
+                  }}
                   onMouseEnter={(area) => enterArea(area)}
                   onMouseLeave={(area) => leaveArea(area)}
                   onMouseMove={(area, _, evt) => moveOnArea(area, evt)}
@@ -292,8 +296,19 @@ export default function MyBlogDetail() {
                 />
                 {hoveredArea && (
                   <span
+                    style={{
+                      ...getTipPosition(hoveredArea),
+                      position: "absolute",
+                      color: "#fff",
+                      padding: 10,
+                      background: "rgba(0,0,0,0.8)",
+                      transform: "translate3d(-50%, -50%, 0)",
+                      borderRadius: 5,
+                      pointerEvents: "none",
+                      zIndex: 9999999,
+                    }}
                     className="tooltip"
-                    style={{ ...getTipPosition(hoveredArea) }}
+                    // style={{ ...getTipPosition(hoveredArea) }}
                   >
                     {hoveredArea && hoveredArea.name}
                   </span>

@@ -11,8 +11,8 @@ export const getPosts = createAsyncThunk(
 );
 export const getMyPosts = createAsyncThunk(
   "blog/getMyPosts",
-  async (data, thunkAPI) => {
-    const response = await blogApi.getMyPosts(data.id, data.params);
+  async (params, thunkAPI) => {
+    const response = await blogApi.getMyPosts(params);
     return response.result;
   }
 );
@@ -57,6 +57,43 @@ export const getPost = createAsyncThunk(
   }
 );
 
+// like
+export const likePost = createAsyncThunk(
+  "blog/like",
+  async (data, thunkAPI) => {
+    const response = await blogApi.like(data);
+    if (response.result) {
+      toast.success("SUCCESS");
+      return response.result;
+    } else toast.error("ERROR");
+  }
+);
+export const unlikePost = createAsyncThunk(
+  "blog/unlike",
+  async (data, thunkAPI) => {
+    const response = await blogApi.unlike(data);
+    if (response.result) {
+      toast.success("SUCCESS");
+      return response.result;
+    } else toast.error("ERROR");
+  }
+);
+
+export const getMyLikes = createAsyncThunk(
+  "blog/getMyLikes",
+  async (params, thunkAPI) => {
+    const response = await blogApi.getMyLikes(params);
+    return response.result;
+  }
+);
+
+export const getDecorThemes = createAsyncThunk(
+  "blog/getDecorThemes",
+  async (params, thunkAPI) => {
+    const response = await blogApi.getDecorThemes(params);
+    return response.result;
+  }
+);
 const blogSlide = createSlice({
   name: "blog",
   initialState: {
@@ -67,6 +104,9 @@ const blogSlide = createSlice({
     isLoading: false,
     isUpdating: false,
     error: false,
+    //
+    imgItems: [],
+    decorThemes: [],
   },
   reducers: {},
   extraReducers: {
@@ -152,6 +192,57 @@ const blogSlide = createSlice({
       //   state.posts.findIndex((item) => +item.id === +action.payload),
       //   1
       // );
+    },
+    // like
+    [likePost.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [likePost.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [likePost.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+      console.log(action);
+    },
+    [unlikePost.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [unlikePost.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [unlikePost.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.error = false;
+      console.log(action);
+    },
+    //
+    [getMyLikes.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getMyLikes.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getMyLikes.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.posts = action.payload.posts;
+      state.totalPosts = action.payload.totalPosts;
+      state.currentPage = action.payload.currentPage;
+    },
+    //
+    [getDecorThemes.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getDecorThemes.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getDecorThemes.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.decorThemes = action.payload.decorThemes;
     },
   },
 });

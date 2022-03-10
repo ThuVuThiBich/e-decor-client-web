@@ -1,10 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Chip, Grid, Typography } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
-import { Box, Paper, Typography, Grid, Chip } from "@material-ui/core";
-import Carousel from "react-material-ui-carousel";
+import { makeStyles } from "@material-ui/core/styles";
 import Product from "components/shop/shopContent/products/product";
+import React from "react";
+import Carousel from "react-material-ui-carousel";
 export const mockItems = [
   {
     name: " Balloon set  ",

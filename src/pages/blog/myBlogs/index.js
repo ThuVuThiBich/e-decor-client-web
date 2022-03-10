@@ -1,10 +1,12 @@
 import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import BallotIcon from "@material-ui/icons/Ballot";
-import Post from "components/home/ideasBlog/Post";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { posts } from "../Blog";
+import { getMyPosts } from "redux/blogRedux";
+import { blogSelector } from "redux/selectors";
+import PostCard from "../post";
 import ToolbarBox from "../Toolbar";
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -25,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 export default function MyBlogs() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMyPosts());
+  }, [dispatch]);
+  const { posts } = useSelector(blogSelector);
   return (
     <Box>
       <Box
@@ -49,17 +56,7 @@ export default function MyBlogs() {
       <ToolbarBox />
       <Box style={{}}>
         {posts?.map((post, index) => (
-          // <Box py={2}>
-          //   <Card className={classes.markdown} key={index}>
-          //     post
-          //   </Card>
-          // </Box>
-          <Box
-            key={index}
-            onClick={() => history.push(`/blog/my-posts/${index}`)}
-          >
-            <Post />
-          </Box>
+          <PostCard key={index} post={post} />
         ))}
       </Box>
     </Box>

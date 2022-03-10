@@ -1,12 +1,15 @@
-import { Box, Button, makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import Post from "components/home/ideasBlog/Post";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { posts } from "../Blog";
+import { getMyLikes } from "redux/blogRedux";
+import { blogSelector } from "redux/selectors";
+import FeaturedPost from "../FeaturedPost";
+import PostCard from "../post";
 import ToolbarBox from "../Toolbar";
+
 const useStyles = makeStyles((theme) => ({
   title: {
     color: "#2b3445",
@@ -26,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
 export default function MyFavorite() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMyLikes());
+  }, [dispatch]);
+  const { posts } = useSelector(blogSelector);
+  console.log(posts);
+  const [showType, setShowType] = useState(true);
   return (
     <Box>
       <Box
@@ -47,16 +57,19 @@ export default function MyFavorite() {
           New Post
         </Button>
       </Box>
-      <ToolbarBox />
+      <ToolbarBox showType={showType} setShowType={setShowType} />
       <Box style={{}}>
-        {posts.map((post, index) => (
-          // <Box py={2}>
-          //   <Card className={classes.markdown} key={index}>
-          //     post
-          //   </Card>
-          // </Box>
-          <Post key={index}/>
-        ))}
+        {!showType &&
+          posts?.map((post, index) => (
+            <PostCard key={index} post={post?.post} />
+          ))}
+        {showType && (
+          <Grid container spacing={3}>
+            {posts?.map((post, index) => (
+              <FeaturedPost key={index} post={post} />
+            ))}
+          </Grid>
+        )}
       </Box>
     </Box>
   );

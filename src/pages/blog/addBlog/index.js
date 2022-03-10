@@ -17,6 +17,7 @@ import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import Images from "constants/image";
 import RegionSelect from "react-region-select";
 import objectAssign from "object-assign";
+import LinkImage from "./LinkImage";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -192,12 +193,15 @@ export default function AddBlog() {
     if (!regionProps.isChanging) {
       return (
         <div style={{ position: "absolute", right: 0, bottom: "-1.5em" }}>
-          <button
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ zIndex: 100, minWidth: 170 }}
             onClick={(event) => changeRegionData(regionProps.index, event)}
             value={regionProps.data.dataType}
           >
             Add product's link
-          </button>
+          </Button>
         </div>
       );
     }
@@ -270,25 +274,12 @@ export default function AddBlog() {
                       }
                     />
                   </RegionSelect>
-                  {/* <img
-                    src={
-                      "https://media.designcafe.com/wp-content/uploads/2021/04/23193918/study-room-decoration-ideas-for-your-home.jpg"
-                    }
-                    alt={""}
-                  /> */}
                 </Box>
                 <Box display="flex" alignItems="center" flexDirection="column">
                   {/* <img key={"index"} src={""} alt="" id={`preview-1`} /> */}
-                  {/* {renderImages} */}
                   {files?.length > 0 &&
                     files?.map((file, index) => (
-                      <Box key={index} my={2}>
-                        <img
-                          src={file}
-                          alt={file}
-                          id={`preview-${index + 1}`}
-                        />
-                      </Box>
+                      <LinkImage key={index} imageObj={file} />
                     ))}
                 </Box>
                 <Box
