@@ -6,9 +6,9 @@ const blogApi = {
     return axiosClient.get(url, { params });
   },
 
-  getPosts: (body, params) => {
+  getPosts: ( params) => {
     const url = `/blogs`;
-    return axiosClient.get(url, body, { params });
+    return axiosClient.get(url, { params });
   },
 
   get: (id) => {
@@ -46,9 +46,9 @@ const blogApi = {
   },
 
   // decor Themes
-  getDecorThemes: (params) => {
+  getDecorThemes: () => {
     const url = `/blogs/decor-themes`;
-    return axiosClient.get(url, { params });
+    return axiosClient.get(url);
   },
 };
 

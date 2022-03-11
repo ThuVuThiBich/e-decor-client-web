@@ -15,34 +15,21 @@ import { blogSelector } from "redux/selectors";
 import PostImage from "./PostImage";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
+import { format } from "date-fns";
 
-const tmpData = [
-  {
-    image:
-      "https://i.pinimg.com/originals/3f/b6/33/3fb63301836a2f48300181a409607967.jpg",
-  },
-  {
-    image:
-      "https://i.pinimg.com/564x/70/03/9c/70039c33d1f772f0c56cc4975c59b0fb.jpg",
-  },
-  {
-    image:
-      "https://i.pinimg.com/originals/6f/9b/57/6f9b5768b30f84945c38be6a0ce9b7ae.jpg",
-  },
-];
-export default function PostDetail(props) {
+export default function PostDetail() {
   ScrollToTop();
-  const { posts } = useSelector(blogSelector);
+  const { post } = useSelector(blogSelector);
   return (
     <Grid item xs={12} md={9}>
       <Box>
         <Box mb={2} style={{ fontSize: 28, fontWeight: "bold" }}>
-          Title
+          {post?.title}
         </Box>
         <Paper>
           <Box p={2}>
             <Carousel animation="slide" duration="5000" interval={10000}>
-              {tmpData?.map((image, i) => (
+              {post?.images?.map((image, i) => (
                 <PostImage key={i} image={image} />
               ))}
             </Carousel>
@@ -61,10 +48,18 @@ export default function PostDetail(props) {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Avatar src="" alt="" />
+                <Avatar
+                  src={post?.user?.avatar}
+                  alt=""
+                  style={{ border: "1px solid rgb(211 206 206)" }}
+                />
                 <Box ml={2} display="flex" flexDirection="column">
-                  <Box>User Name</Box>
-                  <Box>Posted Date</Box>
+                  <Box>{post?.user?.name}</Box>
+                  <Box>
+                    {post?.createdAt
+                      ? format(new Date(post?.createdAt), "MMM dd, yyyy")
+                      : "MMM dd, yyyy"}
+                  </Box>
                 </Box>
               </Box>
               <Box>
@@ -93,7 +88,7 @@ export default function PostDetail(props) {
                   <Chip
                     color="primary"
                     size="small"
-                    label={"study"}
+                    label={post?.decorTheme}
                     style={{
                       letterSpacing: 1.2,
                       // fontSize: 12,
@@ -103,8 +98,8 @@ export default function PostDetail(props) {
                 </Box>
               </Box>
               <Divider />
-              <Box mt={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit{" "}
+              <Box mt={2} py={2}>
+                <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
               </Box>
             </Box>
           </Paper>

@@ -1,9 +1,13 @@
-import { Box, Chip, Grid, Typography } from "@material-ui/core";
+import { Box, Chip, Grid, Paper, Typography } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Product from "components/shop/shopContent/products/product";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { storeDecorTheme } from "redux/blogRedux";
+import { blogSelector } from "redux/selectors";
 export const mockItems = [
   {
     name: " Balloon set  ",
@@ -105,8 +109,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostSidebar(props) {
   const classes = useStyles();
-  const { archives, description, social, title } = props;
-
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { social } = props;
+  const { decorThemes } = useSelector(blogSelector);
   return (
     <Grid item xs={12} md={3}>
       <Box>
@@ -123,23 +129,26 @@ export default function PostSidebar(props) {
               whiteSpace: "normal",
               color: "#2B3445",
               textAlign: "center",
-              marginBottom: 8,
+              marginBottom: 16,
             }}
           >
             Featured Decor Themes
           </Typography>
-          {archives?.map((archive, index) => (
+          {decorThemes?.map((theme, index) => (
             <Link
               display="block"
               variant="body1"
-              href={archive.label}
+              onClick={() => {
+                dispatch(storeDecorTheme(theme?.decorTheme));
+                history.push("/blog/posts");
+              }}
               key={index}
               style={{ cursor: "pointer", marginTop: 4, marginBottom: 4 }}
             >
               <Chip
                 color="primary"
                 size="small"
-                label={archive.title}
+                label={theme?.decorTheme}
                 style={{
                   letterSpacing: 1.2,
                   cursor: "pointer",
@@ -181,7 +190,20 @@ export default function PostSidebar(props) {
             ))}
           </Carousel>
         </Box>
-
+        <Paper elevation={0} className={classes.sidebarAboutBox}>
+          <Typography variant="h6" gutterBottom>
+            About
+          </Typography>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </Typography>
+        </Paper>
         <Box>
           <Typography
             variant="h6"

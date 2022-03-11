@@ -12,11 +12,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import SearchIcon from "@material-ui/icons/Search";
 import Logo from "components/common/Logo";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { userSelector } from "redux/selectors";
+import { getDecorThemes, storeSearch } from "redux/blogRedux";
+import { blogSelector, userSelector } from "redux/selectors";
 import { getToken } from "utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,9 +51,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const { currentUser } = useSelector(userSelector);
+  const { search } = useSelector(blogSelector);
   const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { title } = props;
+  const [keyword, setKeyword] = useState(search);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const handleProfileMenuOpen = (event) => {
@@ -96,12 +99,12 @@ export default function Header(props) {
     </Menu>
   );
 
+  useEffect(() => {
+    dispatch(getDecorThemes());
+  }, [dispatch]);
   return (
-    <React.Fragment>
+    <>
       <Toolbar className={classes.toolbar}>
-        {/* <Button size="small" variant="outlined">
-          Subscribe
-        </Button> */}
         <Logo />
 
         <Typography
@@ -122,6 +125,7 @@ export default function Header(props) {
             variant="outlined"
             placeholder="Search Post"
             size="small"
+            value={keyword}
             InputProps={{
               classes: { notchedOutline: classes.custom },
               inputProps: {
@@ -138,7 +142,16 @@ export default function Header(props) {
               endAdornment: <SearchIcon style={{ color: "#747474" }} />,
             }}
             style={{ color: "white" }}
-            onChange={(event) => {}}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+              if (!e.target.value) dispatch(storeSearch(e.target.value));
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && e.target.value) {
+                dispatch(storeSearch(e.target.value));
+                history.push("/blog/posts");
+              }
+            }}
           />
         </FormControl>
 
@@ -174,30 +187,8 @@ export default function Header(props) {
           </IconButton>
         )}
       </Toolbar>
-      {/* <Toolbar
-        component="nav"
-        variant="dense"
-        className={classes.toolbarSecondary}
-      >
-        {sections?.map((section, index) => (
-          <Link
-            color="inherit"
-            noWrap
-            key={index}
-            variant="body2"
-            href={section.url}
-            className={classes.link}
-          >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar> */}
+
       {renderMenu}
-    </React.Fragment>
+    </>
   );
 }
-
-Header.propTypes = {
-  sections: PropTypes.array,
-  title: PropTypes.string,
-};

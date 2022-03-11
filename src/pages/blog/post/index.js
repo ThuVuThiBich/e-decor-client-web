@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
+    border: "1px solid rgb(211 206 206)",
   },
 }));
 
@@ -145,7 +146,7 @@ export default function PostCard(props) {
               />
             </Box>
           </Box>
-          <Box p={2} px={3}>
+          <Box py={2}>
             <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
           </Box>
         </CardContent>

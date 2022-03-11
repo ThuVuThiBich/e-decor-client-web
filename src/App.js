@@ -2,9 +2,11 @@ import { withAuthLayout } from "hocs";
 import withoutAuth from "hocs/withoutAuth";
 import AddBlog from "pages/blog/addBlog";
 import Blog from "pages/blog/Blog";
+import EditBlog from "pages/blog/editBlog";
 import MyBlogDetail from "pages/blog/myBlogDetail";
 import MyBlogs from "pages/blog/myBlogs";
 import MyFavorite from "pages/blog/myFavorite";
+import Posts from "pages/blog/Posts";
 import ViewPost from "pages/blog/ViewPost";
 import withBlog from "pages/blog/withBlog";
 import withBlogGuess from "pages/blog/withBlogGuess";
@@ -47,6 +49,11 @@ function App() {
       <Route path="/" component={withAuthLayout(Home)} exact />
       <Route path="/blog" component={withBlogGuess(Blog)} exact />
       <Route
+        path="/blog/posts"
+        component={withBlogGuess(Posts)}
+        exact
+      />
+      <Route
         path="/blog/posts/:postId"
         component={withBlogGuess(ViewPost)}
         exact
@@ -58,6 +65,11 @@ function App() {
         exact
       />
       <Route path="/blog/add" component={withBlog(AddBlog)} exact />
+      <Route
+        path="/blog/my-posts/edit/:postId"
+        component={withBlog(EditBlog)}
+        exact
+      />
       <Route path="/blog/my-favorite" component={withBlog(MyFavorite)} exact />
 
       <Redirect from={"/home"} to={"/"} />

@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 
 export const getPosts = createAsyncThunk(
   "blog/getPosts",
-  async (data, thunkAPI) => {
-    const response = await blogApi.getPosts(data);
+  async (params, thunkAPI) => {
+    const response = await blogApi.getPosts(params);
     return response.result;
   }
 );
@@ -89,8 +89,8 @@ export const getMyLikes = createAsyncThunk(
 
 export const getDecorThemes = createAsyncThunk(
   "blog/getDecorThemes",
-  async (params, thunkAPI) => {
-    const response = await blogApi.getDecorThemes(params);
+  async () => {
+    const response = await blogApi.getDecorThemes();
     return response.result;
   }
 );
@@ -104,11 +104,28 @@ const blogSlide = createSlice({
     isLoading: false,
     isUpdating: false,
     error: false,
+    search: "",
     //
     imgItems: [],
     decorThemes: [],
+    decorTheme: [],
   },
-  reducers: {},
+  reducers: {
+    storeSearch(state, action) {
+      state.search = action.payload;
+    },
+    storeDecorTheme(state, action) {
+      state.decorTheme = [...state.decorTheme, action.payload];
+    },
+    deleteDecorTheme(state, action) {
+      state.decorTheme = state.decorTheme.filter(
+        (i) => i !== action.payload
+      );
+    },
+    storePage(state, action) {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: {
     [getPosts.pending]: (state) => {
       state.isLoading = true;
@@ -161,6 +178,7 @@ const blogSlide = createSlice({
       state.isLoading = false;
       state.error = false;
       console.log(action);
+      state.post = action.payload;
     },
 
     [updatePost.pending]: (state) => {
@@ -242,10 +260,11 @@ const blogSlide = createSlice({
     },
     [getDecorThemes.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.decorThemes = action.payload.decorThemes;
+      state.decorThemes = action.payload;
     },
   },
 });
 
-// export const {} = blogSlide.actions;
+export const { storeSearch, storeDecorTheme, storePage, deleteDecorTheme } =
+  blogSlide.actions;
 export default blogSlide.reducer;

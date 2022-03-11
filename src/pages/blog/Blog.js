@@ -3,16 +3,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import axios from "axios";
+import ScrollToTop from "components/common/ScrollToTop";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "redux/blogRedux";
-import post1 from "./blog-post.1.md";
-import post2 from "./blog-post.2.md";
-import post3 from "./blog-post.3.md";
+import { blogSelector } from "redux/selectors";
+
 import FeaturedPost from "./FeaturedPost";
 import Main from "./Main";
 import MainFeaturedPost from "./MainFeaturedPost";
-import Sidebar from "./Sidebar";
+import PostSidebar from "./PostSidebar";
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -20,19 +21,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(5),
   },
 }));
-
-export const sections = [
-  { title: "Technology", url: "#" },
-  { title: "Design", url: "#" },
-  { title: "Culture", url: "#" },
-  { title: "Business", url: "#" },
-  { title: "Politics", url: "#" },
-  { title: "Opinion", url: "#" },
-  { title: "Science", url: "#" },
-  { title: "Health", url: "#" },
-  { title: "Style", url: "#" },
-  { title: "Travel", url: "#" },
-];
 
 const mainFeaturedPost = {
   title: "E-Decor Blog",
@@ -65,25 +53,11 @@ const featuredPosts = [
   },
 ];
 
-export const posts = [post1, post2, post3];
-
 const sidebar = {
   title: "About",
   description:
     "Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.",
-  archives: [
-    { title: "March 2020", url: "#" },
-    { title: "February 2020", url: "#" },
-    { title: "January 2020", url: "#" },
-    { title: "November 1999", url: "#" },
-    { title: "October 1999", url: "#" },
-    { title: "September 1999", url: "#" },
-    { title: "August 1999", url: "#" },
-    { title: "July 1999", url: "#" },
-    { title: "June 1999", url: "#" },
-    { title: "May 1999", url: "#" },
-    { title: "April 1999", url: "#" },
-  ],
+
   social: [
     { name: "Instagram", icon: InstagramIcon },
     { name: "Twitter", icon: TwitterIcon },
@@ -92,12 +66,45 @@ const sidebar = {
 };
 
 export default function Blog() {
+  ScrollToTop();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { currentPage } = useSelector(blogSelector);
   useEffect(() => {
     console.log("Blog");
-    dispatch(getPosts({ page: 1, limit: 5 }));
-  }, [dispatch]);
+    dispatch(getPosts({ page: currentPage, limit: 5 }));
+  }, [currentPage, dispatch]);
+  console.log(currentPage);
+
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `https://decorwebsite.herokuapp.com/api/v1/blogs?limit=5&page=${page}`
+        );
+
+        setPosts((users) => [...users, ...response.data.result.posts]);
+        setErrorMsg("");
+      } catch (error) {
+        setErrorMsg("Error while loading data. Try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUsers();
+  }, [page]);
+
+  const loadMore = () => {
+    setPage((page) => page + 1);
+  };
+
   return (
     <>
       <Container maxWidth="lg" style={{ paddingTop: 100 }}>
@@ -109,12 +116,11 @@ export default function Blog() {
             ))}
           </Grid>
           <Grid container spacing={3} className={classes.mainGrid}>
-            <Main title="Decor Posts" posts={posts} />
+            <Main title="Decor Posts" loadMore={loadMore} posts={posts} />
 
-            <Sidebar
+            <PostSidebar
               title={sidebar.title}
               description={sidebar.description}
-              archives={sidebar.archives}
               social={sidebar.social}
             />
           </Grid>

@@ -3,7 +3,6 @@ import Footer from "components/layout/Footer";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { getToken } from "utils/helpers";
-import { sections } from "./Blog";
 import Dashboard from "./Dashboard";
 import Header from "./Header";
 import { useStyles } from "./styles";
@@ -22,7 +21,7 @@ const withBlog = (Component) => (props) => {
         mb={10}
       >
         <Container maxWidth="lg">
-          <Header title="E-Decor Blog" sections={sections} />
+          <Header title="E-Decor Blog" />
         </Container>
       </Box>
       <Container maxWidth="lg" style={{ paddingTop: 100, paddingBottom: 100 }}>
