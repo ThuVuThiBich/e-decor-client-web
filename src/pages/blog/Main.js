@@ -10,9 +10,9 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDecorTheme, storePage } from "redux/blogRedux";
+import { deleteDecorTheme } from "redux/blogRedux";
 import { blogSelector } from "redux/selectors";
 import PostCard from "./post";
 
@@ -28,7 +28,7 @@ export default function Main(props) {
   const dispatch = useDispatch();
   const { title, posts, loadMore } = props;
   const [type, setType] = useState("Newest");
-  const { search, isLoading, decorTheme } = useSelector(blogSelector);
+  const { decorTheme } = useSelector(blogSelector);
 
   // const { posts, currentPage } = useSelector(blogSelector);
   // const [currentPosts, setCurrentPosts] = useState([]);

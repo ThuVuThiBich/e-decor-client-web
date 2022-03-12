@@ -55,7 +55,7 @@ export default function PostCard(props) {
   const history = useHistory();
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(post?.liked);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);

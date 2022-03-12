@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 export default function FeaturedPost(props) {
   const classes = useStyles();
   const { post } = props;
-  console.log(post);
   return (
     <Grid item xs={12} md={6}>
       <CardActionArea
@@ -42,7 +41,12 @@ export default function FeaturedPost(props) {
                 component="h2"
                 variant="h5"
                 gutterBottom
-                style={{ maxWidth: 250 }}
+                style={{
+                  maxWidth: 250,
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
               >
                 {post?.post?.title || "Post Title "}
               </Typography>

@@ -19,10 +19,9 @@ import Images from "constants/image";
 import LoadingPost from "pages/LoadingPost";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDecorTheme, getPosts, storeDecorTheme } from "redux/blogRedux";
+import { deleteDecorTheme, getPosts } from "redux/blogRedux";
 import { blogSelector } from "redux/selectors";
 import { isEmpty } from "underscore";
-
 import Main from "./Main";
 import PostSidebar from "./PostSidebar";
 
@@ -51,7 +50,6 @@ export default function Posts() {
     console.log("Blog");
     dispatch(getPosts({ page: 1, limit: 5, search, decorThemes: decorTheme }));
   }, [decorTheme, dispatch, search]);
-  console.log(decorTheme);
   return (
     <>
       <Container maxWidth="lg" style={{ paddingTop: 50 }}>
@@ -83,7 +81,27 @@ export default function Posts() {
                   >
                     Decor Posts
                   </Typography>
-                
+                  {decorTheme?.length > 0 && (
+                    <Box display="flex">
+                      {decorTheme?.map((theme, index) => (
+                        <Box mx={0.5} key={index}>
+                          <Chip
+                            color="primary"
+                            size="small"
+                            label={theme}
+                            style={{
+                              letterSpacing: 1.2,
+                              // fontSize: 12,
+                              // backgroundColor: "#D23F57",
+                            }}
+                            onDelete={() => {
+                              dispatch(deleteDecorTheme(theme));
+                            }}
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
                   <FormControl
                     // style={{ width: "25%" }}
                     // margin="dense"

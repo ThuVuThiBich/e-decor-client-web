@@ -37,7 +37,6 @@ export default function MyFavorite() {
     dispatch(getMyLikes());
   }, [dispatch]);
   const { posts } = useSelector(blogSelector);
-  console.log(posts);
   const [showType, setShowType] = useState(true);
   return (
     <Box>

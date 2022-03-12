@@ -15,7 +15,7 @@ export const createWishlist = createAsyncThunk(
   async (data, thunkAPI) => {
     const response = await wishlistApi.create(data);
     if (response.result) {
-      toast.success("SUCCESS");
+      // toast.success("SUCCESS");
       return response.result;
     } else toast.error("ERROR");
   }
@@ -23,7 +23,7 @@ export const createWishlist = createAsyncThunk(
 
 export const removeWishlist = createAsyncThunk(
   "wishlist/remove",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await wishlistApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");

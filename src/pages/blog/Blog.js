@@ -1,15 +1,23 @@
-import { Container, Grid } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Divider,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import TwitterIcon from "@material-ui/icons/Twitter";
-import axios from "axios";
 import ScrollToTop from "components/common/ScrollToTop";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "redux/blogRedux";
 import { blogSelector } from "redux/selectors";
-
+import { isEmpty } from "underscore";
 import FeaturedPost from "./FeaturedPost";
 import Main from "./Main";
 import MainFeaturedPost from "./MainFeaturedPost";
@@ -82,29 +90,30 @@ export default function Blog() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    console.log("useEffect");
     const loadUsers = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `https://decorwebsite.herokuapp.com/api/v1/blogs?limit=5&page=${page}`
-        );
-
-        setPosts((users) => [...users, ...response.data.result.posts]);
-        setErrorMsg("");
+        dispatch(getPosts({ page, limit: 5 })).then((res) => {
+          console.log(res);
+          setPosts((users) => [...users, ...res.payload.posts]);
+          // setErrorMsg("");
+        });
       } catch (error) {
         setErrorMsg("Error while loading data. Try again later.");
       } finally {
         setIsLoading(false);
+        console.log(errorMsg);
       }
     };
 
     loadUsers();
-  }, [page]);
+  }, [dispatch, errorMsg, page]);
 
   const loadMore = () => {
     setPage((page) => page + 1);
   };
-
+  console.log(posts);
   return (
     <>
       <Container maxWidth="lg" style={{ paddingTop: 100 }}>
@@ -116,8 +125,77 @@ export default function Blog() {
             ))}
           </Grid>
           <Grid container spacing={3} className={classes.mainGrid}>
-            <Main title="Decor Posts" loadMore={loadMore} posts={posts} />
+            {!isEmpty(posts) && (
+              <Main title="Decor Posts" loadMore={loadMore} posts={posts} />
+            )}
+            {(isEmpty(posts) || isLoading) && (
+              <Grid item xs={12} md={9}>
+                <Box
+                  mb={2}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      textTransform: "none",
+                      whiteSpace: "normal",
+                      color: "#2B3445",
+                    }}
+                  >
+                    Decor Posts
+                  </Typography>
 
+                  <FormControl
+                    // style={{ width: "25%" }}
+                    // margin="dense"
+
+                    variant="outlined"
+                    className={classes.formControl}
+                    size="small"
+                  >
+                    {/* <InputLabel id="select-outlined-label">Select City</InputLabel> */}
+                    <Select
+                      labelId="select-outlined-label"
+                      id="select-outlined"
+                      value={"Newest"}
+                      // onChange={handleChangeCity}
+                      // label="Select City"
+                      className={classes.input}
+                      defaultValue=""
+                      MenuProps={{
+                        disableScrollLock: true,
+                        classes: { paper: classes.menuPaper },
+                        anchorOrigin: {
+                          vertical: "bottom",
+                          horizontal: "left",
+                        },
+                        transformOrigin: {
+                          vertical: "top",
+                          horizontal: "left",
+                        },
+                        getContentAnchorEl: null,
+                      }}
+                    >
+                      {["Newest", "Popular", "Oldest"]?.map((city, index) => (
+                        <MenuItem key={index} value={city}>
+                          {city}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Divider />
+                <Box display="flex" justifyContent="center" mt={2}>
+                  <Box style={{ fontSize: 20 }}>Loading...</Box>
+                </Box>
+              </Grid>
+            )}
             <PostSidebar
               title={sidebar.title}
               description={sidebar.description}
