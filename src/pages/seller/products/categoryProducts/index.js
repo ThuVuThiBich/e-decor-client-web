@@ -1,15 +1,18 @@
-import { Box, Button, Typography } from "@material-ui/core";
+import { Box, Breadcrumbs, Button, Link, Typography } from "@material-ui/core";
 import ScrollToTop from "components/common/ScrollToTop";
 import ProductsTable from "components/seller/products/table";
 import Icons from "constants/icons";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useStyles } from "./styles";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function CategoryProducts() {
   ScrollToTop();
   const classes = useStyles();
   const history = useHistory();
+  const { categoryName } = useParams();
   return (
     <Box>
       <Box
@@ -22,7 +25,24 @@ export default function CategoryProducts() {
           <Box className={classes.icon}>
             <img src={Icons.PACKAGE_ICON} alt="" />
           </Box>
-          <Typography className={classes.title}>Products</Typography>
+
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator={<NavigateNextIcon />}
+          >
+            <Link
+              color="inherit"
+              href="/shop/products"
+              onClick={() => {}}
+              className={classes.link}
+            >
+              <Typography className={classes.title}>Products</Typography>
+            </Link>
+
+            <Typography color="primary" style={{ fontSize: 18 }}>
+              {categoryName}
+            </Typography>
+          </Breadcrumbs>
         </Box>
         <Button
           color="primary"

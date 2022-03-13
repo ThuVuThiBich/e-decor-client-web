@@ -64,7 +64,14 @@ export const getBestSellingProducts = createAsyncThunk(
     return response.result;
   }
 );
-
+//
+export const getPurchasedProducts = createAsyncThunk(
+  "product/getPurchasedProducts",
+  async (data, thunkAPI) => {
+    const response = await productApi.getPurchasedProducts(data);
+    return response.result;
+  }
+);
 const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -195,6 +202,18 @@ const productSlice = createSlice({
       state.bestSellingProducts = action.payload.products;
       state.totalProducts = action.payload.totalProducts;
       state.currentPage = action.payload.currentPage;
+    },
+    //
+    [getPurchasedProducts.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getPurchasedProducts.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    },
+    [getPurchasedProducts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.purchasedProducts = action.payload;
     },
   },
 });

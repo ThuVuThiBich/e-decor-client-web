@@ -82,15 +82,13 @@ export default function EditBlog() {
   };
   const handleCreatePost = () => {
     const post = { title, content, images, decorTheme };
-    console.log(post);
     dispatch(createPost(post)).then((data) => {
-      console.log(data.payload);
       history.push(`/blog/posts/${data?.payload?.id}`);
     });
   };
-  useEffect(() => {
-    console.log("useEffect");
-  }, []);
+  // useEffect(() => {
+  //   console.log("useEffect");
+  // }, []);
 
   return (
     <Box>
@@ -186,35 +184,17 @@ export default function EditBlog() {
                       className={classes.wallInput}
                       id="wall-file"
                       type="file"
-                      // onClick={() => {
-                      //   console.log(fileRef.current);
-                      //   fileRef.current = fileRef.current + 1;
-                      //   console.log(fileRef.current);
-                      // }}
                       onChange={(e) => {
-                        // console.log(fileRef.current);
-                        console.log(e);
                         if (e?.target?.files?.length > 0) {
                           var src = URL.createObjectURL(e?.target?.files[0]);
 
-                          console.log(src);
-
-                          console.log(files);
                           const tmp = [...files, src];
 
                           setFiles(tmp);
-                          console.log(files);
 
                           fileRef.current = fileRef.current + 1;
 
                           getUploadedUrl(e.target.files?.[0]).then((result) => {
-                            console.log(result);
-                            //  dispatch(
-                            //    updateProductVersion({
-                            //      ...productVersion,
-                            //      image: result,
-                            //    })
-                            //  );
                             setImages([...images, result]);
                           });
                         }

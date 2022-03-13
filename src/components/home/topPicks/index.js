@@ -47,7 +47,6 @@ export default function TopPicks() {
   ];
 
   const { bestSellingProducts } = useSelector(productSelector);
-  console.log(bestSellingProducts);
   const [active, setActive] = useState(0);
 
   return (

@@ -47,7 +47,6 @@ export default function Posts() {
   const dispatch = useDispatch();
   const { search, isLoading, posts, decorTheme } = useSelector(blogSelector);
   useEffect(() => {
-    console.log("Blog");
     dispatch(getPosts({ page: 1, limit: 5, search, decorThemes: decorTheme }));
   }, [decorTheme, dispatch, search]);
   return (

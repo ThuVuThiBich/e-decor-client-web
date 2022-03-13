@@ -106,9 +106,14 @@ const blogSlide = createSlice({
     error: false,
     search: "",
     //
-    imgItems: [],
+    imgItem: {
+      image: "",
+      items: [],
+    },
+    images: [],
     decorThemes: [],
     decorTheme: [],
+    //
   },
   reducers: {
     storeSearch(state, action) {
@@ -118,12 +123,39 @@ const blogSlide = createSlice({
       state.decorTheme = [...state.decorTheme, action.payload];
     },
     deleteDecorTheme(state, action) {
-      state.decorTheme = state.decorTheme.filter(
-        (i) => i !== action.payload
-      );
+      state.decorTheme = state.decorTheme.filter((i) => i !== action.payload);
     },
     storePage(state, action) {
       state.currentPage = action.payload;
+    },
+    //
+    storeImageItem(state, action) {
+      const tmp = state.images.find((item) => +item.id === +action.payload.id);
+      if (!tmp) state.images = [...state.images, action.payload];
+    },
+    //
+    storeItem(state, action) {
+      state.images = state.images.map((item) =>
+        +item.id === +action.payload.id
+          ? { ...item, items: [...item.items, action.payload.data] }
+          : item
+      );
+    },
+    //
+    storeItemCoords(state, action) {
+      state.currentPage = action.payload;
+    },
+    storeItemProductId(state, action) {
+      state.currentPage = action.payload;
+    },
+    //
+    storeImage(state, action) {
+      state.imgItem = { ...state.imgItem, image: action.payload };
+    },
+
+    //
+    resetImages(state, action) {
+      state.images = [];
     },
   },
   extraReducers: {
@@ -265,6 +297,13 @@ const blogSlide = createSlice({
   },
 });
 
-export const { storeSearch, storeDecorTheme, storePage, deleteDecorTheme } =
-  blogSlide.actions;
+export const {
+  storeSearch,
+  storeDecorTheme,
+  storePage,
+  deleteDecorTheme,
+  storeImageItem,
+  storeItem,
+  resetImages,
+} = blogSlide.actions;
 export default blogSlide.reducer;

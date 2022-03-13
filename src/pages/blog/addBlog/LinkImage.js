@@ -1,10 +1,32 @@
-import { Box, Button, makeStyles } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Fade,
+  FormControlLabel,
+  IconButton,
+  makeStyles,
+  Paper,
+  Popper,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import objectAssign from "object-assign";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
+import { useDispatch, useSelector } from "react-redux";
 import RegionSelect from "react-region-select";
 import { useHistory } from "react-router-dom";
-import { formats, modules } from "constants/index";
+import { storeImageItem, storeItem } from "redux/blogRedux";
+import { getPurchasedProducts } from "redux/productRedux";
+import {
+  blogSelector,
+  categorySelector,
+  productSelector,
+} from "redux/selectors";
+import { isEmpty } from "underscore";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,39 +71,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function LinkImage(props) {
-  console.log(props);
+  const dispatch = useDispatch();
+
+  const { images } = useSelector(blogSelector);
+  const { purchasedProducts } = useSelector(productSelector);
+  const { categories } = useSelector(categorySelector);
+  const [categoryId, setCategoryId] = useState(null);
+
+  //
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const [open, setOpen] = useState(Boolean(anchorEl));
+  const id = open ? "transitions-popper" : undefined;
+
+  //
+
   const { imageObj } = props;
   const classes = useStyles();
   const history = useHistory();
-  const [value, setValue] = useState("");
-  const [files, setFiles] = useState([]);
+  const [coords, setCoords] = useState([]);
   const [regions, setRegions] = useState([]);
 
-  const fileRef = useRef(0);
-  const handleChange = (value) => {
-    setValue(value);
-  };
-  // console.log(fileRef.current);
+  const [isAction, setIsAction] = useState(false);
+
   useEffect(() => {
-    console.log("useEffect");
-    // const tmp = files.map((file, index) => (
-    //   <img key={index} src={file} alt={file} id={`preview-${index + 1}`} />
-    // ));
-    // setRenderImages(tmp);
-  }, []);
+    dispatch(getPurchasedProducts({ categoryId }));
+  }, [categoryId, dispatch]);
 
   const detectObjects = (area) => {
-    console.log(area);
+    // console.log(area);
     // this.setState({ savedObject: area });
     let img = document.getElementById("image");
     let xPx = img.clientWidth * area.x * 0.01;
     let yPx = img.clientHeight * area.y * 0.01;
     let widthPx = img.clientWidth * area.width * 0.01;
     let heightPx = img.clientHeight * area.height * 0.01;
-    /*Перевернутая ось y, т.к по дефолту точка начала координат 
-    в левом верхнем углу. Делаем его в нижнем левом. */
+
     // Inverted y-axis, because by default the origin point
     //  in the upper left corner. We do it in the lower left.
     // let reverseY = img.clientHeight - yPx;
@@ -92,12 +122,18 @@ export default function LinkImage(props) {
     Second point: [${(xPx + widthPx).toFixed(2)} px, ${(yPx + heightPx).toFixed(
       2
     )} px]`);
+    setCoords([
+      +xPx.toFixed(2),
+      +yPx.toFixed(2),
+      +(xPx + widthPx).toFixed(2),
+      +(yPx + heightPx).toFixed(2),
+    ]);
   };
   const changeRegionData = (index, event) => {
     const region = regions[index];
     let color;
     detectObjects(regions[0]);
-    color = "rgba(0, 255, 0, 0.5)";
+    color = "rgba(0, 0, 255, 0.2)";
 
     region.data.regionStyle = {
       background: color,
@@ -109,14 +145,15 @@ export default function LinkImage(props) {
       }),
       ...regions.slice(index + 1),
     ]);
+    setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const regionStyle = {
     background: "rgba(0, 0, 255, 0.5)",
-    zIndex: 99,
+    // zIndex: 99,
   };
 
   const onChange = (regions) => {
-    console.log(regions);
+    // console.log(regions);
     setRegions(regions);
   };
   const regionRenderer = (regionProps) => {
@@ -124,6 +161,7 @@ export default function LinkImage(props) {
       return (
         <div style={{ position: "absolute", right: 0, bottom: "-1.5em" }}>
           <Button
+            aria-describedby={id}
             variant="contained"
             color="primary"
             style={{ zIndex: 100, minWidth: 170 }}
@@ -137,6 +175,18 @@ export default function LinkImage(props) {
     }
   };
 
+  //
+  useEffect(() => {
+    props?.imageLink &&
+      dispatch(
+        storeImageItem({
+          id: props?.index,
+          image: props.imageLink,
+          items:
+            images.filter((item) => +item.id === +props?.index)[0]?.items || [],
+        })
+      );
+  }, [dispatch, images, props.imageLink, props?.index]);
   return (
     <Box my={2}>
       <RegionSelect
@@ -150,6 +200,121 @@ export default function LinkImage(props) {
       >
         <img id="image" alt="alt" src={imageObj} />
       </RegionSelect>
+      <Popper id={id} open={Boolean(anchorEl)} anchorEl={anchorEl} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <Paper className={classes.paper}>
+              <Box px={4} pt={4}>
+                <Typography
+                  gutterBottom
+                  style={{ fontSize: 16, fontWeight: "bold", marginBottom: 16 }}
+                >
+                  Select your purchased products
+                </Typography>
+                {!isAction ? (
+                  <Box>
+                    <RadioGroup
+                      name="value"
+                      value={categoryId}
+                      onChange={(event, value) => {
+                        console.log(value);
+                        setCategoryId(+value);
+                      }}
+                    >
+                      {categories?.map((datum, index) => (
+                        <FormControlLabel
+                          label={datum.name}
+                          key={index}
+                          value={+datum.id}
+                          control={<Radio color="primary" />}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </Box>
+                ) : (
+                  <Box>
+                    {isEmpty(purchasedProducts) ? (
+                      <Box display="flex" justifyContent="center">
+                        <Box p={2}>No Products Yet.</Box>
+                      </Box>
+                    ) : (
+                      purchasedProducts?.map((item, index) => (
+                        <Box
+                          style={{ cursor: "pointer" }}
+                          key={index}
+                          onClick={() => {
+                            dispatch(
+                              storeItem({
+                                id: index,
+                                data: { productId: item.id, coords },
+                              })
+                            );
+                            setAnchorEl(null);
+                          }}
+                        >
+                          <Box
+                            display={"flex"}
+                            justifyContent="space-between"
+                            alignItems="center"
+                            style={{ minWidth: 200 }}
+                          >
+                            <Box display={"flex"} alignItems="center">
+                              <img
+                                width={50}
+                                height={50}
+                                src={item?.images?.[0]?.image}
+                                alt=""
+                              />
+                              <Box>
+                                <Typography
+                                  style={{
+                                    marginLeft: 8,
+                                    textOverflow: "ellipsis",
+                                    overflow: "hidden",
+                                    WebkitBoxOrient: "vertical",
+                                    WebkitLineClamp: 2,
+                                    maxWidth: 270,
+                                    paddingRight: 16,
+                                  }}
+                                >
+                                  {item?.name}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </Box>
+                        </Box>
+                      ))
+                    )}
+                  </Box>
+                )}
+              </Box>
+              <Box
+                p={1}
+                display="flex"
+                justifyContent={isAction ? "flex-start" : "flex-end"}
+              >
+                {isAction ? (
+                  <IconButton
+                    onClick={() => {
+                      setIsAction(!isAction);
+                    }}
+                  >
+                    <ArrowBackIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => {
+                      setIsAction(!isAction);
+                    }}
+                  >
+                    <ArrowForwardIcon />
+                  </IconButton>
+                )}
+              </Box>
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
     </Box>
   );
 }

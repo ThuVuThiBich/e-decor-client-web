@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Grid,
   IconButton,
   makeStyles,
@@ -8,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { blue } from "@material-ui/core/colors";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import Images from "constants/image";
@@ -15,9 +17,10 @@ import { formats, modules } from "constants/index";
 import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createPost } from "redux/blogRedux";
+import { createPost, resetImages } from "redux/blogRedux";
+import { blogSelector } from "redux/selectors";
 import { getUploadedUrl } from "utils/helpers";
 import LinkImage from "./LinkImage";
 
@@ -62,6 +65,14 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  buttonProgress: {
+    color: blue[500],
+    position: "absolute",
+    top: "50%",
+
+    marginTop: -12,
+    marginLeft: -45,
+  },
 }));
 
 export default function AddBlog() {
@@ -76,21 +87,28 @@ export default function AddBlog() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
+  const { images: linkImages, isLoading } = useSelector(blogSelector);
   const [decorTheme, setDecorTheme] = useState("");
   const handleChange = (value) => {
     setContent(value);
   };
   const handleCreatePost = () => {
-    const post = { title, content, images, decorTheme };
-    console.log(post);
+    const post = {
+      title,
+      content,
+      images: linkImages.map((item) => ({
+        image: item.image,
+        items: item.items,
+      })),
+      decorTheme,
+    };
     dispatch(createPost(post)).then((data) => {
-      console.log(data.payload);
       history.push(`/blog/posts/${data?.payload?.id}`);
+      dispatch(resetImages())
     });
   };
-  useEffect(() => {
-    console.log("useEffect");
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   return (
     <Box>
@@ -163,7 +181,12 @@ export default function AddBlog() {
                 <Box display="flex" alignItems="center" flexDirection="column">
                   {files?.length > 0 &&
                     files?.map((file, index) => (
-                      <LinkImage key={index} imageObj={file} />
+                      <LinkImage
+                        key={index}
+                        index={index}
+                        imageObj={file}
+                        imageLink={images?.[index]}
+                      />
                     ))}
                 </Box>
                 <Box
@@ -186,35 +209,17 @@ export default function AddBlog() {
                       className={classes.wallInput}
                       id="wall-file"
                       type="file"
-                      // onClick={() => {
-                      //   console.log(fileRef.current);
-                      //   fileRef.current = fileRef.current + 1;
-                      //   console.log(fileRef.current);
-                      // }}
                       onChange={(e) => {
-                        // console.log(fileRef.current);
-                        console.log(e);
                         if (e?.target?.files?.length > 0) {
                           var src = URL.createObjectURL(e?.target?.files[0]);
 
-                          console.log(src);
-
-                          console.log(files);
                           const tmp = [...files, src];
 
                           setFiles(tmp);
-                          console.log(files);
 
                           fileRef.current = fileRef.current + 1;
 
                           getUploadedUrl(e.target.files?.[0]).then((result) => {
-                            console.log(result);
-                            //  dispatch(
-                            //    updateProductVersion({
-                            //      ...productVersion,
-                            //      image: result,
-                            //    })
-                            //  );
                             setImages([...images, result]);
                           });
                         }
@@ -244,13 +249,22 @@ export default function AddBlog() {
                 </Box>
               </Grid>
               <Grid item xs={12} md={12}>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={handleCreatePost}
-                >
-                  Post
-                </Button>
+                <Box style={{ position: "relative" }}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={handleCreatePost}
+                    disabled={isLoading}
+                  >
+                    Post
+                  </Button>
+                  {isLoading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
+                </Box>
               </Grid>
             </Grid>
           </Box>

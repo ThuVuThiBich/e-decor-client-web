@@ -50,10 +50,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const sidebar = {
-  title: "About",
-  description:
-    "Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.",
-
   social: [
     { name: "Instagram", icon: InstagramIcon },
     { name: "Twitter", icon: TwitterIcon },
@@ -68,11 +64,7 @@ export default function ViewPost() {
   const dispatch = useDispatch();
   const { post, isLoading } = useSelector(blogSelector);
   const { currentUser } = useSelector(userSelector);
-  console.log(post?.user?.id);
-  console.log(currentUser?.id);
   useEffect(() => {
-    console.log("View PostPost");
-
     dispatch(getPost(postId));
   }, [dispatch, postId]);
 
@@ -164,11 +156,7 @@ export default function ViewPost() {
               <PostDetail />
             )}
 
-            <PostSidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              social={sidebar.social}
-            />
+            <PostSidebar social={sidebar.social} />
           </Grid>
         </main>
       </Container>

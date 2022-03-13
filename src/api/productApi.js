@@ -34,6 +34,11 @@ const productApi = {
     const url = `/products/best-sellings`;
     return axiosClient.get(url, { params });
   },
+  //
+  getPurchasedProducts: (params) => {
+    const url = `/products/purchased`;
+    return axiosClient.get(url, { params });
+  },
 };
 
 export default productApi;

@@ -1,10 +1,8 @@
 import { Box, Button, makeStyles } from "@material-ui/core";
 import objectAssign from "object-assign";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import RegionSelect from "react-region-select";
-import { useHistory } from "react-router-dom";
-import { formats, modules } from "constants/index";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,31 +47,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function LinkImage(props) {
-  console.log(props);
   const { imageObj } = props;
-  const classes = useStyles();
-  const history = useHistory();
-  const [value, setValue] = useState("");
-  const [files, setFiles] = useState([]);
+
   const [regions, setRegions] = useState([]);
 
-  const fileRef = useRef(0);
-  const handleChange = (value) => {
-    setValue(value);
-  };
-  // console.log(fileRef.current);
-  useEffect(() => {
-    console.log("useEffect");
-    // const tmp = files.map((file, index) => (
-    //   <img key={index} src={file} alt={file} id={`preview-${index + 1}`} />
-    // ));
-    // setRenderImages(tmp);
-  }, []);
-
   const detectObjects = (area) => {
-    console.log(area);
     // this.setState({ savedObject: area });
     let img = document.getElementById("image");
     let xPx = img.clientWidth * area.x * 0.01;
@@ -116,7 +95,6 @@ export default function LinkImage(props) {
   };
 
   const onChange = (regions) => {
-    console.log(regions);
     setRegions(regions);
   };
   const regionRenderer = (regionProps) => {

@@ -227,7 +227,7 @@ export default function MyBlogDetail() {
                   onLoad={() => load()}
                   onClick={(area) => {
                     clicked(area);
-                    console.log(area);
+                    // console.log(area);
                     // history.push(`/products/`);
                   }}
                   onMouseEnter={(area) => enterArea(area)}

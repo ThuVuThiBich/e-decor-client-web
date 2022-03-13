@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostCard(props) {
   const { post } = props;
-  console.log(post);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();

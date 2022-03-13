@@ -79,10 +79,8 @@ export default function Blog() {
   const dispatch = useDispatch();
   const { currentPage } = useSelector(blogSelector);
   useEffect(() => {
-    console.log("Blog");
     dispatch(getPosts({ page: currentPage, limit: 5 }));
   }, [currentPage, dispatch]);
-  console.log(currentPage);
 
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
@@ -90,14 +88,11 @@ export default function Blog() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    console.log("useEffect");
     const loadUsers = async () => {
       try {
         setIsLoading(true);
         dispatch(getPosts({ page, limit: 5 })).then((res) => {
-          console.log(res);
           setPosts((users) => [...users, ...res.payload.posts]);
-          // setErrorMsg("");
         });
       } catch (error) {
         setErrorMsg("Error while loading data. Try again later.");
@@ -113,7 +108,7 @@ export default function Blog() {
   const loadMore = () => {
     setPage((page) => page + 1);
   };
-  console.log(posts);
+
   return (
     <>
       <Container maxWidth="lg" style={{ paddingTop: 100 }}>

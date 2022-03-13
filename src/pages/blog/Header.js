@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { getDecorThemes, storeSearch } from "redux/blogRedux";
 import { blogSelector, userSelector } from "redux/selectors";
+import { logOut } from "redux/userRedux";
 import { getToken } from "utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +60,10 @@ export default function Header(props) {
   const [keyword, setKeyword] = useState(search);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch(logOut());
+  };
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -94,6 +99,15 @@ export default function Header(props) {
           style={{ color: "#2B3445" }}
         >
           My favorite
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <Link
+          to={"/home"}
+          className={classes.link}
+          style={{ color: "#2B3445" }}
+        >
+          Log out
         </Link>
       </MenuItem>
     </Menu>
