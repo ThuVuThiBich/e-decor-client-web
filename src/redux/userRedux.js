@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
-import { setAuth, setToken } from "utils/helpers";
-import { reset } from "./cartRedux";
 import { toast } from "react-toastify";
+import { setToken } from "utils/helpers";
+import { reset } from "./cartRedux";
 
 // async action
 // await async action tren component
@@ -10,10 +10,10 @@ import { toast } from "react-toastify";
 export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
   // thunkAPI.dispatch(...)
   const response = await authApi.login(data);
-  if (response.data.success) {
-    setToken(response.data.token);
+  if (response.success) {
+    setToken(response.token);
     await thunkAPI.dispatch(getInfo());
-    return response.data.success;
+    return response.success;
   } else {
     toast.error("Login Failed!");
     return response;
@@ -22,16 +22,16 @@ export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
 
 export const signUp = createAsyncThunk(
   "user/signUp",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.signUp(data);
-    if (response.data.result.success) return data.email;
+    if (response.result.success) return data.email;
     return response;
   }
 );
 
 export const verifyEmail = createAsyncThunk(
   "user/verifyEmail",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.verifyEmail(data);
     return response;
   }
@@ -39,25 +39,25 @@ export const verifyEmail = createAsyncThunk(
 
 export const forgotPass = createAsyncThunk(
   "user/forgotPass",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.forgotPass(data);
-    if (response.data.result.success) return data.email;
+    if (response.result.success) return data.email;
     else return response;
   }
 );
 
 export const resetPass = createAsyncThunk(
   "user/resetPass",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.resetPass(data);
-    if (response.data.result.success) return response.data.result.success;
+    if (response.result.success) return response.result.success;
     return response;
   }
 );
 
 export const updatePass = createAsyncThunk(
   "user/updatePass",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.updatePass(data);
     if (response?.success) {
       toast.success("SUCCESS");
@@ -71,14 +71,14 @@ export const updatePass = createAsyncThunk(
 
 export const getInfo = createAsyncThunk(
   "user/getInfo",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.getInfo();
     return response.result;
   }
 );
 export const updateInfo = createAsyncThunk(
   "user/updateInfo",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await authApi.updateInfo(data);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -180,7 +180,6 @@ const userSlice = createSlice({
       state.error = action.error;
     },
     [getInfo.fulfilled]: (state, action) => {
-      setAuth(action.payload);
       state.isLoading = false;
       state.currentUser = action.payload;
     },

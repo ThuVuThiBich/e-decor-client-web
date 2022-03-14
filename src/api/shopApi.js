@@ -1,6 +1,17 @@
 import axiosClient from "./axiosClient";
+import axiosPublic from "./axiosPublic";
 
 const shopApi = {
+  getShops: (params) => {
+    const url = "/shops";
+    return axiosPublic.get(url, { params });
+  },
+  getShop: (id) => {
+    const url = `/shops/${id}`;
+    return axiosPublic.get(url);
+  },
+
+  // shop
   createShop: (data) => {
     const url = "/shops";
     return axiosClient.post(url, data);
@@ -10,18 +21,8 @@ const shopApi = {
     return axiosClient.put(url, data);
   },
 
-  getShops: (params) => {
-    const url = "/shops";
-    return axiosClient.get(url, { params });
-  },
-
   getMyShop: () => {
     const url = "/shops/my-shop";
-    return axiosClient.get(url);
-  },
-
-  getShop: (id) => {
-    const url = `/shops/${id}`;
     return axiosClient.get(url);
   },
 };

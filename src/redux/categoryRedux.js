@@ -11,7 +11,7 @@ export const getCategories = createAsyncThunk(
 
 export const getShopCategories = createAsyncThunk(
   "category/getShopCategories",
-  async (id, thunkAPI) => {
+  async (id) => {
     const response = await categoryApi.getShopCategories(id);
     return response.result;
   }

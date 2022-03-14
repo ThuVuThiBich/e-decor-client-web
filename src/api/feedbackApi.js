@@ -1,9 +1,10 @@
 import axiosClient from "./axiosClient";
+import axiosPublic from "./axiosPublic";
 
 const feedbackApi = {
   getAll: (id, params) => {
     const url = `/products/${id}/feedbacks`;
-    return axiosClient.get(url, { params });
+    return axiosPublic.get(url, { params });
   },
 
   create: (id, data) => {

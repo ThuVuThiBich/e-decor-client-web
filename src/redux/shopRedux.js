@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const getMyShop = createAsyncThunk(
   "shop/getMyShop",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await shopApi.getMyShop();
     return response.result;
   }
@@ -12,7 +12,7 @@ export const getMyShop = createAsyncThunk(
 
 export const createShop = createAsyncThunk(
   "shop/createShop",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await shopApi.createShop(data);
     if (response.result) {
       toast.success("SUCCESS");
@@ -22,7 +22,7 @@ export const createShop = createAsyncThunk(
 
 export const updateShop = createAsyncThunk(
   "shop/updateShop",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await shopApi.updateShop(data);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -32,7 +32,7 @@ export const updateShop = createAsyncThunk(
 
 export const getShops = createAsyncThunk(
   "shop/getShops",
-  async (params, thunkAPI) => {
+  async (params) => {
     const response = await shopApi.getShops(params);
     return response.result;
   }
@@ -40,7 +40,7 @@ export const getShops = createAsyncThunk(
 
 export const getShop = createAsyncThunk(
   "shop/getShop",
-  async (id, thunkAPI) => {
+  async (id) => {
     const response = await shopApi.getShop(id);
     return response.result;
   }

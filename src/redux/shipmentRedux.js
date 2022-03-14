@@ -13,7 +13,7 @@ export const getShipments = createAsyncThunk(
 
 export const createShipment = createAsyncThunk(
   "shipment/create",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await shipmentApi.create(data);
     if (response.result) {
       toast.success("SUCCESS");
@@ -24,7 +24,7 @@ export const createShipment = createAsyncThunk(
 
 export const updateShipment = createAsyncThunk(
   "shipment/update",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await shipmentApi.update(data.id, data.shipment);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -33,7 +33,7 @@ export const updateShipment = createAsyncThunk(
 );
 export const deleteShipment = createAsyncThunk(
   "shipment/delete",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await shipmentApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -44,7 +44,7 @@ export const deleteShipment = createAsyncThunk(
 
 export const getShipment = createAsyncThunk(
   "shipment/getShipment",
-  async (id, thunkAPI) => {
+  async (id) => {
     const response = await shipmentApi.get(id);
     return response.result;
   }

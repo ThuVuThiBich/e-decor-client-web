@@ -3,14 +3,14 @@ import statisticApi from "api/statisticApi";
 
 export const getStatistics = createAsyncThunk(
   "statistic/getStatistics",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await statisticApi.getStatistics(data);
     return response.result;
   }
 );
 export const getChart = createAsyncThunk(
   "statistic/getChart",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await statisticApi.getChart(data);
     return response.result;
   }

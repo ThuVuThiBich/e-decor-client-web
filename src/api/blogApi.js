@@ -1,19 +1,20 @@
 import axiosClient from "./axiosClient";
+import axiosPublic from "./axiosPublic";
 
 const blogApi = {
-  getMyPosts: (params) => {
-    const url = `/blogs/my-blog`;
-    return axiosClient.get(url, { params });
-  },
-
-  getPosts: ( params) => {
+  getPosts: (params) => {
     const url = `/blogs`;
-    return axiosClient.get(url, { params });
+    return axiosPublic.get(url, { params });
   },
 
   get: (id) => {
     const url = `/blogs/${id}`;
-    return axiosClient.get(url);
+    return axiosPublic.get(url);
+  },
+
+  getMyPosts: (params) => {
+    const url = `/blogs/my-blog`;
+    return axiosClient.get(url, { params });
   },
 
   create: (data) => {
@@ -48,7 +49,7 @@ const blogApi = {
   // decor Themes
   getDecorThemes: () => {
     const url = `/blogs/decor-themes`;
-    return axiosClient.get(url);
+    return axiosPublic.get(url);
   },
 };
 

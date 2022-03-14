@@ -1,16 +1,6 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-export const getAuth = () => {
-  const auth = localStorage.getItem("auth");
-  return typeof auth === "string" ? JSON.parse(auth) : {};
-};
-
-export const setAuth = (auth) => {
-  localStorage.setItem("auth", JSON.stringify(auth));
-};
-
-//
 export const getUploadedUrl = async (file) => {
   //  setUploadCover(true);
   const data = new FormData();

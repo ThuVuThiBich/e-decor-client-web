@@ -49,7 +49,7 @@ export default function MyBlogs() {
         <Button
           color="primary"
           variant="outlined"
-          onClick={() => history.push("/blog/add")}
+          onClick={() => history.push("/blog/my-posts/add")}
         >
           <AddIcon style={{ marginRight: 8 }} />
           New Post

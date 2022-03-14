@@ -43,20 +43,7 @@ export default function Products({ order }) {
                 color="primary"
                 onClick={() => {
                   history.push(`/orders/${order.id}`);
-
                   dispatch(confirmOrder(order.id));
-                  // fetch(
-                  //   `${process.env.REACT_APP_API_URL}/orders/${order?.id}/confirm-receipt`,
-                  //   {
-                  //     method: "PATCH",
-                  //     headers: {
-                  //       "Content-Type": "application/json",
-                  //       Authorization: `Bearer ${getToken()}`,
-                  //     },
-                  //   }
-                  // )
-                  //   .then((response) => response.json())
-                  //   .then((data) => history.push(`/orders/${order.id}`));
                 }}
               >
                 Confirm
@@ -71,18 +58,6 @@ export default function Products({ order }) {
                   onClick={() => {
                     history.push(`/orders/${order.id}`);
                     dispatch(cancelOrder(order.id));
-                    // fetch(
-                    //   `${process.env.REACT_APP_API_URL}/orders/${order?.id}/cancel`,
-                    //   {
-                    //     method: "DELETE",
-                    //     headers: {
-                    //       "Content-Type": "application/json",
-                    //       Authorization: `Bearer ${getToken()}`,
-                    //     },
-                    //   }
-                    // )
-                    //   .then((response) => response.json())
-                    //   .then((data) => history.push(`/orders/${order.id}`));
                   }}
                 >
                   Cancel

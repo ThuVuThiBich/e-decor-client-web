@@ -9,19 +9,16 @@ export const getCities = createAsyncThunk("address/getCities", async () => {
 
 export const getDistricts = createAsyncThunk(
   "address/getDistricts",
-  async (params, thunkAPI) => {
+  async (params) => {
     const response = await addressApi.getDistricts({ cityId: params });
     return response.result;
   }
 );
 
-export const getWards = createAsyncThunk(
-  "address/getWards",
-  async (params, thunkAPI) => {
-    const response = await addressApi.getWards({ districtId: params });
-    return response.result;
-  }
-);
+export const getWards = createAsyncThunk("address/getWards", async (params) => {
+  const response = await addressApi.getWards({ districtId: params });
+  return response.result;
+});
 
 //
 export const getAddresses = createAsyncThunk("address/getAll", async () => {
@@ -29,20 +26,17 @@ export const getAddresses = createAsyncThunk("address/getAll", async () => {
   return response.result;
 });
 
-export const addAddress = createAsyncThunk(
-  "address/add",
-  async (data, thunkAPI) => {
-    const response = await addressApi.add(data);
-    if (response.result) {
-      toast.success("SUCCESS");
-      return response.result;
-    } else toast.error("ERROR");
-  }
-);
+export const addAddress = createAsyncThunk("address/add", async (data) => {
+  const response = await addressApi.add(data);
+  if (response.result) {
+    toast.success("SUCCESS");
+    return response.result;
+  } else toast.error("ERROR");
+});
 
 export const updateAddress = createAsyncThunk(
   "address/update",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await addressApi.update(data.id, data.address);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -52,7 +46,7 @@ export const updateAddress = createAsyncThunk(
 );
 export const deleteAddress = createAsyncThunk(
   "address/delete",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await addressApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");

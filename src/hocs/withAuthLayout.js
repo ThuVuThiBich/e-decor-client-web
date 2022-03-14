@@ -22,9 +22,6 @@ const withAuthLayout = (Component) => (props) => {
         </div>
         <Footer />
       </>
-      {/* ) : (
-        <></>
-      )} */}
     </div>
   );
 };

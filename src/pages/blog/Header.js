@@ -18,7 +18,6 @@ import { Link, useHistory } from "react-router-dom";
 import { getDecorThemes, storeSearch } from "redux/blogRedux";
 import { blogSelector, userSelector } from "redux/selectors";
 import { logOut } from "redux/userRedux";
-import { getToken } from "utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -169,7 +168,7 @@ export default function Header(props) {
           />
         </FormControl>
 
-        {getToken() ? (
+        {currentUser ? (
           <IconButton
             edge="end"
             aria-label="account of current user"

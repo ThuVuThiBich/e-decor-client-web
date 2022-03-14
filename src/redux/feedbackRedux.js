@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const getFeedbacks = createAsyncThunk(
   "feedback/getAll",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await feedbackApi.getAll(data.id, data.params);
     return response.result;
   }
@@ -12,7 +12,7 @@ export const getFeedbacks = createAsyncThunk(
 
 export const createFeedback = createAsyncThunk(
   "feedback/create",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await feedbackApi.create(data.id, data.body);
     if (response.result) {
       toast.success("SUCCESS");
@@ -23,7 +23,7 @@ export const createFeedback = createAsyncThunk(
 
 export const deleteFeedback = createAsyncThunk(
   "feedback/delete",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await feedbackApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");

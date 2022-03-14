@@ -1,4 +1,4 @@
-import withAuth from "./withAuth";
+import withoutAuth from "./withoutAuth";
 import withAuthLayout from "./withAuthLayout";
 
-export { withAuth, withAuthLayout };
+export { withoutAuth, withAuthLayout };

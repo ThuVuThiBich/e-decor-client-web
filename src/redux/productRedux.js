@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.getProducts(data);
     return response.result;
   }
 );
 export const getShopProducts = createAsyncThunk(
   "product/getShopProducts",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.getShopProducts(data.id, data.params);
     return response.result;
   }
@@ -19,7 +19,7 @@ export const getShopProducts = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   "product/create",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.create(data);
     if (response.result) {
       toast.success("SUCCESS");
@@ -30,7 +30,7 @@ export const createProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "product/update",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.update(data.id, data.body);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -40,7 +40,7 @@ export const updateProduct = createAsyncThunk(
 );
 export const deleteProduct = createAsyncThunk(
   "product/delete",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");
@@ -49,17 +49,14 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
-export const getProduct = createAsyncThunk(
-  "product/getProduct",
-  async (id, thunkAPI) => {
-    const response = await productApi.get(id);
-    return response.result;
-  }
-);
+export const getProduct = createAsyncThunk("product/getProduct", async (id) => {
+  const response = await productApi.get(id);
+  return response.result;
+});
 
 export const getBestSellingProducts = createAsyncThunk(
   "product/getBestSellingProducts",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.getBestSellingProducts(data);
     return response.result;
   }
@@ -67,7 +64,7 @@ export const getBestSellingProducts = createAsyncThunk(
 //
 export const getPurchasedProducts = createAsyncThunk(
   "product/getPurchasedProducts",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await productApi.getPurchasedProducts(data);
     return response.result;
   }

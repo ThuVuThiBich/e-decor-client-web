@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const getWishlists = createAsyncThunk(
   "wishlist/getAll",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await wishlistApi.getAll(data);
     return response.result;
   }
@@ -12,7 +12,7 @@ export const getWishlists = createAsyncThunk(
 
 export const createWishlist = createAsyncThunk(
   "wishlist/create",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await wishlistApi.create(data);
     if (response.result) {
       // toast.success("SUCCESS");
@@ -34,7 +34,7 @@ export const removeWishlist = createAsyncThunk(
 
 export const deleteWishlist = createAsyncThunk(
   "wishlist/delete",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await wishlistApi.delete(data);
     if (response.result.success) {
       toast.success("SUCCESS");

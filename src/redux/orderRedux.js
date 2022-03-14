@@ -3,37 +3,28 @@ import orderApi from "api/orderApi";
 import { getPriceTotal } from "utils/helpers";
 import { toast } from "react-toastify";
 
-export const getOrders = createAsyncThunk(
-  "order/getOrders",
-  async (params, thunkAPI) => {
-    const response = await orderApi.getAll(params);
-    return response.result;
-  }
-);
+export const getOrders = createAsyncThunk("order/getOrders", async (params) => {
+  const response = await orderApi.getAll(params);
+  return response.result;
+});
 
-export const createOrder = createAsyncThunk(
-  "order/create",
-  async (data, thunkAPI) => {
-    const response = await orderApi.create(data);
-    if (response.result) {
-      toast.success("SUCCESS");
-      return response.result;
-    } else toast.error("ERROR");
-  }
-);
-
-export const getOrder = createAsyncThunk(
-  "order/getOrder",
-  async (id, thunkAPI) => {
-    const response = await orderApi.get(id);
+export const createOrder = createAsyncThunk("order/create", async (data) => {
+  const response = await orderApi.create(data);
+  if (response.result) {
+    toast.success("SUCCESS");
     return response.result;
-  }
-);
+  } else toast.error("ERROR");
+});
+
+export const getOrder = createAsyncThunk("order/getOrder", async (id) => {
+  const response = await orderApi.get(id);
+  return response.result;
+});
 
 // shop
 export const getShopOrders = createAsyncThunk(
   "order/getShopOrders",
-  async (params, thunkAPI) => {
+  async (params) => {
     const response = await orderApi.getShopOrders(params);
     return response.result;
   }
@@ -42,7 +33,7 @@ export const getShopOrders = createAsyncThunk(
 // update
 export const updateOrderStatus = createAsyncThunk(
   "order/updateOrderStatus",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await orderApi.updateOrderStatus(data.id, data.status);
     return response.result;
   }
@@ -51,7 +42,7 @@ export const updateOrderStatus = createAsyncThunk(
 
 export const confirmOrder = createAsyncThunk(
   "order/confirmOrder",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await orderApi.confirmReceiveOrder(data);
     return response.result;
   }
@@ -61,7 +52,7 @@ export const confirmOrder = createAsyncThunk(
 
 export const cancelOrder = createAsyncThunk(
   "order/confirmOrder",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await orderApi.cancelOrder(data);
     return response.result;
   }

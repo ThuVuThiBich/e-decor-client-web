@@ -1,28 +1,29 @@
-import axiosClient, { publicRequest } from "./axiosClient";
+import axiosClient from "./axiosClient";
+import axiosPublic from "./axiosPublic";
 
 const authApi = {
   login: (data) => {
     const url = "/auth/login";
-    return publicRequest.post(url, data);
+    return axiosPublic.post(url, data);
   },
   signUp: (data) => {
     const url = "/auth/register";
-    return publicRequest.post(url, data);
+    return axiosPublic.post(url, data);
   },
 
   verifyEmail: (data) => {
     const url = "/auth/verify-email";
-    return publicRequest.post(url, data);
+    return axiosPublic.post(url, data);
   },
 
   forgotPass: (data) => {
     const url = "/auth/forgot-password";
-    return publicRequest.post(url, data);
+    return axiosPublic.post(url, data);
   },
 
   resetPass: (data) => {
     const url = "/auth/reset-password";
-    return publicRequest.post(url, data);
+    return axiosPublic.post(url, data);
   },
 
   updatePass: (data) => {

@@ -24,7 +24,6 @@ import { getRecentCartItems } from "redux/cartRedux";
 import { cartSelector, userSelector } from "redux/selectors";
 import { logOut } from "redux/userRedux";
 import { size } from "underscore";
-import { getToken } from "utils/helpers";
 import SubHeader from "../SubHeader";
 import { useStyles } from "./styles";
 
@@ -34,7 +33,7 @@ export default function Header() {
   const { recentProducts, quantity, isUpdated } = useSelector(cartSelector);
 
   useEffect(() => {
-    getToken() && currentUser && dispatch(getRecentCartItems());
+    currentUser && dispatch(getRecentCartItems());
   }, [currentUser, dispatch, isUpdated]);
   const history = useHistory();
   const [isVisible, setIsVisible] = useState(true);
@@ -282,7 +281,7 @@ export default function Header() {
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            {getToken() ? (
+            {currentUser ? (
               <IconButton
                 edge="end"
                 aria-label="account of current user"

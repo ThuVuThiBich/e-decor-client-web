@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const getAllPromotions = createAsyncThunk(
   "promotion/getAll",
-  async (data, thunkAPI) => {
+  async (data) => {
     if (data) {
       const response = await promotionApi.getAll(data.id, data.params);
       return response.result;
@@ -14,7 +14,7 @@ export const getAllPromotions = createAsyncThunk(
 
 export const getPromotions = createAsyncThunk(
   "promotion/getPromotions",
-  async (data, thunkAPI) => {
+  async (data) => {
     if (data) {
       const response = await promotionApi.getPromotions(data);
       return response.result;
@@ -24,7 +24,7 @@ export const getPromotions = createAsyncThunk(
 
 export const addPromotion = createAsyncThunk(
   "promotion/create",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await promotionApi.create(data.id, data.body);
     if (response.result) {
       toast.success("SUCCESS");
@@ -34,7 +34,7 @@ export const addPromotion = createAsyncThunk(
 );
 export const updatePromotion = createAsyncThunk(
   "promotion/update",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await promotionApi.update(data.id, data.body);
     if (response.result) {
       toast.success("SUCCESS");
@@ -45,7 +45,7 @@ export const updatePromotion = createAsyncThunk(
 
 export const deletePromotion = createAsyncThunk(
   "promotion/delete",
-  async (data, thunkAPI) => {
+  async (data) => {
     const response = await promotionApi.delete(data.id, data.body);
     if (response.result.success) {
       toast.success("SUCCESS");

@@ -52,6 +52,7 @@ export default function Dashboard() {
             className={classes.navLink}
             to="/blog/my-posts"
             activeClassName={classes.active}
+            exact
           >
             <BallotOutlinedIcon className={classes.icon} />
             My Posts
@@ -59,8 +60,9 @@ export default function Dashboard() {
 
           <NavLink
             className={classes.navLink}
-            to="/blog/add"
+            to="/blog/my-posts/add"
             activeClassName={classes.active}
+            exact
           >
             <PostAddIcon className={classes.icon} />
             Add New Post

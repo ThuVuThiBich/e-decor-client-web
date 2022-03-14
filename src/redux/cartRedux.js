@@ -14,7 +14,7 @@ export const getRecentCartItems = createAsyncThunk(
     if (getToken()) {
       const response = await cartApi.get();
       return response.result;
-    }
+    } else return [];
   }
 );
 

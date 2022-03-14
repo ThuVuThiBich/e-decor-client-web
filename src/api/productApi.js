@@ -1,20 +1,23 @@
 import axiosClient from "./axiosClient";
+import axiosPublic from "./axiosPublic";
 
 const productApi = {
   getProducts: (params) => {
     const url = `products`;
-    return axiosClient.get(url, { params });
+    return axiosPublic.get(url, { params });
   },
+
   getShopProducts: (id, params) => {
     const url = `shops/${id}/products`;
-    return axiosClient.get(url, { params });
+    return axiosPublic.get(url, { params });
   },
 
   get: (id) => {
     const url = `/products/${id}`;
-    return axiosClient.get(url);
+    return axiosPublic.get(url);
   },
 
+  // shop
   create: (data) => {
     const url = `/products`;
     return axiosClient.post(url, data);
@@ -30,10 +33,12 @@ const productApi = {
     return axiosClient.delete(url);
   },
 
+  //
   getBestSellingProducts: (params) => {
     const url = `/products/best-sellings`;
-    return axiosClient.get(url, { params });
+    return axiosPublic.get(url, { params });
   },
+
   //
   getPurchasedProducts: (params) => {
     const url = `/products/purchased`;

@@ -43,19 +43,6 @@ export default function Products({ order }) {
                 updateOrderStatus({ id: order?.id, status: { status } })
               );
               history.push(`/shop/orders/${order?.id}`);
-              // fetch(
-              //   `${process.env.REACT_APP_API_URL}/orders/${order?.id}/shop-owner`,
-              //   {
-              //     method: "PATCH",
-              //     headers: {
-              //       "Content-Type": "application/json",
-              //       Authorization: `Bearer ${getToken()}`,
-              //     },
-              //     body: JSON.stringify({ status }),
-              //   }
-              // )
-              //   .then((response) => response.json())
-              //   .then((data) => history.push(`/shop/orders/${order?.id}`));
             }}
           >
             Save Changes

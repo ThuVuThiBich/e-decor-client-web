@@ -46,7 +46,3 @@ axiosClient.interceptors.response.use(
 );
 
 export default axiosClient;
-
-export const publicRequest = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-});

@@ -2,86 +2,65 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import blogApi from "api/blogApi";
 import { toast } from "react-toastify";
 
-export const getPosts = createAsyncThunk(
-  "blog/getPosts",
-  async (params, thunkAPI) => {
-    const response = await blogApi.getPosts(params);
-    return response.result;
-  }
-);
+export const getPosts = createAsyncThunk("blog/getPosts", async (params) => {
+  const response = await blogApi.getPosts(params);
+  return response.result;
+});
 export const getMyPosts = createAsyncThunk(
   "blog/getMyPosts",
-  async (params, thunkAPI) => {
+  async (params) => {
     const response = await blogApi.getMyPosts(params);
     return response.result;
   }
 );
 
-export const createPost = createAsyncThunk(
-  "blog/create",
-  async (data, thunkAPI) => {
-    const response = await blogApi.create(data);
-    if (response.result) {
-      toast.success("SUCCESS");
-      return response.result;
-    } else toast.error("ERROR");
-  }
-);
-
-export const updatePost = createAsyncThunk(
-  "blog/update",
-  async (data, thunkAPI) => {
-    const response = await blogApi.update(data.id, data.body);
-    if (response.result.success) {
-      toast.success("SUCCESS");
-      return data.id;
-    } else toast.error("ERROR");
-  }
-);
-export const deletePost = createAsyncThunk(
-  "blog/delete",
-  async (data, thunkAPI) => {
-    const response = await blogApi.delete(data);
-    if (response.result.success) {
-      toast.success("SUCCESS");
-      return data;
-    } else toast.error("ERROR");
-  }
-);
-
-export const getPost = createAsyncThunk(
-  "blog/getPost",
-  async (id, thunkAPI) => {
-    const response = await blogApi.get(id);
+export const createPost = createAsyncThunk("blog/create", async (data) => {
+  const response = await blogApi.create(data);
+  if (response.result) {
+    toast.success("SUCCESS");
     return response.result;
-  }
-);
+  } else toast.error("ERROR");
+});
+
+export const updatePost = createAsyncThunk("blog/update", async (data) => {
+  const response = await blogApi.update(data.id, data.body);
+  if (response.result.success) {
+    toast.success("SUCCESS");
+    return data.id;
+  } else toast.error("ERROR");
+});
+export const deletePost = createAsyncThunk("blog/delete", async (data) => {
+  const response = await blogApi.delete(data);
+  if (response.result.success) {
+    toast.success("SUCCESS");
+    return data;
+  } else toast.error("ERROR");
+});
+
+export const getPost = createAsyncThunk("blog/getPost", async (id) => {
+  const response = await blogApi.get(id);
+  return response.result;
+});
 
 // like
-export const likePost = createAsyncThunk(
-  "blog/like",
-  async (data, thunkAPI) => {
-    const response = await blogApi.like(data);
-    if (response.result) {
-      toast.success("SUCCESS");
-      return response.result;
-    } else toast.error("ERROR");
-  }
-);
-export const unlikePost = createAsyncThunk(
-  "blog/unlike",
-  async (data, thunkAPI) => {
-    const response = await blogApi.unlike(data);
-    if (response.result) {
-      toast.success("SUCCESS");
-      return response.result;
-    } else toast.error("ERROR");
-  }
-);
+export const likePost = createAsyncThunk("blog/like", async (data) => {
+  const response = await blogApi.like(data);
+  if (response.result) {
+    toast.success("SUCCESS");
+    return response.result;
+  } else toast.error("ERROR");
+});
+export const unlikePost = createAsyncThunk("blog/unlike", async (data) => {
+  const response = await blogApi.unlike(data);
+  if (response.result) {
+    toast.success("SUCCESS");
+    return response.result;
+  } else toast.error("ERROR");
+});
 
 export const getMyLikes = createAsyncThunk(
   "blog/getMyLikes",
-  async (params, thunkAPI) => {
+  async (params) => {
     const response = await blogApi.getMyLikes(params);
     return response.result;
   }
