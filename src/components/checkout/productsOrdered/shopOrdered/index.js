@@ -44,7 +44,6 @@ const TableCell = withStyles({
 export default function ShopOrdered(props) {
   const { shopId, shopName, orderItems, amount, shippingUnitId, shipping } =
     useSelector(orderSelector);
-
   //
   const history = useHistory();
   const dispatch = useDispatch();
@@ -121,6 +120,10 @@ export default function ShopOrdered(props) {
                     scope="row"
                     width="30%"
                     size="small"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      history.push(`/product/${row?.id}`);
+                    }}
                   >
                     <Box ml={2} display="flex" alignItems="center">
                       <img
@@ -133,7 +136,15 @@ export default function ShopOrdered(props) {
                       {row?.name}
                     </Box>
                   </TableCell>
-                  <TableCell width="20%">{row?.productVersionName}</TableCell>
+                  <TableCell
+                    style={{ cursor: "pointer" }}
+                    width="20%"
+                    onClick={() => {
+                      history.push(`/product/${row?.id}`);
+                    }}
+                  >
+                    {row?.productVersionName}
+                  </TableCell>
                   <TableCell width="15%">${row?.price}</TableCell>
                   <TableCell width="15%">{row?.quantity}</TableCell>
                   <TableCell width="10%" className={classes.price}>

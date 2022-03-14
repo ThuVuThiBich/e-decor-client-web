@@ -237,6 +237,7 @@ export default function EnhancedTable(props) {
       const orderItems = [];
       data?.map((n) =>
         orderItems.push({
+          id: n.id,
           name: n.name,
           price: n.version.price,
           productVersionName: n.version.name,
@@ -276,6 +277,7 @@ export default function EnhancedTable(props) {
       (n) =>
         newSelected?.includes(n.version.id) &&
         tmp.push({
+          id: n.id,
           name: n.name,
           price: n.version.price,
           productVersionName: n.version.name,

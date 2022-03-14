@@ -92,16 +92,16 @@ export default function AddressForm(props) {
   //
 
   useEffect(() => {
-    dispatch(getCities());
-  }, [dispatch]);
+    !isCheckout && dispatch(getCities());
+  }, [dispatch, isCheckout]);
 
   useEffect(() => {
-    cityId && dispatch(getDistricts(cityId));
-  }, [cityId, dispatch]);
+    !isCheckout && cityId && dispatch(getDistricts(cityId));
+  }, [cityId, dispatch, isCheckout]);
 
   useEffect(() => {
-    districtId && dispatch(getWards(districtId));
-  }, [dispatch, districtId]);
+    !isCheckout && districtId && dispatch(getWards(districtId));
+  }, [dispatch, districtId, isCheckout]);
 
   const handleSubmit = () => {
     const address = { name, phone, detail, cityId, districtId, wardId };

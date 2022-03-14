@@ -14,11 +14,14 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { deleteCartItem, updateQuantity } from "redux/cartRedux";
 export default function CartItem(props) {
   const { isItemSelected, labelId, classes, handleClick, row } = props;
+
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     setQuantity(row?.version.cartItems?.[0].quantity);
   }, [row]);
@@ -41,11 +44,23 @@ export default function CartItem(props) {
           checked={isItemSelected}
           inputProps={{ "aria-labelledby": labelId }}
           onClick={(event) => handleClick(event, row?.version.id)}
+          disabled={row?.version?.isOutOfStock}
         />
       </TableCell>
 
-      <TableCell id={labelId} scope="row" width="35%">
-        <Box display="flex" alignItems="center">
+      <TableCell
+        style={{ cursor: "pointer" }}
+        id={labelId}
+        scope="row"
+        width="35%"
+      >
+        <Box
+          display="flex"
+          alignItems="center"
+          onClick={() => {
+            history.push(`/product/${row?.id}`);
+          }}
+        >
           <img
             style={{ marginRight: 16 }}
             width={80}
@@ -56,7 +71,15 @@ export default function CartItem(props) {
           {row?.name}
         </Box>
       </TableCell>
-      <TableCell width="15%">{row?.version.name}</TableCell>
+      <TableCell
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          history.push(`/product/${row?.id}`);
+        }}
+        width="15%"
+      >
+        {row?.version.name}
+      </TableCell>
       <TableCell width="10%">${row?.version.price}</TableCell>
       <TableCell width="20%">
         <Box className={classes.test} mx={2}>
@@ -100,7 +123,7 @@ export default function CartItem(props) {
         </Box>
       </TableCell>
       <TableCell width="10%" className={classes.price}>
-        ${row?.version.price * quantity} 
+        ${row?.version.price * quantity}
       </TableCell>
       <TableCell width="5%">
         <Tooltip title="Delete">

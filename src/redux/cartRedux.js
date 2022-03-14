@@ -34,7 +34,7 @@ export const updateQuantity = createAsyncThunk(
   async (data) => {
     const response = await cartApi.update(data.id, data.body);
     if (response.result.success) {
-      toast.success("SUCCESS");
+      // toast.success("SUCCESS");
       return response.result.success;
     } else toast.error("ERROR");
   }

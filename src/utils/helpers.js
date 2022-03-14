@@ -61,6 +61,7 @@ export const getCartItemsShop = (products) => {
   for (let i = 0; i < products?.length; i++) {
     for (let j = 0; j < products[i]?.productVersions?.length; j++) {
       array.push({
+        id: products[i]?.id,
         name: products[i]?.name,
         version: products[i]?.productVersions[j],
         cartItemId: products[i]?.productVersions[j]?.cartItems?.[0]?.id,

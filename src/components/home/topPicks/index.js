@@ -4,6 +4,8 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import React, { useState } from "react";
 import ItemsCarousel from "react-items-carousel";
 import Carousel from "react-material-ui-carousel";
+import Skeleton from "@material-ui/lab/Skeleton";
+
 import { useSelector } from "react-redux";
 import { productSelector } from "redux/selectors";
 import FeaturedEvents from "./FeaturedEvents";
@@ -46,7 +48,7 @@ export default function TopPicks() {
     },
   ];
 
-  const { bestSellingProducts } = useSelector(productSelector);
+  const { bestSellingProducts, isLoading } = useSelector(productSelector);
   const [active, setActive] = useState(0);
 
   return (
@@ -85,9 +87,20 @@ export default function TopPicks() {
               </IconButton>
             }
           >
-            {bestSellingProducts?.map((item, index) => (
-              <Pick key={index} item={item} />
-            ))}
+            {isLoading
+              ? [1, 2, 3, 4, 5, 6].map((item, index) => (
+                  <Box m={0.5} key={index}>
+                    <Skeleton
+                      animation="wave"
+                      variant="rect"
+                      width={150}
+                      height={230}
+                    />
+                  </Box>
+                ))
+              : bestSellingProducts?.map((item, index) => (
+                  <Pick key={index} item={item} />
+                ))}
           </ItemsCarousel>
           <Paper variant="outlined" className={classes.paper}>
             <Box m={2} display="flex">

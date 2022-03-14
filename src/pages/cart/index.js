@@ -24,11 +24,12 @@ export default function Cart() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { products, isUpdated } = useSelector(cartSelector);
+  const { products, isUpdated, isLoading } = useSelector(cartSelector);
 
   useEffect(() => {
     currentUser && dispatch(getCartItems());
   }, [currentUser, dispatch, isUpdated]);
+
   return (
     <Container className={classes.container}>
       <Paper className={classes.root}>
@@ -89,6 +90,8 @@ export default function Cart() {
       </Paper>
       {size(products) ? (
         products?.map((item, index) => <CartItems item={item} key={index} />)
+      ) : isLoading ? (
+        <Box>Loading</Box>
       ) : (
         <Box
           mt={8}
