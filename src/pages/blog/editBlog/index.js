@@ -12,7 +12,7 @@ import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import Images from "constants/image";
 import { formats, modules } from "constants/index";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch } from "react-redux";

@@ -1,17 +1,14 @@
-import {
-  Avatar,
-  Box,
-  ImageList,
-  ImageListItem,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import React from "react";
-import Rating from "@material-ui/lab/Rating";
+import { Avatar, Box, makeStyles, Typography } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Rating from "@material-ui/lab/Rating";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    "& .MuiImageListItem-imgFullWidth": {
+      width: "auto !important",
+    },
+  },
 }));
 export default function UserReview(props) {
   const classes = useStyles();
@@ -40,20 +37,18 @@ export default function UserReview(props) {
             />
           </Box>
           <Box mb={2}>{feedback?.content}</Box>
-          <Box>
-            <ImageList rowHeight={100} className={classes.imageList}>
-              {feedback?.feedbackImages?.map((item, index) => (
-                <ImageListItem key={index}>
-                  <img
-                    width={100}
-                    height={100}
-                    src={item.image}
-                    alt={item.image}
-                    style={{ padding: 4, border: "1px solid #f5f5f5" }}
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
+          <Box display="flex" alignItems="center">
+            {feedback?.feedbackImages?.map((item, index) => (
+              <Box key={index}>
+                <img
+                  width={150}
+                  height={150}
+                  src={item.image}
+                  alt={item.image}
+                  style={{ padding: 4, border: "1px solid #f5f5f5" }}
+                />
+              </Box>
+            ))}
           </Box>
         </Box>
       </Box>

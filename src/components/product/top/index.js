@@ -61,12 +61,19 @@ export default function Top(props) {
 
   const [value, setValue] = useState("");
 
+  useEffect(() => {
+    const item = product?.productVersions.find((item) => +item.id === +value);
+    if (item?.quantity < quantity) setIsDisabled(true);
+    else setIsDisabled(false);
+  }, [product?.productVersions, quantity, value]);
+
   const handleChange = (event) => {
     setValue(event.target.value);
 
     const item = product?.productVersions.find(
       (item) => +item.id === +event.target.value
     );
+
     const orderItem = {
       name: item?.name,
       price: item?.price,
@@ -276,7 +283,9 @@ export default function Top(props) {
                       value={product?.id.toString()}
                       control={<Radio />}
                       label={`${product?.name} ${
-                        product?.quantity ? "" : "(Out of stock)"
+                        product?.quantity
+                          ? `(${product?.quantity} piece available)`
+                          : "(Out of stock)"
                       } `}
                     />
                   ))}
@@ -333,6 +342,7 @@ export default function Top(props) {
                     variant="contained"
                     className={classes.buyBtn}
                     onClick={handleBuyNow}
+                    disabled={isDisabled || isLoading}
                   >
                     Buy Now
                   </Button>
@@ -341,7 +351,7 @@ export default function Top(props) {
             </Box>
 
             <Box
-              style={{  width: "100%" }}
+              style={{ width: "100%" }}
               display="flex"
               flexDirection="column"
               alignItems="flex-start"

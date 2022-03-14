@@ -47,6 +47,8 @@ export default function Product(props) {
   // images
   const [files, setFiles] = useState([]);
 
+  const [isWrite, setIsWrite] = useState(false);
+
   useEffect(
     () => () => {
       // Make sure to revoke the data uris to avoid memory leaks
@@ -138,7 +140,7 @@ export default function Product(props) {
             </Box>
           </Grid>
           {isDelivered &&
-            (hasFeedback ? (
+            (hasFeedback || isWrite ? (
               <Grid item md={3}>
                 <Box display="flex" m={2} justifyContent="flex-end">
                   <Button color="secondary" variant="outlined">
@@ -232,7 +234,7 @@ export default function Product(props) {
                         feedbackImages,
                       },
                     })
-                  );
+                  ).then((data) => setIsWrite(true));
                 }}
               >
                 Confirm

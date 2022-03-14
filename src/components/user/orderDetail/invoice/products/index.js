@@ -12,6 +12,7 @@ export default function Products({ order }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+
   return (
     <Paper>
       <Box my={2}>
