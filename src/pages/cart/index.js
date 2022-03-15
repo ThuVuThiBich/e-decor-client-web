@@ -91,7 +91,9 @@ export default function Cart() {
       {size(products) ? (
         products?.map((item, index) => <CartItems item={item} key={index} />)
       ) : isLoading ? (
-        <Box>Loading</Box>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <Box p={10}>Loading...</Box>
+        </Box>
       ) : (
         <Box
           mt={8}

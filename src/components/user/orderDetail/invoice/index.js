@@ -1,6 +1,7 @@
 import { Box, Grid } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { orderSelector } from "redux/selectors";
 import Infor from "./info";
 import Products from "./products";
@@ -19,6 +20,7 @@ export default function Invoice() {
           <Total order={order} />
         </Grid>
       </Grid>
+      <ToastContainer autoClose={1000} style={{ marginTop: "100px" }} />
     </Box>
   );
 }

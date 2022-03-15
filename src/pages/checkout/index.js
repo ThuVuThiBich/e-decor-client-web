@@ -2,7 +2,7 @@ import { Container, Paper, Typography, Box } from "@material-ui/core";
 import DeliveryAddress from "components/checkout/deliveryAddress";
 import PaymentMethod from "components/checkout/paymentMethod";
 import ProductsOrdered from "components/checkout/productsOrdered";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAddresses } from "redux/addressRedux";
 import { setOrderShipping } from "redux/orderRedux";
@@ -22,13 +22,16 @@ import { useStyles } from "./styles";
 export default function Checkout() {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
   const { shopId } = useSelector(orderSelector);
-  const { isUpdating, isLoading } = useSelector(addressSelector);
+  const { isUpdating } = useSelector(addressSelector);
   const { shipments } = useSelector(shipmentSelector);
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getAddresses());
     shopId && dispatch(getPromotions(shopId));
     dispatch(getShipments());
+    setIsLoading(false);
   }, [dispatch, shopId, isUpdating]);
 
   useEffect(() => {

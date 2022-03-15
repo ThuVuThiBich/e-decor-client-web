@@ -27,6 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function AddressForm(props) {
   const { isCheckout = false, setIsOpenDialog } = props;
   const { id } = useParams();
+  console.log(id);
   const { addresses } = useSelector(addressSelector);
 
   const [address, setAddress] = useState({
@@ -50,11 +51,14 @@ export default function AddressForm(props) {
   const [wardId, setWardId] = useState(address?.wardId);
 
   useEffect(() => {
-    id !== "add" &&
+    id &&
+      id !== "add" &&
+      !isCheckout &&
       setAddress(addresses?.filter((address) => +address.id === +id)?.[0]);
-  }, [addresses, id]);
+  }, [addresses, id, isCheckout]);
+
   useEffect(() => {
-    if (id !== "add") {
+    if (id && id !== "add" && !isCheckout) {
       setName(address?.name);
       setPhone(address?.phone);
       setDetail(address?.detail);
@@ -70,7 +74,9 @@ export default function AddressForm(props) {
     address?.phone,
     address?.wardId,
     id,
+    isCheckout,
   ]);
+
   const handleChangeName = (event) => {
     setName(event.target.value);
   };
@@ -92,15 +98,15 @@ export default function AddressForm(props) {
   //
 
   useEffect(() => {
-    !isCheckout && dispatch(getCities());
-  }, [dispatch, isCheckout]);
+    dispatch(getCities());
+  }, [dispatch]);
 
   useEffect(() => {
-    !isCheckout && cityId && dispatch(getDistricts(cityId));
+    cityId && dispatch(getDistricts(cityId));
   }, [cityId, dispatch, isCheckout]);
 
   useEffect(() => {
-    !isCheckout && districtId && dispatch(getWards(districtId));
+    districtId && dispatch(getWards(districtId));
   }, [dispatch, districtId, isCheckout]);
 
   const handleSubmit = () => {

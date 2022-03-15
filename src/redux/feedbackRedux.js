@@ -15,7 +15,7 @@ export const createFeedback = createAsyncThunk(
   async (data) => {
     const response = await feedbackApi.create(data.id, data.body);
     if (response.result) {
-      toast.success("SUCCESS");
+      // toast.success("SUCCESS");
       return response.result;
     } else toast.error("ERROR");
   }

@@ -74,37 +74,37 @@ const addressSlice = createSlice({
   },
   extraReducers: {
     [getCities.pending]: (state) => {
-      state.isLoading = true;
+      // state.isLoading = true;
     },
     [getCities.rejected]: (state, action) => {
-      state.isLoading = false;
+      // state.isLoading = false;
       state.error = action.error;
     },
     [getCities.fulfilled]: (state, action) => {
       state.cities = action.payload;
-      state.isLoading = false;
+      // state.isLoading = false;
     },
     [getDistricts.pending]: (state) => {
-      state.isLoading = true;
+      // state.isLoading = true;
     },
     [getDistricts.rejected]: (state, action) => {
-      state.isLoading = false;
+      // state.isLoading = false;
       state.error = action.error;
     },
     [getDistricts.fulfilled]: (state, action) => {
       state.districts = action.payload;
-      state.isLoading = false;
+      // state.isLoading = false;
     },
     [getWards.pending]: (state) => {
-      state.isLoading = true;
+      // state.isLoading = true;
     },
     [getWards.rejected]: (state, action) => {
-      state.isLoading = false;
+      // state.isLoading = false;
       state.error = action.error;
     },
     [getWards.fulfilled]: (state, action) => {
       state.wards = action.payload;
-      state.isLoading = false;
+      // state.isLoading = false;
     },
     //
     [getAddresses.pending]: (state) => {

@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { createFeedback } from "redux/feedbackRedux";
 import ProductImage from "../image";
 import { useStyles } from "./styles";
+import { toast } from "react-toastify";
 
 const style = {
   flex: 1,
@@ -234,7 +235,10 @@ export default function Product(props) {
                         feedbackImages,
                       },
                     })
-                  ).then((data) => setIsWrite(true));
+                  ).then((data) => {
+                    toast.success("SUCCESS");
+                    setIsWrite(true);
+                  });
                 }}
               >
                 Confirm

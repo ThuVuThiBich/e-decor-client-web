@@ -8,7 +8,7 @@ export default function Total({ order }) {
 
   return (
     <Paper>
-      <Box p={3}>
+      <Box p={3} mb={4}>
         <Box>
           <Typography className={classes.head}>Total Summary</Typography>
         </Box>
