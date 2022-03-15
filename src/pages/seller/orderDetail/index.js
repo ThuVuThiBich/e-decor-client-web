@@ -1,16 +1,19 @@
 import { Box, Button, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { LoadingInvoice } from "components/common/LoadingInvoice";
+import ScrollToTop from "components/common/ScrollToTop";
 import Detail from "components/seller/orderDetail";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { getOrder } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { isEmpty } from "underscore";
 import { useStyles } from "./styles";
 
 export default function SellerOrderDetail() {
+  ScrollToTop();
   const classes = useStyles();
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -45,6 +48,7 @@ export default function SellerOrderDetail() {
       ) : (
         <Detail />
       )}
+      <ToastContainer autoClose={1000} style={{ marginTop: "100px" }} />
     </Box>
   );
 }

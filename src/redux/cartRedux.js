@@ -44,7 +44,7 @@ export const deleteCartItem = createAsyncThunk(
   async (data) => {
     const response = await cartApi.delete(data);
     if (response.result.success) {
-      toast.success("SUCCESS");
+      // toast.success("SUCCESS");
       return response.result.success;
     } else toast.error("ERROR");
   }

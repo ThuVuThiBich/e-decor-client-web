@@ -6,6 +6,11 @@ export const useStyles = makeStyles({
   },
   title: {
     color: "#7D879C",
-    marginRight: 4
+    marginRight: 4,
+  },
+  shop: {
+    fontSize: 16,
+    cursor: "pointer",
+    "&:hover": { color: "#D23F57", textDecoration: "underline" },
   },
 });

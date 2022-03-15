@@ -56,10 +56,14 @@ export default function SearchInput() {
   const classes = useStyles();
   const [categoryValue, setCategoryValue] = useState("");
   const storeCategory = useSelector(categorySelector);
-  const { keyword } = useSelector(filterSelector);
+  const { keyword, categories } = useSelector(filterSelector);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
+  
+  useEffect(() => {
+    categories.length > 1 && setCategoryValue("");
+  }, [categories.length, dispatch]);
 
   useEffect(() => {
     if (

@@ -8,6 +8,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import CartItems from "components/cart";
+import ScrollToTop from "components/common/ScrollToTop";
+import Bottom from "components/product/bottom";
 import Images from "constants/image";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +22,7 @@ import { size } from "underscore";
 import { useStyles } from "./styles";
 
 export default function Cart() {
+  ScrollToTop();
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -89,10 +92,17 @@ export default function Cart() {
         </Box>
       </Paper>
       {size(products) ? (
-        products?.map((item, index) => <CartItems item={item} key={index} />)
+        <>
+          {products?.map((item, index) => (
+            <CartItems item={item} key={index} />
+          ))}
+          <Bottom />
+        </>
       ) : isLoading ? (
         <Box display="flex" alignItems="center" justifyContent="center">
-          <Box p={10}>Loading...</Box>
+          <Box p={10} style={{ fontSize: 20 }}>
+            Loading...
+          </Box>
         </Box>
       ) : (
         <Box

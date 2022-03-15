@@ -31,6 +31,7 @@ const persistConfig = {
   version: 1,
   storage,
   // whitelist: ['user']
+  blacklist: ['order']
 };
 
 const rootReducer = combineReducers({

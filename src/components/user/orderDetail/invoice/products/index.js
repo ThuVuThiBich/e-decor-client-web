@@ -19,6 +19,7 @@ export default function Products({ order }) {
         <Box
           display="flex"
           justifyContent="space-between"
+          alignItems="center"
           className={classes.head}
           p={2}
         >
@@ -27,12 +28,21 @@ export default function Products({ order }) {
               <Typography className={classes.title}>Order ID: </Typography>
               <Typography>{order?.id}</Typography>
             </Box>
-            <Box display="flex" pl={1}>
+            <Box display="flex" pl={2}>
               <Typography className={classes.title}>Placed on: </Typography>
               <Typography>
                 {!isEmpty(order)
                   ? format(new Date(order?.createdAt), "MMM dd, yyyy")
                   : "xxx"}
+              </Typography>
+            </Box>
+            <Box display="flex" pl={2} alignItems="center">
+              <Typography className={classes.title}>Shop Name: </Typography>
+              <Typography
+                className={classes.shop}
+                onClick={() => history.push(`/shops/${order?.shop?.id}`)}
+              >
+                {order?.shop?.name}
               </Typography>
             </Box>
           </Box>

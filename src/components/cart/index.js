@@ -289,6 +289,43 @@ export default function EnhancedTable(props) {
     dispatch(storeOrderItems(tmp));
   };
 
+  const handleClickDelete = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    console.log(selectedIndex);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    console.log(newSelected);
+    setSelected(newSelected);
+    const tmp = [];
+    data?.map(
+      (n) =>
+        newSelected?.includes(n.version.id) &&
+        tmp.push({
+          id: n.id,
+          name: n.name,
+          price: n.version.price,
+          productVersionName: n.version.name,
+          image: n.version.image,
+          productVersionId: n.version.cartItems[0].productVersionId,
+          quantity: n.version.cartItems[0].quantity,
+        })
+    );
+    dispatch(storeOrderItems(tmp));
+
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   return (
@@ -334,6 +371,7 @@ export default function EnhancedTable(props) {
                       labelId={labelId}
                       classes={classes}
                       handleClick={handleClick}
+                      handleClickDelete={handleClickDelete}
                       row={row}
                     />
                   );

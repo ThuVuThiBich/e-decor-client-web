@@ -26,7 +26,7 @@ import { useHistory } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addCartItem } from "redux/cartRedux";
-import { storeOrderItems } from "redux/orderRedux";
+import { storeOrderItems, storeShopInfo } from "redux/orderRedux";
 import { cartSelector, productSelector } from "redux/selectors";
 import {
   getImagesFromProductVersion,
@@ -106,6 +106,19 @@ export default function Top(props) {
   const handleBuyNow = (e) => {
     if (!getToken()) history.push("/login");
     else if (value) {
+      const item = product?.productVersions.find((item) => +item.id === +value);
+
+      const orderItem = {
+        name: item?.name,
+        price: item?.price,
+        productVersionName: item?.name,
+        image: item?.image,
+        productVersionId: item?.id,
+        quantity,
+      };
+      dispatch(storeOrderItems([orderItem]));
+      dispatch(storeShopInfo({ id: product?.shop?.id, name: product?.shop?.name }));
+
       history.push("/checkout");
     } else {
       toast.warn("Please select product variation first");

@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { createFeedback } from "redux/feedbackRedux";
 import ProductImage from "../image";
 import { useStyles } from "./styles";
-import { toast } from "react-toastify";
 
 const style = {
   flex: 1,
@@ -107,7 +106,7 @@ export default function Product(props) {
 
   return (
     <Box>
-      <Box display="flex" p={1} className={classes.root}>
+      <Box display="flex" alignItems="center" p={1} className={classes.root}>
         <Box mr={1}>
           <img
             width={64}
@@ -236,7 +235,7 @@ export default function Product(props) {
                       },
                     })
                   ).then((data) => {
-                    toast.success("SUCCESS");
+                    console.log(data)
                     setIsWrite(true);
                   });
                 }}

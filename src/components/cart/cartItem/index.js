@@ -17,7 +17,14 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { deleteCartItem, updateQuantity } from "redux/cartRedux";
 export default function CartItem(props) {
-  const { isItemSelected, labelId, classes, handleClick, row } = props;
+  const {
+    isItemSelected,
+    labelId,
+    classes,
+    handleClick,
+    row,
+    handleClickDelete,
+  } = props;
 
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
@@ -130,7 +137,7 @@ export default function CartItem(props) {
           <IconButton
             aria-label="delete"
             onClick={(event) => {
-              handleClick(event, row?.version.id);
+              handleClickDelete(event, row?.version.id);
               dispatch(deleteCartItem(row?.cartItemId));
             }}
           >

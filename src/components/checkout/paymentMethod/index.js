@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
 import { createOrder, resetOrder, storeIsPurchased } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { useStyles } from "./styles";
@@ -202,7 +203,11 @@ export default function PaymentMethod() {
                       })),
                     })
                   ).then((res) => {
-                    history.push(`/orders/${res.payload.id}`);
+                    console.log(res);
+                    if (!res?.error) {
+                      toast.success('SUCCESS')
+                      history.push(`/orders/${res.payload.id}`);
+                    }
                   });
                 }}
                 options={{
@@ -236,7 +241,10 @@ export default function PaymentMethod() {
                       })),
                     })
                   ).then((res) => {
-                    history.push(`/orders/${res.payload.id}`);
+                    console.log(res);
+                    if (!res?.error) {
+                      history.push(`/orders/${res.payload.id}`);
+                    }
                   });
                 }}
               >

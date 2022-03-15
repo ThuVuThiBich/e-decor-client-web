@@ -91,6 +91,9 @@ export default function DeliveryAddress() {
             </Typography>
           </Box>
           <Box>
+            <Button style={{ marginRight:8}} color="primary" variant="outlined" onClick={handleClick}>
+              ADD NEW
+            </Button>
             <Button color="primary" variant="outlined" onClick={handleClick}>
               CHANGE
             </Button>

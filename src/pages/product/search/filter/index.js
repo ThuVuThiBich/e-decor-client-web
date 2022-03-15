@@ -24,10 +24,12 @@ import {
 import ReplayIcon from "@material-ui/icons/Replay";
 import { filterSelector } from "redux/selectors";
 import { useStyles } from "./styles";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 export default function Filter(props) {
   const { allCategories } = props;
   const { categories, ratings } = useSelector(filterSelector);
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
   const stars = [5, 4, 3, 2, 1];
 
@@ -55,6 +57,8 @@ export default function Filter(props) {
     } else {
       dispatch(storeCategories([...selectedCategories, +event.target.name]));
       setSelectedCategories([...selectedCategories, +event.target.name]);
+      if ([...selectedCategories, +event.target.name].length > 1)
+        history.push("/products");
     }
   };
 

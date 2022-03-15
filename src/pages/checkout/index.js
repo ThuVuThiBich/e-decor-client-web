@@ -18,6 +18,7 @@ import {
 import { getShipments } from "redux/shipmentRedux";
 import { getMinFeeShipping } from "utils/helpers";
 import { useStyles } from "./styles";
+import { ToastContainer } from "react-toastify";
 
 export default function Checkout() {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ export default function Checkout() {
       {/* <DeliveryAddress /> */}
       <ProductsOrdered />
       <PaymentMethod />
+      <ToastContainer autoClose={1000} style={{ marginTop: "100px" }} />
     </Container>
   );
 }

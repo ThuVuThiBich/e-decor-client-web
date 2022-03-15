@@ -8,13 +8,27 @@ export const getOrders = createAsyncThunk("order/getOrders", async (params) => {
   return response.result;
 });
 
-export const createOrder = createAsyncThunk("order/create", async (data) => {
-  const response = await orderApi.create(data);
-  if (response.result) {
-    toast.success("SUCCESS");
-    return response.result;
-  } else toast.error("ERROR");
-});
+export const createOrder = createAsyncThunk(
+  "order/create",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await orderApi.create(data);
+      console.log(response.result)
+      toast.success("SUCCESS");
+      if (response.result) {
+        return response.result;
+      } else toast.error("ERROR");
+    } catch (err) {
+      console.log(err);
+      toast.error("ERROR");
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const getOrder = createAsyncThunk("order/getOrder", async (id) => {
   const response = await orderApi.get(id);
@@ -33,9 +47,20 @@ export const getShopOrders = createAsyncThunk(
 // update
 export const updateOrderStatus = createAsyncThunk(
   "order/updateOrderStatus",
-  async (data) => {
-    const response = await orderApi.updateOrderStatus(data.id, data.status);
-    return response.result;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await orderApi.updateOrderStatus(data.id, data.status);
+      if (response.result) toast.success("SUCCESS");
+      return response.result;
+    } catch (err) {
+      console.log(err);
+      toast.error("ERROR");
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 // confirm
@@ -196,6 +221,7 @@ const orderSlice = createSlice({
       state.isLoading = false;
       state.error = false;
       state.voucherPrice = 0;
+      state.promotionId = null;
       state.orderId = action.payload.id;
     },
     // shop
