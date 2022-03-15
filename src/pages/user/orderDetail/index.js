@@ -4,6 +4,7 @@ import Detail from "components/user/orderDetail";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { getOrder } from "redux/orderRedux";
 import { orderSelector } from "redux/selectors";
 import { isEmpty } from "underscore";
@@ -36,6 +37,7 @@ export default function OrderDetail() {
         </Link>
       </Box>
       <Box>{!isEmpty(order) && <Detail />}</Box>
+      <ToastContainer autoClose={1000} style={{ marginTop: "100px" }} />
     </div>
   );
 }

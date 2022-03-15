@@ -42,9 +42,20 @@ export const updateOrderStatus = createAsyncThunk(
 
 export const confirmOrder = createAsyncThunk(
   "order/confirmOrder",
-  async (data) => {
-    const response = await orderApi.confirmReceiveOrder(data);
-    return response.result;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await orderApi.confirmReceiveOrder(data);
+      if (response.result) toast.success("SUCCESS");
+      return response.result;
+    } catch (err) {
+      console.log(err);
+      toast.error("ERROR");
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -52,9 +63,20 @@ export const confirmOrder = createAsyncThunk(
 
 export const cancelOrder = createAsyncThunk(
   "order/confirmOrder",
-  async (data) => {
-    const response = await orderApi.cancelOrder(data);
-    return response.result;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await orderApi.cancelOrder(data);
+      if (response.result) toast.success("SUCCESS");
+      return response.result;
+    } catch (err) {
+      console.log(err);
+      toast.error("ERROR");
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 const orderSlice = createSlice({
@@ -236,6 +258,7 @@ const orderSlice = createSlice({
       state.isUpdating = false;
 
       state.error = action.error;
+      console.log(action);
     },
     [cancelOrder.fulfilled]: (state, action) => {
       state.isLoading = false;

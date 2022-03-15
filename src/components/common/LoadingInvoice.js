@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React from "react";
 const useStyles = makeStyles((theme) => ({}));
-export const LoadingInvoice = ({ type }) => {
+export const LoadingInvoice = () => {
   const classes = useStyles();
 
   return (

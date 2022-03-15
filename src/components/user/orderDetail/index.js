@@ -8,12 +8,12 @@ import Invoice from "./invoice";
 import Status from "./status";
 
 export default function Detail() {
-  const { isLoading } = useSelector(orderSelector);
+  const { isLoading, isUpdating } = useSelector(orderSelector);
 
   return (
     <Box>
-      {isLoading ? <LoadingStatus /> : <Status />}
-      {isLoading ? <LoadingInvoice /> : <Invoice />}
+      {isLoading && isUpdating ? <LoadingStatus /> : <Status />}
+      {isLoading && isUpdating ? <LoadingInvoice /> : <Invoice />}
     </Box>
   );
 }
