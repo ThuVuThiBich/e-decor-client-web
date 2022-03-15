@@ -70,7 +70,7 @@ export default function Cart() {
                 >
                   <Grid item container spacing={4}>
                     <Grid item xs={12} md={2}>
-                      <Box ml={10}> Version</Box>
+                      <Box ml={9}> Version</Box>
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <Box ml={11}>Unit Price</Box>

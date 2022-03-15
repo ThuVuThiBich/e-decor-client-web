@@ -215,6 +215,18 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     "&:hover": { color: "#D23F57", textDecoration: "underline" },
   },
+
+  line: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    "-webkit-line-clamp": 2 /* number of lines to show */,
+    "line-clamp": 2,
+    "-webkit-box-orient": "vertical",
+
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 }));
 
 export default function EnhancedTable(props) {
@@ -295,7 +307,6 @@ export default function EnhancedTable(props) {
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -323,7 +334,6 @@ export default function EnhancedTable(props) {
         })
     );
     dispatch(storeOrderItems(tmp));
-
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;

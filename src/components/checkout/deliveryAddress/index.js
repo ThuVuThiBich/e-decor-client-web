@@ -24,9 +24,10 @@ export default function DeliveryAddress() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { address } = useSelector(orderSelector);
-  const { addresses, defaultAddressId } = useSelector(addressSelector);
+  const { addresses, defaultAddressId, isUpdating } =
+    useSelector(addressSelector);
   const [addressId, setAddressId] = useState(defaultAddressId);
-  const [isOpenDialog, setIsOpenDialog] = useState(true);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
   //
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -42,9 +43,16 @@ export default function DeliveryAddress() {
     setAddressId(e);
     dispatch(setOrderAddress(addresses.find((item) => +item.id === +e)));
   };
+
   useEffect(() => {
-    dispatch(setOrderAddress(addresses[0]));
+    isEmpty(addresses) && setIsOpenDialog(true);
+  }, [addresses, dispatch, isUpdating]);
+
+  useEffect(() => {
+    !isEmpty(addresses) && setIsOpenDialog(false);
+    !isEmpty(addresses) && dispatch(setOrderAddress(addresses[0]));
   }, [addresses, dispatch]);
+
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
@@ -91,7 +99,14 @@ export default function DeliveryAddress() {
             </Typography>
           </Box>
           <Box>
-            <Button style={{ marginRight:8}} color="primary" variant="outlined" onClick={handleClick}>
+            <Button
+              style={{ marginRight: 8 }}
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                setIsOpenDialog(true);
+              }}
+            >
               ADD NEW
             </Button>
             <Button color="primary" variant="outlined" onClick={handleClick}>
@@ -119,7 +134,7 @@ export default function DeliveryAddress() {
           </Box>
         </Box>
       </Box>
-      {isEmpty(addresses) && (
+      {
         <Dialog open={isOpenDialog} onClose={() => {}} fullWidth maxWidth="xs">
           <DialogTitle
             style={{ marginLeft: 8 }}
@@ -130,7 +145,7 @@ export default function DeliveryAddress() {
           </DialogTitle>
           <AddressForm isCheckout={true} setIsOpenDialog={setIsOpenDialog} />
         </Dialog>
-      )}
+      }
     </Paper>
   );
 }

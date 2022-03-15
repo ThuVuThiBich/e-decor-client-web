@@ -76,6 +76,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddBlog() {
+    console.log("hello");
+
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -107,8 +109,9 @@ export default function AddBlog() {
       dispatch(resetImages())
     });
   };
-  // useEffect(() => {
-  // }, []);
+  useEffect(() => {
+    console.log("here")
+  }, []);
 
   return (
     <Box>

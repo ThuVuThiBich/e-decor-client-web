@@ -133,7 +133,7 @@ export default function ShopOrdered(props) {
                         src={row?.image}
                         alt=""
                       />
-                      {row?.name}
+                      <Box className={classes.line}>{row?.name}</Box>
                     </Box>
                   </TableCell>
                   <TableCell

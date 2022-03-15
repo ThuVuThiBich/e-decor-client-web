@@ -19,8 +19,10 @@ import { getShipments } from "redux/shipmentRedux";
 import { getMinFeeShipping } from "utils/helpers";
 import { useStyles } from "./styles";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "components/common/ScrollToTop";
 
 export default function Checkout() {
+  ScrollToTop();
   const dispatch = useDispatch();
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);

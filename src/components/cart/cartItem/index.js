@@ -75,7 +75,7 @@ export default function CartItem(props) {
             src={row?.version.image}
             alt=""
           />
-          {row?.name}
+          <Box className={classes.line}>{row?.name}</Box>
         </Box>
       </TableCell>
       <TableCell

@@ -5,10 +5,9 @@ import {
   FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
   makeStyles,
-  OutlinedInput,
   Paper,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -79,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = (props) => {
   const classes = useStyles();
 
+  const [emailErr, setEmailErr] = useState("");
+  const [passwordErr, setPasswordErr] = useState("");
+
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -98,6 +100,8 @@ const LoginForm = (props) => {
   };
 
   const handleFormSubmit = (e) => {
+    if (!values.email) setEmailErr("Not empty");
+    if (!values.password) setPasswordErr("Not empty");
     const user = {
       email: values.email,
       password: values.password,
@@ -131,39 +135,53 @@ const LoginForm = (props) => {
             <FormControl
               className={clsx(classes.margin, classes.textField)}
               variant="outlined"
+              fullWidth
             >
-              <InputLabel htmlFor="outlined-email">Email *</InputLabel>
-              <OutlinedInput
-                id="outlined-email"
-                type={"text"}
+              <TextField
+                error={emailErr}
+                required
+                id="email"
+                label="Email"
+                helperText={emailErr}
+                variant="outlined"
                 value={values.email}
                 onChange={handleChange("email")}
-                labelWidth={60}
+                type="email"
               />
             </FormControl>
             <FormControl
               className={clsx(classes.margin, classes.textField)}
               variant="outlined"
+              fullWidth
             >
-              <InputLabel htmlFor="outlined-password">Password *</InputLabel>
-              <OutlinedInput
-                id="outlined-password"
-                type={values.showPassword ? "text" : "password"}
+              <TextField
+                error={passwordErr}
+                required
+                id="password"
+                label="Password"
+                helperText={passwordErr}
+                variant="outlined"
                 value={values.password}
                 onChange={handleChange("password")}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                labelWidth={80}
+                type={values.showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </FormControl>
 

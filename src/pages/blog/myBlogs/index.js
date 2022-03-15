@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles, Typography } from "@material-ui/core";
+import { Box, Paper, Button, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import BallotIcon from "@material-ui/icons/Ballot";
 import ScrollToTop from "components/common/ScrollToTop";
@@ -9,6 +9,8 @@ import { getMyPosts } from "redux/blogRedux";
 import { blogSelector } from "redux/selectors";
 import PostCard from "../post";
 import ToolbarBox from "../Toolbar";
+import Images from "constants/image";
+
 const useStyles = makeStyles((theme) => ({
   title: {
     color: "#2b3445",
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function MyBlogs() {
-  ScrollToTop()
+  ScrollToTop();
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -60,6 +62,23 @@ export default function MyBlogs() {
         {posts?.map((post, index) => (
           <PostCard key={index} post={post} />
         ))}
+        {!posts?.length && (
+          <Paper>
+            <Box
+              pt={20}
+              pb={15}
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <img src={Images.NO_BLOG} alt="" width={"20%"} />
+              <Box style={{ color: "#bdbdbd", fontSize: 16 }} mt={3}>
+                No Posts Yet.
+              </Box>
+            </Box>
+          </Paper>
+        )}
       </Box>
     </Box>
   );

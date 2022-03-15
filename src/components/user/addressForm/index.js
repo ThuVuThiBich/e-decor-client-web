@@ -119,9 +119,7 @@ export default function AddressForm(props) {
     isCheckout
       ? history.push({
           pathname: `/checkout`,
-          state: {
-            shopId: 1,
-          },
+          
         })
       : history.push("/address");
     isCheckout && setIsOpenDialog(false);
@@ -300,7 +298,10 @@ export default function AddressForm(props) {
               style={{ marginRight: 4, backgroundColor: "#424242" }}
               color="primary"
               variant="contained"
-              onClick={() => history.goBack()}
+              onClick={() => {
+                if (!addresses.length) history.goBack();
+                else setIsOpenDialog(false)
+              }}
             >
               Cancel
             </Button>
