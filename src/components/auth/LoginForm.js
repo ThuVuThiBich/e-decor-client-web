@@ -157,9 +157,9 @@ const LoginForm = (props) => {
               <TextField
                 error={passwordErr}
                 required
+                helperText={passwordErr}
                 id="password"
                 label="Password"
-                helperText={passwordErr}
                 variant="outlined"
                 value={values.password}
                 onChange={handleChange("password")}

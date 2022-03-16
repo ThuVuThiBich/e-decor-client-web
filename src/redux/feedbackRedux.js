@@ -12,12 +12,22 @@ export const getFeedbacks = createAsyncThunk(
 
 export const createFeedback = createAsyncThunk(
   "feedback/create",
-  async (data) => {
-    const response = await feedbackApi.create(data.id, data.body);
-    if (response.result) {
-      // toast.success("SUCCESS");
-      return response.result;
-    } else toast.error("ERROR");
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await feedbackApi.create(data.id, data.body);
+      if (response.result) {
+        toast.success("SUCCESS");
+        return response.result;
+      } else toast.error("ERROR");
+    } catch (err) {
+      console.log(err);
+      toast.error("ERROR");
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 

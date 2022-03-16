@@ -42,6 +42,7 @@ export default function Product(props) {
     orderItemId,
   } = props;
   const [content, setContent] = useState("");
+  const [contentErr, setContentErr] = useState("");
   const [isSelected, setIsSelected] = useState(false);
   const [rating, setRating] = useState(5);
   const [feedbackImages, setFeedbackImages] = useState([]);
@@ -198,6 +199,7 @@ export default function Product(props) {
             />
           </Box>
           <TextField
+            required
             fullWidth
             id="content"
             label="Content"
@@ -205,9 +207,14 @@ export default function Product(props) {
             value={content}
             multiline
             rows={2}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              setContent(e.target.value);
+              if (e.target.value) setContentErr("");
+            }}
             // InputProps={{ style: { fontSize: 16 } }}
             // InputLabelProps={{ style: { fontSize: 16 } }}
+            error={contentErr}
+            helperText={contentErr}
           />
           <Box mt={2}>
             <div {...getRootProps({ style })}>
@@ -241,21 +248,25 @@ export default function Product(props) {
                 color="primary"
                 variant="contained"
                 onClick={() => {
-                  setIsSelected(!isSelected);
-                  dispatch(
-                    createFeedback({
-                      id: product?.productVersion?.product?.id,
-                      body: {
-                        orderItemId,
-                        content,
-                        rating,
-                        feedbackImages,
-                      },
-                    })
-                  ).then((data) => {
-                    console.log(data);
-                    setIsWrite(true);
-                  });
+                  if (content) {
+                    setIsSelected(!isSelected);
+                    dispatch(
+                      createFeedback({
+                        id: product?.productVersion?.product?.id,
+                        body: {
+                          orderItemId,
+                          content,
+                          rating,
+                          feedbackImages,
+                        },
+                      })
+                    ).then((data) => {
+                      console.log(data);
+                      if (!data?.error) setIsWrite(true);
+                    });
+                  } else {
+                    setContentErr("This field is required!");
+                  }
                 }}
               >
                 Confirm

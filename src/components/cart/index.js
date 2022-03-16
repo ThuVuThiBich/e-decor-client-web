@@ -267,6 +267,7 @@ export default function EnhancedTable(props) {
   };
 
   const handleClick = (event, name) => {
+     dispatch(storeShopInfo({ id: item?.id, name: item?.name }));
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
