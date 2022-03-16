@@ -134,30 +134,32 @@ export default function PostSidebar(props) {
           >
             Featured Decor Themes
           </Typography>
-          {decorThemes?.map((theme, index) => (
-            <Link
-              display="block"
-              variant="body1"
-              onClick={() => {
-                dispatch(storeDecorTheme(theme?.decorTheme));
-                history.push("/blog/posts");
-              }}
-              key={index}
-              style={{ cursor: "pointer", marginTop: 4, marginBottom: 4 }}
-            >
-              <Chip
-                color="primary"
-                size="small"
-                label={theme?.decorTheme}
-                style={{
-                  letterSpacing: 1.2,
-                  cursor: "pointer",
-                  // fontSize: 12,
-                  // backgroundColor: "#D23F57",
+          <Box display="flex" style={{ flexWrap: "wrap" }}>
+            {decorThemes?.map((theme, index) => (
+              <Link
+                display="block"
+                variant="body1"
+                onClick={() => {
+                  dispatch(storeDecorTheme(theme?.decorTheme));
+                  history.push("/blog/posts");
                 }}
-              />
-            </Link>
-          ))}
+                key={index}
+                style={{ cursor: "pointer", margin: 4 }}
+              >
+                <Chip
+                  color="primary"
+                  size="small"
+                  label={theme?.decorTheme}
+                  style={{
+                    letterSpacing: 1.2,
+                    cursor: "pointer",
+                    // fontSize: 12,
+                    // backgroundColor: "#D23F57",
+                  }}
+                />
+              </Link>
+            ))}
+          </Box>
         </Box>
         <Box
           mb={2}

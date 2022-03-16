@@ -250,6 +250,8 @@ export default function LinkImage(props) {
                               })
                             );
                             setAnchorEl(null);
+                            setIsAction(false);
+                            setCategoryId("");
                           }}
                         >
                           <Box

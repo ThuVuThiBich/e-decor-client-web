@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { createFeedback } from "redux/feedbackRedux";
 import ProductImage from "../image";
 import { useStyles } from "./styles";
+import { useHistory } from "react-router-dom";
 
 const style = {
   flex: 1,
@@ -104,10 +105,17 @@ export default function Product(props) {
     <ProductImage file={file.preview} key={index} />
   ));
 
+  const history = useHistory();
   return (
     <Box>
       <Box display="flex" alignItems="center" p={1} className={classes.root}>
-        <Box mr={1}>
+        <Box
+          style={{ cursor: "pointer" }}
+          mr={1}
+          onClick={() => {
+            history.push(`/product/${product?.productVersion?.product?.id}`);
+          }}
+        >
           <img
             width={64}
             height={64}
@@ -118,7 +126,17 @@ export default function Product(props) {
 
         <Grid container spacing={1} alignItems="center">
           <Grid item md={5}>
-            <Box display="flex" m={2} flexDirection="column">
+            <Box
+              display="flex"
+              m={2}
+              flexDirection="column"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                history.push(
+                  `/product/${product?.productVersion?.product?.id}`
+                );
+              }}
+            >
               <Typography className={classes.headText}>
                 {product?.productVersion?.product?.name}
               </Typography>
@@ -235,7 +253,7 @@ export default function Product(props) {
                       },
                     })
                   ).then((data) => {
-                    console.log(data)
+                    console.log(data);
                     setIsWrite(true);
                   });
                 }}

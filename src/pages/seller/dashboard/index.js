@@ -163,7 +163,7 @@ export default function Dashboard() {
                   }}
                   label="View"
                   inputProps={{
-                    MenuProps: { disablescrolllock: "true" },
+                    MenuProps: { disablescrolllock: true },
                   }}
                   // SelectDisplayProps={{
                   //   style: { paddingTop: 4, paddingBottom: 10 },

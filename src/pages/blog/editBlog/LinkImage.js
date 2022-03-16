@@ -1,51 +1,8 @@
-import { Box, Button, makeStyles } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import objectAssign from "object-assign";
 import React, { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import RegionSelect from "react-region-select";
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    color: "#2b3445",
-    fontSize: 25,
-    marginBottom: 0,
-    marginTop: 0,
-    fontWeight: 700,
-    lineHeight: 1,
-    marginLeft: 12,
-    whiteSpace: "normal",
-  },
-  icon: {
-    fontSize: 24,
-    color: "#D23F57",
-  },
-  //
-  editor: {
-    "& .ql-container": {
-      borderBottomLeftRadius: 4,
-      borderBottomRightRadius: 4,
-      // background: "#fefcfc",
-      height: 200,
-    },
-    "& .ql-toolbar": {
-      borderTopLeftRadius: 4,
-      borderTopRightRadius: 4,
-      background: "#f5f5f5",
-    },
-  },
-  //
-  wallInput: {
-    display: "none",
-  },
-  wallLabel: {
-    "& .MuiIconButton-root": {
-      backgroundColor: "#E3E9EF",
-      "&:hover": {
-        backgroundColor: "rgba(15, 52, 96, 0.04)",
-      },
-    },
-  },
-}));
 
 export default function LinkImage(props) {
   const { imageObj } = props;

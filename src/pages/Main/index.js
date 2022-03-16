@@ -1,7 +1,6 @@
 import { withAuthLayout } from "hocs";
 import AddBlog from "pages/blog/addBlog";
 import EditBlog from "pages/blog/editBlog";
-import MyBlogDetail from "pages/blog/myBlogDetail";
 import MyBlogs from "pages/blog/myBlogs";
 import MyFavorite from "pages/blog/myFavorite";
 import withBlog from "pages/blog/withBlog";
@@ -95,11 +94,11 @@ const Main = () => {
       {/* blog */}
 
       <Route path="/blog/my-posts" component={withBlog(MyBlogs)} exact />
-      <Route
+      {/* <Route
         path="/blog/my-posts/:blogId"
         component={withBlog(MyBlogDetail)}
         exact
-      />
+      /> */}
       <Route path="/blog/my-posts/add" component={withBlog(AddBlog)} exact />
       <Route
         path="/blog/my-posts/edit/:postId"
