@@ -18,7 +18,18 @@ ReactDOM.render(
       <PersistGate loading={null} persistor={persistor}>
         <CssBaseline />
         <ThemeProvider theme={theme}>
-          <ConfirmProvider>
+          <ConfirmProvider
+            defaultOptions={{
+              confirmationButtonProps: {
+                autoFocus: true,
+                color: "primary",
+                variant: "contained",
+              },
+              cancellationButtonProps: {
+                variant: "contained",
+              },
+            }}
+          >
             <App />
           </ConfirmProvider>
         </ThemeProvider>

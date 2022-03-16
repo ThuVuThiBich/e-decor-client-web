@@ -7,95 +7,8 @@ import Carousel from "react-material-ui-carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { storeDecorTheme } from "redux/blogRedux";
-import { blogSelector } from "redux/selectors";
-export const mockItems = [
-  {
-    name: " Balloon set  ",
-    images: [
-      { image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d" },
-    ],
-    id: 52,
-    minPrice: "10",
-    maxPrice: "15",
-    avgRatings: 5,
-  },
-  {
-    name: "Wall Grid Panel ",
-    images: [
-      { image: "https://cf.shopee.vn/file/a746af93a3a4310d2b80336dddfd986a" },
-    ],
-    id: 53,
-    minPrice: "10",
-    maxPrice: "15",
-    avgRatings: 5,
-  },
-  {
-    name: "LED 3D Decor Lamp",
-    images: [
-      {
-        image:
-          "https://res.cloudinary.com/e-decor/image/upload/v1646118389/uploads/lxpb7tdczpcqd2avbfrv.jpg",
-      },
-    ],
-    id: 54,
-    minPrice: "10",
-    maxPrice: "15",
-    avgRatings: 5,
-  },
-  {
-    name: "Decor postcard",
-    images: [
-      {
-        image:
-          "https://res.cloudinary.com/e-decor/image/upload/v1646119409/uploads/s6cvzvugzr88ebq5kbym.jpg",
-      },
-    ],
-    id: 55,
-    minPrice: "20",
-    maxPrice: "25",
-    avgRatings: 5,
-  },
-  {
-    name: " Balloon set  ",
-    images: [
-      { image: "https://cf.shopee.vn/file/ef870f1cdce98db5d5026f6b7805898d" },
-    ],
-    id: 52,
-    minPrice: "5",
-    maxPrice: "15",
-    avgRatings: 5,
-  },
-  {
-    name: "Wall Grid Panel ",
-    images: [
-      { image: "https://cf.shopee.vn/file/06ea894b12045fd40d256d31b73553ee" },
-    ],
-    id: 53,
-    minPrice: "5",
-    maxPrice: "15",
-    avgRatings: 5,
-  },
-  {
-    name: "LED 3D Decor Lamp",
-    images: [
-      { image: "https://cf.shopee.vn/file/9e991050944a068348ec8d8ad522ecdf" },
-    ],
-    id: 54,
-    minPrice: "10",
-    maxPrice: "15",
-    avgRatings: 5,
-  },
-  {
-    name: "Decor postcard",
-    images: [
-      { image: "https://cf.shopee.vn/file/265dcac08e575c52e62932e99100b610" },
-    ],
-    id: 55,
-    minPrice: "25",
-    maxPrice: "30",
-    avgRatings: 5,
-  },
-];
+import { blogSelector, productSelector } from "redux/selectors";
+
 const useStyles = makeStyles((theme) => ({
   sidebarAboutBox: {
     padding: theme.spacing(2),
@@ -113,6 +26,8 @@ export default function PostSidebar(props) {
   const history = useHistory();
   const { social } = props;
   const { decorThemes } = useSelector(blogSelector);
+  const { bestSellingProducts } = useSelector(productSelector);
+
   return (
     <Grid item xs={12} md={3}>
       <Box>
@@ -187,7 +102,7 @@ export default function PostSidebar(props) {
             duration="5000"
             interval={5000}
           >
-            {mockItems?.map((product, i) => (
+            {bestSellingProducts?.map((product, i) => (
               <Product key={i} noHover={true} product={product} />
             ))}
           </Carousel>

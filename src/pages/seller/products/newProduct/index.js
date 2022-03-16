@@ -18,6 +18,7 @@ export default function NewProduct() {
   useEffect(() => {
     dispatch(resetProductVersion());
   }, [dispatch]);
+  
   return (
     <Box>
       <Box

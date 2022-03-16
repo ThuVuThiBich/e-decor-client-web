@@ -47,8 +47,10 @@ export const getCategoryName = (id, categories) => {
   return category?.name;
 };
 export const getCategoryId = (name, categories) => {
-  const category = categories?.find((item) => item.name === name);
-  return category?.id;
+  if (name) {
+    const category = categories?.find((item) => item.name === name);
+    return category?.id;
+  } else return "";
 };
 
 export const getPrice = (min, max) => {

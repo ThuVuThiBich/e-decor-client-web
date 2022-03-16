@@ -20,12 +20,15 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { useDropzone } from "react-dropzone";
 import ReactQuill from "react-quill";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createProduct, resetProductVersion } from "redux/productRedux";
 import { categorySelector, productSelector } from "redux/selectors";
-import { getCategoryName } from "utils/helpers";
+import { getCategoryId, getCategoryName } from "utils/helpers";
 import ProductVersionsForm from "../productVersions";
 import { useStyles } from "./styles";
 import { formats, modules } from "constants/index";
@@ -82,6 +85,8 @@ export default function NewProductForm() {
   const classes = useStyles();
   const storeCategory = useSelector(categorySelector);
   const storeProduct = useSelector(productSelector);
+  const { categoryName } = useParams();
+  console.log(categoryName);
   const [name, setName] = useState("");
   const [images, setImages] = useState();
   const [description, setDescription] = useState("");
@@ -165,6 +170,11 @@ export default function NewProductForm() {
   //
 
   const history = useHistory();
+
+  useEffect(() => {
+    categoryName &&
+      setCategoryId(getCategoryId(categoryName, storeCategory.categories));
+  }, [categoryName, storeCategory.categories]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
