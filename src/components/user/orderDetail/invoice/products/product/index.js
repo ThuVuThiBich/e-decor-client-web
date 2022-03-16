@@ -213,7 +213,7 @@ export default function Product(props) {
             }}
             // InputProps={{ style: { fontSize: 16 } }}
             // InputLabelProps={{ style: { fontSize: 16 } }}
-            error={contentErr}
+            error={Boolean(contentErr)}
             helperText={contentErr}
           />
           <Box mt={2}>

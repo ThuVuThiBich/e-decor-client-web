@@ -1,22 +1,23 @@
 import { Container } from "@material-ui/core";
 import Header from "components/auth/Header";
 import SignUpForm from "components/auth/SignUpForm";
-import { useDispatch } from "react-redux";
+import { Progress } from "components/common/Progress";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { ToastContainer } from "react-toastify";
+import { userSelector } from "redux/selectors";
 import { signUp } from "redux/userRedux";
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const handleSignUp = async (user) => {
-    try {
-      dispatch(signUp(user)).then((data) => {
-        history.push("/verify-email");
-      });
-    } catch (error) {
-      console.log("Failed to sign up ", error.message);
-      // show toast error
-    }
+  const { isLoading } = useSelector(userSelector);
+
+  const handleSignUp = (user) => {
+    dispatch(signUp(user)).then((data) => {
+      console.log(data);
+      if (!data?.error) history.push("/verify-email");
+    });
   };
   return (
     <>
@@ -33,6 +34,8 @@ const SignUp = () => {
       >
         <SignUpForm handleSignUp={handleSignUp} />
       </Container>
+      <Progress isOpen={isLoading} />
+      <ToastContainer autoClose={2000} style={{ marginTop: "50px" }} />
     </>
   );
 };

@@ -138,7 +138,7 @@ const LoginForm = (props) => {
               fullWidth
             >
               <TextField
-                error={emailErr}
+                error={Boolean(emailErr)}
                 required
                 id="email"
                 label="Email"
@@ -155,7 +155,7 @@ const LoginForm = (props) => {
               fullWidth
             >
               <TextField
-                error={passwordErr}
+                error={Boolean(passwordErr)}
                 required
                 helperText={passwordErr}
                 id="password"

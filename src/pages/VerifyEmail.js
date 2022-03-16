@@ -11,10 +11,12 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import Header from "components/auth/Header";
+import { Progress } from "components/common/Progress";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { userSelector } from "redux/selectors";
 import { verifyEmail } from "redux/userRedux";
 
@@ -57,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const VerifyEmail = () => {
   const classes = useStyles();
+  const { isLoading } = useSelector(userSelector);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -71,7 +74,7 @@ const VerifyEmail = () => {
     };
     dispatch(verifyEmail(data))
       .then((data) => {
-        history.push("/login");
+        if (!data?.error) history.push("/login");
       })
       .catch((error) => {
         console.log(error);
@@ -166,6 +169,9 @@ const VerifyEmail = () => {
           </Box>
         </Paper>
       </Container>
+      <Progress isOpen={isLoading} />
+
+      <ToastContainer autoClose={2000} style={{ marginTop: "50px" }} />
     </>
   );
 };

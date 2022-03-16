@@ -22,70 +22,76 @@ export const login = createAsyncThunk("user/login", async (data, thunkAPI) => {
 
 export const signUp = createAsyncThunk(
   "user/signUp",
-  async (data) => {
-    const response = await authApi.signUp(data);
-    if (response.result.success) return data.email;
-    return response;
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await authApi.signUp(data);
+      console.log(response);
+      if (response.result.success) return data.email;
+      return response;
+    } catch (error) {
+      console.log(error);
+      toast.error("ERROR");
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
 export const verifyEmail = createAsyncThunk(
   "user/verifyEmail",
-  async (data) => {
-    const response = await authApi.verifyEmail(data);
-    return response;
-  }
-);
-
-export const forgotPass = createAsyncThunk(
-  "user/forgotPass",
-  async (data) => {
-    const response = await authApi.forgotPass(data);
-    if (response.result.success) return data.email;
-    else return response;
-  }
-);
-
-export const resetPass = createAsyncThunk(
-  "user/resetPass",
-  async (data) => {
-    const response = await authApi.resetPass(data);
-    if (response.result.success) return response.result.success;
-    return response;
-  }
-);
-
-export const updatePass = createAsyncThunk(
-  "user/updatePass",
-  async (data) => {
-    const response = await authApi.updatePass(data);
-    if (response?.success) {
-      toast.success("SUCCESS");
-      return response?.success;
-    } else {
-      toast.error("ERROR");
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await authApi.verifyEmail(data);
       return response;
+    } catch (error) {
+      console.log(error);
+      toast.error("ERROR");
+      if (!error.response) {
+        throw error;
+      }
+
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const getInfo = createAsyncThunk(
-  "user/getInfo",
-  async (data) => {
-    const response = await authApi.getInfo();
-    return response.result;
+export const forgotPass = createAsyncThunk("user/forgotPass", async (data) => {
+  const response = await authApi.forgotPass(data);
+  if (response.result.success) return data.email;
+  else return response;
+});
+
+export const resetPass = createAsyncThunk("user/resetPass", async (data) => {
+  const response = await authApi.resetPass(data);
+  if (response.result.success) return response.result.success;
+  return response;
+});
+
+export const updatePass = createAsyncThunk("user/updatePass", async (data) => {
+  const response = await authApi.updatePass(data);
+  if (response?.success) {
+    toast.success("SUCCESS");
+    return response?.success;
+  } else {
+    toast.error("ERROR");
+    return response;
   }
-);
-export const updateInfo = createAsyncThunk(
-  "user/updateInfo",
-  async (data) => {
-    const response = await authApi.updateInfo(data);
-    if (response.result.success) {
-      toast.success("SUCCESS");
-      return data;
-    } else toast.error("ERROR");
-  }
-);
+});
+
+export const getInfo = createAsyncThunk("user/getInfo", async (data) => {
+  const response = await authApi.getInfo();
+  return response.result;
+});
+export const updateInfo = createAsyncThunk("user/updateInfo", async (data) => {
+  const response = await authApi.updateInfo(data);
+  if (response.result.success) {
+    toast.success("SUCCESS");
+    return data;
+  } else toast.error("ERROR");
+});
 
 export const logOut = createAsyncThunk(
   "user/logOut",
