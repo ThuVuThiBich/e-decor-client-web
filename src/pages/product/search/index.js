@@ -12,7 +12,7 @@ export default function Search() {
   ScrollToTop();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { categories, limit, page, min, max, ratings, keyword } =
+  const { categories, limit, page, min, max, ratings, keyword, sort, order } =
     useSelector(filterSelector);
 
   useEffect(() => {
@@ -23,11 +23,13 @@ export default function Search() {
         categories,
         min: min ? min : undefined,
         max: max ? max : undefined,
+        order: order ? order : undefined,
+        sort: sort ? sort : undefined,
         ratings,
         keyword,
       })
     );
-  }, [categories, dispatch, limit, max, min, page, ratings, keyword]);
+  }, [categories, dispatch, limit, max, min, page, ratings, keyword, order, sort]);
   return (
     <Container className={classes.container}>
       <SearchBox />

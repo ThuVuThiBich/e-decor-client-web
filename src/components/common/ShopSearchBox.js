@@ -121,7 +121,7 @@ export default function ShopSearchBox() {
               inputProps={{ MenuProps: { disableScrollLock: true } }}
             >
               <MenuItem key={"0"} value={""}>
-                Relevance
+                Popular
               </MenuItem>
               <MenuItem key={"1"} value={"1"}>
                 Price Low To High

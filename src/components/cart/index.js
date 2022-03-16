@@ -267,7 +267,7 @@ export default function EnhancedTable(props) {
   };
 
   const handleClick = (event, name) => {
-     dispatch(storeShopInfo({ id: item?.id, name: item?.name }));
+    dispatch(storeShopInfo({ id: item?.id, name: item?.name }));
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -371,22 +371,17 @@ export default function EnhancedTable(props) {
               {isLoading ? (
                 <LoadingTable colsNumber={6} />
               ) : (
-                data?.map((row, index) => {
-                  const isItemSelected = isSelected(row.version.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <CartItem
-                      key={index}
-                      isItemSelected={isItemSelected}
-                      labelId={labelId}
-                      classes={classes}
-                      handleClick={handleClick}
-                      handleClickDelete={handleClickDelete}
-                      row={row}
-                    />
-                  );
-                })
+                data?.map((row, index) => (
+                  <CartItem
+                    key={index}
+                    isItemSelected={isSelected(row.version.id)}
+                    labelId={`enhanced-table-checkbox-${index}`}
+                    classes={classes}
+                    handleClick={handleClick}
+                    handleClickDelete={handleClickDelete}
+                    row={row}
+                  />
+                ))
               )}
             </TableBody>
           </Table>

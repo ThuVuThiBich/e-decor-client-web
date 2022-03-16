@@ -54,6 +54,11 @@ export default function Filter(props) {
           selectedCategories?.filter((item) => +item !== +event.target.name)
         )
       );
+      if (
+        !selectedCategories?.filter((item) => +item !== +event.target.name)
+          .length
+      )
+        history.push("/products");
     } else {
       dispatch(storeCategories([...selectedCategories, +event.target.name]));
       setSelectedCategories([...selectedCategories, +event.target.name]);

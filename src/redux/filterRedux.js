@@ -14,6 +14,9 @@ const filterSlice = createSlice({
     shopKeyword: "",
     isLoading: false,
     error: false,
+    //
+    sort: "",
+    order: "",
   },
   reducers: {
     storeKeyword: (state, action) => {
@@ -47,6 +50,13 @@ const filterSlice = createSlice({
       state.categories = [];
       state.ratings = [];
       state.page = 1;
+      state.sort = "";
+      state.order = "";
+    },
+
+    storeSortNOrder: (state, action) => {
+      state.sort = action.payload.sort;
+      state.order = action.payload.order;
     },
   },
   extraReducers: {},
@@ -62,5 +72,7 @@ export const {
   storeShopKeyword,
   storeSelectedShopCategories,
   storePage,
+  //
+  storeSortNOrder,
 } = filterSlice.actions;
 export default filterSlice.reducer;

@@ -14,7 +14,7 @@ import { isEmpty } from "underscore";
 import Filter from "../filter";
 import { useStyles } from "./styles";
 
-export default function SearchContent(props) {
+export default function SearchContent() {
   const classes = useStyles();
   const limit = 9;
 
@@ -43,12 +43,13 @@ export default function SearchContent(props) {
 
   const storeCategory = useSelector(categorySelector);
 
-  useEffect(() => {
-    console.log("reset");
-    return () => {
-      dispatch(resetFilter());
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log("reset");
+  //   return () => {
+  //     dispatch(resetFilter());
+  //   };
+  // }, [dispatch]);
+
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>

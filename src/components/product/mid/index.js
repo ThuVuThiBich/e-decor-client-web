@@ -16,6 +16,7 @@ import SwipeableViews from "react-swipeable-views";
 import { getFeedbacks } from "redux/feedbackRedux";
 import { feedbackSelector, productSelector } from "redux/selectors";
 import UserReview from "./review/userReview";
+import DOMPurify from "dompurify";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -28,11 +29,7 @@ function TabPanel(props) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={2}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={2}>{children}</Box>}
     </div>
   );
 }
@@ -74,6 +71,9 @@ export default function Mid() {
     dispatch(getFeedbacks({ id, params: { limit: 5 } }));
   }, [dispatch, id]);
 
+  const sanitizedData = () => ({
+    __html: DOMPurify.sanitize(product?.description),
+  });
   return (
     <Paper>
       <Box className={classes.root} my={2}>
@@ -92,9 +92,7 @@ export default function Mid() {
         <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
           <TabPanel value={value} index={0}>
             <Box p={2} px={3}>
-              <div
-                dangerouslySetInnerHTML={{ __html: product?.description }}
-              ></div>
+              <div dangerouslySetInnerHTML={sanitizedData()} />
             </Box>
           </TabPanel>
           <TabPanel value={value} index={1}>

@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getCategories } from "redux/categoryRedux";
 import { filterSelector, productSelector } from "redux/selectors";
+import { storeSortNOrder } from "redux/filterRedux";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 16,
@@ -109,13 +111,36 @@ export default function SearchBox() {
               onChange={handleChangeDropdown}
               inputProps={{ MenuProps: { disableScrollLock: true } }}
             >
-              <MenuItem key={"0"} value={""}>
-                Relevance
+              <MenuItem
+                key={"0"}
+                value={""}
+                onClick={() => {
+                  console.log("here");
+                  dispatch(storeSortNOrder({ sort: "", order: "" }));
+                }}
+              >
+                Popular
               </MenuItem>
-              <MenuItem key={"1"} value={"1"}>
+              <MenuItem
+                key={"1"}
+                value={"1"}
+                onClick={() => {
+                  console.log("here");
+                  dispatch(storeSortNOrder({ sort: "minPrice", order: "asc" }));
+                }}
+              >
                 Price Low To High
               </MenuItem>
-              <MenuItem key={"2"} value={"2"}>
+              <MenuItem
+                key={"2"}
+                value={"2"}
+                onClick={() => {
+                  console.log("here");
+                  dispatch(
+                    storeSortNOrder({ sort: "minPrice", order: "desc" })
+                  );
+                }}
+              >
                 Price High To Low
               </MenuItem>
             </Select>

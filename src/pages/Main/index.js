@@ -22,6 +22,7 @@ import Address from "pages/user/address";
 import ChangePassword from "pages/user/changePass";
 import OrderDetail from "pages/user/orderDetail";
 import Orders from "pages/user/orders";
+import PaymentMethods from "pages/user/paymentMethods";
 import Profile from "pages/user/profile";
 import Support from "pages/user/support";
 import Wishlist from "pages/user/wishlist/Wishlist";
@@ -41,6 +42,11 @@ const Main = () => {
       <Route path={"/orders/:id"} component={withUser(OrderDetail)} exact />
       <Route path={"/wishlist"} component={withUser(Wishlist)} exact />
       <Route path={"/support"} component={withUser(Support)} exact />
+      <Route
+        path={"/payment-methods"}
+        component={withUser(PaymentMethods)}
+        exact
+      />
       <Route path={"/address"} component={withUser(Address)} exact />
       <Route path={"/address/:id"} component={withUser(Address)} exact />
       <Route

@@ -4,7 +4,7 @@ import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useStyles } from "./styles";
 
-export default function Support() {
+export default function PaymentMethods() {
   const classes = useStyles();
 
   return (
@@ -12,7 +12,7 @@ export default function Support() {
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           {/* <PersonIcon className={classes.icon} /> */}
-          <Typography className={classes.title}>Support</Typography>
+          <Typography className={classes.title}>Payment Methods</Typography>
         </Box>
         <Button color="primary" variant="outlined">
           More
