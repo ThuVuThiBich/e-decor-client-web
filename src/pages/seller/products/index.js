@@ -27,13 +27,15 @@ export default function Products() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button
-          color="primary"
-          variant="outlined"
-          onClick={() => history.push("/shop/add-product")}
-        >
-          Add New Product
-        </Button>
+        {storeShop?.currentShop && (
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => history.push("/shop/add-product")}
+          >
+            Add New Product
+          </Button>
+        )}
       </Box>
       {storeShop?.currentShop ? (
         <Box>

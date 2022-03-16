@@ -43,9 +43,9 @@ export default function Promotions() {
   useEffect(() => {
     storeShop?.currentShop &&
       dispatch(
-        getAllPromotions({ id: currentShop.id, params: { page, limit: 5 } })
+        getAllPromotions({ id: currentShop?.id, params: { page, limit: 5 } })
       );
-  }, [dispatch, currentShop.id, isUpdating, storeShop?.currentShop, page]);
+  }, [dispatch, currentShop?.id, isUpdating, storeShop?.currentShop, page]);
 
   return (
     <div>
@@ -59,17 +59,19 @@ export default function Promotions() {
           <LocalOfferIcon className={classes.icon} />
           <Typography className={classes.title}>My Promotions</Typography>
         </Box>
-        <Button
-          color="primary"
-          variant="outlined"
-          onClick={() => {
-            id
-              ? history.push("/shop/promotions")
-              : history.push("/shop/promotions/add");
-          }}
-        >
-          {id ? "Back To Promotion" : "Add New Promotion"}
-        </Button>
+        {storeShop?.currentShop && (
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => {
+              id
+                ? history.push("/shop/promotions")
+                : history.push("/shop/promotions/add");
+            }}
+          >
+            {id ? "Back To Promotion" : "Add New Promotion"}
+          </Button>
+        )}
       </Box>
       {storeShop?.currentShop ? (
         <Box my={2} mb={4}>

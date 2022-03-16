@@ -44,9 +44,6 @@ export default function ShopDetail() {
         },
       })
     );
-    // return () => {
-    //   dispatch(resetFilter());
-    // };
   }, [
     selectedShopCategories,
     dispatch,

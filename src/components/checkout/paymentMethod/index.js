@@ -126,7 +126,7 @@ export default function PaymentMethod() {
               alignItems="center"
             >
               <Typography className={classes.subText}>
-                Shipping Total:{" "}
+                Shipping Total:
               </Typography>
               <Typography className={classes.text}>${shipping.fee}</Typography>
             </Box>
@@ -153,7 +153,7 @@ export default function PaymentMethod() {
               alignItems="center"
             >
               <Typography className={classes.totalText}>
-                Total Payment:{" "}
+                Total Payment:
               </Typography>
               <Typography
                 className={classes.text}

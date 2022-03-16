@@ -3,7 +3,7 @@ import { Pagination } from "@material-ui/lab";
 import Images from "constants/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { storePage } from "redux/filterRedux";
+import { resetFilter, storePage } from "redux/filterRedux";
 import {
   categorySelector,
   filterSelector,
@@ -38,6 +38,13 @@ export default function ShopContent(props) {
 
   const storeCategory = useSelector(categorySelector);
 
+  useEffect(() => {
+    console.log("reset shop");
+    return () => {
+      dispatch(resetFilter());
+    };
+  }, [dispatch]);
+  
   return (
     <Grid container spacing={3} className={classes.root}>
       <Grid item xs={12} md={3} className={classes.sidebar}>

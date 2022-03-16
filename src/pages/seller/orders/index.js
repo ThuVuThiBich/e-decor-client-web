@@ -34,9 +34,11 @@ export default function SellerOrders() {
           <ShoppingCartIcon className={classes.icon} />
           <Typography className={classes.title}>Orders</Typography>
         </Box>
-        <Button color="primary" variant="outlined">
-          Get more
-        </Button>
+        {storeShop?.currentShop && (
+          <Button color="primary" variant="outlined">
+            Get more
+          </Button>
+        )}
       </Box>
       {storeShop?.currentShop ? (
         <Box>

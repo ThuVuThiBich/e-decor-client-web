@@ -32,13 +32,15 @@ export default function NewProduct() {
           </Box>
           <Typography className={classes.title}>Products</Typography>
         </Box>
-        <Button
-          color="primary"
-          variant="outlined"
-          onClick={() => history.push(`/shop/products`)}
-        >
-          Back To Product List
-        </Button>
+        {storeShop?.currentShop && (
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => history.push(`/shop/products`)}
+          >
+            Back To Product List
+          </Button>
+        )}
       </Box>
       {storeShop?.currentShop ? (
         <Box>

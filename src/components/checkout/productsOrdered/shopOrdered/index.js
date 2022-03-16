@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Grid,
+  ListItemSecondaryAction,
   ListItemText,
   Menu,
   MenuItem,
@@ -231,7 +232,6 @@ export default function ShopOrdered(props) {
             <Grid item xs={12} md={6}>
               <Box display="flex" alignItems="center">
                 <Typography className={classes.text} style={{ marginRight: 8 }}>
-                  {" "}
                   Message:
                 </Typography>
                 <TextField
@@ -250,7 +250,6 @@ export default function ShopOrdered(props) {
                 justifyContent="space-between"
               >
                 <Typography className={classes.text}>
-                  {" "}
                   Shipping Option:
                 </Typography>
 
@@ -282,7 +281,18 @@ export default function ShopOrdered(props) {
                       <ListItemText
                         primary={item.name}
                         secondary={item.workingTime}
+                        style={{ marginRight: 16 }}
                       />
+                      <ListItemSecondaryAction>
+                        <Box
+                          style={{ color: "#D23F57" }}
+                          pl={2}
+                          edge="end"
+                          aria-label="comments"
+                        >
+                          $ {item?.fee}
+                        </Box>
+                      </ListItemSecondaryAction>
                     </MenuItem>
                   ))}
                 </Menu>

@@ -43,12 +43,12 @@ export default function SearchContent() {
 
   const storeCategory = useSelector(categorySelector);
 
-  // useEffect(() => {
-  //   console.log("reset");
-  //   return () => {
-  //     dispatch(resetFilter());
-  //   };
-  // }, [dispatch]);
+  useEffect(() => {
+    console.log("reset");
+    return () => {
+      dispatch(resetFilter());
+    };
+  }, [dispatch]);
 
   return (
     <Grid container spacing={3} className={classes.root}>

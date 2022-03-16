@@ -126,7 +126,7 @@ export default function Mid() {
               </Box>
             )}
           </TabPanel>
-        </SwipeableViews>{" "}
+        </SwipeableViews>
       </Box>
     </Paper>
   );

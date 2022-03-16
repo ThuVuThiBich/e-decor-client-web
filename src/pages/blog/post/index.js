@@ -130,7 +130,7 @@ export default function PostCard(props) {
         <CardContent>
           <Box mb={2} display="flex" alignItems="center">
             <Typography style={{ fontWeight: 700, fontSize: 16 }}>
-              Decor Themes:{" "}
+              Decor Themes:
             </Typography>
             <Box ml={2}>
               <Chip

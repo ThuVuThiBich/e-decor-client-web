@@ -53,6 +53,10 @@ export default function DeliveryAddress() {
     !isEmpty(addresses) && dispatch(setOrderAddress(addresses[0]));
   }, [addresses, dispatch]);
 
+  useEffect(() => {
+    !isEmpty(addresses) && setAddressId(defaultAddressId);
+  }, [addresses, defaultAddressId, dispatch]);
+  
   return (
     <Paper className={classes.root}>
       <Box p={2} mb={4}>
