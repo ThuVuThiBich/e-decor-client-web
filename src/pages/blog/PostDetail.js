@@ -5,6 +5,7 @@ import {
   Divider,
   IconButton,
   Paper,
+  makeStyles,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import ScrollToTop from "components/common/ScrollToTop";
@@ -16,9 +17,22 @@ import PostImage from "./PostImage";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import { format } from "date-fns";
-
+const useStyles = makeStyles((theme) => ({
+  btn: {
+    "& .Carousel-button": {
+      zIndex: "1000 !important",
+    },
+    "& .MuiButtonBase-root": {
+      zIndex: "1000 !important",
+    },
+    "& .MuiIconButton-root": {
+      zIndex: "1000 !important",
+    },
+  },
+}));
 export default function PostDetail() {
   ScrollToTop();
+  const classes = useStyles();
   const { post } = useSelector(blogSelector);
   return (
     <Grid item xs={12} md={9}>
@@ -28,7 +42,12 @@ export default function PostDetail() {
         </Box>
         <Paper>
           <Box p={2}>
-            <Carousel animation="slide" duration="5000" interval={10000}>
+            <Carousel
+              animation="slide"
+              duration="5000"
+              interval={10000}
+              className={classes.btn}
+            >
               {post?.images?.map((image, i) => (
                 <PostImage key={i} image={image} />
               ))}

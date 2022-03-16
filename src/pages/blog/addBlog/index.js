@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   Grid,
   IconButton,
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddBlog() {
-    console.log("hello");
+  const { decorThemes } = useSelector(blogSelector);
 
   const classes = useStyles();
   const history = useHistory();
@@ -106,11 +107,11 @@ export default function AddBlog() {
     };
     dispatch(createPost(post)).then((data) => {
       history.push(`/blog/posts/${data?.payload?.id}`);
-      dispatch(resetImages())
+      dispatch(resetImages());
     });
   };
   useEffect(() => {
-    console.log("here")
+    console.log("here");
   }, []);
 
   return (
@@ -164,6 +165,38 @@ export default function AddBlog() {
                     setDecorTheme(e.target.value);
                   }}
                 />
+                <Box mt={2}>
+                  <Box>Sample:</Box>
+                  <Box display="flex" style={{ flexWrap: "wrap" }}>
+                    {decorThemes?.map((theme, index) => (
+                      <Box
+                        display="block"
+                        variant="body1"
+                        onClick={() => {
+                          setDecorTheme(theme?.decorTheme);
+                        }}
+                        key={index}
+                        style={{ cursor: "pointer", margin: 4 }}
+                      >
+                        <Chip
+                          color="primary"
+                          size="small"
+                          label={theme?.decorTheme}
+                          style={{
+                            letterSpacing: 1.2,
+                            cursor: "pointer",
+                            // fontSize: 12,
+                            backgroundColor: `${
+                              theme?.decorTheme === decorTheme
+                                ? "#D23F57"
+                                : "#3f51b5"
+                            }`,
+                          }}
+                        />
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
               </Grid>
 
               <Grid item xs={12} md={12}>

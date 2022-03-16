@@ -1,14 +1,7 @@
-import {
-  AppBar,
-  Box,
-  makeStyles,
-  Paper,
-  Tab,
-  Tabs,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Box, makeStyles, Paper, Tab, Tabs } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 import Images from "constants/image";
+import DOMPurify from "dompurify";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -16,7 +9,6 @@ import SwipeableViews from "react-swipeable-views";
 import { getFeedbacks } from "redux/feedbackRedux";
 import { feedbackSelector, productSelector } from "redux/selectors";
 import UserReview from "./review/userReview";
-import DOMPurify from "dompurify";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

@@ -2,23 +2,20 @@ import {
   Box,
   Button,
   Fade,
-  FormControlLabel,
-  IconButton,
+  FormControl,
+  InputBase,
   makeStyles,
+  MenuItem,
   Paper,
   Popper,
-  Radio,
-  RadioGroup,
+  Select,
   Typography,
 } from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import objectAssign from "object-assign";
 import React, { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import RegionSelect from "react-region-select";
-import { useHistory } from "react-router-dom";
 import { storeImageItem, storeItem } from "redux/blogRedux";
 import { getPurchasedProducts } from "redux/productRedux";
 import {
@@ -69,6 +66,31 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  //
+  selectInput: {
+    height: 26,
+    padding: "8px 15px",
+    display: "flex",
+    alignItems: "center",
+    fontSize: 14,
+    width: "100%",
+  },
+  select: {
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    borderRadius: 4,
+    border: "1px solid #c1b5b5",
+  },
+  line: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    "-webkit-line-clamp": 2 /* number of lines to show */,
+    "line-clamp": 2,
+    "-webkit-box-orient": "vertical",
+    maxWidth: 300,
+    fontSize: 16,
+    marginLeft: 16,
+  },
 }));
 
 export default function LinkImage(props) {
@@ -77,30 +99,24 @@ export default function LinkImage(props) {
   const { images } = useSelector(blogSelector);
   const { purchasedProducts } = useSelector(productSelector);
   const { categories } = useSelector(categorySelector);
-  const [categoryId, setCategoryId] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
 
   //
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-
-  const [open, setOpen] = useState(Boolean(anchorEl));
-  const id = open ? "transitions-popper" : undefined;
+  const id = Boolean(anchorEl) ? "transitions-popper" : undefined;
 
   //
 
   const { imageObj } = props;
   const classes = useStyles();
-  const history = useHistory();
   const [coords, setCoords] = useState([]);
   const [regions, setRegions] = useState([]);
 
-  const [isAction, setIsAction] = useState(false);
-
   useEffect(() => {
-    dispatch(getPurchasedProducts({ categoryId }));
+    dispatch(
+      getPurchasedProducts({ categoryId: categoryId ? categoryId : undefined })
+    );
   }, [categoryId, dispatch]);
 
   const detectObjects = (area) => {
@@ -177,6 +193,7 @@ export default function LinkImage(props) {
 
   //
   useEffect(() => {
+    console.log("Loading");
     props?.imageLink &&
       dispatch(
         storeImageItem({
@@ -205,113 +222,94 @@ export default function LinkImage(props) {
           <Fade {...TransitionProps} timeout={350}>
             <Paper className={classes.paper}>
               <Box px={4} pt={4}>
-                <Typography
-                  gutterBottom
-                  style={{ fontSize: 16, fontWeight: "bold", marginBottom: 16 }}
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <Typography
+                    gutterBottom
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      marginBottom: 16,
+                    }}
+                  >
+                    Select your purchased products
+                  </Typography>
+                </Box>
+                <Box
+                  mb={2}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
                 >
-                  Select your purchased products
-                </Typography>
-                {!isAction ? (
-                  <Box>
-                    <RadioGroup
-                      name="value"
+                  {" "}
+                  <FormControl variant="outlined" className={classes.select}>
+                    <Select
                       value={categoryId}
-                      onChange={(event, value) => {
-                        console.log(value);
-                        setCategoryId(+value);
+                      name={"category"}
+                      displayEmpty
+                      input={
+                        <InputBase classes={{ input: classes.selectInput }} />
+                      }
+                      onChange={(e) => {
+                        setCategoryId(e.target.value);
                       }}
+                      MenuProps={{ disableScrollLock: true }}
                     >
-                      {categories?.map((datum, index) => (
-                        <FormControlLabel
-                          label={datum.name}
-                          key={index}
-                          value={+datum.id}
-                          control={<Radio color="primary" />}
-                        />
+                      <MenuItem key={"all-categories"} value={""}>
+                        All Categories
+                      </MenuItem>
+                      {categories?.map((option, index) => (
+                        <MenuItem key={index} value={option.id}>
+                          {option.name}
+                        </MenuItem>
                       ))}
-                    </RadioGroup>
-                  </Box>
-                ) : (
-                  <Box>
-                    {isEmpty(purchasedProducts) ? (
-                      <Box display="flex" justifyContent="center">
-                        <Box p={2}>No Products Yet.</Box>
-                      </Box>
-                    ) : (
-                      purchasedProducts?.map((item, index) => (
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Box pb={4}>
+                  {isEmpty(purchasedProducts) ? (
+                    <Box display="flex" justifyContent="center">
+                      <Box p={2}>No Products Yet.</Box>
+                    </Box>
+                  ) : (
+                    purchasedProducts?.map((item, index) => (
+                      <Box
+                        style={{ cursor: "pointer" }}
+                        key={index}
+                        onClick={() => {
+                          dispatch(
+                            storeItem({
+                              id: props?.index,
+                              data: { productId: item.id, coords },
+                            })
+                          );
+                          setAnchorEl(null);
+                        }}
+                      >
                         <Box
-                          style={{ cursor: "pointer" }}
-                          key={index}
-                          onClick={() => {
-                            dispatch(
-                              storeItem({
-                                id: index,
-                                data: { productId: item.id, coords },
-                              })
-                            );
-                            setAnchorEl(null);
-                            setIsAction(false);
-                            setCategoryId("");
-                          }}
+                          display={"flex"}
+                          justifyContent="space-between"
+                          alignItems="center"
+                          style={{ minWidth: 200 }}
                         >
-                          <Box
-                            display={"flex"}
-                            justifyContent="space-between"
-                            alignItems="center"
-                            style={{ minWidth: 200 }}
-                          >
-                            <Box display={"flex"} alignItems="center">
-                              <img
-                                width={50}
-                                height={50}
-                                src={item?.images?.[0]?.image}
-                                alt=""
-                              />
-                              <Box>
-                                <Typography
-                                  style={{
-                                    marginLeft: 8,
-                                    textOverflow: "ellipsis",
-                                    overflow: "hidden",
-                                    WebkitBoxOrient: "vertical",
-                                    WebkitLineClamp: 2,
-                                    maxWidth: 270,
-                                    paddingRight: 16,
-                                  }}
-                                >
-                                  {item?.name}
-                                </Typography>
-                              </Box>
+                          <Box mt={1} display={"flex"} alignItems="center">
+                            <img
+                              width={50}
+                              height={50}
+                              src={item?.images?.[0]?.image}
+                              alt=""
+                              style={{ border: "1px solid #c1b5b5" }}
+                            />
+                            <Box>
+                              <Typography className={classes.line}>
+                                {item?.name}
+                              </Typography>
                             </Box>
                           </Box>
                         </Box>
-                      ))
-                    )}
-                  </Box>
-                )}
-              </Box>
-              <Box
-                p={1}
-                display="flex"
-                justifyContent={isAction ? "flex-start" : "flex-end"}
-              >
-                {isAction ? (
-                  <IconButton
-                    onClick={() => {
-                      setIsAction(!isAction);
-                    }}
-                  >
-                    <ArrowBackIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    onClick={() => {
-                      setIsAction(!isAction);
-                    }}
-                  >
-                    <ArrowForwardIcon />
-                  </IconButton>
-                )}
+                      </Box>
+                    ))
+                  )}
+                </Box>
               </Box>
             </Paper>
           </Fade>

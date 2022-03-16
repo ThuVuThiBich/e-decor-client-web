@@ -114,6 +114,8 @@ const blogSlide = createSlice({
     },
     //
     storeItem(state, action) {
+      console.log("action")
+      console.log(action)
       state.images = state.images.map((item) =>
         +item.id === +action.payload.id
           ? { ...item, items: [...item.items, action.payload.data] }

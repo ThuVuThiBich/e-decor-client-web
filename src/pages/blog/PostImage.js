@@ -1,12 +1,24 @@
-import { Box } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import ScrollToTop from "components/common/ScrollToTop";
 import React, { useEffect, useState } from "react";
 import ImageMapper from "react-image-mapper";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { isEmpty } from "underscore";
-
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    position: "absolute",
+    color: "#fff",
+    padding: 10,
+    background: "rgba(0,0,0,0.8)",
+    transform: "translate3d(-50%, -50%, 0)",
+    borderRadius: 5,
+    pointerEvents: "none",
+    zIndex: 1000,
+  },
+}));
 export default function PostImage(props) {
   ScrollToTop();
+  const classes = useStyles();
   const { image } = props;
   const history = useHistory();
   const [hoveredArea, setHoveredArea] = useState("");
@@ -18,6 +30,7 @@ export default function PostImage(props) {
     areas: [],
   });
   useEffect(() => {
+    console.log("here");
     image?.items?.length > 0 &&
       setMap({
         ...map,
@@ -25,8 +38,10 @@ export default function PostImage(props) {
           name: i.productId,
           shape: "rect",
           coords: i.coords,
+          productName: i?.product?.name,
         })),
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image]);
 
   const enterArea = (area) => {
@@ -69,23 +84,33 @@ export default function PostImage(props) {
       {isEmpty(image?.items) ? (
         <img src={image?.image} alt="" />
       ) : (
-        <ImageMapper
-          id="image-map"
-          src={image?.image}
-          fillColor={"rgba(255, 255, 255, 0.5)"}
-          map={map}
-          width="852"
-          onLoad={() => load()}
-          onClick={(area) => {
-            clicked(area);
-            history.push(`/product/${area?.name}`);
-          }}
-          onMouseEnter={(area) => enterArea(area)}
-          onMouseLeave={(area) => leaveArea(area)}
-          onMouseMove={(area, _, evt) => moveOnArea(area, evt)}
-          onImageClick={(evt) => clickedOutside(evt)}
-          onImageMouseMove={(evt) => moveOnImage(evt)}
-        />
+        <>
+          <ImageMapper
+            id="image-map"
+            src={image?.image}
+            fillColor={"rgba(255, 255, 255, 0.5)"}
+            map={map}
+            width={852}
+            onLoad={() => load()}
+            onClick={(area) => {
+              clicked(area);
+              history.push(`/product/${area?.name}`);
+            }}
+            onMouseEnter={(area) => enterArea(area)}
+            onMouseLeave={(area) => leaveArea(area)}
+            onMouseMove={(area, _, evt) => moveOnArea(area, evt)}
+            onImageClick={(evt) => clickedOutside(evt)}
+            onImageMouseMove={(evt) => moveOnImage(evt)}
+          />
+          {hoveredArea && (
+            <span
+              className={classes.tooltip}
+              style={{ ...getTipPosition(hoveredArea) }}
+            >
+              {hoveredArea && hoveredArea.productName}
+            </span>
+          )}
+        </>
       )}
     </Box>
   );
