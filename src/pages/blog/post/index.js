@@ -18,8 +18,9 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { format } from "date-fns";
 import { Box, Chip, Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { likePost, unlikePost } from "redux/blogRedux";
+import { userSelector } from "redux/selectors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +54,7 @@ export default function PostCard(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
+  const { currentUser } = useSelector(userSelector);
   const [expanded, setExpanded] = useState(false);
   const [isClicked, setIsClicked] = useState(post?.liked);
 
@@ -102,10 +104,18 @@ export default function PostCard(props) {
         <IconButton
           aria-label="add to favorites"
           onClick={() => {
-            setIsClicked(!isClicked);
-            isClicked
-              ? dispatch(unlikePost(post?.id)).then((data) => console.log(data))
-              : dispatch(likePost(post?.id)).then((data) => console.log(data));
+            if (currentUser) {
+              setIsClicked(!isClicked);
+              isClicked
+                ? dispatch(unlikePost(post?.id)).then((data) =>
+                    console.log(data)
+                  )
+                : dispatch(likePost(post?.id)).then((data) =>
+                    console.log(data)
+                  );
+            } else {
+              history.push("/login");
+            }
           }}
         >
           <FavoriteIcon style={{ color: isClicked ? "#D23F57" : null }} />

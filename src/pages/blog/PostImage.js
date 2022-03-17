@@ -10,10 +10,24 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     padding: 10,
     background: "rgba(0,0,0,0.8)",
-    transform: "translate3d(-50%, -50%, 0)",
-    borderRadius: 5,
+    transform: "translate3d(-50%, 100%, 0)",
+    // transform: "translateY(100%)",
+    // transform: "translateY(100%)",
+
     pointerEvents: "none",
     zIndex: 1000,
+
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    // overflow: "hidden",
+    // textOverflow: "ellipsis",
+    // display: "-webkit-box",
+    // "-webkit-line-clamp": 1 /* number of lines to show */,
+    // "line-clamp": 1,
+    // "-webkit-box-orient": "vertical",
+    maxWidth: 300,
+    fontSize: 16,
   },
 }));
 export default function PostImage(props) {
@@ -79,6 +93,20 @@ export default function PostImage(props) {
       )} !`
     );
   };
+
+  const [width, setWidth] = useState("auto");
+  const [height, setHeight] = useState("auto");
+  useEffect(() => {
+    console.log("here");
+    var img = new Image();
+    img.onload = function () {
+      // alert(this.width + " " + this.height);
+      setWidth(this.width);
+      setHeight(this.height);
+    };
+    img.src = image?.image;
+  }, [image?.image]);
+
   return (
     <Box display="flex" alignItems="center" justifyContent="center">
       {isEmpty(image?.items) ? (
@@ -90,7 +118,9 @@ export default function PostImage(props) {
             src={image?.image}
             fillColor={"rgba(255, 255, 255, 0.5)"}
             map={map}
-            width={852}
+            width={width}
+            height={height}
+            imgWidth={width}
             onLoad={() => load()}
             onClick={(area) => {
               clicked(area);

@@ -26,47 +26,6 @@ import {
 import { isEmpty } from "underscore";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    color: "#2b3445",
-    fontSize: 25,
-    marginBottom: 0,
-    marginTop: 0,
-    fontWeight: 700,
-    lineHeight: 1,
-    marginLeft: 12,
-    whiteSpace: "normal",
-  },
-  icon: {
-    fontSize: 24,
-    color: "#D23F57",
-  },
-  //
-  editor: {
-    "& .ql-container": {
-      borderBottomLeftRadius: 4,
-      borderBottomRightRadius: 4,
-      // background: "#fefcfc",
-      height: 200,
-    },
-    "& .ql-toolbar": {
-      borderTopLeftRadius: 4,
-      borderTopRightRadius: 4,
-      background: "#f5f5f5",
-    },
-  },
-  //
-  wallInput: {
-    display: "none",
-  },
-  wallLabel: {
-    "& .MuiIconButton-root": {
-      backgroundColor: "#E3E9EF",
-      "&:hover": {
-        backgroundColor: "rgba(15, 52, 96, 0.04)",
-      },
-    },
-  },
-  //
   selectInput: {
     height: 26,
     padding: "8px 15px",
@@ -104,7 +63,7 @@ export default function LinkImage(props) {
   //
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const id = Boolean(anchorEl) ? "transitions-popper" : undefined;
+  // const id = Boolean(anchorEl) ? "transitions-popper" : undefined;
 
   //
 
@@ -172,12 +131,14 @@ export default function LinkImage(props) {
     // console.log(regions);
     setRegions(regions);
   };
+
   const regionRenderer = (regionProps) => {
+    console.log(regionProps);
     if (!regionProps.isChanging) {
       return (
         <div style={{ position: "absolute", right: 0, bottom: "-1.5em" }}>
           <Button
-            aria-describedby={id}
+            aria-describedby={"btn-popper"}
             variant="contained"
             color="primary"
             style={{ zIndex: 100, minWidth: 170 }}
@@ -188,6 +149,8 @@ export default function LinkImage(props) {
           </Button>
         </div>
       );
+    } else {
+      console.log("ok");
     }
   };
 
@@ -204,6 +167,20 @@ export default function LinkImage(props) {
         })
       );
   }, [dispatch, images, props.imageLink, props?.index]);
+
+  const [width, setWidth] = useState("auto");
+  const [height, setHeight] = useState("auto");
+  useEffect(() => {
+    console.log("here");
+    var img = new Image();
+    img.onload = function () {
+      // alert(this.width + " " + this.height);
+      setWidth(this.width);
+      setHeight(this.height);
+    };
+    img.src = props.imageLink;
+  }, [props.imageLink]);
+
   return (
     <Box my={2}>
       <RegionSelect
@@ -212,12 +189,23 @@ export default function LinkImage(props) {
         regionStyle={regionStyle}
         onChange={onChange}
         regionRenderer={regionRenderer}
-        style={{ border: "1px solid black" }}
+        style={{ border: "1px solid #bdbdbd" }}
         constraint={true}
       >
-        <img id="image" alt="alt" src={imageObj} />
+        <img
+          id="image"
+          alt="alt"
+          src={imageObj}
+          height={height}
+          width={width}
+        />
       </RegionSelect>
-      <Popper id={id} open={Boolean(anchorEl)} anchorEl={anchorEl} transition>
+      <Popper
+        id={"popper"}
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        transition
+      >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper className={classes.paper}>

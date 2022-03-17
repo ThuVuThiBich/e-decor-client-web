@@ -43,9 +43,10 @@ export default function PostDetail() {
         <Paper>
           <Box p={2}>
             <Carousel
+              autoPlay={false}
               animation="slide"
-              duration="5000"
-              interval={10000}
+              // duration="5000"
+              // interval={10000}
               className={classes.btn}
             >
               {post?.images?.map((image, i) => (
