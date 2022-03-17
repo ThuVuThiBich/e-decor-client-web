@@ -29,7 +29,7 @@ export default function Product() {
     <Container className={classes.container}>
       {isLoading ? <LoadingProductDetail /> : <Top />}
       <Mid />
-      <Bottom />
+      <Bottom type={false} />
     </Container>
   );
 }

@@ -96,7 +96,7 @@ export default function Cart() {
           {products?.map((item, index) => (
             <CartItems item={item} key={index} />
           ))}
-          <Bottom />
+          <Bottom type={true} />
         </>
       ) : isLoading ? (
         <Box display="flex" alignItems="center" justifyContent="center">

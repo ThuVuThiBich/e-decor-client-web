@@ -11,7 +11,7 @@ import { useStyles } from "./styles";
 const noOfItems = 12;
 const noOfCards = 3;
 const autoPlayDelay = 5000;
-export default function Bottom() {
+export default function Bottom({ type = false }) {
   const history = useHistory();
   const classes = useStyles();
   const [active, setActive] = useState(0);
@@ -54,17 +54,29 @@ export default function Bottom() {
             </IconButton>
           }
         >
-          {storeProduct.products?.map((product, index) => (
-            <Box
-              pb={2}
-              key={index}
-              onClick={() => {
-                history.push(`/product/${product?.id}`);
-              }}
-            >
-              <Product product={product} />
-            </Box>
-          ))}
+          {type
+            ? storeProduct.bestSellingProducts?.map((product, index) => (
+                <Box
+                  pb={2}
+                  key={index}
+                  onClick={() => {
+                    history.push(`/product/${product?.id}`);
+                  }}
+                >
+                  <Product product={product} />
+                </Box>
+              ))
+            : storeProduct.products?.map((product, index) => (
+                <Box
+                  pb={2}
+                  key={index}
+                  onClick={() => {
+                    history.push(`/product/${product?.id}`);
+                  }}
+                >
+                  <Product product={product} />
+                </Box>
+              ))}
         </ItemsCarousel>
       </Box>
     </Box>
