@@ -260,15 +260,16 @@ export default function NewProductForm() {
                       horizontal: "left",
                     },
                     getContentAnchorEl: null,
+                    disableScrollLock: true,
                   }}
-                  inputProps={{
-                    MenuProps: {
-                      disablescrolllock: true,
-                      classes: {
-                        paper: classes.paper,
-                      },
-                    },
-                  }}
+                  // inputProps={{
+                  //   MenuProps: {
+                  //     disablescrolllock: true,
+                  //     classes: {
+                  //       paper: classes.paper,
+                  //     },
+                  //   },
+                  // }}
                 >
                   {storeCategory?.categories?.map((option, index) => (
                     <MenuItem key={index} value={option.id}>

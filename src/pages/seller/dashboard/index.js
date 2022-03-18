@@ -162,9 +162,7 @@ export default function Dashboard() {
                     setView(e.target.value);
                   }}
                   label="View"
-                  inputProps={{
-                    MenuProps: { disablescrolllock: true },
-                  }}
+                  MenuProps={{ disableScrollLock: true }}
                   // SelectDisplayProps={{
                   //   style: { paddingTop: 4, paddingBottom: 10 },
                   // }}

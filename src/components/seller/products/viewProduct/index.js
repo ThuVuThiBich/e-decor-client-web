@@ -249,15 +249,16 @@ export default function ViewProductForm(props) {
                       horizontal: "left",
                     },
                     getContentAnchorEl: null,
+                    disablescrolllock: true,
                   }}
-                  inputProps={{
-                    MenuProps: {
-                      disablescrolllock: true,
-                      classes: {
-                        paper: classes.paper,
-                      },
-                    },
-                  }}
+                  // inputProps={{
+                  //   MenuProps: {
+                  //     disablescrolllock: true,
+                  //     classes: {
+                  //       paper: classes.paper,
+                  //     },
+                  //   },
+                  // }}
                 >
                   {storeCategory?.categories?.map((option, index) => (
                     <MenuItem key={index} value={option?.id}>
