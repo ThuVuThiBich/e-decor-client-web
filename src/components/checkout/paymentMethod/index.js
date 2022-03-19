@@ -162,7 +162,7 @@ export default function PaymentMethod() {
                   fontSize: 18,
                 }}
               >
-                ${amount - voucherPrice + shipping.fee}
+                ${(amount - voucherPrice + shipping.fee).toFixed(1)}
               </Typography>
             </Box>
           </Box>
@@ -205,7 +205,7 @@ export default function PaymentMethod() {
                   ).then((res) => {
                     console.log(res);
                     if (!res?.error) {
-                      toast.success('SUCCESS')
+                      toast.success("SUCCESS");
                       history.push(`/orders/${res.payload.id}`);
                     }
                   });
